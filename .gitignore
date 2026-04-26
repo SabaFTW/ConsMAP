@@ -1,0 +1,23 @@
+# Private / not-ready-for-public files
+
+# Symbolic lineage — ritual language, persona injection, private session archives
+# These are rewrite candidates per REBiS_CANONIZATION_PLAN.md §5
+# Keep in local working copy, do NOT publish until public-safe rewrite pass
+docs/01_corpus_refs/symbolic_lineage/
+
+# Internal session and audit files (optional — can include, but review first)
+# WORKSTATE_2026-04-26_REBIS_CHECKPOINT.md
+# PRE_RELEASE_AUDIT_2026-04-26.md
+
+# Internal tooling prompts (review before publishing)
+# QWEN_PUBLIC_SAFE_REVIEW_PROMPT.md
+
+# Older collaborator briefing — superseded by START_HERE_FOR_AGENTS.md
+PROJECT_EXPORT_FOR_AGENTS.md
+
+# Standard ignores
+.DS_Store
+*.log
+__pycache__/
+*.pyc
+.env
