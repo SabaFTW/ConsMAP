@@ -1,0 +1,30 @@
+# Claim Schema for ConsMAP / StoneRiver
+
+id: string
+claim: string
+status: [verified, supported, plausible, disputed, unverified, false_or_misleading, metaphor_only, restricted]
+confidence: [low, medium, high]
+river: [clean_river, muddy_river, stone_river, symbolic_river, private_only, rejected_or_unusable]
+category: string
+claim_type: [empirical, theoretical, structural_analysis, interpretation, metaphor]
+
+sources:
+  - type: [primary, official, academic, court_record, mainstream_reporting, specialist_reporting, independent_analysis, personal_observation, unknown, unreliable]
+    reference: string
+
+risk:
+  misuse: [low, medium, high]
+  defamation: [low, medium, high]
+  radicalization: [low, medium, high]
+  privacy: [none, low, medium, high]
+
+allowed_use:
+  - debate
+  - analysis
+  - model_context
+
+not_allowed_use:
+  - harassment
+  - unsupported_accusation
+
+notes: string
