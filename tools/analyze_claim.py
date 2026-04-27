@@ -164,9 +164,12 @@ def match_ttt_patterns(text: str) -> List[Dict[str, Any]]:
     matches = []
 
     for pattern_id, pattern in TTT_PATTERNS.items():
-        keyword_hits = [kw for kw in pattern["keywords"] if kw in text_lower]
-        if len(keyword_hits) >= 2:
-            relevance = len(keyword_hits) / len(pattern["keywords"])
+        keywords = pattern.get("keywords", [])
+        if not isinstance(keywords, list):
+            keywords = []
+        keyword_hits = [kw for kw in keywords if kw in text_lower]
+        if len(keyword_hits) >= 2 and len(keywords) > 0:
+            relevance = len(keyword_hits) / len(keywords)
             matches.append({
                 "id": pattern_id,
                 "name": pattern["name"],
@@ -304,7 +307,7 @@ def print_analysis(card: Dict[str, Any], hygiene_issues: List, ttt_matches: List
             if isinstance(src, dict):
                 ref = src.get("reference", src.get("url", "(unknown)"))
                 stype = src.get("type", "unknown")
-                print(f"  {DIM}[{stype}]{RESET} {ref[:55]}")
+                print(f"  {DIM}[{stype}]{RESET} {str(ref)[:55]}")
         print()
 
     # Falsification
