@@ -7,8 +7,10 @@ import EpistemicMirror from './components/EpistemicMirror';
 import BedtimeStory from './components/BedtimeStory';
 import SoulGlitch from './components/SoulGlitch';
 import ClaimAnalyzer from './components/ClaimAnalyzer';
+import DocsViewer from './components/DocsViewer';
+import AIQuickStart from './components/AIQuickStart';
 
-type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer';
+type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode';
 
 function App() {
   const [state, setState] = useState<AppState>('ritual');
@@ -85,6 +87,32 @@ function App() {
             className="relative z-10 min-h-screen"
           >
             <ClaimAnalyzer onBack={() => setState('home')} />
+          </motion.div>
+        )}
+
+        {state === 'docs' && (
+          <motion.div
+            key="docs"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2 }}
+            className="relative z-10 min-h-screen"
+          >
+            <DocsViewer onBack={() => setState('home')} />
+          </motion.div>
+        )}
+
+        {state === 'aimode' && (
+          <motion.div
+            key="aimode"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2 }}
+            className="relative z-10 min-h-screen"
+          >
+            <AIQuickStart onBack={() => setState('home')} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 interface HeroLandingProps {
-  onNavigate: (view: 'mirror' | 'story' | 'analyzer') => void;
+  onNavigate: (view: 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode') => void;
 }
 
 const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
@@ -112,6 +112,30 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
             onMouseLeave={e => (e.currentTarget.style.color = '#2a4a25')}
           >
             Story
+          </button>
+
+          <span className="text-[8px]" style={{ color: '#1a2e1a' }}>·</span>
+
+          <button
+            onClick={() => onNavigate('docs')}
+            className="text-xs font-mono tracking-[0.2em] uppercase transition-all duration-700 hover:tracking-[0.3em]"
+            style={{ color: '#2a4a25' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#5cb870')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#2a4a25')}
+          >
+            Library
+          </button>
+
+          <span className="text-[8px]" style={{ color: '#1a2e1a' }}>·</span>
+
+          <button
+            onClick={() => onNavigate('aimode')}
+            className="text-xs font-mono tracking-[0.2em] uppercase transition-all duration-700 hover:tracking-[0.3em]"
+            style={{ color: '#2a4a25' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#5cb870')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#2a4a25')}
+          >
+            AI Mode
           </button>
         </motion.nav>
       </motion.div>

@@ -15,7 +15,8 @@ type DocId =
   | 'stone_river'
   | 'confidence_integrity'
   | 'schema'
-  | 'filter_guide';
+  | 'filter_guide'
+  | 'ai_bootstrap';
 
 interface DocLink {
   id: DocId;
@@ -35,6 +36,7 @@ const DOCS: DocLink[] = [
   { id: 'confidence_integrity', title: 'Confidence Integrity', path: '/protocols/ttt_patterns.md', description: 'Proxy-reality drift and overconfidence checks.' },
   { id: 'schema', title: 'Claim Schema', path: '/machine_context/CLAIM_SCHEMA.yaml', description: 'Machine-readable claim card structure.' },
   { id: 'filter_guide', title: 'Filter Your Research', path: '/HOW_TO_FILTER_YOUR_RESEARCH.md', description: 'Step-by-step stranger workflow.' },
+  { id: 'ai_bootstrap', title: 'AI Bootstrap', path: '/prompts/AI_BOOTSTRAP_PROMPT.md', description: 'Base instruction set for external AI systems.' },
 ];
 
 const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
