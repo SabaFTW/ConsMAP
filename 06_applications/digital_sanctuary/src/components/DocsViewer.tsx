@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DocsViewerProps {
   onBack: () => void;
@@ -39,6 +39,33 @@ const DOCS: DocLink[] = [
 
 const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
   const [selected, setSelected] = useState<DocLink>(DOCS[0]);
+  const [content, setContent] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [copied, setCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setCopied(false);
+    fetch(`https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('File not found');
+        return res.text();
+      })
+      .then((text) => {
+        setContent(text);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setContent('Error loading file: ' + err.message);
+        setLoading(false);
+      });
+  }, [selected.path]);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="max-w-5xl mx-auto py-16 px-6 relative">
@@ -105,13 +132,42 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
             </a>
           </div>
 
-          <div className="p-5 border" style={{ borderColor: 'rgba(92, 184, 112, 0.08)' }}>
-            <p className="text-sm font-light leading-8 mb-5" style={{ color: 'rgba(216, 232, 216, 0.62)' }}>
-              This skeleton viewer keeps the Sanctuary app as the public doorway while leaving document rendering simple and safe. The selected file can be opened directly, and a later pass can replace this panel with rendered Markdown / YAML using the same navigation structure.
-            </p>
-            <p className="text-xs font-mono leading-7" style={{ color: '#2a4a25' }}>
-              TODO for visual pass: fetch + render markdown, add copy button, add search, preserve theme styling, and keep public/private separation.
-            </p>
+          <div className="p-5 border relative" style={{ borderColor: 'rgba(92, 184, 112, 0.08)' }}>
+            <button
+              onClick={copyToClipboard}
+              className="absolute top-4 right-4 text-[9px] font-mono tracking-[0.2em] uppercase transition-all duration-300 hover:opacity-100 z-10"
+              style={{ color: copied ? '#5cb870' : '#2a4a25', opacity: copied ? 1 : 0.6 }}
+              disabled={loading}
+            >
+              {copied ? 'Copied!' : 'Copy'}
+            </button>
+
+            <div className="overflow-y-auto max-h-[60vh] pr-4 pt-6" style={{ scrollbarWidth: 'thin', scrollbarColor: '#2a4a25 transparent' }}>
+              <AnimatePresence mode="wait">
+                {loading ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center h-40"
+                  >
+                    <p className="text-[10px] font-mono animate-pulse" style={{ color: '#2a4a25' }}>fetching data...</p>
+                  </motion.div>
+                ) : (
+                  <motion.pre
+                    key="content"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-xs font-mono whitespace-pre-wrap break-words leading-[1.8]"
+                    style={{ color: 'rgba(216, 232, 216, 0.7)' }}
+                  >
+                    {content}
+                  </motion.pre>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </main>
       </div>
