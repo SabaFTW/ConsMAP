@@ -31,6 +31,22 @@ Read [protocols/claim_hygiene.md](protocols/claim_hygiene.md) and see [examples/
 
 ---
 
+## Try it now
+
+The repository includes local, deterministic CLI tools. No API keys required.
+
+**Quick analysis of a raw claim:**
+```bash
+python tools/analyze_claim.py --text "AI safety audits can become compliance theater when reports are produced but corrective actions are not measured."
+```
+
+**Generate a structured claim card interactively:**
+```bash
+python tools/create_claim_card.py
+```
+
+---
+
 ## Core tools
 
 | Tool | What it does |
@@ -109,6 +125,9 @@ ConsMAP/
 │   ├── QUICK_EXAMPLE.md
 │   ├── example_claim.yaml
 │   └── example_debate.md
+├── tools/                  ← Local deterministic CLI tools
+│   ├── analyze_claim.py
+│   └── create_claim_card.py
 ├── user_research/          ← Your research pipeline
 │   ├── inbox_raw/
 │   ├── evidence_verified/
