@@ -307,7 +307,7 @@ def print_analysis(card: Dict[str, Any], hygiene_issues: List, ttt_matches: List
             if isinstance(src, dict):
                 ref = src.get("reference", src.get("url", "(unknown)"))
                 stype = src.get("type", "unknown")
-                print(f"  {DIM}[{stype}]{RESET} {str(ref)[:55]}")
+                print(f"  {DIM}[{stype}]{RESET} {str(ref)[0:55]}")
         print()
 
     # Falsification
