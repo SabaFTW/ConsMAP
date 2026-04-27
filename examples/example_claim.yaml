@@ -1,0 +1,42 @@
+# Example Claim Card
+
+id: claim_00042
+claim: "Current AI safety systems often over-filter context-dependent language, blocking legitimate discussion about harm while leaving structural manipulation techniques accessible."
+river: muddy_river
+status: plausible
+category: ai_safety
+claim_type: structural_analysis
+confidence: medium
+
+sources:
+  - type: specialist_reporting
+    reference: "Multiple documented cases of content moderation false positives (Gillespie, 2018; Roberts, 2019)"
+  - type: independent_analysis
+    reference: "ConsMAP internal analysis of publicly available filter behavior"
+
+risk:
+  misuse: low
+  defamation: low
+  radicalization: low
+  privacy: none
+
+falsification: >
+  Show that AI safety filter false-positive rates are below 5% across
+  context-dependent domains. Show that structural manipulation techniques
+  are equally filtered as surface-level harmful language.
+
+allowed_use:
+  - debate
+  - analysis
+  - model_context
+
+not_allowed_use:
+  - unsupported_accusation
+  - bypass_justification
+
+notes: >
+  This claim has reasonable structural basis but lacks comprehensive
+  empirical measurement. The over-filtering observation is widely reported
+  anecdotally but formal measurement is limited. Needs systematic study.
+  Routed to muddy_river because evidence is mixed and the claim scope
+  is broad enough to be misleading if presented as verified.

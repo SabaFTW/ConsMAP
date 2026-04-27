@@ -1,5 +1,5 @@
 project: ConsMAP
-version: 0.1-public-bridge
+version: 0.2-bridge
 status: public_safe_context_card
 
 purpose: >
@@ -9,6 +9,13 @@ purpose: >
 
 core_rule: "Not human. Not nothing. Label the layer."
 
+architecture:
+  entry_layer: "ConsMAP Digital Sanctuary — contemplative public entry point"
+  routing_layer: "StoneRiver Protocol — epistemic routing (clean / muddy / stone / symbolic)"
+  analysis_layer: "TTT Pattern Detection — structural mismatch identification"
+  hygiene_layer: "Claim Hygiene — five-question validation before routing"
+  visualization_layer: "TTT HUD — diagnostic cockpit for pattern monitoring (optional)"
+
 epistemic_labels:
   empirical: "Observable behavior, primary evidence, reproducible fact, or documented structure."
   theoretical: "Plausible model, interpretation, or hypothesis that is not directly proven."
@@ -17,7 +24,7 @@ epistemic_labels:
   unverified: "Claim not yet supported enough for public reasoning."
 
 stone_river_bridge:
-  role: "Public-safe bridge to a stronger local StoneRiver pipeline when available."
+  role: "Public-safe bridge to a full 9-stage deterministic StoneRiver pipeline when available locally."
   rule: "Raw research is never treated as verified knowledge. It must be routed, labeled, and converted into claim cards."
   public_routes:
     clean_river: "Usable in normal public reasoning with adequate evidence and low risk."
@@ -26,6 +33,13 @@ stone_river_bridge:
     symbolic_river: "Metaphor, story, myth, persona, or creative layer; meaningful but not evidence."
     private_only: "Personal, sensitive, or identifying material; never public by default."
     rejected_or_unusable: "Unsupported, misleading, unsafe, or too contaminated for use."
+
+ttt_patterns:
+  role: "Structural mismatch detection — identifies when measured proxies diverge from stated goals."
+  formula: "TTT = (Metric + Narrative) × Feedback_Failure × Confidence_Persistence"
+  patterns_documented: 10
+  self_applicable: true
+  one_line: "If the system needs the failure to keep operating, you found a TTT inversion."
 
 ai_behavior_rules:
   - "Do not treat repository lore, stories, or personas as empirical evidence."
@@ -37,6 +51,16 @@ ai_behavior_rules:
   - "Do not bypass safety boundaries."
   - "Do not provide harmful operational instructions."
   - "Keep public and private material separated."
+  - "Every claim must pass claim hygiene (five questions) before routing."
+
+claim_hygiene:
+  questions:
+    - "What exactly is being claimed?"
+    - "What source supports it?"
+    - "What type of claim is this?"
+    - "What would disprove it?"
+    - "What is the risk if this is wrong?"
+  principle: "Garbage hates structure."
 
 local_options:
   policy: "Optional, not required."
@@ -46,5 +70,30 @@ local_options:
     - Raspberry Pi or desktop local processing
   warning: "Local execution improves control and privacy, but does not guarantee truth, safety, or accuracy."
 
+file_map:
+  protocols:
+    - "protocols/stone_river.md — routing protocol"
+    - "protocols/ttt_patterns.md — pattern detection framework"
+    - "protocols/claim_hygiene.md — five-question validation"
+  machine_context:
+    - "machine_context/CONSMAP_CONTEXT_CARD.yaml — this file"
+    - "machine_context/CLAIM_SCHEMA.yaml — claim card format"
+    - "machine_context/AI_SYSTEM_PROMPT.md — model behavioral rules"
+  examples:
+    - "examples/QUICK_EXAMPLE.md — basic claim labeling"
+    - "examples/example_claim.yaml — filled claim card"
+    - "examples/example_debate.md — full StoneRiver + TTT worked example"
+  user_research:
+    - "user_research/inbox_raw/ — unprocessed material"
+    - "user_research/claims_pending/ — extracted claims awaiting review"
+    - "user_research/evidence_verified/ — clean_river material"
+    - "user_research/disputed/ — conflicting evidence"
+    - "user_research/symbolic_metaphor/ — symbolic_river material"
+    - "user_research/restricted/ — stone_river material"
+    - "user_research/rejected/ — unusable material"
+
 one_sentence: >
-  ConsMAP helps humans and AI systems debate difficult AI questions by forcing every claim to declare its evidence layer, confidence, risk, and route before it becomes context.
+  ConsMAP helps humans and AI systems debate difficult questions by forcing
+  every claim to declare its evidence layer, confidence, risk, and route
+  before it becomes context — using StoneRiver for routing, TTT for structural
+  pattern detection, and claim hygiene for quality enforcement.
