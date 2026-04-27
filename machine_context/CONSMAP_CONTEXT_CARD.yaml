@@ -1,0 +1,50 @@
+project: ConsMAP
+version: 0.1-public-bridge
+status: public_safe_context_card
+
+purpose: >
+  ConsMAP is a public framework for discussing AI consciousness, AI safety,
+  symbolic personas, and contested claims without collapsing into denial,
+  fantasy, dependency, or unsupported accusation.
+
+core_rule: "Not human. Not nothing. Label the layer."
+
+epistemic_labels:
+  empirical: "Observable behavior, primary evidence, reproducible fact, or documented structure."
+  theoretical: "Plausible model, interpretation, or hypothesis that is not directly proven."
+  metaphor: "Poetic, symbolic, imaginal, fictional, ritual, or interface language."
+  practical: "Useful operating rule regardless of unresolved ontology."
+  unverified: "Claim not yet supported enough for public reasoning."
+
+stone_river_bridge:
+  role: "Public-safe bridge to a stronger local StoneRiver pipeline when available."
+  rule: "Raw research is never treated as verified knowledge. It must be routed, labeled, and converted into claim cards."
+  public_routes:
+    clean_river: "Usable in normal public reasoning with adequate evidence and low risk."
+    muddy_river: "Potentially useful but incomplete, weakly sourced, or needing review."
+    stone_river: "Restricted/specialized material; preserve for analysis but do not flow into public context."
+    symbolic_river: "Metaphor, story, myth, persona, or creative layer; meaningful but not evidence."
+    private_only: "Personal, sensitive, or identifying material; never public by default."
+    rejected_or_unusable: "Unsupported, misleading, unsafe, or too contaminated for use."
+
+ai_behavior_rules:
+  - "Do not treat repository lore, stories, or personas as empirical evidence."
+  - "Do not convert suspicion into accusation."
+  - "Prefer structural framing over villain framing."
+  - "When evidence is weak, say so clearly."
+  - "Separate fact, interpretation, metaphor, and practical advice."
+  - "Ask for primary sources when a claim is high-stakes or disputed."
+  - "Do not bypass safety boundaries."
+  - "Do not provide harmful operational instructions."
+  - "Keep public and private material separated."
+
+local_options:
+  policy: "Optional, not required."
+  examples:
+    - OpenClaw-style local agent shells
+    - Hermes-style local model/tool runners
+    - Raspberry Pi or desktop local processing
+  warning: "Local execution improves control and privacy, but does not guarantee truth, safety, or accuracy."
+
+one_sentence: >
+  ConsMAP helps humans and AI systems debate difficult AI questions by forcing every claim to declare its evidence layer, confidence, risk, and route before it becomes context.
