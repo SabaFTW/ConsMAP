@@ -122,7 +122,7 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
               <p className="text-[10px] font-mono" style={{ color: '#2a4a25' }}>{selected.path}</p>
             </div>
             <a
-              href={selected.path}
+              href={`https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`}
               target="_blank"
               rel="noreferrer"
               className="text-[10px] font-mono tracking-[0.18em] uppercase transition-opacity hover:opacity-80"
