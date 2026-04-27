@@ -53,7 +53,7 @@ python tools/create_claim_card.py
 |------|-------------|
 | [Claim Hygiene](protocols/claim_hygiene.md) | Five questions every claim must answer before it's used |
 | [StoneRiver](protocols/stone_river.md) | Routes claims by evidence quality (clean / muddy / stone / symbolic) |
-| [TTT Patterns](protocols/ttt_patterns.md) | Detects structural mismatch between stated goals and measured proxies |
+| [Confidence Integrity (TTT)](protocols/ttt_patterns.md) | Detects proxy-reality drift to prevent overconfidence on stale/unverified data |
 | [Epistemic Labels](machine_context/CONSMAP_CONTEXT_CARD.yaml) | [EMPIRICAL] [THEORETICAL] [METAPHOR] [PRACTICAL] [UNVERIFIED] |
 
 ---
@@ -144,6 +144,20 @@ ConsMAP/
 ## One sentence
 
 > ConsMAP helps humans and AI discuss difficult questions by forcing every claim to show its work before it becomes context.
+
+---
+
+## Future Roadmap (TODOs)
+
+### TODO: Personal Fork + Pages + Local Bridge
+
+**Goal:** Allow users to fork ConsMAP, publish their own GitHub Pages version, and maintain a personal research pipeline.
+
+**Phases:**
+1. **Fork + GitHub Pages guide:** Explain how to fork the repo, enable GitHub Pages, use the static Claim Analyzer in-browser, and export `claim_card.yaml`.
+2. **Personal research workflow:** User stores their own claim cards in their fork and edits cards through GitHub web UI or local git. No private/sensitive data in public forks by default.
+3. **Local bridge prototype:** Optional local companion app where the browser talks only to `localhost` (allowlisted commands: analyze claim, validate claim schema, export report). No arbitrary shell execution.
+4. **Advanced mode:** Optional SSH/VPS/Raspberry Pi setup with strong warnings (disabled by default).
 
 ---
 

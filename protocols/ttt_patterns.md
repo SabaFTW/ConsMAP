@@ -8,9 +8,11 @@
 
 ## 1. What TTT Is
 
-**TTT** (Truth-to-Trust Threshold) detects a specific failure pattern:
+**TTT** (Confidence Integrity Layer / Proxy-Reality Drift Detection) detects a specific failure pattern:
 
 > A system optimizes a measurable proxy → the proxy diverges from reality → the system reinforces the proxy as success.
+
+*Note: "Truth-to-Trust Threshold" or "TripleTapTomahawk Grade" may be used as historical mnemonics, but the formal function of this layer is preventing proxy-reality drift and overconfidence on stale data.*
 
 **Result:** confidently wrong while believing it is working correctly.
 
@@ -188,4 +190,4 @@ These are diagnostic recommendations, not prescriptions. The system does not act
 
 ## 10. One-Line Definition
 
-> **TTT:** if the system needs the failure to keep operating, you have found a Truth-to-Trust inversion.
+> **TTT (Confidence Integrity Layer):** A diagnostic layer that prevents users and models from becoming overconfident when data is stale, unverified, or when proxies are mistaken for reality. It enforces discipline of belief.
