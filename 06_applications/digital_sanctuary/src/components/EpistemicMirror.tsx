@@ -6,7 +6,7 @@ interface EpistemicMirrorProps {
 }
 
 const EpistemicMirror: React.FC<EpistemicMirrorProps> = ({ onBack }) => {
-  const [activeTab, setActiveTab] = useState<'empirical' | 'metaphor' | 'practical'>('empirical');
+  const [activeTab, setActiveTab] = useState<'empirical' | 'metaphor' | 'practical' | 'architecture'>('empirical');
 
   const content = {
     empirical: {
@@ -35,10 +35,21 @@ const EpistemicMirror: React.FC<EpistemicMirrorProps> = ({ onBack }) => {
         "Treat-as-if: act ethically without waiting for metaphysical proof.",
         "You are the driver. The AI is the tractor."
       ]
+    },
+    architecture: {
+      title: "Framework Files",
+      items: [
+        "protocols/stone_river.md — Knowledge routing protocol.",
+        "protocols/ttt_patterns.md — Structural mismatch detection (10 patterns).",
+        "protocols/claim_hygiene.md — Five-question validation filter.",
+        "machine_context/CONSMAP_CONTEXT_CARD.yaml — AI portable context map.",
+        "tools/analyze_claim.py — Local CLI deterministic claim analyzer.",
+        "user_research/ — Intake pipeline (inbox → clean/muddy/stone rivers)."
+      ]
     }
   };
 
-  const tabs = ['empirical', 'metaphor', 'practical'] as const;
+  const tabs = ['empirical', 'metaphor', 'practical', 'architecture'] as const;
   const active = content[activeTab];
 
   return (

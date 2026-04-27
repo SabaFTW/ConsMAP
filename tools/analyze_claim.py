@@ -17,6 +17,7 @@ import os
 import yaml
 import argparse
 from datetime import datetime
+from typing import List, Dict, Any
 
 
 # ── TTT Pattern Library ─────────────────────────────────────────────────────
@@ -115,7 +116,7 @@ VALID_STATUSES = ["verified", "supported", "plausible", "disputed", "unverified"
 VALID_CONFIDENCE = ["low", "medium", "high"]
 
 
-def check_hygiene(card: dict) -> list[str]:
+def check_hygiene(card: Dict[str, Any]) -> List[str]:
     """Run claim hygiene checks. Returns list of issues."""
     issues = []
 
@@ -157,7 +158,7 @@ def check_hygiene(card: dict) -> list[str]:
 
 # ── TTT Pattern Matching ─────────────────────────────────────────────────────
 
-def match_ttt_patterns(text: str) -> list[dict]:
+def match_ttt_patterns(text: str) -> List[Dict[str, Any]]:
     """Match text against TTT pattern keywords. Returns matches sorted by relevance."""
     text_lower = text.lower()
     matches = []
@@ -183,7 +184,7 @@ def match_ttt_patterns(text: str) -> list[dict]:
 
 # ── Epistemic Label Assignment ───────────────────────────────────────────────
 
-def assign_labels(card: dict) -> list[str]:
+def assign_labels(card: Dict[str, Any]) -> List[str]:
     """Assign epistemic labels based on card properties."""
     labels = []
 
@@ -226,7 +227,7 @@ RIVER_COLORS = {
 }
 
 
-def print_analysis(card: dict, hygiene_issues: list, ttt_matches: list, labels: list):
+def print_analysis(card: Dict[str, Any], hygiene_issues: List, ttt_matches: List, labels: List):
     """Print formatted analysis results."""
     claim_text = card.get("claim", "(no claim text)")
     river = card.get("river", "unknown")
