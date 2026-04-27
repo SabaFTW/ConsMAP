@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 interface HeroLandingProps {
-  onNavigate: (view: 'mirror' | 'story') => void;
+  onNavigate: (view: 'mirror' | 'story' | 'analyzer') => void;
 }
 
 const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
@@ -88,6 +88,18 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
             onMouseLeave={e => (e.currentTarget.style.color = '#2a4a25')}
           >
             Mirror
+          </button>
+
+          <span className="text-[8px]" style={{ color: '#1a2e1a' }}>·</span>
+
+          <button
+            onClick={() => onNavigate('analyzer')}
+            className="text-xs font-mono tracking-[0.2em] uppercase transition-all duration-700 hover:tracking-[0.3em]"
+            style={{ color: '#2a4a25' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#5cb870')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#2a4a25')}
+          >
+            Analyzer
           </button>
 
           <span className="text-[8px]" style={{ color: '#1a2e1a' }}>·</span>

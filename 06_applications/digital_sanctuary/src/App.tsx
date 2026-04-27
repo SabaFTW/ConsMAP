@@ -6,8 +6,9 @@ import HeroLanding from './components/HeroLanding';
 import EpistemicMirror from './components/EpistemicMirror';
 import BedtimeStory from './components/BedtimeStory';
 import SoulGlitch from './components/SoulGlitch';
+import ClaimAnalyzer from './components/ClaimAnalyzer';
 
-type AppState = 'ritual' | 'home' | 'mirror' | 'story';
+type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer';
 
 function App() {
   const [state, setState] = useState<AppState>('ritual');
@@ -71,6 +72,19 @@ function App() {
             className="relative z-10 min-h-screen"
           >
             <BedtimeStory onBack={() => setState('home')} />
+          </motion.div>
+        )}
+
+        {state === 'analyzer' && (
+          <motion.div
+            key="analyzer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2 }}
+            className="relative z-10 min-h-screen"
+          >
+            <ClaimAnalyzer onBack={() => setState('home')} />
           </motion.div>
         )}
       </AnimatePresence>
