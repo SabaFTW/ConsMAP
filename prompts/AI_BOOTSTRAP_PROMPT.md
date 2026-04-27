@@ -1,8 +1,6 @@
 We are going to analyze a claim using a structured method from the ConsMAP framework.
 
-Do not answer immediately.
-
-First, follow this process:
+Before giving a conclusion, first follow this process:
 
 1. Classify the claim type (empirical / theoretical / symbolic / practical).
 2. Identify possible failure modes (Confidence Integrity Layer):
