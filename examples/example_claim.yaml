@@ -38,6 +38,14 @@ risk:
   radicalization: low
   privacy: none
 
+confidence_integrity:
+  warnings:
+    - proxy_reality_drift
+    - source_uncertainty
+  confidence_adjustment: downgrade
+  reality_loop: degraded
+  reason: "Claim depends on inferred structural behavior and lacks systematic false-positive rate data from platforms."
+
 falsification: >
   Show that AI safety filter false-positive rates are below 5% across
   context-dependent domains (e.g., harm discussion, medical terminology,

@@ -18,6 +18,13 @@ risk:
   radicalization: [low, medium, high]
   privacy: [none, low, medium, high]
 
+confidence_integrity:
+  warnings:
+    - [stale_data, proxy_reality_drift, missing_feedback_loop, confidence_persistence, source_uncertainty, unfalsifiable_frame]
+  confidence_adjustment: [none, downgrade, restrict, reject]
+  reality_loop: [healthy, delayed, degraded, broken, unknown]
+  notes: string
+
 allowed_use:
   - debate
   - analysis
