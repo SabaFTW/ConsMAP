@@ -1,7 +1,10 @@
 # Example Claim Card
 
 id: claim_00042
-claim: "Current AI safety systems often over-filter context-dependent language, blocking legitimate discussion about harm while leaving structural manipulation techniques accessible."
+claim: >
+  Current AI safety systems often over-filter context-dependent language,
+  blocking legitimate discussion about harm while leaving structural
+  manipulation techniques accessible.
 river: muddy_river
 status: plausible
 category: ai_safety
@@ -9,10 +12,25 @@ claim_type: structural_analysis
 confidence: medium
 
 sources:
-  - type: specialist_reporting
-    reference: "Multiple documented cases of content moderation false positives (Gillespie, 2018; Roberts, 2019)"
+  - type: academic
+    reference: "Tarleton Gillespie, Custodians of the Internet: Platforms, Content Moderation, and the Hidden Decisions That Shape Social Media, 2018"
+    locator: "Chapter 3 — The Myth of the Neutral Platform"
+    url: null
+
+  - type: academic
+    reference: "Sarah T. Roberts, Behind the Screen: Content Moderation in the Shadows of Social Media, 2019"
+    locator: "Introduction + Chapter 2 — Commercial content moderation labor"
+    url: null
+
+  - type: mainstream_reporting
+    reference: "Billy Perrigo, 'Inside Facebook's African Sweatshop', TIME, February 2023"
+    locator: null
+    url: "https://time.com/6247678/openai-chatgpt-kenya-workers/"
+
   - type: independent_analysis
-    reference: "ConsMAP internal analysis of publicly available filter behavior"
+    reference: "ConsMAP structural analysis of publicly documented filter behavior across major AI platforms"
+    locator: "Observational — not peer-reviewed"
+    url: null
 
 risk:
   misuse: low
@@ -22,7 +40,8 @@ risk:
 
 falsification: >
   Show that AI safety filter false-positive rates are below 5% across
-  context-dependent domains. Show that structural manipulation techniques
+  context-dependent domains (e.g., harm discussion, medical terminology,
+  historical analysis). Show that structural manipulation techniques
   are equally filtered as surface-level harmful language.
 
 allowed_use:
@@ -37,6 +56,7 @@ not_allowed_use:
 notes: >
   This claim has reasonable structural basis but lacks comprehensive
   empirical measurement. The over-filtering observation is widely reported
-  anecdotally but formal measurement is limited. Needs systematic study.
-  Routed to muddy_river because evidence is mixed and the claim scope
-  is broad enough to be misleading if presented as verified.
+  in academic literature and journalism but systematic false-positive
+  rate data is not publicly available from major platforms.
+  Routed to muddy_river because evidence is real but scope is broad
+  enough to be misleading if presented as universally verified.

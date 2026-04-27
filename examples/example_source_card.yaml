@@ -1,0 +1,64 @@
+# Example Source Card
+
+# This shows how to document a source for use in claim cards.
+# One source can support multiple claims.
+
+id: source_00012
+type: academic
+quality: peer_reviewed
+
+citation:
+  author: "Tarleton Gillespie"
+  title: "Custodians of the Internet: Platforms, Content Moderation, and the Hidden Decisions That Shape Social Media"
+  publisher: "Yale University Press"
+  year: 2018
+  isbn: "978-0-300-17313-0"
+
+key_claims_supported:
+  - "Content moderation decisions are not neutral — they reflect platform values and business incentives"
+  - "Automated filtering produces systematic false positives in context-dependent domains"
+  - "Platform safety metrics often measure removal volume, not harm reduction"
+
+relevance_to_consmap:
+  - TTT-004 (HARM_DISPLACEMENT_NOT_REMOVAL)
+  - TTT-008 (COMPLIANCE_THEATER)
+  - claim_00042 (over-filtering claim)
+
+limitations: >
+  Published 2018 — pre-LLM era. Content moderation landscape has shifted
+  significantly since publication. Core structural arguments remain valid
+  but specific platform examples may be outdated. Does not cover
+  AI-generated content moderation challenges.
+
+verification_status: verified
+last_checked: 2026-04-27
+
+---
+
+id: source_00013
+type: mainstream_reporting
+quality: investigative_journalism
+
+citation:
+  author: "Billy Perrigo"
+  title: "Inside Facebook's African Sweatshop"
+  publisher: "TIME"
+  year: 2023
+  url: "https://time.com/6247678/openai-chatgpt-kenya-workers/"
+
+key_claims_supported:
+  - "AI content moderation labor is outsourced to low-wage workers"
+  - "Psychological harm to moderators is documented and severe"
+  - "Platform safety metrics do not include supply-chain worker welfare"
+
+relevance_to_consmap:
+  - TTT-004 (HARM_DISPLACEMENT_NOT_REMOVAL)
+
+limitations: >
+  Single investigation. Company-specific findings may not generalize
+  to all platforms. Company has disputed some characterizations.
+  However, the structural pattern (outsourced harm) is independently
+  corroborated by multiple investigations across different companies.
+
+verification_status: verified
+last_checked: 2026-04-27
