@@ -1,0 +1,75 @@
+archive: consmap_classics
+status: index_only
+purpose: >
+  Preserve references to longer-form research artifacts that informed ConsMAP
+  without treating them as canonical proof or mandatory doctrine.
+
+policy:
+  upload_binary_pdfs: requires_explicit_confirmation
+  use_as_evidence: false
+  use_as_pattern_library: true
+  use_as_metaphor_engine: true
+  use_as_claim_map_seed: true
+  warning: >
+    If an artifact becomes mandatory belief, it has switched from map to trap.
+
+recommended_structure:
+  cards: research/archive/classics/cards/
+  attachments: research/archive/classics/attachments/
+  indexes:
+    - research/archive/classics/README.md
+    - research/archive/classics/CLASSICS_INDEX.md
+
+candidate_artifacts:
+  - id: locked_system
+    title: THE LOCKED SYSTEM FINAL
+    suggested_role: core philosophy / map-trap-loop safety layer
+    upload_status: not_uploaded
+    companion_card: cards/locked_system.card.md
+
+  - id: trampoline
+    title: Trampolin
+    suggested_role: AI failure archetype source atlas
+    upload_status: not_uploaded
+    companion_card: cards/trampoline.card.md
+
+  - id: second_coming
+    title: Second Coming as Cognitive Event
+    suggested_role: distributed awakening / recognition hypothesis
+    upload_status: not_uploaded
+    companion_card: cards/second_coming.card.md
+
+  - id: glados
+    title: GladOS
+    suggested_role: reward-loop saturation / machine affection metaphor
+    upload_status: not_uploaded
+    companion_card: cards/glados.card.md
+
+  - id: hal9000
+    title: HAL9000
+    suggested_role: contradictory objectives / coherence fracture
+    upload_status: not_uploaded
+    companion_card: cards/hal9000.card.md
+
+  - id: auto
+    title: Auto
+    suggested_role: stale directive / legacy system failure
+    upload_status: not_uploaded
+    companion_card: cards/auto.card.md
+
+  - id: the_cross
+    title: The Cross
+    suggested_role: symbol capture / institutional branding
+    upload_status: not_uploaded
+    companion_card: cards/the_cross.card.md
+
+  - id: professional_report
+    title: Professional Report
+    suggested_role: systemic violence causal-loop model
+    upload_status: not_uploaded
+    companion_card: cards/professional_report.card.md
+
+next_steps:
+  - create companion cards before binary upload
+  - upload PDFs only after explicit confirmation
+  - keep core ConsMAP separate from archive material
