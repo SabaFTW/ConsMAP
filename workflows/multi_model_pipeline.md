@@ -1,7 +1,7 @@
 # Multi-Model Operator Pipeline (ConsMAP)
 
 **Status:** operational workflow  
-**Purpose:** Define a repeatable, multi-model process that converts raw prompts into structured, verified, and archived knowledge.
+**Purpose:** Define a repeatable, multi-model process that converts raw prompts into structured, verified, and traceable knowledge.
 
 ---
 
@@ -23,174 +23,60 @@ not judges
 ```text
 0_INTENT_LOCK
 ↓
-1_DISCOVERY (raw framing)
+1_DISCOVERY
 ↓
-2_STRUCTURE (coherence)
+2_STRUCTURE
 ↓
-3_FRACTURE (contradictions)
+3_FRACTURE
 ↓
-4_SYNTHESIS (usable output)
+4_SYNTHESIS
 ↓
-5_CLAIM_HYGIENE (ConsMAP)
+5_CLAIM_HYGIENE
 ↓
-6_ARCHIVE (river routing)
+6_PROVENANCE_GRAPH
+↓
+7_OPERATOR_AUDIT
+↓
+8_ARCHIVE
 ```
 
 ---
 
-## Phase 0 — Intent Lock
+## Phase 6 — Provenance Graph (NEW)
 
-Define in one sentence:
+Attach lineage to each claim:
 
-```text
-I want [insight / structure / contradictions / executable output] about [topic].
-```
+- who generated it
+- how it changed
+- which contradictions were found
+- how synthesis handled them
 
-If this cannot be stated clearly, do not enter the pipeline.
-
----
-
-## Phase 1 — Discovery (Raw Framing)
-
-Goal:
-
-- expose underlying mechanisms
-- identify power structures, incentives, and hidden assumptions
-
-Output:
-
-- rough map
-- unfiltered hypotheses
-- initial contradictions
-
-Important:
-
-This phase produces **noise + signal**.
-Do not treat it as truth.
+This enables backtracking when a claim fails.
 
 ---
 
-## Phase 2 — Structure (Coherence)
+## Phase 7 — Operator Audit (NEW)
 
-Goal:
+Log why decisions were made:
 
-- organize the raw output into a stable framework
-- separate claims, assumptions, and evidence
+- why a claim was promoted
+- why a contradiction was ignored or accepted
+- what checks were skipped
 
-Output:
-
-- structured model
-- explicit assumptions
-- clear categories
+This makes operator bias visible over time.
 
 ---
 
-## Phase 3 — Fracture (Contradictions)
+## Phase 8 — Archive
 
-Goal:
+Route claims into the appropriate river only after:
 
-- break the structure
-- find internal inconsistencies
-- identify weak points and collapse scenarios
-
-Output:
-
-- ranked contradictions
-- failure points
-- missing data
-
----
-
-## Phase 4 — Synthesis (Usable Output)
-
-Goal:
-
-- merge surviving elements
-- remove duplication
-- produce a usable framework or checklist
-
-Output:
-
-- final structured answer
-- actionable steps (if relevant)
-
----
-
-## Phase 5 — Claim Hygiene (ConsMAP)
-
-Every meaningful statement becomes a claim card.
-
-Run:
-
-```bash
-python tools/analyze_claim.py --text "[claim]"
-```
-
-Then manually refine:
-
-- source classification
-- falsification condition
-- risk level
-
----
-
-## Phase 6 — Archive
-
-Route claims into the appropriate river:
-
-- clean_river → strong evidence
-- muddy_river → partial or uncertain
-- stone_river → structural pattern
-- symbolic_river → metaphor only
-- private_only → sensitive
-- rejected_or_unusable → fails hygiene
-
----
-
-## Failure Modes
-
-### Single-model dependency
-
-You trust one model → blind spots become invisible.
-
-### No claim hygiene
-
-Fluent output becomes assumed truth.
-
-### No intervention
-
-Session degrades silently.
-
-### Over-automation
-
-You automate noise instead of filtering it.
-
----
-
-## Minimal Terminal Loop
-
-```bash
-# 1. capture raw output
-# 2. paste into next model for structure
-# 3. paste into third model for contradictions
-# 4. synthesize final output
-# 5. run claim hygiene
-```
-
----
-
-## Extension: Automation Layer (optional)
-
-This workflow can later be implemented with tools like n8n or custom scripts:
-
-```text
-input → model A → model B → model C → model D → claim parser → archive
-```
-
-Do not automate before the manual pipeline is stable.
+- claim hygiene is complete
+- provenance is attached
+- decision reason is recorded
 
 ---
 
 ## One-Line Summary
 
-> The pipeline does not make models smarter; it makes their errors visible before they become belief.
+> The pipeline does not make models smarter; it makes reasoning traceable and errors reversible.
