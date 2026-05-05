@@ -1,0 +1,30 @@
+# ConsMAP automation config (example)
+
+mode: manual
+
+pipeline:
+  phases:
+    - discovery
+    - structure
+    - fracture
+    - synthesis
+    - claim_hygiene
+
+providers:
+  discovery: manual
+  structure: manual
+  fracture: manual
+  synthesis: manual
+
+output:
+  base_dir: automation/runs
+  save_prompts: true
+  save_intermediate: true
+
+safety:
+  require_dry_run: true
+  allow_auto_write: false
+
+notes:
+  - "Copy to config.yaml and edit locally"
+  - "Do not commit secrets or API keys"
