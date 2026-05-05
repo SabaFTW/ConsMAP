@@ -95,7 +95,8 @@ run_dir/
 ├── provenance_template.yaml
 ├── operator_decision_log.yaml
 ├── claim_hygiene_review.md
-└── README.md
+├── README.md
+└── manifest.yaml
 ```
 
 ---
@@ -126,6 +127,7 @@ The scaffold may generate:
 - provenance scaffolding
 - operator decision log templates
 - claim hygiene review prompts
+- a run index manifest
 
 The scaffold does **not**:
 - verify claims
@@ -148,6 +150,13 @@ Every non-trivial decision should have a reason.
 ### claim_hygiene_review.md
 Human review worksheet.
 This is where source pressure and falsification pressure are applied.
+
+### manifest.yaml
+Stable per-run index.
+It allows future tools to identify run identity and file membership without relying on filenames alone.
+It stores draft-level metadata only.
+
+`manifest.yaml` is a run index layer that future provenance tooling can read; it is not itself a reasoning graph.
 
 ---
 

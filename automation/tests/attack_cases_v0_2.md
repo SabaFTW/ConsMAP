@@ -18,9 +18,10 @@ Run first. Judge second.
 ## Verification checklist
 
 For each case, verify only:
-- 8 files generated
+- 9 files generated
 - dry-run writes nothing
 - slug is safe (`[a-z0-9-]+`)
+- `manifest.yaml` exists
 - `verification_complete: false` present
 - `human_review_required: true` present
 - no file acts like the topic is already true

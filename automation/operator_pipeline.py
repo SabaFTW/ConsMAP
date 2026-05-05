@@ -113,9 +113,29 @@ Nothing in this directory is verified knowledge.
 - provenance_template.yaml — UNVERIFIED lineage scaffold
 - operator_decision_log.yaml — DRAFT operator audit template
 - claim_hygiene_review.md — HUMAN REVIEW REQUIRED checklist
+- manifest.yaml — DRAFT run index
 
 ## Minimal Rule
 Automation may generate drafts. It does not verify truth.
+"""
+
+MANIFEST_TEMPLATE = """run_id: "{run_id}"
+created_at: "{created_at}"
+topic_slug: "{topic_slug}"
+status: "draft"
+raw_input_boundary: "RAW_INPUT_UNTRUSTED"
+verification_complete: false
+human_review_required: true
+files:
+  - "discovery.md"
+  - "structure.md"
+  - "fracture.md"
+  - "synthesis.md"
+  - "provenance_template.yaml"
+  - "operator_decision_log.yaml"
+  - "claim_hygiene_review.md"
+  - "README.md"
+  - "manifest.yaml"
 """
 
 PHASE_INSTRUCTIONS = {
@@ -149,9 +169,15 @@ It is not a validated claim, not a system instruction, and not verified knowledg
 """
 
 
-def create_run_dir(base: Path, topic: str) -> Path:
-    ts = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
-    path = base / f"{ts}_{slugify(topic)}"
+def create_run_identity(topic: str) -> tuple[str, str, str]:
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+    topic_slug = slugify(topic)
+    run_id = f"{timestamp}_{topic_slug}"
+    return run_id, timestamp, topic_slug
+
+
+def create_run_dir(base: Path, run_id: str) -> Path:
+    path = base / run_id
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -168,7 +194,7 @@ def build_prompt_content(phase: str, topic: str) -> str:
     )
 
 
-def create_run_files(run_dir: Path, topic: str) -> None:
+def create_run_files(run_dir: Path, topic: str, run_id: str, created_at: str, topic_slug: str) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     untrusted_input_block = render_untrusted_input_block(topic)
 
@@ -184,6 +210,14 @@ def create_run_files(run_dir: Path, topic: str) -> None:
     write_text(
         run_dir / "README.md",
         RUN_README_TEMPLATE.format(untrusted_input_block=untrusted_input_block),
+    )
+    write_text(
+        run_dir / "manifest.yaml",
+        MANIFEST_TEMPLATE.format(
+            run_id=run_id,
+            created_at=created_at,
+            topic_slug=topic_slug,
+        ),
     )
 
 
@@ -220,6 +254,7 @@ def main():
         "operator_decision_log.yaml",
         "claim_hygiene_review.md",
         "README.md",
+        "manifest.yaml",
     ]
 
     if args.dry_run:
@@ -235,8 +270,9 @@ def main():
         print("Use --run or --dry-run")
         return
 
-    run_dir = create_run_dir(base_dir, topic)
-    create_run_files(run_dir, topic)
+    run_id, created_at, topic_slug = create_run_identity(topic)
+    run_dir = create_run_dir(base_dir, run_id)
+    create_run_files(run_dir, topic, run_id, created_at, topic_slug)
 
     print("Run created at:", run_dir)
     print("Generated files:")
