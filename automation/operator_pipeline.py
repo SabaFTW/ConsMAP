@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
 import datetime
 
 TEMPLATE = """# {phase_upper} PROMPT
@@ -32,7 +31,8 @@ def slugify(text):
 def create_run_dir(base, topic):
     ts = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     name = f"{ts}_{slugify(topic)}"
-    path = os.path.join(base, name)
+    path = f"{base}/{name}"
+    import os
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -43,7 +43,7 @@ def write_prompt(path, phase, topic):
         topic=topic,
         instructions=PHASE_INSTRUCTIONS.get(phase, "")
     )
-    filename = os.path.join(path, f"{phase}.md")
+    filename = f"{path}/{phase}.md"
     with open(filename, "w") as f:
         f.write(content)
 
@@ -83,7 +83,7 @@ def main():
     for phase in PHASE_INSTRUCTIONS:
         write_prompt(run_dir, phase, topic)
 
-    readme_path = os.path.join(run_dir, "README.md")
+    readme_path = f"{run_dir}/README.md"
     with open(readme_path, "w") as f:
         f.write(f"Run created for topic: {topic}\n")
 
