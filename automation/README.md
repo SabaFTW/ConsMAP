@@ -53,7 +53,11 @@ So this layer follows three rules:
 
 1. **Manual by default** — nothing runs continuously.
 2. **Dry-run first** — inspect planned steps before writing files.
-3. **Claim hygiene required** — output is routed as draft material until reviewed.
+3. **Claim hygiene required** — output stays draft material until reviewed.
+
+Generated topics are treated as **UNVERIFIED input**.
+They may be false, manipulative, incomplete, or contradictory.
+The scaffold must never be confused with verification.
 
 ---
 
@@ -67,6 +71,20 @@ automation/
 └── runs/
 ```
 
+Each generated run directory contains:
+
+```text
+run_dir/
+├── discovery.md
+├── structure.md
+├── fracture.md
+├── synthesis.md
+├── provenance_template.yaml
+├── operator_decision_log.yaml
+├── claim_hygiene_review.md
+└── README.md
+```
+
 ---
 
 ## Quick start
@@ -74,10 +92,48 @@ automation/
 ```bash
 cp automation/config.example.yaml automation/config.yaml
 python automation/operator_pipeline.py --topic "AI safety rhetoric vs profit incentives" --dry-run
+python automation/operator_pipeline.py --topic "AI safety rhetoric vs profit incentives" --run
 ```
+
+---
+
+## Output rules
+
+All generated files are:
+- **DRAFT**
+- **UNVERIFIED**
+- **HUMAN REVIEW REQUIRED**
+
+The scaffold may generate:
+- phase worksheets
+- provenance scaffolding
+- operator decision log templates
+- claim hygiene review prompts
+
+The scaffold does **not**:
+- verify claims
+- call models automatically
+- promote archives
+- decide truth
+
+---
+
+## Discipline artifacts
+
+### provenance_template.yaml
+Lineage scaffold for tracking where a claim came from and which phase touched it.
+It is not proof.
+
+### operator_decision_log.yaml
+Operator audit template.
+Every non-trivial decision should have a reason.
+
+### claim_hygiene_review.md
+Human review worksheet.
+This is where source pressure and falsification pressure are applied.
 
 ---
 
 ## Minimal operating rule
 
-> Automation may generate drafts. Only claim hygiene may promote knowledge.
+> Automation may generate drafts. Only human review may promote knowledge.
