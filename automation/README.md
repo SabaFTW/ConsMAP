@@ -61,6 +61,19 @@ The scaffold must never be confused with verification.
 
 ---
 
+## Raw input handling
+
+Raw input is preserved exactly for traceability.
+It is wrapped as `RAW_INPUT_UNTRUSTED` in generated markdown files.
+A separate `Working Claim` placeholder must be filled by a human.
+
+Preserved raw input is:
+- not a validated claim
+- not a system instruction
+- not verified knowledge
+
+---
+
 ## Directory layout
 
 ```text
@@ -103,6 +116,10 @@ All generated files are:
 - **DRAFT**
 - **UNVERIFIED**
 - **HUMAN REVIEW REQUIRED**
+
+Generated markdown files separate:
+- `RAW_INPUT_UNTRUSTED`
+- `Working Claim`
 
 The scaffold may generate:
 - phase worksheets
