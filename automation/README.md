@@ -152,14 +152,17 @@ A run produces a folder like:
 
 ```text
 automation/runs/2026-05-04T23-30-00_ai-safety-rhetoric/
-├── 00_intent.md
-├── 01_discovery_prompt.md
-├── 02_structure_prompt.md
-├── 03_fracture_prompt.md
-├── 04_synthesis_prompt.md
-├── 05_claims_raw.md
+├── discovery.md
+├── structure.md
+├── fracture.md
+├── synthesis.md
+├── provenance_template.yaml
+├── operator_decision_log.yaml
+├── claim_hygiene_review.md
 └── README.md
 ```
+
+All generated files are draft worksheets. They exist to help the operator fill in reasoning traces manually; they do not imply verification happened.
 
 The final reviewed material should then be moved manually into the correct ConsMAP river:
 
@@ -171,6 +174,34 @@ user_research/symbolic_river/
 ```
 
 ---
+
+## Run modes
+
+### Dry-run
+
+Use dry-run to preview what the scaffold would generate without writing files:
+
+```bash
+python automation/operator_pipeline.py --topic "AI safety rhetoric vs profit incentives" --dry-run
+```
+
+### Normal mode
+
+Use normal mode to create a timestamped run directory with draft templates:
+
+```bash
+python automation/operator_pipeline.py --topic "AI safety rhetoric vs profit incentives" --run
+```
+
+## Turning automation off
+
+Automation is already off when the script exits. To stop using it, simply stop running the command or remove/ignore `automation/config.yaml` locally.
+
+## Verification warning
+
+> Automation is a repeatable thinking structure, not a decision engine.
+>
+> The scaffold generates drafts only. It does not verify truth, promote claims automatically, or replace human review.
 
 ## Minimal operating rule
 
