@@ -203,6 +203,11 @@ Automation is already off when the script exits. To stop using it, simply stop r
 >
 > The scaffold generates drafts only. It does not verify truth, promote claims automatically, or replace human review.
 
+## Breaking change
+
+Previous filename scheme (`00_*`, `01_*`) is deprecated.
+New runs use semantic filenames (`discovery.md`, `structure.md`, etc.).
+
 ## Minimal operating rule
 
 > Automation may generate drafts. Only claim hygiene may promote knowledge.
