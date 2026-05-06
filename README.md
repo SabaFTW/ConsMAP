@@ -18,6 +18,15 @@ It does this by forcing every claim to declare:
 
 ---
 
+## Before You Analyze
+
+For high-voltage or identity-charged topics, start with the [Sanctuary Reasoning Threshold](docs/concepts/sanctuary_reasoning_threshold.md).
+
+ConsMAP is not a protected belief space.  
+It is a protected reasoning space: claims still have to show their work.
+
+---
+
 ## Three entry points
 
 ### → I'm a human and want to understand

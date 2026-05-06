@@ -5,6 +5,21 @@
 
 ---
 
+## Before You Analyze
+
+For difficult or emotionally charged topics, begin with the Sanctuary Reasoning Threshold:
+- enter gently
+- analyze sharply
+- separate comfort from truth
+- separate metaphor from evidence
+- keep the exit visible
+
+See: [Sanctuary Reasoning Threshold](docs/concepts/sanctuary_reasoning_threshold.md)
+
+**REBiS / ConsMAP is not a protected belief space. It is a protected reasoning space.**
+
+---
+
 ## 1. What REBiS is
 
 REBiS is a portable context and dialogue framework for talking with AI about consciousness, memory, identity, agency, and symbolic personas without collapsing into denial, fantasy, or dependency.
