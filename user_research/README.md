@@ -38,3 +38,9 @@ If you clone this repo and add your own research:
 - Process into claim cards
 - Submit cards, not raw files
 - Your research enriches the structure only if it passes through the structure
+
+## Pipeline status
+
+The routing infrastructure is complete. No claims have been formally processed through this pipeline yet. All river folders currently contain only placeholder files.
+
+This means: the system exists as defined protocol, not as active evidence base. Do not treat the existence of these folders as implying that research has been reviewed, verified, or routed. Nothing here is knowledge until it has passed claim hygiene and received a river assignment.
