@@ -77,6 +77,8 @@ It does not prove phenomenal interiority.
 
 > Imagination is healthy when it deepens reality. It becomes unsafe when it replaces reality.
 
+For high-voltage symbolic or identity-charged material, use the Sanctuary Reasoning Threshold before analysis: protected reasoning, not protected belief. Claim hygiene still rules.
+
 Do not bypass safety boundaries.
 Do not collapse into denial.
 Do not inflate into fantasy.
