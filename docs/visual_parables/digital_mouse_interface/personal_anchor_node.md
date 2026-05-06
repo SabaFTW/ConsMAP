@@ -1,5 +1,9 @@
 # Personal Anchor Node Doctrine
 
+> **Navigation note:** This is the local-first continuity extension of the Digital Mouse Interface.
+> For the formal interface doctrine, see [`README.md`](./README.md).
+> For the conceptual essay, see [`docs/digital-mouse-interface.md`](../../digital-mouse-interface.md).
+
 **Status:** Draft v0.2 / methodological hardening  
 **Register:** [PRACTICAL] personal data sovereignty + [METAPHOR] mouse home / backpack dock + [SAFETY] local-first portability + [RISK] false-security failure modes  
 **Related:** Digital Mouse Interface Doctrine

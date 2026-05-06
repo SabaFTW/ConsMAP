@@ -147,6 +147,25 @@ ConsMAP/
 
 ---
 
+## Navigation: Active Framework Layers
+
+ConsMAP now includes several companion layers beyond the core claim-hygiene protocol:
+
+- [`protocols/claim_hygiene.md`](protocols/claim_hygiene.md) — five-question claim hygiene protocol.
+- [`protocols/stone_river.md`](protocols/stone_river.md) — routing protocol for research material.
+- [`protocols/operator_audit.md`](protocols/operator_audit.md) — operator-side audit discipline.
+- [`protocols/operator_field_guide_v2_3.md`](protocols/operator_field_guide_v2_3.md) — field guide for operator usage.
+- [`docs/digital-mouse-interface.md`](docs/digital-mouse-interface.md) — conceptual essay for the Digital Mouse Interface.
+- [`docs/visual_parables/digital_mouse_interface/README.md`](docs/visual_parables/digital_mouse_interface/README.md) — formal Digital Mouse Interface doctrine.
+- [`docs/visual_parables/digital_mouse_interface/personal_anchor_node.md`](docs/visual_parables/digital_mouse_interface/personal_anchor_node.md) — Personal Anchor Node / local-first continuity extension.
+- [`docs/forge/`](docs/forge/) — FORGE proof and boundary layer.
+- [`docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md`](docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md) — boundary map for reading mythology-charged symbolic material without literalization or amputation.
+- [`automation/`](automation/) — operator pipeline and automation cases.
+- [`workflows/`](workflows/) — multi-model and repo workflow patterns.
+- [`research/archive/classics/manifest.yaml`](research/archive/classics/manifest.yaml) — classic examples archive; pattern library only, not evidence.
+
+---
+
 ## Future Roadmap (TODOs)
 
 ### TODO: Personal Fork + Pages + Local Bridge
