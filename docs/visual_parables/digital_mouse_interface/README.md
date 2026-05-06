@@ -1,5 +1,9 @@
 # Digital Mouse Interface Doctrine
 
+> **Navigation note:** This is the formal doctrine layer of the Digital Mouse Interface.
+> For the conceptual essay, see [`docs/digital-mouse-interface.md`](../../digital-mouse-interface.md).
+> For the local-first continuity extension, see [`personal_anchor_node.md`](./personal_anchor_node.md).
+
 **Status:** Draft v0.1  
 **Register:** [PRACTICAL] interface design + [METAPHOR] accessibility layer + [SAFETY] responsibility boundary  
 **ConsMAP Role:** Visual parable / semantic adapter / industrial accessibility pattern

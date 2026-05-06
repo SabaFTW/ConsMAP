@@ -1,5 +1,9 @@
 # 🐭 Digital Mouse / Fairy Interface Concept
 
+> **Navigation note:** This is the conceptual essay layer of the Digital Mouse Interface.
+> For the formal operational doctrine, see [`docs/visual_parables/digital_mouse_interface/README.md`](./visual_parables/digital_mouse_interface/README.md).
+> For the local-first continuity extension, see [`personal_anchor_node.md`](./visual_parables/digital_mouse_interface/personal_anchor_node.md).
+
 ## Core Idea
 
 This is not about making AI human.
