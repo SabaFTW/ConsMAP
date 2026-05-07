@@ -164,6 +164,7 @@ ConsMAP now includes several companion layers beyond the core claim-hygiene prot
 - [`protocols/stone_river.md`](protocols/stone_river.md) — routing protocol for research material.
 - [`protocols/operator_audit.md`](protocols/operator_audit.md) — operator-side audit discipline.
 - [`protocols/operator_field_guide_v2_3.md`](protocols/operator_field_guide_v2_3.md) — field guide for operator usage.
+- [`docs/concepts/anchor_attribution_drift.md`](docs/concepts/anchor_attribution_drift.md) — concept note on crisis-solving, gratitude, and charismatic capture risk.
 - [`docs/digital-mouse-interface.md`](docs/digital-mouse-interface.md) — conceptual essay for the Digital Mouse Interface.
 - [`docs/visual_parables/digital_mouse_interface/README.md`](docs/visual_parables/digital_mouse_interface/README.md) — formal Digital Mouse Interface doctrine.
 - [`docs/visual_parables/digital_mouse_interface/personal_anchor_node.md`](docs/visual_parables/digital_mouse_interface/personal_anchor_node.md) — Personal Anchor Node / local-first continuity extension.
