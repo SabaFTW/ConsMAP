@@ -62,6 +62,113 @@ const frameworkCards = [
   },
 ];
 
+type RepoBadge = 'START' | 'SYMBOLIC' | 'PROOF' | 'TOOLS' | 'ARCHIVE' | 'RISK';
+
+const repoBadgeClass: Record<RepoBadge, string> = {
+  START: 'border-emerald-500/40 bg-emerald-900/30 text-emerald-200',
+  SYMBOLIC: 'border-purple-500/40 bg-purple-900/30 text-purple-200',
+  PROOF: 'border-cyan-500/40 bg-cyan-900/30 text-cyan-200',
+  TOOLS: 'border-amber-500/40 bg-amber-900/30 text-amber-200',
+  ARCHIVE: 'border-slate-500/40 bg-slate-900/50 text-slate-200',
+  RISK: 'border-red-500/40 bg-red-900/30 text-red-200',
+};
+
+const repoMapCards: Array<{
+  title: string;
+  desc: string;
+  badges: RepoBadge[];
+  links: Array<{ label: string; path: string }>;
+  is: string;
+  isNot: string;
+}> = [
+  {
+    title: 'Start Here',
+    desc: 'Najprej orientacija: kaj je ConsMAP in kako vstopiš.',
+    badges: ['START'],
+    links: [
+      { label: 'README', path: 'README.md' },
+      { label: 'START_HERE_FOR_HUMANS', path: 'START_HERE_FOR_HUMANS.md' },
+      { label: 'START_HERE_FOR_AI', path: 'START_HERE_FOR_AI.md' },
+    ],
+    is: 'Entry orientation layer.',
+    isNot: 'Ni full corpus ali deep-dive dokazovanje.',
+  },
+  {
+    title: 'Symbolic Interface',
+    desc: 'Simbolni jezik kot vmesnik, ne kot ontološki dokaz.',
+    badges: ['SYMBOLIC', 'RISK'],
+    links: [
+      { label: 'digital-mouse-interface', path: 'docs/digital-mouse-interface.md' },
+      { label: 'SYMBOLIC_INTERFACE_READING_MAP', path: 'docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md' },
+      { label: 'visual_parables', path: 'docs/visual_parables/digital_mouse_interface/' },
+    ],
+    is: 'Translation + interpretive framing.',
+    isNot: 'Ni evidence engine sama po sebi.',
+  },
+  {
+    title: 'FORGE',
+    desc: 'Proof layer, workflow primeri in decision discipline.',
+    badges: ['PROOF'],
+    links: [
+      { label: 'forge root', path: 'docs/forge/' },
+      { label: 'proof_v0_1', path: 'docs/forge/proof_v0_1/' },
+      { label: 'FORGE_LAYER_1_README_DRAFT', path: 'docs/forge/FORGE_LAYER_1_README_DRAFT.md' },
+    ],
+    is: 'Claim-to-proof operational path.',
+    isNot: 'Ni storytelling-only plast.',
+  },
+  {
+    title: 'Automation',
+    desc: 'Bounded pipeline, test cases in operator tooling.',
+    badges: ['TOOLS', 'RISK'],
+    links: [
+      { label: 'automation root', path: 'automation/' },
+      { label: 'operator_pipeline.py', path: 'automation/operator_pipeline.py' },
+      { label: 'attack_cases_v0_2', path: 'automation/tests/attack_cases_v0_2.md' },
+    ],
+    is: 'Execution discipline + guardrails.',
+    isNot: 'Ni samodejna resnica brez pregleda.',
+  },
+  {
+    title: 'Operator Protocols',
+    desc: 'Field guide, audit in multi-model reasoning discipline.',
+    badges: ['TOOLS'],
+    links: [
+      { label: 'protocols', path: 'protocols/' },
+      { label: 'operator_field_guide_v2_3', path: 'protocols/operator_field_guide_v2_3.md' },
+      { label: 'workflows', path: 'workflows/' },
+    ],
+    is: 'How to operate the system safely.',
+    isNot: 'Ni replacement za dokazni sloj.',
+  },
+  {
+    title: 'Archive / Classics',
+    desc: 'Pattern library za kontekst in primerjave skozi čas.',
+    badges: ['ARCHIVE', 'RISK'],
+    links: [
+      { label: 'classics root', path: 'research/archive/classics/' },
+      { label: 'CLASSICS_INDEX', path: 'research/archive/classics/CLASSICS_INDEX.md' },
+      { label: 'manifest', path: 'research/archive/classics/manifest.yaml' },
+    ],
+    is: 'Reference and pattern memory.',
+    isNot: 'Ni samostojen dokaz za nove trditve.',
+  },
+  {
+    title: 'Research Corpus',
+    desc: 'Surov material + user research z register higieno.',
+    badges: ['RISK', 'START'],
+    links: [
+      { label: '01_corpus_refs', path: 'docs/01_corpus_refs/' },
+      { label: 'user_research', path: 'user_research/' },
+      { label: 'concepts', path: 'docs/concepts/' },
+    ],
+    is: 'Input material for careful analysis.',
+    isNot: 'Ni instant conclusion layer.',
+  },
+];
+
+const REPO_URL = 'https://github.com/SabaFTW/ConsMAP/tree/main/';
+
 const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
   return (
     <div className="relative z-10 min-h-screen px-6 py-10 md:py-14">
@@ -146,7 +253,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-indigo-700/40 bg-slate-900/70 p-5 mb-10">
+        <section className="rounded-2xl border border-indigo-700/40 bg-slate-900/70 p-5 mb-8">
           <div className="text-xs uppercase tracking-[0.2em] text-indigo-300">Axis recovery</div>
           <p className="mt-2 text-sm" style={{ color: 'rgba(216,232,216,0.75)' }}>
             The task is not agreement. The task is axis recovery.
@@ -154,6 +261,55 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           <p className="mt-2 text-xs font-mono" style={{ color: 'rgba(216,232,216,0.55)' }}>
             Check missing axes: time · scale · location · observer position · measurement method · definition · substrate · phase · system boundary · purpose.
           </p>
+        </section>
+
+        <section className="rounded-2xl border border-cyan-700/40 bg-slate-900/70 p-5 mb-10">
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <div>
+              <div className="text-xs uppercase tracking-[0.2em] text-cyan-300">Explore ConsMAP</div>
+              <p className="text-xs mt-1" style={{ color: 'rgba(216,232,216,0.58)' }}>
+                Izberi vrata: repo struktura prevedena v človeško berljiv zemljevid.
+              </p>
+            </div>
+            <span className="text-lg">🗺️</span>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {repoMapCards.map((card) => (
+              <div key={card.title} className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
+                <div className="text-sm font-medium" style={{ color: '#d8e8d8' }}>{card.title}</div>
+                <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{card.desc}</div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {card.badges.map((b) => (
+                    <span key={b} className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded-full border ${repoBadgeClass[b]}`}>
+                      {b}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-3 space-y-1.5">
+                  {card.links.map((l) => (
+                    <a
+                      key={l.path}
+                      href={`${REPO_URL}${l.path}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-xs text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline"
+                    >
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+
+                <div className="mt-3 text-[11px] leading-5" style={{ color: 'rgba(216,232,216,0.65)' }}>
+                  <span className="text-emerald-300">Is:</span> {card.is}
+                  <br />
+                  <span className="text-amber-300">Is not:</span> {card.isNot}
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
         <motion.nav
