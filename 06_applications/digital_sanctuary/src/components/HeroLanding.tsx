@@ -167,9 +167,12 @@ const repoMapCards: Array<{
   },
 ];
 
-const REPO_URL = 'https://github.com/SabaFTW/ConsMAP/tree/main/';
-
 const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
+  const openDocInApp = (path: string) => {
+    window.location.hash = `doc=${encodeURIComponent(path.startsWith('/') ? path : `/${path}`)}`;
+    onNavigate('docs');
+  };
+
   return (
     <div className="relative z-10 min-h-screen px-6 py-10 md:py-14">
       <motion.div
@@ -276,7 +279,12 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {repoMapCards.map((card) => (
-              <div key={card.title} className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
+              <motion.div
+                key={card.title}
+                whileHover={{ y: -3, scale: 1.01 }}
+                transition={{ duration: 0.18 }}
+                className="rounded-xl border border-slate-700 bg-slate-950/60 p-4 shadow-[0_0_0_rgba(34,211,238,0)] hover:shadow-[0_8px_30px_rgba(34,211,238,0.12)]"
+              >
                 <div className="text-sm font-medium" style={{ color: '#d8e8d8' }}>{card.title}</div>
                 <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{card.desc}</div>
 
@@ -290,15 +298,13 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
 
                 <div className="mt-3 space-y-1.5">
                   {card.links.map((l) => (
-                    <a
+                    <button
                       key={l.path}
-                      href={`${REPO_URL}${l.path}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-xs text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline"
+                      onClick={() => openDocInApp(l.path)}
+                      className="block text-left text-xs text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline"
                     >
                       {l.label}
-                    </a>
+                    </button>
                   ))}
                 </div>
 
@@ -307,7 +313,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
                   <br />
                   <span className="text-amber-300">Is not:</span> {card.isNot}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
