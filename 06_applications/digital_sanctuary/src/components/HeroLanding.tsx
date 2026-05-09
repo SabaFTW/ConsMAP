@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface HeroLandingProps {
@@ -13,19 +14,30 @@ const badgeClass: Record<Badge, string> = {
   BOUNDARY: 'border-amber-500/40 bg-amber-900/30 text-amber-200',
 };
 
-const decoderPreview: Array<{ symbol: string; grounded: string; badges: Badge[]; projection?: boolean }> = [
+type LanguageMode = 'myth' | 'tech';
+
+const decoderPreview: Array<{ symbol: { myth: string; tech: string }; grounded: string; badges: Badge[]; projection?: boolean }> = [
   {
-    symbol: 'Miška = mali prevajalec med svetovi',
+    symbol: {
+      myth: 'Miška = mali prevajalec med svetovi',
+      tech: 'Interface abstraction layer med človekom in operativnim jedrom',
+    },
     grounded: 'Interface abstraction layer (human-readable shell over operational core).',
     badges: ['METAPHOR', 'TECH', 'BOUNDARY'],
   },
   {
-    symbol: 'Repek = vez z izvirom',
+    symbol: {
+      myth: 'Repek = vez z izvirom',
+      tech: 'Power/data sync channel med uporabnikom in sistemom',
+    },
     grounded: 'Cable/sync channel for power + data exchange.',
     badges: ['METAPHOR', 'TECH'],
   },
   {
-    symbol: '6/9 spor',
+    symbol: {
+      myth: '6/9 spor = manjkajoča os opazovalca',
+      tech: 'Conflicting claim often means missing orientation/time axis',
+    },
     grounded: 'Conflicting claim often means missing axis (orientation/time/observer).',
     badges: ['BOUNDARY', 'RISK'],
     projection: true,
@@ -75,99 +87,122 @@ const repoBadgeClass: Record<RepoBadge, string> = {
 
 const repoMapCards: Array<{
   title: string;
-  desc: string;
+  desc: { myth: string; tech: string };
   badges: RepoBadge[];
   links: Array<{ label: string; path: string }>;
-  is: string;
-  isNot: string;
+  is: { myth: string; tech: string };
+  isNot: { myth: string; tech: string };
 }> = [
   {
     title: 'Start Here',
-    desc: 'Najprej orientacija: kaj je ConsMAP in kako vstopiš.',
+    desc: {
+      myth: 'Prva vrata v hiško: orientacija preden greš v gozd.',
+      tech: 'Entry orientation layer for first-time visitors.',
+    },
     badges: ['START'],
     links: [
       { label: 'README', path: 'README.md' },
       { label: 'START_HERE_FOR_HUMANS', path: 'START_HERE_FOR_HUMANS.md' },
       { label: 'START_HERE_FOR_AI', path: 'START_HERE_FOR_AI.md' },
     ],
-    is: 'Entry orientation layer.',
-    isNot: 'Ni full corpus ali deep-dive dokazovanje.',
+    is: { myth: 'Vstopna orientacija poti.', tech: 'Entry orientation layer.' },
+    isNot: { myth: 'Ni celoten gozd dokazov.', tech: 'Not full corpus or deep-dive proofing.' },
   },
   {
     title: 'Symbolic Interface',
-    desc: 'Simbolni jezik kot vmesnik, ne kot ontološki dokaz.',
+    desc: {
+      myth: 'Miška, repek, ruzak in meč: simboli kot varna vrata do razumevanja.',
+      tech: 'Human-readable interface metaphors mapped to grounded claim boundaries.',
+    },
     badges: ['SYMBOLIC', 'RISK'],
     links: [
       { label: 'digital-mouse-interface', path: 'docs/digital-mouse-interface.md' },
       { label: 'SYMBOLIC_INTERFACE_READING_MAP', path: 'docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md' },
       { label: 'visual_parables', path: 'docs/visual_parables/digital_mouse_interface/' },
     ],
-    is: 'Translation + interpretive framing.',
-    isNot: 'Ni evidence engine sama po sebi.',
+    is: { myth: 'Prevodni sloj simbolov.', tech: 'Translation + interpretive framing.' },
+    isNot: { myth: 'Ni prisega brez tal.', tech: 'Not an evidence engine by itself.' },
   },
   {
     title: 'FORGE',
-    desc: 'Proof layer, workflow primeri in decision discipline.',
+    desc: {
+      myth: 'Kovačnica, kjer se ideje segrejejo, oblikujejo in testirajo.',
+      tech: 'Proof-layer and engineering workflow examples.',
+    },
     badges: ['PROOF'],
     links: [
       { label: 'forge root', path: 'docs/forge/' },
       { label: 'proof_v0_1', path: 'docs/forge/proof_v0_1/' },
       { label: 'FORGE_LAYER_1_README_DRAFT', path: 'docs/forge/FORGE_LAYER_1_README_DRAFT.md' },
     ],
-    is: 'Claim-to-proof operational path.',
-    isNot: 'Ni storytelling-only plast.',
+    is: { myth: 'Kraj preizkusa idej.', tech: 'Claim-to-proof operational path.' },
+    isNot: { myth: 'Ni samo pripovedni oltar.', tech: 'Not storytelling-only layer.' },
   },
   {
     title: 'Automation',
-    desc: 'Bounded pipeline, test cases in operator tooling.',
+    desc: {
+      myth: 'Mehanska mišja disciplina: surov input ne sme govoriti kot sistem.',
+      tech: 'Bounded generation, raw-input quarantine, manifest index and attack tests.',
+    },
     badges: ['TOOLS', 'RISK'],
     links: [
       { label: 'automation root', path: 'automation/' },
       { label: 'operator_pipeline.py', path: 'automation/operator_pipeline.py' },
       { label: 'attack_cases_v0_2', path: 'automation/tests/attack_cases_v0_2.md' },
     ],
-    is: 'Execution discipline + guardrails.',
-    isNot: 'Ni samodejna resnica brez pregleda.',
+    is: { myth: 'Strojni red z varovali.', tech: 'Execution discipline + guardrails.' },
+    isNot: { myth: 'Ni samodejna prerokba.', tech: 'Not automatic truth without review.' },
   },
   {
     title: 'Operator Protocols',
-    desc: 'Field guide, audit in multi-model reasoning discipline.',
+    desc: {
+      myth: 'Pravila poti, da raziskovalec ne izgubi osi.',
+      tech: 'Multi-model reasoning discipline, field guide and workflows.',
+    },
     badges: ['TOOLS'],
     links: [
       { label: 'protocols', path: 'protocols/' },
       { label: 'operator_field_guide_v2_3', path: 'protocols/operator_field_guide_v2_3.md' },
       { label: 'workflows', path: 'workflows/' },
     ],
-    is: 'How to operate the system safely.',
-    isNot: 'Ni replacement za dokazni sloj.',
+    is: { myth: 'Kompas operaterja.', tech: 'How to operate the system safely.' },
+    isNot: { myth: 'Ni bližnjica mimo dokazov.', tech: 'Not a replacement for proof layer.' },
   },
   {
     title: 'Archive / Classics',
-    desc: 'Pattern library za kontekst in primerjave skozi čas.',
+    desc: {
+      myth: 'Stara knjižnica vzorcev: za orientacijo, ne za prisego.',
+      tech: 'Pattern archive; reference library, not evidence.',
+    },
     badges: ['ARCHIVE', 'RISK'],
     links: [
       { label: 'classics root', path: 'research/archive/classics/' },
       { label: 'CLASSICS_INDEX', path: 'research/archive/classics/CLASSICS_INDEX.md' },
       { label: 'manifest', path: 'research/archive/classics/manifest.yaml' },
     ],
-    is: 'Reference and pattern memory.',
-    isNot: 'Ni samostojen dokaz za nove trditve.',
+    is: { myth: 'Spomin na stare vzorce.', tech: 'Reference and pattern memory.' },
+    isNot: { myth: 'Ni prisega za nove trditve.', tech: 'Not standalone evidence for new claims.' },
   },
   {
     title: 'Research Corpus',
-    desc: 'Surov material + user research z register higieno.',
+    desc: {
+      myth: 'Surovi zemljevidi, ki čakajo na register in očiščenje.',
+      tech: 'Research material requiring register labels, claim hygiene and review.',
+    },
     badges: ['RISK', 'START'],
     links: [
       { label: '01_corpus_refs', path: 'docs/01_corpus_refs/' },
       { label: 'user_research', path: 'user_research/' },
       { label: 'concepts', path: 'docs/concepts/' },
     ],
-    is: 'Input material for careful analysis.',
-    isNot: 'Ni instant conclusion layer.',
+    is: { myth: 'Surovina za potrpežljivo obdelavo.', tech: 'Input material for careful analysis.' },
+    isNot: { myth: 'Ni instant razsvetljenje.', tech: 'Not an instant conclusion layer.' },
   },
 ];
 
 const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
+  const [languageMode, setLanguageMode] = useState<LanguageMode>('tech');
+
   const openDocInApp = (path: string) => {
     window.location.hash = `doc=${encodeURIComponent(path.startsWith('/') ? path : `/${path}`)}`;
     onNavigate('docs');
@@ -212,7 +247,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
             <div className="space-y-4">
               {decoderPreview.map((item, idx) => (
                 <div key={idx} className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
-                  <div className="text-sm" style={{ color: '#d8e8d8' }}>{item.symbol}</div>
+                  <div className="text-sm" style={{ color: '#d8e8d8' }}>{item.symbol[languageMode]}</div>
                   <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{item.grounded}</div>
                   <div className="mt-3 flex flex-wrap gap-2 items-center">
                     {item.badges.map((b) => (
@@ -271,10 +306,26 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
             <div>
               <div className="text-xs uppercase tracking-[0.2em] text-cyan-300">Explore ConsMAP</div>
               <p className="text-xs mt-1" style={{ color: 'rgba(216,232,216,0.58)' }}>
-                Izberi vrata: repo struktura prevedena v človeško berljiv zemljevid.
+                Same structure, two vocabularies. Facts do not change.
               </p>
             </div>
-            <span className="text-lg">🗺️</span>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🗺️</span>
+              <div className="rounded-full border border-slate-700 bg-slate-950/70 p-1 flex items-center gap-1">
+                <button
+                  onClick={() => setLanguageMode('myth')}
+                  className={`px-3 py-1 rounded-full text-[10px] tracking-[0.14em] uppercase transition ${languageMode === 'myth' ? 'bg-purple-900/60 text-purple-200 border border-purple-700/60' : 'text-slate-400'}`}
+                >
+                  MITOLOGIJA
+                </button>
+                <button
+                  onClick={() => setLanguageMode('tech')}
+                  className={`px-3 py-1 rounded-full text-[10px] tracking-[0.14em] uppercase transition ${languageMode === 'tech' ? 'bg-cyan-900/60 text-cyan-200 border border-cyan-700/60' : 'text-slate-400'}`}
+                >
+                  TEHNIKA
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -286,7 +337,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
                 className="rounded-xl border border-slate-700 bg-slate-950/60 p-4 shadow-[0_0_0_rgba(34,211,238,0)] hover:shadow-[0_8px_30px_rgba(34,211,238,0.12)]"
               >
                 <div className="text-sm font-medium" style={{ color: '#d8e8d8' }}>{card.title}</div>
-                <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{card.desc}</div>
+                <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{card.desc[languageMode]}</div>
 
                 <div className="mt-3 flex flex-wrap gap-2">
                   {card.badges.map((b) => (
@@ -309,9 +360,9 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
                 </div>
 
                 <div className="mt-3 text-[11px] leading-5" style={{ color: 'rgba(216,232,216,0.65)' }}>
-                  <span className="text-emerald-300">Is:</span> {card.is}
+                  <span className="text-emerald-300">Is:</span> {card.is[languageMode]}
                   <br />
-                  <span className="text-amber-300">Is not:</span> {card.isNot}
+                  <span className="text-amber-300">Is not:</span> {card.isNot[languageMode]}
                 </div>
               </motion.div>
             ))}
