@@ -16,7 +16,14 @@ type DocId =
   | 'confidence_integrity'
   | 'schema'
   | 'filter_guide'
-  | 'ai_bootstrap';
+  | 'ai_bootstrap'
+  | 'digital_mouse_interface'
+  | 'symbolic_map'
+  | 'forge_readme'
+  | 'forge_proof_v01'
+  | 'operator_field_guide'
+  | 'classics_index'
+  | 'anchor_drift';
 
 interface DocLink {
   id: DocId;
@@ -37,6 +44,13 @@ const DOCS: DocLink[] = [
   { id: 'schema', title: 'Claim Schema', path: '/machine_context/CLAIM_SCHEMA.yaml', description: 'Machine-readable claim card structure.' },
   { id: 'filter_guide', title: 'Filter Your Research', path: '/HOW_TO_FILTER_YOUR_RESEARCH.md', description: 'Step-by-step stranger workflow.' },
   { id: 'ai_bootstrap', title: 'AI Bootstrap', path: '/prompts/AI_BOOTSTRAP_PROMPT.md', description: 'Base instruction set for external AI systems.' },
+  { id: 'digital_mouse_interface', title: 'Digital Mouse Interface', path: '/docs/digital-mouse-interface.md', description: 'Symbolic interface framing for human readability.' },
+  { id: 'symbolic_map', title: 'Symbolic Interface Reading Map', path: '/docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md', description: 'Map symbolic language to operational claim classes.' },
+  { id: 'forge_readme', title: 'FORGE Layer 1 Draft', path: '/docs/forge/FORGE_LAYER_1_README_DRAFT.md', description: 'Proof-layer overview and operator usage.' },
+  { id: 'forge_proof_v01', title: 'FORGE proof_v0_1 sample loop', path: '/docs/forge/proof_v0_1/sample_decision_loop.md', description: 'Example decision loop in proof workflow.' },
+  { id: 'operator_field_guide', title: 'Operator Field Guide v2.3', path: '/protocols/operator_field_guide_v2_3.md', description: 'Practical operator discipline and boundaries.' },
+  { id: 'classics_index', title: 'Classics Index', path: '/research/archive/classics/CLASSICS_INDEX.md', description: 'Pattern archive (reference, not evidence).' },
+  { id: 'anchor_drift', title: 'Anchor Attribution Drift', path: '/docs/concepts/anchor_attribution_drift.md', description: 'Drift risks and boundary maintenance.' },
 ];
 
 const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
@@ -44,6 +58,18 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [copied, setCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    const hash = window.location.hash || '';
+    const match = hash.match(/doc=([^&]+)/);
+    if (!match) return;
+
+    const requestedPath = decodeURIComponent(match[1]);
+    const target = DOCS.find((d) => d.path === requestedPath);
+    if (target) {
+      setSelected(target);
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
