@@ -40,6 +40,27 @@ const WelcomeRitual: React.FC<WelcomeRitualProps> = ({ onComplete }) => {
       onClick={handleSkip}
       style={{ background: '#080c08' }}
     >
+      {/* Mystical background image during ritual lines */}
+      <motion.div
+        animate={{ opacity: [0.22, 0.32, 0.22], scale: [1, 1.015, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url('${import.meta.env.BASE_URL}baphomet-loader.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'saturate(0.85) contrast(0.9) brightness(0.45)',
+        }}
+      />
+
+      {/* Dark veil for text readability */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(180deg, rgba(2,4,2,0.78) 0%, rgba(6,10,6,0.7) 45%, rgba(2,4,2,0.82) 100%)',
+        }}
+      />
+
       {/* Single, slow breathing glow */}
       <motion.div
         animate={{ opacity: [0.04, 0.1, 0.04] }}
