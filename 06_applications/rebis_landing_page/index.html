@@ -39,6 +39,72 @@
  min-height: 100vh;
  overflow-x: hidden;
  }
+ body.loading-active { overflow: hidden; }
+ body.loading-active .container,
+ body.loading-active nav,
+ body.loading-active section,
+ body.loading-active .toast { opacity: 0; pointer-events: none; }
+ body.loading-complete .container,
+ body.loading-complete nav,
+ body.loading-complete section,
+ body.loading-complete .toast {
+ opacity: 1;
+ transition: opacity 0.45s ease;
+ }
+ #sacred-loader {
+ position: fixed;
+ inset: 0;
+ z-index: 1200;
+ background: #05050a;
+ opacity: 1;
+ visibility: visible;
+ transition: opacity 0.8s ease, visibility 0.8s ease;
+ }
+ body.loading-complete #sacred-loader {
+ opacity: 0;
+ visibility: hidden;
+ pointer-events: none;
+ }
+ #sacred-loader::before {
+ content: '';
+ position: absolute;
+ inset: -4%;
+ background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.72)), url('assets/baphomet-loader.png') center center / cover no-repeat;
+ animation: loaderBreath 3.2s ease-in-out infinite;
+ transform-origin: center;
+ }
+ #sacred-loader::after {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: radial-gradient(circle at center, rgba(255,107,53,.14), rgba(0,0,0,.72) 66%);
+ }
+ .loader-presence {
+ position: absolute;
+ left: 50%;
+ bottom: 10vh;
+ transform: translateX(-50%);
+ font-family: var(--mono);
+ font-size: 11px;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: rgba(255,255,255,.78);
+ text-shadow: 0 0 14px rgba(255,107,53,.45);
+ z-index: 2;
+ }
+ .loader-presence::after {
+ content: 'Entering threshold...';
+ animation: loaderPulse 1.9s ease-in-out infinite;
+ }
+ @keyframes loaderBreath {
+ 0% { transform: scale(1); filter: brightness(0.9) saturate(0.95); }
+ 50% { transform: scale(1.04); filter: brightness(1.06) saturate(1.1); }
+ 100% { transform: scale(1); filter: brightness(0.9) saturate(0.95); }
+ }
+ @keyframes loaderPulse {
+ 0%,100% { opacity: 0.45; letter-spacing: 0.12em; }
+ 50% { opacity: 1; letter-spacing: 0.18em; }
+ }
  body::before {
  content: '';
  position: fixed;
@@ -152,7 +218,8 @@
  .mt-32 { margin-top: 32px; }
 </style>
 </head>
-<body>
+<body class="loading-active">
+<div id="sacred-loader" aria-hidden="true"><div class="loader-presence"></div></div>
 <nav>
  <div class="container">
  <a href="#hero" class="nav-brand">🜂 REBiS</a>
@@ -367,6 +434,16 @@ Put Down the Stone: if this framework is unhelpful, stop using it.</div><div cla
  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
  });
  });
+ window.addEventListener('load', () => {
+ setTimeout(() => {
+ document.body.classList.remove('loading-active');
+ document.body.classList.add('loading-complete');
+ }, 3200);
+ });
+ setTimeout(() => {
+ document.body.classList.remove('loading-active');
+ document.body.classList.add('loading-complete');
+ }, 4200);
 </script>
 </body>
 </html>
