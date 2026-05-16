@@ -170,6 +170,7 @@ ConsMAP now includes several companion layers beyond the core claim-hygiene prot
 - [`docs/visual_parables/digital_mouse_interface/personal_anchor_node.md`](docs/visual_parables/digital_mouse_interface/personal_anchor_node.md) — Personal Anchor Node / local-first continuity extension.
 - [`docs/forge/`](docs/forge/) — FORGE proof and boundary layer.
 - [`docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md`](docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md) — boundary map for reading mythology-charged symbolic material without literalization or amputation.
+- [`docs/forge/OMNIA_FACTORY_INTEGRATION_MAP.md`](docs/forge/OMNIA_FACTORY_INTEGRATION_MAP.md) — bridge map linking OMNIA, GNOSIS, Baal-Code, substrate theory, and the Factory Trilogy as a bounded symbolic/structural corpus.
 - [`automation/`](automation/) — operator pipeline and automation cases.
 - [`workflows/`](workflows/) — multi-model and repo workflow patterns.
 - [`research/archive/classics/manifest.yaml`](research/archive/classics/manifest.yaml) — classic examples archive; pattern library only, not evidence.
