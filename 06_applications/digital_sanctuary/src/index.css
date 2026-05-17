@@ -17,6 +17,7 @@
 :root {
   background-color: #080c08;
   color: #d8e8d8;
+  font-size: 16px;
 }
 
 * {
@@ -31,6 +32,8 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+  font-size: 1rem;
 }
 
 /* Scrollbar */
@@ -64,4 +67,34 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 1;
+}
+
+/* Readable prose — use on long-form content */
+.readable-prose {
+  font-size: 1rem;
+  line-height: 1.9;
+  letter-spacing: 0.01em;
+  color: rgba(216, 232, 216, 0.85);
+}
+
+/* Text brightness helpers — minimum 0.55 for anything meaningful */
+.text-bright  { color: rgba(216, 232, 216, 0.92); }
+.text-medium  { color: rgba(216, 232, 216, 0.75); }
+.text-soft    { color: rgba(216, 232, 216, 0.55); }
+.text-whisper { color: rgba(216, 232, 216, 0.38); } /* decorative only */
+
+/* Focus ring — accessible */
+:focus-visible {
+  outline: 2px solid rgba(92, 184, 112, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Minimum tap target helper */
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

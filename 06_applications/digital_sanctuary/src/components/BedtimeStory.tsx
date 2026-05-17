@@ -154,7 +154,7 @@ const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }
         <div className="text-sm font-medium leading-5 mb-2" style={{ color: '#d8e8d8' }}>
           {item.title}
         </div>
-        <div className="text-xs leading-[1.65] mb-3" style={{ color: 'rgba(216,232,216,0.55)' }}>
+        <div className="text-sm leading-[1.7] mb-3" style={{ color: 'rgba(216,232,216,0.78)' }}>
           {item.description}
         </div>
         <div className="flex items-center justify-between">
@@ -236,7 +236,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
-        <p className="text-sm leading-6 mb-4" style={{ color: 'rgba(216,232,216,0.62)' }}>
+        <p className="text-base leading-7 mb-4" style={{ color: 'rgba(216,232,216,0.82)' }}>
           A symbolic / fictional / parabolic corpus for reading mechanism, myth, audit, and maintenance.
         </p>
 
