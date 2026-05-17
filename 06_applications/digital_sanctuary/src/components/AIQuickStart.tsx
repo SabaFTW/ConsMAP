@@ -34,27 +34,30 @@ const AIQuickStart: React.FC<AIQuickStartProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-16 px-6 relative">
+    <div className="max-w-2xl mx-auto py-10 md:py-14 px-5 relative">
       <motion.button
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        animate={{ opacity: 0.5 }}
         onClick={onBack}
-        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-12 block transition-colors duration-500 hover:opacity-70"
-        style={{ color: '#2a4a25' }}
+        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
+        style={{ color: '#5cb870' }}
       >
         ← back
       </motion.button>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2 }}
-        className="mb-10"
+        transition={{ duration: 1.0 }}
+        className="mb-8"
       >
-        <h1 className="text-2xl md:text-3xl font-extralight tracking-tight mb-3" style={{ color: '#d8e8d8' }}>
+        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
+          ConsMAP / AI Mode
+        </div>
+        <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-2" style={{ color: '#d8e8d8' }}>
           AI Quick Start
         </h1>
-        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: '#2a4a25' }}>
+        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'rgba(92,184,112,0.5)' }}>
           Guided Evaluation Prompt Generator
         </p>
       </motion.div>
@@ -62,60 +65,63 @@ const AIQuickStart: React.FC<AIQuickStartProps> = ({ onBack }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 1.2 }}
-        className="space-y-8"
+        transition={{ delay: 0.3, duration: 1.0 }}
+        className="space-y-6"
       >
-        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(216, 232, 216, 0.62)' }}>
-          Paste a claim below. This creates a copy-ready prompt for another AI assistant (like Claude, Grok, or DeepSeek) to evaluate the claim with ConsMAP's cognitive constraints: claim classification, Claim Hygiene, Confidence Integrity checks, and adjusted confidence.
+        <p className="text-sm font-light leading-[1.75]" style={{ color: 'rgba(216,232,216,0.62)' }}>
+          Paste a claim below. This creates a copy-ready prompt for another AI assistant (Claude, Grok, DeepSeek) to evaluate it with ConsMAP's cognitive constraints: claim classification, Claim Hygiene, Confidence Integrity checks, and adjusted confidence.
         </p>
 
+        {/* Step 1 */}
         <div>
-          <label className="block text-[10px] font-mono uppercase mb-3" style={{ color: '#5cb870' }}>
+          <label className="block text-[10px] font-mono uppercase tracking-[0.2em] mb-2" style={{ color: 'rgba(92,184,112,0.7)' }}>
             1. Enter Claim
           </label>
           <textarea
             value={claim}
             onChange={(e) => setClaim(e.target.value)}
             placeholder="Type or paste the claim here..."
-            className="w-full bg-transparent border p-4 text-sm font-light min-h-[120px] focus:outline-none transition-colors"
-            style={{ 
-              borderColor: 'rgba(92, 184, 112, 0.2)', 
-              color: '#d8e8d8',
+            className="w-full bg-slate-950/50 rounded-2xl border p-5 text-sm font-light min-h-[110px] focus:outline-none resize-none transition-colors duration-300"
+            style={{
+              borderColor: 'rgba(71,85,105,0.5)',
+              color: 'rgba(216,232,216,0.85)',
             }}
           />
         </div>
 
+        {/* Step 2 */}
         <div>
-          <label className="block text-[10px] font-mono uppercase mb-3" style={{ color: '#5cb870' }}>
+          <label className="block text-[10px] font-mono uppercase tracking-[0.2em] mb-2" style={{ color: 'rgba(92,184,112,0.7)' }}>
             2. Generated Prompt
           </label>
-          <div 
-            className="p-5 border relative overflow-hidden" 
-            style={{ 
-              borderColor: 'rgba(92, 184, 112, 0.08)',
-              background: 'rgba(92, 184, 112, 0.03)'
+          <div
+            className="rounded-2xl border p-5 relative overflow-hidden"
+            style={{
+              borderColor: 'rgba(71,85,105,0.35)',
+              background: 'rgba(15,20,15,0.5)',
             }}
           >
-            <pre className="text-xs font-mono whitespace-pre-wrap break-words leading-[1.8]" style={{ color: 'rgba(216, 232, 216, 0.4)' }}>
+            <pre className="text-xs font-mono whitespace-pre-wrap break-words leading-[1.8]" style={{ color: 'rgba(216,232,216,0.42)' }}>
               {fullPrompt}
             </pre>
           </div>
         </div>
 
-        <div className="pt-4 flex justify-end">
+        {/* Copy action */}
+        <div className="flex justify-end pt-2">
           <button
             onClick={handleCopy}
             disabled={!claim.trim()}
-            className="px-6 py-3 text-[10px] font-mono tracking-[0.2em] uppercase border transition-all duration-300"
-            style={{ 
-              color: copied ? '#0a0a0b' : (claim.trim() ? '#5cb870' : '#2a4a25'), 
-              borderColor: copied ? '#5cb870' : (claim.trim() ? 'rgba(92, 184, 112, 0.3)' : 'rgba(92, 184, 112, 0.1)'),
+            className="px-5 py-2.5 text-[10px] font-mono tracking-[0.2em] uppercase rounded-full border transition-all duration-300"
+            style={{
+              color: copied ? '#080c08' : (claim.trim() ? '#5cb870' : 'rgba(92,184,112,0.3)'),
+              borderColor: copied ? '#5cb870' : (claim.trim() ? 'rgba(92,184,112,0.4)' : 'rgba(92,184,112,0.12)'),
               background: copied ? '#5cb870' : 'transparent',
               opacity: claim.trim() ? 1 : 0.5,
-              cursor: claim.trim() ? 'pointer' : 'not-allowed'
+              cursor: claim.trim() ? 'pointer' : 'not-allowed',
             }}
           >
-            {copied ? 'Copied to Clipboard' : 'Copy for AI'}
+            {copied ? 'Copied ✓' : 'Copy for AI →'}
           </button>
         </div>
       </motion.div>

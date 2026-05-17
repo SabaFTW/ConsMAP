@@ -96,13 +96,13 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-16 px-6 relative">
+    <div className="max-w-5xl mx-auto py-10 md:py-14 px-5 relative">
       <motion.button
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        animate={{ opacity: 0.5 }}
         onClick={onBack}
-        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-12 block transition-colors duration-500 hover:opacity-70"
-        style={{ color: '#2a4a25' }}
+        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
+        style={{ color: '#5cb870' }}
       >
         ← back
       </motion.button>
@@ -110,92 +110,102 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.2 }}
-        className="mb-10"
+        transition={{ duration: 1.0 }}
+        className="mb-8"
       >
-        <h1 className="text-2xl md:text-3xl font-extralight tracking-tight mb-3" style={{ color: '#d8e8d8' }}>
+        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
+          ConsMAP / Library
+        </div>
+        <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-2" style={{ color: '#d8e8d8' }}>
           Library
         </h1>
-        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: '#2a4a25' }}>
+        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'rgba(92,184,112,0.5)' }}>
           Public documents · direct file access
         </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-[280px_1fr] gap-8">
-        <aside className="space-y-2">
+      <div className="grid md:grid-cols-[260px_1fr] gap-5">
+        {/* Sidebar */}
+        <aside className="space-y-1.5">
           {DOCS.map((doc) => (
             <button
               key={doc.id}
               onClick={() => setSelected(doc)}
-              className="w-full text-left p-4 border transition-all duration-300"
+              className="w-full text-left rounded-xl border px-4 py-3 transition-all duration-200"
               style={{
-                borderColor: selected.id === doc.id ? 'rgba(92, 184, 112, 0.35)' : 'rgba(92, 184, 112, 0.08)',
-                background: selected.id === doc.id ? 'rgba(92, 184, 112, 0.06)' : 'rgba(0, 0, 0, 0.08)',
+                borderColor: selected.id === doc.id ? 'rgba(92,184,112,0.4)' : 'rgba(71,85,105,0.35)',
+                background: selected.id === doc.id ? 'rgba(92,184,112,0.06)' : 'rgba(15,20,15,0.4)',
               }}
             >
-              <div className="text-xs font-mono tracking-[0.14em] uppercase mb-2" style={{ color: selected.id === doc.id ? '#5cb870' : '#2a4a25' }}>
+              <div
+                className="text-[10px] font-mono tracking-[0.14em] uppercase mb-1"
+                style={{ color: selected.id === doc.id ? '#5cb870' : 'rgba(92,184,112,0.45)' }}
+              >
                 {doc.title}
               </div>
-              <div className="text-xs font-light leading-relaxed" style={{ color: 'rgba(216, 232, 216, 0.42)' }}>
+              <div className="text-[11px] font-light leading-[1.5]" style={{ color: 'rgba(216,232,216,0.42)' }}>
                 {doc.description}
               </div>
             </button>
           ))}
         </aside>
 
-        <main className="border p-6 min-h-[520px]" style={{ borderColor: 'rgba(92, 184, 112, 0.12)', background: 'rgba(0, 0, 0, 0.12)' }}>
-          <div className="flex items-start justify-between gap-4 mb-6">
+        {/* Main panel */}
+        <main
+          className="rounded-2xl border min-h-[520px] flex flex-col"
+          style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}
+        >
+          <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-4" style={{ borderBottom: '1px solid rgba(71,85,105,0.3)' }}>
             <div>
-              <h2 className="text-lg font-light mb-2" style={{ color: '#d8e8d8' }}>{selected.title}</h2>
-              <p className="text-[10px] font-mono" style={{ color: '#2a4a25' }}>{selected.path}</p>
+              <h2 className="text-base font-light mb-1" style={{ color: '#d8e8d8' }}>{selected.title}</h2>
+              <p className="text-[10px] font-mono" style={{ color: 'rgba(92,184,112,0.45)' }}>{selected.path}</p>
             </div>
-            <a
-              href={`https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-[10px] font-mono tracking-[0.18em] uppercase transition-opacity hover:opacity-80"
-              style={{ color: '#5cb870' }}
-            >
-              open raw
-            </a>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={copyToClipboard}
+                disabled={loading}
+                className="text-[9px] font-mono tracking-[0.18em] uppercase transition-opacity hover:opacity-100"
+                style={{ color: copied ? '#5cb870' : 'rgba(92,184,112,0.5)', opacity: copied ? 1 : 0.7 }}
+              >
+                {copied ? 'Copied ✓' : 'Copy'}
+              </button>
+              <a
+                href={`https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[9px] font-mono tracking-[0.18em] uppercase transition-opacity hover:opacity-100"
+                style={{ color: 'rgba(92,184,112,0.5)' }}
+              >
+                Raw ↗
+              </a>
+            </div>
           </div>
 
-          <div className="p-5 border relative" style={{ borderColor: 'rgba(92, 184, 112, 0.08)' }}>
-            <button
-              onClick={copyToClipboard}
-              className="absolute top-4 right-4 text-[9px] font-mono tracking-[0.2em] uppercase transition-all duration-300 hover:opacity-100 z-10"
-              style={{ color: copied ? '#5cb870' : '#2a4a25', opacity: copied ? 1 : 0.6 }}
-              disabled={loading}
-            >
-              {copied ? 'Copied!' : 'Copy'}
-            </button>
-
-            <div className="overflow-y-auto max-h-[60vh] pr-4 pt-6" style={{ scrollbarWidth: 'thin', scrollbarColor: '#2a4a25 transparent' }}>
-              <AnimatePresence mode="wait">
-                {loading ? (
-                  <motion.div
-                    key="loading"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="flex items-center justify-center h-40"
-                  >
-                    <p className="text-[10px] font-mono animate-pulse" style={{ color: '#2a4a25' }}>fetching data...</p>
-                  </motion.div>
-                ) : (
-                  <motion.pre
-                    key="content"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="text-xs font-mono whitespace-pre-wrap break-words leading-[1.8]"
-                    style={{ color: 'rgba(216, 232, 216, 0.7)' }}
-                  >
-                    {content}
-                  </motion.pre>
-                )}
-              </AnimatePresence>
-            </div>
+          <div className="overflow-y-auto flex-1 px-5 py-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#1a2e1a transparent' }}>
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center justify-center h-40"
+                >
+                  <p className="text-[10px] font-mono animate-pulse" style={{ color: 'rgba(92,184,112,0.4)' }}>fetching…</p>
+                </motion.div>
+              ) : (
+                <motion.pre
+                  key="content"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-xs font-mono whitespace-pre-wrap break-words leading-[1.85] max-h-[65vh]"
+                  style={{ color: 'rgba(216,232,216,0.72)' }}
+                >
+                  {content}
+                </motion.pre>
+              )}
+            </AnimatePresence>
           </div>
         </main>
       </div>
