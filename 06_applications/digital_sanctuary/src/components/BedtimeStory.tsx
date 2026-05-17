@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
+import { storyImageMap, archiveLandingImage } from '../data/factoryVisuals';
 
 interface BedtimeStoryProps {
   onBack: () => void;
@@ -101,59 +102,94 @@ const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, col
   </div>
 );
 
-const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }> = ({ item, onOpen }) => (
-  <button
-    onClick={() => onOpen(item)}
-    className="group w-full text-left rounded-2xl border bg-slate-950/60 p-5 transition-all duration-200"
-    style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 20px rgba(0,0,0,0.35)' }}
-    onMouseEnter={(e) => {
-      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.35)';
-      (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 28px rgba(34,211,238,0.08)';
-    }}
-    onMouseLeave={(e) => {
-      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(71,85,105,0.5)';
-      (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 20px rgba(0,0,0,0.35)';
-    }}
-  >
-    {item.tag && (
-      <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-2" style={{ color: 'rgba(92,184,112,0.65)' }}>
-        {item.tag}
+const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }> = ({ item, onOpen }) => {
+  const visual = storyImageMap[item.path];
+
+  return (
+    <button
+      onClick={() => onOpen(item)}
+      className="group w-full text-left rounded-2xl border bg-slate-950/60 overflow-hidden transition-all duration-200"
+      style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 20px rgba(0,0,0,0.35)' }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.35)';
+        (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 28px rgba(34,211,238,0.08)';
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(71,85,105,0.5)';
+        (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 20px rgba(0,0,0,0.35)';
+      }}
+    >
+      {/* Thumbnail */}
+      {visual && (
+        <div className="relative w-full overflow-hidden" style={{ height: '120px' }}>
+          <img
+            src={visual.src}
+            alt={visual.alt}
+            className="w-full h-full object-cover"
+            style={{ filter: 'brightness(0.7) saturate(0.85) contrast(1.05)' }}
+            loading="lazy"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(8,12,8,0.82) 100%)' }}
+          />
+          {item.tag && (
+            <div
+              className="absolute bottom-2 left-3 text-[9px] font-mono uppercase tracking-[0.22em]"
+              style={{ color: 'rgba(92,184,112,0.9)' }}
+            >
+              {item.tag}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Card body */}
+      <div className="p-4">
+        {!visual && item.tag && (
+          <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-2" style={{ color: 'rgba(92,184,112,0.65)' }}>
+            {item.tag}
+          </div>
+        )}
+        <div className="text-sm font-medium leading-5 mb-2" style={{ color: '#d8e8d8' }}>
+          {item.title}
+        </div>
+        <div className="text-xs leading-[1.65] mb-3" style={{ color: 'rgba(216,232,216,0.55)' }}>
+          {item.description}
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="text-[10px] font-mono uppercase tracking-[0.18em]" style={{ color: '#5cb870' }}>
+            Read in archive →
+          </div>
+          <a
+            href={item.githubHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="text-[9px] font-mono uppercase tracking-[0.14em] hover:opacity-100 transition-opacity"
+            style={{ color: 'rgba(92,184,112,0.35)' }}
+          >
+            source ↗
+          </a>
+        </div>
       </div>
-    )}
-    <div className="text-sm font-medium leading-5 mb-2" style={{ color: '#d8e8d8' }}>
-      {item.title}
-    </div>
-    <div className="text-xs leading-[1.65] mb-4" style={{ color: 'rgba(216,232,216,0.58)' }}>
-      {item.description}
-    </div>
-    <div className="flex items-center justify-between">
-      <div className="text-[10px] font-mono uppercase tracking-[0.18em]" style={{ color: '#5cb870' }}>
-        Read in archive →
-      </div>
-      <a
-        href={item.githubHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={(e) => e.stopPropagation()}
-        className="text-[9px] font-mono uppercase tracking-[0.14em] hover:opacity-100 transition-opacity"
-        style={{ color: 'rgba(92,184,112,0.35)' }}
-      >
-        source ↗
-      </a>
-    </div>
-  </button>
-);
+    </button>
+  );
+};
 
 const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
   const [reader, setReader] = useState<StoryLink | null>(null);
 
   if (reader) {
+    const visual = storyImageMap[reader.path];
     return (
       <MarkdownReader
         path={reader.path}
         title={reader.title}
         onBack={() => setReader(null)}
         githubUrl={reader.githubHref}
+        imageSrc={visual?.src}
+        imageAlt={visual?.alt}
       />
     );
   }
@@ -170,19 +206,41 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         ← back
       </motion.button>
 
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
-          ConsMAP / Story Archive
+      {/* Archive landing header image */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.0 }}
+        className="relative w-full rounded-2xl overflow-hidden mb-8 border"
+        style={{ height: 'clamp(140px, 22vw, 220px)', borderColor: 'rgba(71,85,105,0.4)' }}
+      >
+        <img
+          src={archiveLandingImage.src}
+          alt={archiveLandingImage.alt}
+          className="w-full h-full object-cover object-center"
+          style={{ filter: 'brightness(0.72) saturate(0.8)' }}
+          loading="eager"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(8,12,8,0.88) 100%)' }}
+        />
+        <div className="absolute bottom-4 left-5">
+          <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-1" style={{ color: 'rgba(92,184,112,0.65)' }}>
+            ConsMAP / Story Archive
+          </div>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
+            Factory Trilogy Archive
+          </h1>
         </div>
+      </motion.div>
 
-        <h1 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
-          Factory Trilogy Archive
-        </h1>
-        <p className="mt-2 text-sm leading-6" style={{ color: 'rgba(216,232,216,0.62)' }}>
+      <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
+        <p className="text-sm leading-6 mb-4" style={{ color: 'rgba(216,232,216,0.62)' }}>
           A symbolic / fictional / parabolic corpus for reading mechanism, myth, audit, and maintenance.
         </p>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-6">
           {boundaryChips.map(({ label, cls }) => (
             <span key={label} className={`text-[9px] font-mono uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border ${cls}`}>
               {label}
@@ -190,7 +248,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
           ))}
         </div>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 mb-8">
           <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}>
             <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: '#7dd3fc' }}>
               Core formula
@@ -215,7 +273,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         </div>
       </motion.div>
 
-      <section className="mt-10">
+      <section className="mt-2">
         <SectionDivider label="Prelude" color="#a78bfa" />
         <div className="grid gap-3">
           {prelude.map((item) => <StoryCard key={item.title} item={item} onOpen={setReader} />)}
