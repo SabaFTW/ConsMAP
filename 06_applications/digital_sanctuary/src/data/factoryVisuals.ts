@@ -34,6 +34,10 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     src: `${BASE}maintenance_mouse_scroll.webp`,
     alt: 'The D5 Maintenance Mouse scroll. "No Stop Command Was Issued." At the bottom of the column: "Don\'t Forget Milk."',
   },
+  '/docs/visual_parables/factory_trilogy/factory_psalter.md': {
+    src: `${BASE}factory_psalter_table_of_twelve.webp`,
+    alt: 'CONSMAP — The Table of Twelve, A Gospel for the Forgotten Disciples. Twelve mice at a round table. "We are the memory when others forget. We are the table when others build thrones."',
+  },
   '/docs/visual_parables/factory_trilogy/epilogue_halid.md': {
     src: `${BASE}epilogue_halid_suffering_success.webp`,
     alt: '"Suffering From Success. The Greatest Pain Is More Blessings." A king bowed under gold, playing again.',
