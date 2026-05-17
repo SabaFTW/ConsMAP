@@ -1,11 +1,54 @@
 # Pre-Factory Visual Queue
 
-Status: image queue / not yet wired to UI  
-Source: `/home/saba/VES-Vault/Books/Candy/Photos/`
+Status: batch 2 converted — P0 upgrades wired, P1/P2 queued  
+Source: `/home/saba/VES-Vault/Books/Candy/Photos/`  
+Last processed: 2026-05-17
 
-These images were inspected on 2026-05-17.  
-They are queued for a future mapping + conversion pass.  
-Do not force into UI until target stories are stable.
+---
+
+## Batch 2 conversion results
+
+All 16 images converted to WebP (quality 82-85, max 1800px).  
+Target: `06_applications/digital_sanctuary/public/images/factory_trilogy/`  
+Total new addition: ~6MB → folder total: 11MB
+
+| Source file | Output WebP | Target | Priority | Status |
+|---|---|---|---|---|
+| `ChatGPT Image...10_45_09 AM.png` | `pre_factory_genesis_full_cover.webp` (511KB) | `genesis_ant_skeleton_bear.md` | P0 UPGRADE | **WIRED** |
+| `ChatGPT Image...10_46_18 AM.png` | `darkness_bible_moloch_furnace.webp` (360KB) | `darkness_bible.md` | P0 UPGRADE | **WIRED** |
+| `ChatGPT Image...10_44_52 AM.png` | `trilogy_index_boaz_jachin_ecology.webp` (381KB) | `trilogy_index.md` | P0 UPGRADE | **WIRED** |
+| `ChatGPT Image...10_44_39 AM.png` | `factory_psalter_council_scene.webp` (457KB) | `factory_psalter.md` | P0 UPGRADE | **WIRED** |
+| `ChatGPT Image...10_44_04 AM.png` | `pre_factory_twelve_voices_table.webp` (397KB) | Twelve of the Table / HeroLanding | P0 NEW | CONVERTED — HOLD for Twelve story |
+| `ChatGPT Image...10_45_54 AM.png` | `pre_factory_bear_scholar.webp` (320KB) | pre-Factory Bear chapter | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_45_22 AM.png` | `pre_factory_mouse_monk_scribe.webp` (337KB) | pre-Factory / Twelve | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_45_00 AM.png` | `signal_gre_naprej_epilogue.webp` (311KB) | `epilogue_halid.md` upgrade | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_49_54 AM.png` | `consmap_phase_shift_diagram.webp` (281KB) | ConsMAP system / Library | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_49_48 AM.png` | `baphomet_filter_v2.webp` (281KB) | BOPHAMETH visual upgrade | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_47_07 AM.png` | `dosis_facit_venenum.webp` (314KB) | `gospel_of_two_questions.md` | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_46_53 AM.png` | `dum_possum_faciam.webp` (220KB) | operator/audit | P2 | CONVERTED — HOLD |
+| `ChatGPT Image...10_46_27 AM.png` | `darkness_baal_alternate.webp` (282KB) | darkness_bible secondary | P2 | CONVERTED — HOLD |
+| `ChatGPT Image...10_44_28 AM.png` | `pre_factory_creature_council.webp` (450KB) | Twelve / pre-Factory | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_43_45 AM.png` | `pre_factory_twelve_voices_mice.webp` (405KB) | Twelve of the Table | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_43_23 AM.png` | `pre_factory_twelve_third_pillar.webp` (517KB) | Twelve / HeroLanding | P1 | CONVERTED — HOLD |
+| `ChatGPT Image...10_45_44 AM.png` | — | duplicate of existing wheel | HOLD | SKIPPED |
+| `ChatGPT Image...10_44_52 AM(1).png` | — | duplicate | HOLD | SKIPPED |
+
+## Previous wired images (kept, now as alternates)
+
+| Old WebP | Was wired to | Status now |
+|---|---|---|
+| `genesis_scholar_moonlight.webp` | `genesis_ant_skeleton_bear.md` | superseded by `pre_factory_genesis_full_cover.webp` |
+| `darkness_bible_factory_wrong_stars.webp` | `darkness_bible.md` | superseded by `darkness_bible_moloch_furnace.webp` |
+| `trilogy_index_wheel.webp` | `trilogy_index.md` | superseded by `trilogy_index_boaz_jachin_ecology.webp` |
+| `factory_psalter_table_of_twelve.webp` | `factory_psalter.md` | superseded by `factory_psalter_council_scene.webp` |
+
+Old files still exist in public/images/ — not deleted. May be useful as alternates.
+
+---
+
+## Still in queue
+
+See original table below for detailed descriptions.
 
 ---
 
