@@ -20,3 +20,15 @@ Halid plays again.
 Boundary:
 This is not evidence.
 This is a maintenance-scale parable for ConsMAP pattern analysis.
+
+Available now:
+- trilogy_index.md
+
+Expected / missing:
+- darkness_bible.md
+- mario_codex.md
+- luigi_audit.md
+- epilogue_halid.md
+- factory_psalter.md
+- gospel_of_two_questions.md
+- gospel_according_to_maintenance_mouse.md
