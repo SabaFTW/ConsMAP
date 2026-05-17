@@ -31,32 +31,32 @@ const routes: Array<{
 }> = [
   {
     key: 'story',
-    label: 'Factory Trilogy Archive',
-    description: 'Start here if you want the living parable: factories, mice, filters, Mario, Luigi, and the slow ant beneath the archive. Reads inside the app.',
+    label: 'Story Archive',
+    description: 'Parables that explain how mechanism becomes myth, and why maintenance matters. Reads inside the app.',
     chips: ['METAPHOR', 'PRACTICAL'],
   },
   {
     key: 'docs',
-    label: 'Repository Library',
-    description: 'Browse the shelves without needing GitHub first. Protocols, field guides, claim schemas, archive layers — all in one readable place.',
+    label: 'Library',
+    description: 'Browse protocols, field guides, and archive layers — no GitHub required.',
     chips: ['ARCHIVE', 'MAP'],
   },
   {
     key: 'analyzer',
     label: 'Claim Analyzer',
-    description: 'Drop in a claim. Get labels, risks, and better next questions. No account required.',
+    description: 'Drop in a claim. Get labels, risks, and better next questions.',
     chips: ['TOOL', 'CLAIM HYGIENE'],
   },
   {
     key: 'mirror',
     label: 'Symbol Mirror',
-    description: 'Translate between mythic language and technical structure. Same event, two registers, one recoverable axis.',
+    description: 'Same event, two languages. Switch between mythic and technical — see what stays the same.',
     chips: ['SYMBOLIC', 'BOUNDARY'],
   },
   {
     key: 'aimode',
-    label: 'AI Context Mode',
-    description: 'Give another model a cleaner map before it starts guessing. Copy-ready orientation prompt with ConsMAP constraints built in.',
+    label: 'AI Mode',
+    description: 'Generate a structured evaluation prompt for any AI assistant. Paste and go.',
     chips: ['CONTEXT', 'OPERATOR'],
     wide: true,
   },
@@ -235,12 +235,12 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           <p className="text-xs font-mono tracking-[0.24em] uppercase mb-5" style={{ color: '#5cb870' }}>
             claim hygiene · symbolic boundary · operator reasoning
           </p>
-          <p className="max-w-2xl mx-auto text-sm md:text-base leading-7" style={{ color: 'rgba(216,232,216,0.68)' }}>
+          <p className="max-w-xl mx-auto text-base leading-8" style={{ color: 'rgba(216,232,216,0.82)' }}>
             Some ideas live between myth, evidence, and machinery.
             ConsMAP helps you tell which is which.
           </p>
-          <p className="mt-3 text-xs font-mono" style={{ color: 'rgba(216,232,216,0.38)' }}>
-            Pick a route. Read inside the app. Follow the source only when you want to.
+          <p className="mt-3 text-sm" style={{ color: 'rgba(216,232,216,0.48)' }}>
+            Pick a route. Everything reads inside the app.
           </p>
         </motion.div>
 
@@ -317,10 +317,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="flex-1 min-w-0">
               <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(92,184,112,0.55)' }}>
-                Run your own copy
+                Optional: run locally
               </div>
               <p className="text-xs leading-[1.65] mb-3" style={{ color: 'rgba(216,232,216,0.52)' }}>
-                You can read everything here. If you want a local copy on your own machine:
+                Everything works here in the browser. If you want your own local copy:
               </p>
               <pre
                 className="text-[10px] font-mono rounded-xl px-4 py-3 mb-2 select-all overflow-x-auto"
