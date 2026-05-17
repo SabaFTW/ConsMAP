@@ -32,31 +32,31 @@ const routes: Array<{
   {
     key: 'story',
     label: 'Factory Trilogy Archive',
-    description: 'Read the symbolic/parabolic archive: Genesis, Darkness Bible, Mario Codex, Luigi Audit, and companion texts.',
+    description: 'Start here if you want the living parable: factories, mice, filters, Mario, Luigi, and the slow ant beneath the archive. Reads inside the app.',
     chips: ['METAPHOR', 'PRACTICAL'],
   },
   {
     key: 'docs',
     label: 'Repository Library',
-    description: 'Browse source docs, protocols, archive layers, and the ConsMAP map.',
+    description: 'Browse the shelves without needing GitHub first. Protocols, field guides, claim schemas, archive layers — all in one readable place.',
     chips: ['ARCHIVE', 'MAP'],
   },
   {
     key: 'analyzer',
     label: 'Claim Analyzer',
-    description: 'Turn a claim into evidence labels, risk boundaries, and next questions.',
+    description: 'Drop in a claim. Get labels, risks, and better next questions. No account required.',
     chips: ['TOOL', 'CLAIM HYGIENE'],
   },
   {
     key: 'mirror',
     label: 'Symbol Mirror',
-    description: 'Decode symbolic language without literalizing it.',
+    description: 'Bring a symbol. Leave with its structure. Decode without literalizing.',
     chips: ['SYMBOLIC', 'BOUNDARY'],
   },
   {
     key: 'aimode',
     label: 'AI Context Mode',
-    description: 'Load a model-facing orientation layer for careful reasoning.',
+    description: 'Give another model a cleaner map before it starts guessing. Copy-ready orientation prompt with ConsMAP constraints built in.',
     chips: ['CONTEXT', 'OPERATOR'],
     wide: true,
   },
@@ -236,11 +236,11 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
             claim hygiene · symbolic boundary · operator reasoning
           </p>
           <p className="max-w-2xl mx-auto text-sm md:text-base leading-7" style={{ color: 'rgba(216,232,216,0.68)' }}>
-            A guided map for reading symbols, claims, archives, and AI-facing arguments —
-            without turning metaphor into proof.
+            Some ideas live between myth, evidence, and machinery.
+            ConsMAP helps you tell which is which.
           </p>
           <p className="mt-3 text-xs font-mono" style={{ color: 'rgba(216,232,216,0.38)' }}>
-            Choose a route. The archive opens one door at a time.
+            Pick a route. Read inside the app. Follow the source only when you want to.
           </p>
         </motion.div>
 
@@ -306,7 +306,45 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           ))}
         </motion.div>
 
-        {/* D: Full map toggle ───────────────────────────────────────────────── */}
+        {/* D: Own your copy ────────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.42, duration: 0.8 }}
+          className="rounded-2xl border px-5 py-4 mb-5"
+          style={{ borderColor: 'rgba(71,85,105,0.3)', background: 'rgba(15,20,15,0.35)' }}
+        >
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="flex-1 min-w-0">
+              <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(92,184,112,0.55)' }}>
+                Run your own copy
+              </div>
+              <p className="text-xs leading-[1.65] mb-3" style={{ color: 'rgba(216,232,216,0.52)' }}>
+                You can read everything here. If you want a local copy on your own machine:
+              </p>
+              <pre
+                className="text-[10px] font-mono rounded-xl px-4 py-3 mb-2 select-all overflow-x-auto"
+                style={{ background: 'rgba(15,20,15,0.75)', border: '1px solid rgba(71,85,105,0.35)', color: 'rgba(216,232,216,0.68)' }}
+              >{`git clone https://github.com/SabaFTW/ConsMAP.git
+cd ConsMAP/06_applications/digital_sanctuary
+npm install && npm run dev`}</pre>
+              <p className="text-[9px] font-mono" style={{ color: 'rgba(216,232,216,0.35)' }}>
+                Then open the address shown in the terminal.
+              </p>
+            </div>
+            <a
+              href="https://github.com/SabaFTW/ConsMAP"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[9px] font-mono uppercase tracking-[0.18em] shrink-0 hover:opacity-100 transition-opacity mt-1"
+              style={{ color: 'rgba(92,184,112,0.38)' }}
+            >
+              Repository ↗
+            </a>
+          </div>
+        </motion.div>
+
+        {/* E: Full map toggle ───────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

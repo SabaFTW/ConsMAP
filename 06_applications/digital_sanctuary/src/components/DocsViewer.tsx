@@ -1,5 +1,31 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import type { Components } from 'react-markdown';
+
+const mdComponents: Components = {
+  h1: ({ children }) => <h1 className="text-xl font-light mt-6 mb-3 first:mt-0" style={{ color: '#d8e8d8' }}>{children}</h1>,
+  h2: ({ children }) => <h2 className="text-lg font-light mt-5 mb-2" style={{ color: 'rgba(216,232,216,0.9)' }}>{children}</h2>,
+  h3: ({ children }) => <h3 className="text-base font-medium mt-4 mb-2" style={{ color: 'rgba(216,232,216,0.82)' }}>{children}</h3>,
+  h4: ({ children }) => <h4 className="text-sm font-medium mt-3 mb-1" style={{ color: 'rgba(216,232,216,0.75)' }}>{children}</h4>,
+  p: ({ children }) => <p className="text-sm leading-[1.85] mb-3" style={{ color: 'rgba(216,232,216,0.75)' }}>{children}</p>,
+  ul: ({ children }) => <ul className="mb-3 pl-5 space-y-1" style={{ listStyleType: 'disc' }}>{children}</ul>,
+  ol: ({ children }) => <ol className="mb-3 pl-5 space-y-1" style={{ listStyleType: 'decimal' }}>{children}</ol>,
+  li: ({ children }) => <li className="text-sm leading-[1.7]" style={{ color: 'rgba(216,232,216,0.72)' }}>{children}</li>,
+  blockquote: ({ children }) => <blockquote className="pl-4 my-4 italic" style={{ borderLeft: '2px solid rgba(92,184,112,0.35)', color: 'rgba(216,232,216,0.6)' }}>{children}</blockquote>,
+  pre: ({ children }) => <pre className="rounded-xl px-4 py-3 mb-3 overflow-x-auto" style={{ background: 'rgba(15,20,15,0.8)', border: '1px solid rgba(71,85,105,0.35)' }}>{children}</pre>,
+  code: ({ children, className }) => className
+    ? <code className="text-xs font-mono" style={{ color: 'rgba(216,232,216,0.82)' }}>{children}</code>
+    : <code className="px-1.5 py-0.5 rounded text-[11px] font-mono" style={{ background: 'rgba(92,184,112,0.12)', color: '#5cb870' }}>{children}</code>,
+  hr: () => <hr className="my-4" style={{ border: 'none', borderTop: '1px solid rgba(71,85,105,0.35)' }} />,
+  strong: ({ children }) => <strong style={{ color: '#d8e8d8', fontWeight: 600 }}>{children}</strong>,
+  em: ({ children }) => <em style={{ color: 'rgba(216,232,216,0.72)', fontStyle: 'italic' }}>{children}</em>,
+  a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#5cb870', textDecoration: 'underline', textDecorationColor: 'rgba(92,184,112,0.35)' }}>{children}</a>,
+  table: ({ children }) => <div className="overflow-x-auto mb-3"><table className="text-sm w-full" style={{ borderCollapse: 'collapse' }}>{children}</table></div>,
+  th: ({ children }) => <th className="text-left px-3 py-2 text-[10px] font-mono uppercase tracking-wider" style={{ color: 'rgba(92,184,112,0.7)', borderBottom: '1px solid rgba(71,85,105,0.4)' }}>{children}</th>,
+  td: ({ children }) => <td className="px-3 py-2 text-xs" style={{ color: 'rgba(216,232,216,0.7)', borderBottom: '1px solid rgba(71,85,105,0.2)' }}>{children}</td>,
+};
 
 interface DocsViewerProps {
   onBack: () => void;
@@ -194,16 +220,18 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
                   <p className="text-[10px] font-mono animate-pulse" style={{ color: 'rgba(92,184,112,0.4)' }}>fetching…</p>
                 </motion.div>
               ) : (
-                <motion.pre
+                <motion.div
                   key="content"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-xs font-mono whitespace-pre-wrap break-words leading-[1.85] max-h-[65vh]"
-                  style={{ color: 'rgba(216,232,216,0.72)' }}
+                  className="max-h-[65vh] overflow-y-auto"
+                  style={{ scrollbarWidth: 'thin', scrollbarColor: '#1a2e1a transparent' }}
                 >
-                  {content}
-                </motion.pre>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+                    {content}
+                  </ReactMarkdown>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
