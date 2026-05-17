@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Components } from 'react-markdown';
@@ -122,6 +122,7 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -142,106 +143,169 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
       });
   }, [path]);
 
-  return (
-    <div className="max-w-2xl mx-auto py-10 md:py-14 px-5">
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        onClick={onBack}
-        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
-        style={{ color: '#5cb870' }}
-      >
-        ← back to archive
-      </motion.button>
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false);
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [lightboxOpen]);
 
-      {/* Header image */}
-      {imageSrc && (
+  return (
+    <>
+      {/* ── Lightbox ─────────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {lightboxOpen && imageSrc && (
+          <motion.div
+            key="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+            style={{ background: 'rgba(4,8,4,0.97)', backdropFilter: 'blur(10px)' }}
+            onClick={() => setLightboxOpen(false)}
+          >
+            {/* Close hint */}
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.1 }}
+              className="absolute top-4 right-5 text-[10px] font-mono uppercase tracking-[0.2em] select-none"
+              style={{ color: 'rgba(216,232,216,0.35)' }}
+            >
+              esc / tap to close
+            </motion.div>
+
+            {/* Image */}
+            <motion.img
+              initial={{ scale: 0.88, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              src={imageSrc}
+              alt={imageAlt || title}
+              className="max-w-full max-h-full rounded-2xl object-contain select-none"
+              style={{ boxShadow: '0 32px 100px rgba(0,0,0,0.8)' }}
+              onClick={(e) => e.stopPropagation()}
+              draggable={false}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Page ─────────────────────────────────────────────────────────── */}
+      <div className="max-w-2xl mx-auto py-10 md:py-14 px-5">
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          onClick={onBack}
+          className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
+          style={{ color: '#5cb870' }}
+        >
+          ← back to archive
+        </motion.button>
+
+        {/* Header image — clickable */}
+        {imageSrc && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="group relative w-full rounded-2xl overflow-hidden mb-8 border cursor-zoom-in"
+            style={{
+              height: 'clamp(180px, 30vw, 280px)',
+              borderColor: 'rgba(71,85,105,0.4)',
+            }}
+            onClick={() => setLightboxOpen(true)}
+            title="Click to view full image"
+          >
+            <img
+              src={imageSrc}
+              alt={imageAlt || title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              style={{ filter: 'brightness(0.8) saturate(0.88) contrast(1.05)' }}
+              loading="lazy"
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(8,12,8,0.88) 100%)' }}
+            />
+            {/* Expand hint — visible on hover */}
+            <div
+              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-[9px] font-mono uppercase tracking-[0.18em] px-2.5 py-1 rounded-full"
+              style={{ background: 'rgba(8,12,8,0.75)', color: 'rgba(216,232,216,0.75)', border: '1px solid rgba(71,85,105,0.4)' }}
+            >
+              ↗ expand
+            </div>
+          </motion.div>
+        )}
+
+        {/* Title block */}
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-2" style={{ color: 'rgba(92,184,112,0.5)' }}>
+            ConsMAP / Archive
+          </div>
+          <h1 className="text-xl md:text-2xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
+            {title}
+          </h1>
+          {githubUrl && (
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] hover:opacity-100 transition-opacity"
+              style={{ color: 'rgba(92,184,112,0.35)' }}
+            >
+              View source on GitHub ↗
+            </a>
+          )}
+        </motion.div>
+
+        {/* Content */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative w-full rounded-2xl overflow-hidden mb-8 border"
-          style={{
-            height: 'clamp(180px, 30vw, 280px)',
-            borderColor: 'rgba(71,85,105,0.4)',
-          }}
+          transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <img
-            src={imageSrc}
-            alt={imageAlt || title}
-            className="w-full h-full object-cover"
-            style={{ filter: 'brightness(0.8) saturate(0.88) contrast(1.05)' }}
-            loading="lazy"
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(8,12,8,0.88) 100%)' }}
-          />
-        </motion.div>
-      )}
-
-      {/* Title block */}
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="mb-8"
-      >
-        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-2" style={{ color: 'rgba(92,184,112,0.5)' }}>
-          ConsMAP / Archive
-        </div>
-        <h1 className="text-xl md:text-2xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
-          {title}
-        </h1>
-        {githubUrl && (
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] hover:opacity-100 transition-opacity"
-            style={{ color: 'rgba(92,184,112,0.35)' }}
-          >
-            View source on GitHub ↗
-          </a>
-        )}
-      </motion.div>
-
-      {/* Content */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
-      >
-        {loading && (
-          <p className="text-[10px] font-mono animate-pulse" style={{ color: 'rgba(92,184,112,0.4)' }}>
-            Fetching from archive…
-          </p>
-        )}
-        {error && (
-          <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}>
-            <p className="text-xs font-mono mb-2" style={{ color: 'rgba(216,232,216,0.45)' }}>
-              Could not load document ({error}).
+          {loading && (
+            <p className="text-[10px] font-mono animate-pulse" style={{ color: 'rgba(92,184,112,0.4)' }}>
+              Fetching from archive…
             </p>
-            {githubUrl && (
-              <a
-                href={githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[10px] font-mono uppercase tracking-[0.16em]"
-                style={{ color: '#5cb870' }}
-              >
-                Open on GitHub ↗
-              </a>
-            )}
-          </div>
-        )}
-        {!loading && !error && (
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
-            {content}
-          </ReactMarkdown>
-        )}
-      </motion.div>
-    </div>
+          )}
+          {error && (
+            <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}>
+              <p className="text-xs font-mono mb-2" style={{ color: 'rgba(216,232,216,0.45)' }}>
+                Could not load document ({error}).
+              </p>
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-mono uppercase tracking-[0.16em]"
+                  style={{ color: '#5cb870' }}
+                >
+                  Open on GitHub ↗
+                </a>
+              )}
+            </div>
+          )}
+          {!loading && !error && (
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
+              {content}
+            </ReactMarkdown>
+          )}
+        </motion.div>
+      </div>
+    </>
   );
 };
 
