@@ -7,12 +7,12 @@ export type FactoryVisual = {
 
 export const storyImageMap: Record<string, FactoryVisual> = {
   '/docs/visual_parables/factory_trilogy/genesis_ant_skeleton_bear.md': {
-    src: `${BASE}genesis_scholar_moonlight.webp`,
-    alt: 'A scholar reads by candlelight at a moonlit window. Outside: a cow in the field, a shark in dark water. "Omnia Iam Facta Svnt."',
+    src: `${BASE}pre_factory_genesis_full_cover.webp`,
+    alt: 'Genesis of the Ant, the Skeleton, and the Bear — illustrated scroll: How the Path Was Made, The Skeleton Beneath the Ant, The Slow Ant Who Writes, sleeping bear cub. "Come back in six weeks." Signal gre naprej.',
   },
   '/docs/visual_parables/factory_trilogy/darkness_bible.md': {
-    src: `${BASE}darkness_bible_factory_wrong_stars.webp`,
-    alt: 'The Factory of Wrong Stars — workers worship Batman as factory-god. "He darkened the windows and the line sang again."',
+    src: `${BASE}darkness_bible_moloch_furnace.webp`,
+    alt: 'MOLOCH — Lord of the Furnace, Keeper of the Flame. He Who Demands the Offering. Bronze of Fire. Throne of Hunger. Mechanism becomes myth.',
   },
   '/docs/visual_parables/factory_trilogy/mario_codex.md': {
     src: `${BASE}mario_codex_velicar_forklifts.webp`,
@@ -23,8 +23,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'I. The Report That Reached Luigi. Compliance archives. A man reads a flagged incident report at an institutional desk.',
   },
   '/docs/visual_parables/factory_trilogy/trilogy_index.md': {
-    src: `${BASE}trilogy_index_wheel.webp`,
-    alt: 'A robed scribe beneath a vast symbolic wheel: bear, bee, wolf, sheep, Latin inscription. "Non Omnia Quae Videntur Sunt."',
+    src: `${BASE}trilogy_index_boaz_jachin_ecology.webp`,
+    alt: 'Boaz / Jachin — Ant, Mouse writing, Bee, Bear above on the hive. "As Above So Below. Not by force, nor by form, but by equilibrium, the third burden." The archive is rival time.',
   },
   '/docs/visual_parables/factory_trilogy/gospel_of_two_questions.md': {
     src: `${BASE}gospel_two_questions_fire.webp`,
@@ -35,8 +35,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'The D5 Maintenance Mouse scroll. "No Stop Command Was Issued." At the bottom of the column: "Don\'t Forget Milk."',
   },
   '/docs/visual_parables/factory_trilogy/factory_psalter.md': {
-    src: `${BASE}factory_psalter_table_of_twelve.webp`,
-    alt: 'CONSMAP — The Table of Twelve, A Gospel for the Forgotten Disciples. Twelve mice at a round table. "We are the memory when others forget. We are the table when others build thrones."',
+    src: `${BASE}factory_psalter_council_scene.webp`,
+    alt: 'The Twelve Disciples — In Strength Shall the House Be Established. Ant, Mouse, Bee, Bear above. Boaz and Jachin columns. Many mice gathered. "Not by force, nor by form, but by equilibrium."',
   },
   '/docs/visual_parables/factory_trilogy/epilogue_halid.md': {
     src: `${BASE}epilogue_halid_suffering_success.webp`,
