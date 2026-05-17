@@ -9,6 +9,8 @@ interface MarkdownReaderProps {
   title: string;
   onBack: () => void;
   githubUrl?: string;
+  imageSrc?: string;
+  imageAlt?: string;
 }
 
 const GITHUB_RAW = 'https://raw.githubusercontent.com/SabaFTW/ConsMAP/main';
@@ -109,7 +111,14 @@ const mdComponents: Components = {
   ),
 };
 
-const MarkdownReader: React.FC<MarkdownReaderProps> = ({ path, title, onBack, githubUrl }) => {
+const MarkdownReader: React.FC<MarkdownReaderProps> = ({
+  path,
+  title,
+  onBack,
+  githubUrl,
+  imageSrc,
+  imageAlt,
+}) => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -145,6 +154,33 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({ path, title, onBack, gi
         ← back to archive
       </motion.button>
 
+      {/* Header image */}
+      {imageSrc && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full rounded-2xl overflow-hidden mb-8 border"
+          style={{
+            height: 'clamp(180px, 30vw, 280px)',
+            borderColor: 'rgba(71,85,105,0.4)',
+          }}
+        >
+          <img
+            src={imageSrc}
+            alt={imageAlt || title}
+            className="w-full h-full object-cover"
+            style={{ filter: 'brightness(0.8) saturate(0.88) contrast(1.05)' }}
+            loading="lazy"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(8,12,8,0.88) 100%)' }}
+          />
+        </motion.div>
+      )}
+
+      {/* Title block */}
       <motion.div
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
@@ -170,6 +206,7 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({ path, title, onBack, gi
         )}
       </motion.div>
 
+      {/* Content */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
