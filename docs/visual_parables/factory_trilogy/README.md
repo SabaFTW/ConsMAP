@@ -3,6 +3,10 @@
 Status: symbolic / fictional / parabolic corpus
 Register: [METAPHOR] + [PRACTICAL] systems parable
 
+## Prelude
+
+- `genesis_ant_skeleton_bear.md` — pre-Factory genesis of pressure, path, structure, archive, Bears, and the slow ant who wrote before the factory existed
+
 Reading order:
 1. darkness_bible.md — mechanism becomes myth
 2. mario_codex.md — myth learns to dance without fraud
@@ -23,6 +27,7 @@ This is a maintenance-scale parable for ConsMAP pattern analysis.
 
 Available now:
 - trilogy_index.md
+- genesis_ant_skeleton_bear.md
 - darkness_bible.md
 - mario_codex.md
 - luigi_audit.md
