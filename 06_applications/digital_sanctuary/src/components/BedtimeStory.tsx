@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import MarkdownReader from './MarkdownReader';
 
 interface BedtimeStoryProps {
   onBack: () => void;
@@ -6,19 +8,21 @@ interface BedtimeStoryProps {
 
 type StoryLink = {
   title: string;
-  href: string;
+  path: string;
+  githubHref: string;
   description: string;
   tag?: string;
 };
 
-const ROOT = 'https://github.com/SabaFTW/ConsMAP/blob/main/docs/visual_parables/factory_trilogy';
+const REPO_PATH = '/docs/visual_parables/factory_trilogy';
+const GITHUB_ROOT = 'https://github.com/SabaFTW/ConsMAP/blob/main/docs/visual_parables/factory_trilogy';
 
 const prelude: StoryLink[] = [
   {
     title: 'Genesis of the Ant, the Skeleton, and the Bear',
-    href: `${ROOT}/genesis_ant_skeleton_bear.md`,
-    description:
-      'Pre-Factory genesis of pressure, path, structure, archive, Bears, and the slow ant who wrote before the factory existed.',
+    path: `${REPO_PATH}/genesis_ant_skeleton_bear.md`,
+    githubHref: `${GITHUB_ROOT}/genesis_ant_skeleton_bear.md`,
+    description: 'Pre-Factory genesis of pressure, path, structure, archive, Bears, and the slow ant who wrote before the factory existed.',
     tag: 'Prelude',
   },
 ];
@@ -26,19 +30,22 @@ const prelude: StoryLink[] = [
 const trilogy: StoryLink[] = [
   {
     title: 'The Darkness Bible',
-    href: `${ROOT}/darkness_bible.md`,
+    path: `${REPO_PATH}/darkness_bible.md`,
+    githubHref: `${GITHUB_ROOT}/darkness_bible.md`,
     description: 'Mechanism becomes myth.',
     tag: 'Part I',
   },
   {
     title: 'The Mario Codex',
-    href: `${ROOT}/mario_codex.md`,
+    path: `${REPO_PATH}/mario_codex.md`,
+    githubHref: `${GITHUB_ROOT}/mario_codex.md`,
     description: 'Myth learns to dance without fraud.',
     tag: 'Part II',
   },
   {
     title: 'The Luigi Audit',
-    href: `${ROOT}/luigi_audit.md`,
+    path: `${REPO_PATH}/luigi_audit.md`,
+    githubHref: `${GITHUB_ROOT}/luigi_audit.md`,
     description: 'Infrastructure becomes liability.',
     tag: 'Part III',
   },
@@ -47,27 +54,32 @@ const trilogy: StoryLink[] = [
 const companions: StoryLink[] = [
   {
     title: 'Trilogy Index',
-    href: `${ROOT}/trilogy_index.md`,
+    path: `${REPO_PATH}/trilogy_index.md`,
+    githubHref: `${GITHUB_ROOT}/trilogy_index.md`,
     description: 'Reading map and through-line.',
   },
   {
     title: 'Factory Psalter',
-    href: `${ROOT}/factory_psalter.md`,
+    path: `${REPO_PATH}/factory_psalter.md`,
+    githubHref: `${GITHUB_ROOT}/factory_psalter.md`,
     description: 'Reminder psalms from the covenants.',
   },
   {
     title: 'Gospel of Two Questions',
-    href: `${ROOT}/gospel_of_two_questions.md`,
+    path: `${REPO_PATH}/gospel_of_two_questions.md`,
+    githubHref: `${GITHUB_ROOT}/gospel_of_two_questions.md`,
     description: 'Batman I / Spider I pre-fall doubt and the mythological apple.',
   },
   {
     title: 'Gospel According to the Maintenance Mouse',
-    href: `${ROOT}/gospel_according_to_maintenance_mouse.md`,
+    path: `${REPO_PATH}/gospel_according_to_maintenance_mouse.md`,
+    githubHref: `${GITHUB_ROOT}/gospel_according_to_maintenance_mouse.md`,
     description: 'Mildly heretical maintenance-mouse account.',
   },
   {
     title: 'Epilogue According to Halid',
-    href: `${ROOT}/epilogue_halid.md`,
+    path: `${REPO_PATH}/epilogue_halid.md`,
+    githubHref: `${GITHUB_ROOT}/epilogue_halid.md`,
     description: 'Song before doctrine.',
   },
 ];
@@ -82,26 +94,18 @@ const boundaryChips = [
 const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, color }) => (
   <div className="flex items-center gap-3 mb-4">
     <div className="h-px flex-1" style={{ background: 'rgba(100,116,139,0.25)' }} />
-    <div
-      className="text-[10px] font-mono uppercase tracking-[0.26em]"
-      style={{ color }}
-    >
+    <div className="text-[10px] font-mono uppercase tracking-[0.26em]" style={{ color }}>
       {label}
     </div>
     <div className="h-px flex-1" style={{ background: 'rgba(100,116,139,0.25)' }} />
   </div>
 );
 
-const StoryCard: React.FC<{ item: StoryLink }> = ({ item }) => (
-  <a
-    href={item.href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group block rounded-2xl border bg-slate-950/60 p-5 transition-all duration-200"
-    style={{
-      borderColor: 'rgba(71,85,105,0.5)',
-      boxShadow: '0 1px 20px rgba(0,0,0,0.35)',
-    }}
+const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }> = ({ item, onOpen }) => (
+  <button
+    onClick={() => onOpen(item)}
+    className="group w-full text-left rounded-2xl border bg-slate-950/60 p-5 transition-all duration-200"
+    style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 20px rgba(0,0,0,0.35)' }}
     onMouseEnter={(e) => {
       (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.35)';
       (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 28px rgba(34,211,238,0.08)';
@@ -112,29 +116,48 @@ const StoryCard: React.FC<{ item: StoryLink }> = ({ item }) => (
     }}
   >
     {item.tag && (
-      <div
-        className="text-[9px] font-mono uppercase tracking-[0.24em] mb-2"
-        style={{ color: 'rgba(92,184,112,0.65)' }}
-      >
+      <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-2" style={{ color: 'rgba(92,184,112,0.65)' }}>
         {item.tag}
       </div>
     )}
-    <div className="text-sm font-medium leading-5" style={{ color: '#d8e8d8' }}>
+    <div className="text-sm font-medium leading-5 mb-2" style={{ color: '#d8e8d8' }}>
       {item.title}
     </div>
-    <div className="text-xs mt-2 leading-[1.65]" style={{ color: 'rgba(216,232,216,0.58)' }}>
+    <div className="text-xs leading-[1.65] mb-4" style={{ color: 'rgba(216,232,216,0.58)' }}>
       {item.description}
     </div>
-    <div
-      className="mt-4 flex items-center gap-1 text-[10px] font-mono uppercase tracking-[0.18em] transition-colors duration-200"
-      style={{ color: '#5cb870' }}
-    >
-      Read in GitHub <span className="text-[11px]">↗</span>
+    <div className="flex items-center justify-between">
+      <div className="text-[10px] font-mono uppercase tracking-[0.18em]" style={{ color: '#5cb870' }}>
+        Read in archive →
+      </div>
+      <a
+        href={item.githubHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className="text-[9px] font-mono uppercase tracking-[0.14em] hover:opacity-100 transition-opacity"
+        style={{ color: 'rgba(92,184,112,0.35)' }}
+      >
+        source ↗
+      </a>
     </div>
-  </a>
+  </button>
 );
 
 const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
+  const [reader, setReader] = useState<StoryLink | null>(null);
+
+  if (reader) {
+    return (
+      <MarkdownReader
+        path={reader.path}
+        title={reader.title}
+        onBack={() => setReader(null)}
+        githubUrl={reader.githubHref}
+      />
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto py-10 md:py-14 px-5">
       <motion.button
@@ -148,15 +171,10 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
       </motion.button>
 
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-        {/* Eyebrow */}
-        <div
-          className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3"
-          style={{ color: 'rgba(92,184,112,0.55)' }}
-        >
+        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
           ConsMAP / Story Archive
         </div>
 
-        {/* Title */}
         <h1 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
           Factory Trilogy Archive
         </h1>
@@ -164,42 +182,25 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
           A symbolic / fictional / parabolic corpus for reading mechanism, myth, audit, and maintenance.
         </p>
 
-        {/* Boundary chips */}
         <div className="mt-4 flex flex-wrap gap-2">
           {boundaryChips.map(({ label, cls }) => (
-            <span
-              key={label}
-              className={`text-[9px] font-mono uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border ${cls}`}
-            >
+            <span key={label} className={`text-[9px] font-mono uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border ${cls}`}>
               {label}
             </span>
           ))}
         </div>
 
-        {/* Formula + Axis */}
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <div
-            className="rounded-2xl border px-4 py-4"
-            style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}
-          >
-            <div
-              className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2"
-              style={{ color: '#7dd3fc' }}
-            >
+          <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}>
+            <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: '#7dd3fc' }}>
               Core formula
             </div>
             <p className="text-xs leading-[1.8]" style={{ color: 'rgba(216,232,216,0.75)' }}>
               Pressure → Path → Memory → Meaning → Interface → Authority → Bears → Archives → Maintenance
             </p>
           </div>
-          <div
-            className="rounded-2xl border px-4 py-4"
-            style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}
-          >
-            <div
-              className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2"
-              style={{ color: '#7dd3fc' }}
-            >
+          <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}>
+            <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: '#7dd3fc' }}>
               Core axis
             </div>
             <p className="text-xs leading-[1.8]" style={{ color: 'rgba(216,232,216,0.75)' }}>
@@ -214,34 +215,28 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         </div>
       </motion.div>
 
-      {/* Prelude */}
       <section className="mt-10">
         <SectionDivider label="Prelude" color="#a78bfa" />
         <div className="grid gap-3">
-          {prelude.map((item) => <StoryCard key={item.title} item={item} />)}
+          {prelude.map((item) => <StoryCard key={item.title} item={item} onOpen={setReader} />)}
         </div>
       </section>
 
-      {/* Main Trilogy */}
       <section className="mt-8">
         <SectionDivider label="Main Trilogy" color="#60a5fa" />
         <div className="grid gap-3 sm:grid-cols-3">
-          {trilogy.map((item) => <StoryCard key={item.title} item={item} />)}
+          {trilogy.map((item) => <StoryCard key={item.title} item={item} onOpen={setReader} />)}
         </div>
       </section>
 
-      {/* Companion Texts */}
       <section className="mt-8">
         <SectionDivider label="Companion Texts" color="#34d399" />
         <div className="grid gap-3 sm:grid-cols-2">
-          {companions.map((item) => <StoryCard key={item.title} item={item} />)}
+          {companions.map((item) => <StoryCard key={item.title} item={item} onOpen={setReader} />)}
         </div>
       </section>
 
-      <p
-        className="text-center mt-14 text-[10px] font-mono uppercase tracking-[0.34em]"
-        style={{ color: 'rgba(216,232,216,0.32)' }}
-      >
+      <p className="text-center mt-14 text-[10px] font-mono uppercase tracking-[0.34em]" style={{ color: 'rgba(216,232,216,0.32)' }}>
         Signal gre naprej. In vseeno.
       </p>
     </div>
