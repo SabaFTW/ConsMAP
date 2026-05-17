@@ -78,7 +78,7 @@ const ClaimAnalyzer: React.FC<ClaimAnalyzerProps> = ({ onBack }) => {
 
   const analyze = () => {
     if (!claimText.trim()) return;
-    
+
     const textLower = claimText.toLowerCase();
     const foundMatches: any[] = [];
 
@@ -139,13 +139,13 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-16 px-6 relative">
+    <div className="max-w-2xl mx-auto py-10 md:py-14 px-5 relative">
       <motion.button
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        animate={{ opacity: 0.5 }}
         onClick={onBack}
-        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-16 block transition-colors duration-500 hover:opacity-70"
-        style={{ color: '#2a4a25' }}
+        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
+        style={{ color: '#5cb870' }}
       >
         ← back
       </motion.button>
@@ -153,13 +153,16 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        className="mb-12"
+        transition={{ duration: 1.2 }}
+        className="mb-8"
       >
-        <h1 className="text-2xl md:text-3xl font-extralight tracking-tight mb-3" style={{ color: '#d8e8d8' }}>
+        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
+          ConsMAP / Analyzer
+        </div>
+        <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-2" style={{ color: '#d8e8d8' }}>
           Claim Analyzer
         </h1>
-        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: '#2a4a25' }}>
+        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'rgba(92,184,112,0.5)' }}>
           Static Diagnostic Layer
         </p>
       </motion.div>
@@ -168,113 +171,120 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
         {!analyzed ? (
           <motion.div
             key="input"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.8 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.6 }}
           >
             <textarea
               value={claimText}
               onChange={(e) => setClaimText(e.target.value)}
               placeholder="Enter a raw claim, thought, or note to analyze..."
-              className="w-full h-40 bg-transparent border p-6 text-sm font-light leading-relaxed focus:outline-none resize-none transition-colors duration-500"
-              style={{ 
-                borderColor: 'rgba(92, 184, 112, 0.2)', 
-                color: 'rgba(216, 232, 216, 0.8)',
+              className="w-full h-40 bg-slate-950/50 rounded-2xl border p-5 text-sm font-light leading-relaxed focus:outline-none resize-none transition-colors duration-300"
+              style={{
+                borderColor: 'rgba(71,85,105,0.5)',
+                color: 'rgba(216,232,216,0.85)',
               }}
             />
-            <div className="mt-8 flex justify-end">
+            <div className="mt-6 flex justify-end">
               <button
                 onClick={analyze}
                 disabled={!claimText.trim()}
-                className="text-xs font-mono tracking-[0.2em] uppercase transition-all duration-500 hover:opacity-100 disabled:opacity-20"
-                style={{ color: '#5cb870', opacity: claimText.trim() ? 0.7 : 0.2 }}
+                className="text-[10px] font-mono tracking-[0.2em] uppercase transition-opacity duration-300 hover:opacity-100 disabled:opacity-20 px-4 py-2 rounded-full border"
+                style={{
+                  color: '#5cb870',
+                  borderColor: claimText.trim() ? 'rgba(92,184,112,0.35)' : 'rgba(92,184,112,0.1)',
+                  opacity: claimText.trim() ? 0.8 : 0.2,
+                }}
               >
-                Analyze Claim
+                Analyze →
               </button>
             </div>
           </motion.div>
         ) : (
           <motion.div
             key="results"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-12"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
           >
-            {/* Display Input Text */}
-            <div>
-              <p className="text-[9px] font-mono tracking-[0.2em] uppercase mb-4" style={{ color: '#2a4a25' }}>
+            {/* Raw input */}
+            <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.5)' }}>
+              <p className="text-[9px] font-mono tracking-[0.2em] uppercase mb-2" style={{ color: 'rgba(92,184,112,0.6)' }}>
                 Raw Input
               </p>
-              <p className="text-sm font-light leading-relaxed italic" style={{ color: 'rgba(216, 232, 216, 0.6)' }}>
+              <p className="text-sm font-light leading-relaxed italic" style={{ color: 'rgba(216,232,216,0.65)' }}>
                 "{claimText}"
               </p>
             </div>
 
-            {/* Default Baseline Routing */}
-            <div className="p-6 border" style={{ borderColor: 'rgba(92, 184, 112, 0.1)' }}>
-              <p className="text-[9px] font-mono tracking-[0.2em] uppercase mb-4" style={{ color: '#5cb870' }}>
-                Baseline Routing (Unverified)
+            {/* Baseline routing */}
+            <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(92,184,112,0.2)', background: 'rgba(92,184,112,0.04)' }}>
+              <p className="text-[9px] font-mono tracking-[0.2em] uppercase mb-3" style={{ color: '#5cb870' }}>
+                Baseline Routing — Unverified
               </p>
-              <div className="space-y-2 text-xs font-mono">
-                <p><span style={{ color: '#2a4a25' }}>River:</span> <span style={{ color: '#d8e8d8' }}>muddy_river</span></p>
-                <p><span style={{ color: '#2a4a25' }}>Status:</span> <span style={{ color: '#d8e8d8' }}>unverified</span></p>
-                <p><span style={{ color: '#2a4a25' }}>Epistemic Label:</span> <span style={{ color: 'rgba(216, 232, 216, 0.6)' }}>[UNVERIFIED] — insufficient evidence for public use</span></p>
+              <div className="space-y-1.5 text-xs font-mono">
+                <p><span style={{ color: 'rgba(92,184,112,0.5)' }}>River:</span> <span style={{ color: '#d8e8d8' }}>muddy_river</span></p>
+                <p><span style={{ color: 'rgba(92,184,112,0.5)' }}>Status:</span> <span style={{ color: '#d8e8d8' }}>unverified</span></p>
+                <p><span style={{ color: 'rgba(92,184,112,0.5)' }}>Label:</span> <span style={{ color: 'rgba(216,232,216,0.65)' }}>[UNVERIFIED] — insufficient evidence for public use</span></p>
               </div>
             </div>
 
-            {/* TTT Matches */}
+            {/* TTT matches */}
             <div>
-              <p className="text-[9px] font-mono tracking-[0.2em] uppercase mb-6" style={{ color: '#2a4a25' }}>
+              <p className="text-[9px] font-mono tracking-[0.2em] uppercase mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
                 TTT Pattern Diagnostics
               </p>
               {matches.length > 0 ? (
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {matches.map((m, i) => (
-                    <div key={i} className="pl-4 border-l border-opacity-30" style={{ borderColor: '#5cb870' }}>
-                      <p className="text-sm font-mono tracking-wide mb-2" style={{ color: '#d8e8d8' }}>
+                    <div
+                      key={i}
+                      className="rounded-2xl border px-4 py-4"
+                      style={{ borderColor: 'rgba(92,184,112,0.2)', background: 'rgba(15,20,15,0.5)' }}
+                    >
+                      <p className="text-sm font-mono tracking-wide mb-1" style={{ color: '#d8e8d8' }}>
                         {m.id}: {m.name}
-                        {m.self_applicable && <span style={{ color: '#5cb870' }}> ⚠ self-applicable</span>}
+                        {m.self_applicable && <span style={{ color: '#f1c27d' }}> ⚠ self-applicable</span>}
                       </p>
-                      <p className="text-xs font-light" style={{ color: 'rgba(216, 232, 216, 0.5)' }}>
-                        Confidence: {m.confidence} | Match: {m.relevance}%
+                      <p className="text-xs font-light" style={{ color: 'rgba(216,232,216,0.5)' }}>
+                        Confidence: {m.confidence} · Match: {m.relevance}%
                       </p>
-                      <p className="text-xs font-light mt-1" style={{ color: '#2a4a25' }}>
+                      <p className="text-xs font-light mt-1" style={{ color: 'rgba(92,184,112,0.5)' }}>
                         Hits: {m.hits.join(', ')}
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-xs font-light italic" style={{ color: 'rgba(216, 232, 216, 0.4)' }}>
+                <p className="text-xs font-light italic px-1" style={{ color: 'rgba(216,232,216,0.4)' }}>
                   No structural patterns detected in this text.
                 </p>
               )}
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-8 pt-8" style={{ borderTop: '1px solid rgba(26, 46, 26, 0.5)' }}>
+            <div className="flex items-center gap-6 pt-5" style={{ borderTop: '1px solid rgba(71,85,105,0.2)' }}>
               <button
                 onClick={reset}
-                className="text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-500 hover:opacity-100"
-                style={{ color: '#2a4a25' }}
+                className="text-[10px] font-mono tracking-[0.2em] uppercase hover:opacity-100 transition-opacity"
+                style={{ color: 'rgba(92,184,112,0.5)' }}
               >
-                New Claim
+                ← New Claim
               </button>
               <button
                 onClick={downloadYaml}
-                className="text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-500 hover:opacity-100"
+                className="text-[10px] font-mono tracking-[0.2em] uppercase hover:opacity-100 transition-opacity"
                 style={{ color: '#5cb870' }}
               >
                 ↓ Export claim_card.yaml
               </button>
             </div>
-            
-            <p className="text-[9px] font-mono leading-relaxed mt-8" style={{ color: 'rgba(42, 74, 37, 0.7)' }}>
-              Place the downloaded YAML in user_research/claims_pending/ 
-              <br/>to complete the intake pipeline.
+
+            <p className="text-[9px] font-mono leading-relaxed" style={{ color: 'rgba(92,184,112,0.4)' }}>
+              Place the downloaded YAML in user_research/claims_pending/ to complete the intake pipeline.
             </p>
           </motion.div>
         )}
