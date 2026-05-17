@@ -162,8 +162,11 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
         <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-2" style={{ color: '#d8e8d8' }}>
           Claim Analyzer
         </h1>
-        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'rgba(92,184,112,0.5)' }}>
-          Static Diagnostic Layer
+        <p className="text-sm mt-1" style={{ color: 'rgba(216,232,216,0.72)' }}>
+          Label a claim before it becomes context or argument.
+        </p>
+        <p className="text-[10px] font-mono tracking-[0.22em] uppercase mt-2" style={{ color: 'rgba(92,184,112,0.42)' }}>
+          Static diagnostic layer
         </p>
       </motion.div>
 
@@ -176,10 +179,13 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.6 }}
           >
+            <p className="text-xs mb-3 leading-[1.65]" style={{ color: 'rgba(216,232,216,0.55)' }}>
+              Paste any claim, idea, or statement. You'll get: evidence type label · risk if wrong · structural patterns · what would disprove it.
+            </p>
             <textarea
               value={claimText}
               onChange={(e) => setClaimText(e.target.value)}
-              placeholder="Enter a raw claim, thought, or note to analyze..."
+              placeholder="Paste a claim, thought, or idea..."
               className="w-full h-40 bg-slate-950/50 rounded-2xl border p-5 text-sm font-light leading-relaxed focus:outline-none resize-none transition-colors duration-300"
               style={{
                 borderColor: 'rgba(71,85,105,0.5)',

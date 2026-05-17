@@ -306,6 +306,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           ))}
         </motion.div>
 
+        {/* C2: First time guidance ─────────────────────────────────────────── */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.38, duration: 0.6 }}
+          className="text-center text-xs mb-6"
+          style={{ color: 'rgba(216,232,216,0.42)' }}
+        >
+          First time here? Start with <strong style={{ color: 'rgba(216,232,216,0.65)', fontWeight: 500 }}>Story Archive</strong> — the parable explains the whole system.
+        </motion.p>
+
         {/* D: Own your copy ────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0 }}

@@ -55,10 +55,13 @@ const AIQuickStart: React.FC<AIQuickStartProps> = ({ onBack }) => {
           ConsMAP / AI Mode
         </div>
         <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-2" style={{ color: '#d8e8d8' }}>
-          AI Quick Start
+          AI Mode
         </h1>
-        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'rgba(92,184,112,0.5)' }}>
-          Guided Evaluation Prompt Generator
+        <p className="text-sm mt-1" style={{ color: 'rgba(216,232,216,0.72)' }}>
+          Give another model a clean map before it starts guessing.
+        </p>
+        <p className="text-[10px] font-mono tracking-[0.22em] uppercase mt-2" style={{ color: 'rgba(92,184,112,0.42)' }}>
+          Guided evaluation prompt generator
         </p>
       </motion.div>
 
@@ -68,8 +71,11 @@ const AIQuickStart: React.FC<AIQuickStartProps> = ({ onBack }) => {
         transition={{ delay: 0.3, duration: 1.0 }}
         className="space-y-6"
       >
-        <p className="text-sm font-light leading-[1.75]" style={{ color: 'rgba(216,232,216,0.62)' }}>
-          Paste a claim below. This creates a copy-ready prompt for another AI assistant (Claude, Grok, DeepSeek) to evaluate it with ConsMAP's cognitive constraints: claim classification, Claim Hygiene, Confidence Integrity checks, and adjusted confidence.
+        <p className="text-sm font-light leading-[1.75]" style={{ color: 'rgba(216,232,216,0.75)' }}>
+          Paste a claim. Copy the generated prompt. Paste it into any AI assistant.
+        </p>
+        <p className="text-xs leading-[1.7]" style={{ color: 'rgba(216,232,216,0.52)' }}>
+          What you'll get: the other model will classify the claim type, check for stale data / proxy drift / missing loops, apply the 5 Claim Hygiene questions, and give an adjusted confidence — instead of just answering as if the claim were true.
         </p>
 
         {/* Step 1 */}

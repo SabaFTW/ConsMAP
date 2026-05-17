@@ -145,8 +145,11 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
         <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-2" style={{ color: '#d8e8d8' }}>
           Library
         </h1>
-        <p className="text-[10px] font-mono tracking-[0.25em] uppercase" style={{ color: 'rgba(92,184,112,0.5)' }}>
-          Public documents · direct file access
+        <p className="text-sm mt-1" style={{ color: 'rgba(216,232,216,0.72)' }}>
+          Read the shelves inside the app. GitHub only keeps the receipts.
+        </p>
+        <p className="text-[10px] font-mono tracking-[0.22em] uppercase mt-2" style={{ color: 'rgba(92,184,112,0.42)' }}>
+          Select a document on the left → it opens here.
         </p>
       </motion.div>
 
@@ -169,7 +172,7 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
               >
                 {doc.title}
               </div>
-              <div className="text-[11px] font-light leading-[1.5]" style={{ color: 'rgba(216,232,216,0.42)' }}>
+              <div className="text-[11px] font-light leading-[1.5]" style={{ color: 'rgba(216,232,216,0.65)' }}>
                 {doc.description}
               </div>
             </button>
@@ -184,7 +187,10 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
           <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-4" style={{ borderBottom: '1px solid rgba(71,85,105,0.3)' }}>
             <div>
               <h2 className="text-base font-light mb-1" style={{ color: '#d8e8d8' }}>{selected.title}</h2>
-              <p className="text-[10px] font-mono" style={{ color: 'rgba(92,184,112,0.45)' }}>{selected.path}</p>
+              <p className="text-xs mb-1" style={{ color: 'rgba(216,232,216,0.62)' }}>{selected.description}</p>
+              <p className="text-[10px] font-mono" style={{ color: 'rgba(92,184,112,0.38)' }}>
+                <span style={{ color: 'rgba(92,184,112,0.5)' }}>source: </span>{selected.path}
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <button
