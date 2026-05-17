@@ -1,0 +1,32 @@
+- id: theology-archive-001
+  claim: "Meaning systems become dangerous when an interface is mistaken for final reality and then monopolized by an institution."
+  labels: ["THEORETICAL", "PRACTICAL"]
+  supports:
+    - "Baal-Code Audit"
+    - "Gnosis Per Ignem"
+    - "OMNIA Factory Integration Map"
+  disproof_or_limits:
+    - "Cases where institutions maintain interfaces without monopoly, coercion, or debt conversion."
+  risk_if_wrong: "Overgeneralizes institutional religion and symbolic practice as capture."
+  risk_if_right_ignored: "Symbolic systems can launder hierarchy as sacred obligation."
+
+- id: theology-archive-002
+  claim: "Substrate constraints shape what can become visible, actionable, or meaningful to a system."
+  labels: ["EMPIRICAL", "THEORETICAL"]
+  supports:
+    - "As Above, So Below research dossier"
+  disproof_or_limits:
+    - "High plasticity or cross-substrate translation may weaken strict determinism."
+  risk_if_wrong: "Turns useful constraint models into fatalism."
+  risk_if_right_ignored: "Treats cognition, institutions, and AI as substrate-neutral when they are not."
+
+- id: theology-archive-003
+  claim: "Fictional symbolic corpora can be useful for structural reasoning when kept separate from evidence."
+  labels: ["METAPHOR", "PRACTICAL"]
+  supports:
+    - "Factory Trilogy"
+    - "Symbolic Interface Reading Map"
+  disproof_or_limits:
+    - "If readers literalize the fiction, it degrades reasoning."
+  risk_if_wrong: "Overvalues aesthetic coherence."
+  risk_if_right_ignored: "Loses powerful teaching tools for pattern recognition."
