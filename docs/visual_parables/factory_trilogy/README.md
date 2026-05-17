@@ -38,3 +38,12 @@ Available now:
 
 Expected / missing:
 - none currently
+
+## Related prelude layer
+
+`../pre_factory_bestiary/` — Ant / Bee / Bear / Skeleton ecology and Twelve Mice scaffold.
+
+The creature-civilization layer before the Factory Trilogy: pressure becomes path, path becomes memory, mice build tables instead of thrones, Bears learn vocabulary.
+
+This is where D5 comes from. This is what Mario translated.  
+Signal gre naprej. In vseeno.
