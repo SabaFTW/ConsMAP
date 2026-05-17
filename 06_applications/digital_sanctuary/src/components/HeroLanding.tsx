@@ -50,7 +50,7 @@ const routes: Array<{
   {
     key: 'mirror',
     label: 'Symbol Mirror',
-    description: 'Bring a symbol. Leave with its structure. Decode without literalizing.',
+    description: 'Translate between mythic language and technical structure. Same event, two registers, one recoverable axis.',
     chips: ['SYMBOLIC', 'BOUNDARY'],
   },
   {
