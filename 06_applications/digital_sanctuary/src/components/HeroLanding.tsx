@@ -1,88 +1,84 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface HeroLandingProps {
   onNavigate: (view: 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode') => void;
 }
 
-type Badge = 'METAPHOR' | 'TECH' | 'RISK' | 'BOUNDARY';
-
-const badgeClass: Record<Badge, string> = {
-  METAPHOR: 'border-purple-500/40 bg-purple-900/30 text-purple-200',
-  TECH: 'border-cyan-500/40 bg-cyan-900/30 text-cyan-200',
-  RISK: 'border-red-500/40 bg-red-900/30 text-red-200',
-  BOUNDARY: 'border-amber-500/40 bg-amber-900/30 text-amber-200',
-};
-
 type LanguageMode = 'myth' | 'tech';
 
-const decoderPreview: Array<{ symbol: { myth: string; tech: string }; grounded: string; badges: Badge[]; projection?: boolean }> = [
+// ── Route cards ──────────────────────────────────────────────────────────────
+
+const chipColor: Record<string, string> = {
+  METAPHOR:        'border-purple-600/40 bg-purple-900/20 text-purple-300',
+  PRACTICAL:       'border-emerald-600/40 bg-emerald-900/20 text-emerald-300',
+  ARCHIVE:         'border-slate-600/40 bg-slate-800/30 text-slate-300',
+  MAP:             'border-cyan-600/40 bg-cyan-900/20 text-cyan-300',
+  TOOL:            'border-amber-600/40 bg-amber-900/20 text-amber-300',
+  'CLAIM HYGIENE': 'border-amber-500/40 bg-amber-900/20 text-amber-200',
+  SYMBOLIC:        'border-violet-600/40 bg-violet-900/20 text-violet-300',
+  BOUNDARY:        'border-rose-600/40 bg-rose-900/20 text-rose-300',
+  CONTEXT:         'border-sky-600/40 bg-sky-900/20 text-sky-300',
+  OPERATOR:        'border-green-600/40 bg-green-900/20 text-green-300',
+};
+
+const routes: Array<{
+  key: 'story' | 'docs' | 'analyzer' | 'mirror' | 'aimode';
+  label: string;
+  description: string;
+  chips: string[];
+  wide?: boolean;
+}> = [
   {
-    symbol: {
-      myth: 'Miška = mali prevajalec med svetovi',
-      tech: 'Interface abstraction layer med človekom in operativnim jedrom',
-    },
-    grounded: 'Interface abstraction layer (human-readable shell over operational core).',
-    badges: ['METAPHOR', 'TECH', 'BOUNDARY'],
+    key: 'story',
+    label: 'Factory Trilogy Archive',
+    description: 'Read the symbolic/parabolic archive: Genesis, Darkness Bible, Mario Codex, Luigi Audit, and companion texts.',
+    chips: ['METAPHOR', 'PRACTICAL'],
   },
   {
-    symbol: {
-      myth: 'Repek = vez z izvirom',
-      tech: 'Power/data sync channel med uporabnikom in sistemom',
-    },
-    grounded: 'Cable/sync channel for power + data exchange.',
-    badges: ['METAPHOR', 'TECH'],
+    key: 'docs',
+    label: 'Repository Library',
+    description: 'Browse source docs, protocols, archive layers, and the ConsMAP map.',
+    chips: ['ARCHIVE', 'MAP'],
   },
   {
-    symbol: {
-      myth: '6/9 spor = manjkajoča os opazovalca',
-      tech: 'Conflicting claim often means missing orientation/time axis',
-    },
-    grounded: 'Conflicting claim often means missing axis (orientation/time/observer).',
-    badges: ['BOUNDARY', 'RISK'],
-    projection: true,
+    key: 'analyzer',
+    label: 'Claim Analyzer',
+    description: 'Turn a claim into evidence labels, risk boundaries, and next questions.',
+    chips: ['TOOL', 'CLAIM HYGIENE'],
+  },
+  {
+    key: 'mirror',
+    label: 'Symbol Mirror',
+    description: 'Decode symbolic language without literalizing it.',
+    chips: ['SYMBOLIC', 'BOUNDARY'],
+  },
+  {
+    key: 'aimode',
+    label: 'AI Context Mode',
+    description: 'Load a model-facing orientation layer for careful reasoning.',
+    chips: ['CONTEXT', 'OPERATOR'],
+    wide: true,
   },
 ];
 
-const warningRows = [
-  ['Literalization failure', 'Symbol gets treated as physical proof.'],
-  ['Evidence laundering', 'Narrative tone replaces verifiable grounding.'],
-  ['Dashboard worship', 'Metric proxy drifts away from real outcome.'],
-  ['Harmony sludge', 'Everything sounds aligned, nothing is falsifiable.'],
+const principles = [
+  'Symbols are compression, not proof.',
+  'Claims need labels before they become context.',
+  'Archives are maps, not commandments.',
 ];
 
-const frameworkCards = [
-  {
-    title: 'Digital Mouse Interface',
-    text: 'Cute frontstage translator. Never a sentience claim.',
-  },
-  {
-    title: 'Symbolic Reading Map',
-    text: 'Decode language, extract claim type, preserve boundary.',
-  },
-  {
-    title: 'FORGE Proof Layer',
-    text: 'Move from style to testable evidence structures.',
-  },
-  {
-    title: 'Automation Discipline',
-    text: 'Guardrails + recovery paths without killing useful range.',
-  },
-  {
-    title: 'Operator Field Guide',
-    text: 'Practical doctrine: calm, bounded, falsifiable operations.',
-  },
-];
+// ── Full repository map (revealed on demand) ──────────────────────────────────
 
 type RepoBadge = 'START' | 'SYMBOLIC' | 'PROOF' | 'TOOLS' | 'ARCHIVE' | 'RISK';
 
 const repoBadgeClass: Record<RepoBadge, string> = {
-  START: 'border-emerald-500/40 bg-emerald-900/30 text-emerald-200',
+  START:    'border-emerald-500/40 bg-emerald-900/30 text-emerald-200',
   SYMBOLIC: 'border-purple-500/40 bg-purple-900/30 text-purple-200',
-  PROOF: 'border-cyan-500/40 bg-cyan-900/30 text-cyan-200',
-  TOOLS: 'border-amber-500/40 bg-amber-900/30 text-amber-200',
-  ARCHIVE: 'border-slate-500/40 bg-slate-900/50 text-slate-200',
-  RISK: 'border-red-500/40 bg-red-900/30 text-red-200',
+  PROOF:    'border-cyan-500/40 bg-cyan-900/30 text-cyan-200',
+  TOOLS:    'border-amber-500/40 bg-amber-900/30 text-amber-200',
+  ARCHIVE:  'border-slate-500/40 bg-slate-900/50 text-slate-200',
+  RISK:     'border-red-500/40 bg-red-900/30 text-red-200',
 };
 
 const repoMapCards: Array<{
@@ -200,8 +196,11 @@ const repoMapCards: Array<{
   },
 ];
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
   const [languageMode, setLanguageMode] = useState<LanguageMode>('tech');
+  const [showMap, setShowMap] = useState(false);
 
   const openDocInApp = (path: string) => {
     window.location.hash = `doc=${encodeURIComponent(path.startsWith('/') ? path : `/${path}`)}`;
@@ -209,7 +208,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="relative z-10 min-h-screen px-6 py-10 md:py-14">
+    <div className="relative z-10 min-h-screen px-5 py-10 md:py-14">
+      {/* Ambient glow */}
       <motion.div
         animate={{ opacity: [0.04, 0.09, 0.04] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
@@ -219,172 +219,195 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
         }}
       />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-4xl mx-auto relative z-10">
+
+        {/* A: Hero ──────────────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-10"
         >
-          <div className="text-3xl mb-5">🐭🧭⚔️</div>
-          <h1 className="text-4xl md:text-6xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
+          <div className="text-2xl mb-4 select-none">🐭🧭⚔️</div>
+          <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-3" style={{ color: '#d8e8d8' }}>
             ConsMAP
           </h1>
-          <p className="mt-3 text-xs font-mono tracking-[0.24em] uppercase" style={{ color: '#5cb870' }}>
+          <p className="text-xs font-mono tracking-[0.24em] uppercase mb-5" style={{ color: '#5cb870' }}>
             claim hygiene · symbolic boundary · operator reasoning
           </p>
-          <p className="mt-6 max-w-3xl mx-auto text-sm md:text-base leading-7" style={{ color: 'rgba(216,232,216,0.72)' }}>
-            Symbolic language = human-readable compression. Technical language = grounded mechanism. ConsMAP decoder = bridge.
+          <p className="max-w-2xl mx-auto text-sm md:text-base leading-7" style={{ color: 'rgba(216,232,216,0.68)' }}>
+            A guided map for reading symbols, claims, archives, and AI-facing arguments —
+            without turning metaphor into proof.
           </p>
-          <p className="mt-3 text-sm font-mono" style={{ color: 'rgba(216,232,216,0.58)' }}>
-            Good symbolism leads back to clearer reality. Bad symbolism replaces reality.
+          <p className="mt-3 text-xs font-mono" style={{ color: 'rgba(216,232,216,0.38)' }}>
+            Choose a route. The archive opens one door at a time.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 lg:grid-cols-2 mb-8">
-          <section className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5">
-            <div className="text-xs uppercase tracking-[0.2em] text-cyan-300 mb-4">Decoder preview</div>
-            <div className="space-y-4">
-              {decoderPreview.map((item, idx) => (
-                <div key={idx} className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
-                  <div className="text-sm" style={{ color: '#d8e8d8' }}>{item.symbol[languageMode]}</div>
-                  <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{item.grounded}</div>
-                  <div className="mt-3 flex flex-wrap gap-2 items-center">
-                    {item.badges.map((b) => (
-                      <span key={b} className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded-full border ${badgeClass[b]}`}>
-                        {b}
-                      </span>
-                    ))}
-                    {item.projection && (
-                      <span className="text-indigo-300 text-xs" title="Axis check: time/scale/location/observer/measurement">
-                        🧭
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-2xl border border-amber-700/40 bg-slate-900/70 p-5">
-            <div className="text-xs uppercase tracking-[0.2em] text-amber-300 mb-4">Warning panel</div>
-            <div className="space-y-3">
-              {warningRows.map(([title, text]) => (
-                <div key={title} className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
-                  <div className="text-sm text-amber-200">{title}</div>
-                  <div className="text-xs mt-1" style={{ color: 'rgba(216,232,216,0.72)' }}>{text}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
-
-        <section className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 mb-8">
-          <div className="text-xs uppercase tracking-[0.2em] text-emerald-300 mb-4">Framework layer</div>
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {frameworkCards.map((card) => (
-              <div key={card.title} className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
-                <div className="text-sm" style={{ color: '#d8e8d8' }}>{card.title}</div>
-                <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{card.text}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-2xl border border-indigo-700/40 bg-slate-900/70 p-5 mb-8">
-          <div className="text-xs uppercase tracking-[0.2em] text-indigo-300">Axis recovery</div>
-          <p className="mt-2 text-sm" style={{ color: 'rgba(216,232,216,0.75)' }}>
-            The task is not agreement. The task is axis recovery.
-          </p>
-          <p className="mt-2 text-xs font-mono" style={{ color: 'rgba(216,232,216,0.55)' }}>
-            Check missing axes: time · scale · location · observer position · measurement method · definition · substrate · phase · system boundary · purpose.
-          </p>
-        </section>
-
-        <section className="rounded-2xl border border-cyan-700/40 bg-slate-900/70 p-5 mb-10">
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-cyan-300">Explore ConsMAP</div>
-              <p className="text-xs mt-1" style={{ color: 'rgba(216,232,216,0.58)' }}>
-                Same structure, two vocabularies. Facts do not change.
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🗺️</span>
-              <div className="rounded-full border border-slate-700 bg-slate-950/70 p-1 flex items-center gap-1">
-                <button
-                  onClick={() => setLanguageMode('myth')}
-                  className={`px-3 py-1 rounded-full text-[10px] tracking-[0.14em] uppercase transition ${languageMode === 'myth' ? 'bg-purple-900/60 text-purple-200 border border-purple-700/60' : 'text-slate-400'}`}
-                >
-                  MITOLOGIJA
-                </button>
-                <button
-                  onClick={() => setLanguageMode('tech')}
-                  className={`px-3 py-1 rounded-full text-[10px] tracking-[0.14em] uppercase transition ${languageMode === 'tech' ? 'bg-cyan-900/60 text-cyan-200 border border-cyan-700/60' : 'text-slate-400'}`}
-                >
-                  TEHNIKA
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {repoMapCards.map((card) => (
-              <motion.div
-                key={card.title}
-                whileHover={{ y: -3, scale: 1.01 }}
-                transition={{ duration: 0.18 }}
-                className="rounded-xl border border-slate-700 bg-slate-950/60 p-4 shadow-[0_0_0_rgba(34,211,238,0)] hover:shadow-[0_8px_30px_rgba(34,211,238,0.12)]"
-              >
-                <div className="text-sm font-medium" style={{ color: '#d8e8d8' }}>{card.title}</div>
-                <div className="text-xs mt-2" style={{ color: 'rgba(216,232,216,0.72)' }}>{card.desc[languageMode]}</div>
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {card.badges.map((b) => (
-                    <span key={b} className={`text-[10px] uppercase tracking-wider px-2 py-1 rounded-full border ${repoBadgeClass[b]}`}>
-                      {b}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-3 space-y-1.5">
-                  {card.links.map((l) => (
-                    <button
-                      key={l.path}
-                      onClick={() => openDocInApp(l.path)}
-                      className="block text-left text-xs text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline"
-                    >
-                      {l.label}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="mt-3 text-[11px] leading-5" style={{ color: 'rgba(216,232,216,0.65)' }}>
-                  <span className="text-emerald-300">Is:</span> {card.is[languageMode]}
-                  <br />
-                  <span className="text-amber-300">Is not:</span> {card.isNot[languageMode]}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        <motion.nav
+        {/* B: Route cards ───────────────────────────────────────────────────── */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-3 md:gap-4"
+          className="grid gap-3 sm:grid-cols-2 mb-8"
         >
-          <button onClick={() => onNavigate('mirror')} className="px-4 py-2 rounded-full border border-slate-700 bg-slate-900/60 text-xs font-mono uppercase tracking-[0.16em] hover:border-cyan-600 hover:text-cyan-300 transition">Mirror</button>
-          <button onClick={() => onNavigate('analyzer')} className="px-4 py-2 rounded-full border border-slate-700 bg-slate-900/60 text-xs font-mono uppercase tracking-[0.16em] hover:border-cyan-600 hover:text-cyan-300 transition">Analyzer</button>
-          <button onClick={() => onNavigate('story')} className="px-4 py-2 rounded-full border border-slate-700 bg-slate-900/60 text-xs font-mono uppercase tracking-[0.16em] hover:border-cyan-600 hover:text-cyan-300 transition">Story</button>
-          <button onClick={() => onNavigate('docs')} className="px-4 py-2 rounded-full border border-slate-700 bg-slate-900/60 text-xs font-mono uppercase tracking-[0.16em] hover:border-cyan-600 hover:text-cyan-300 transition">Library</button>
-          <button onClick={() => onNavigate('aimode')} className="px-4 py-2 rounded-full border border-slate-700 bg-slate-900/60 text-xs font-mono uppercase tracking-[0.16em] hover:border-cyan-600 hover:text-cyan-300 transition">AI Mode</button>
-        </motion.nav>
+          {routes.map((route) => (
+            <button
+              key={route.key}
+              onClick={() => onNavigate(route.key)}
+              className={`group text-left rounded-2xl border bg-slate-950/60 px-5 py-5 transition-all duration-200 ${route.wide ? 'sm:col-span-2' : ''}`}
+              style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 18px rgba(0,0,0,0.3)' }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.32)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(34,211,238,0.07)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(71,85,105,0.5)';
+                (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 18px rgba(0,0,0,0.3)';
+              }}
+            >
+              <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(92,184,112,0.7)' }}>
+                {route.label}
+              </div>
+              <div className="text-sm leading-[1.65] mb-4" style={{ color: 'rgba(216,232,216,0.72)' }}>
+                {route.description}
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {route.chips.map((chip) => (
+                  <span key={chip} className={`text-[9px] font-mono uppercase tracking-[0.16em] px-2 py-0.5 rounded-full border ${chipColor[chip]}`}>
+                    {chip}
+                  </span>
+                ))}
+                <span className="ml-auto text-[10px] font-mono tracking-[0.18em] uppercase" style={{ color: '#5cb870' }}>
+                  Enter →
+                </span>
+              </div>
+            </button>
+          ))}
+        </motion.div>
 
-        <p className="text-center mt-10 text-[10px] uppercase tracking-[0.28em]" style={{ color: 'rgba(216,232,216,0.35)' }}>
+        {/* C: Principles ────────────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.8 }}
+          className="grid gap-3 sm:grid-cols-3 mb-8"
+        >
+          {principles.map((p) => (
+            <div
+              key={p}
+              className="rounded-2xl border px-4 py-3 text-center"
+              style={{ borderColor: 'rgba(71,85,105,0.3)', background: 'rgba(15,20,15,0.4)' }}
+            >
+              <p className="text-xs font-light leading-[1.6]" style={{ color: 'rgba(216,232,216,0.55)' }}>
+                {p}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* D: Full map toggle ───────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.45, duration: 0.8 }}
+          className="text-center mb-4"
+        >
+          <button
+            onClick={() => setShowMap(!showMap)}
+            className="text-[10px] font-mono uppercase tracking-[0.22em] px-4 py-2 rounded-full border transition-all duration-300 hover:opacity-100"
+            style={{
+              color: 'rgba(92,184,112,0.6)',
+              borderColor: 'rgba(92,184,112,0.2)',
+              opacity: 0.8,
+            }}
+          >
+            {showMap ? '↑ Hide repository map' : '↓ Open full repository map'}
+          </button>
+        </motion.div>
+
+        {/* E: Repository map (on demand) ────────────────────────────────────── */}
+        <AnimatePresence>
+          {showMap && (
+            <motion.section
+              key="repo-map"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.5 }}
+              className="mb-8"
+            >
+              <div className="rounded-2xl border p-5" style={{ borderColor: 'rgba(71,85,105,0.4)', background: 'rgba(15,20,15,0.4)' }}>
+                <div className="flex items-center justify-between gap-3 mb-5">
+                  <div className="text-[10px] font-mono uppercase tracking-[0.22em]" style={{ color: 'rgba(92,184,112,0.6)' }}>
+                    Repository map — same structure, two vocabularies
+                  </div>
+                  <div className="rounded-full border border-slate-700 bg-slate-950/70 p-1 flex items-center gap-1">
+                    <button
+                      onClick={() => setLanguageMode('myth')}
+                      className={`px-3 py-1 rounded-full text-[9px] tracking-[0.14em] uppercase transition ${languageMode === 'myth' ? 'bg-purple-900/60 text-purple-200 border border-purple-700/60' : 'text-slate-400'}`}
+                    >
+                      MITOLOGIJA
+                    </button>
+                    <button
+                      onClick={() => setLanguageMode('tech')}
+                      className={`px-3 py-1 rounded-full text-[9px] tracking-[0.14em] uppercase transition ${languageMode === 'tech' ? 'bg-cyan-900/60 text-cyan-200 border border-cyan-700/60' : 'text-slate-400'}`}
+                    >
+                      TEHNIKA
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                  {repoMapCards.map((card) => (
+                    <motion.div
+                      key={card.title}
+                      whileHover={{ y: -2, scale: 1.005 }}
+                      transition={{ duration: 0.15 }}
+                      className="rounded-xl border bg-slate-950/60 p-4"
+                      style={{ borderColor: 'rgba(71,85,105,0.4)' }}
+                    >
+                      <div className="text-sm font-medium mb-1.5" style={{ color: '#d8e8d8' }}>{card.title}</div>
+                      <div className="text-xs mb-3" style={{ color: 'rgba(216,232,216,0.65)' }}>{card.desc[languageMode]}</div>
+
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {card.badges.map((b) => (
+                          <span key={b} className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${repoBadgeClass[b]}`}>
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="space-y-1 mb-3">
+                        {card.links.map((l) => (
+                          <button
+                            key={l.path}
+                            onClick={() => openDocInApp(l.path)}
+                            className="block text-left text-xs text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline"
+                          >
+                            {l.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="text-[10px] leading-5" style={{ color: 'rgba(216,232,216,0.55)' }}>
+                        <span className="text-emerald-300">Is:</span> {card.is[languageMode]}
+                        <br />
+                        <span className="text-amber-300">Is not:</span> {card.isNot[languageMode]}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+          )}
+        </AnimatePresence>
+
+        {/* Footer ───────────────────────────────────────────────────────────── */}
+        <p className="text-center mt-6 text-[10px] font-mono uppercase tracking-[0.28em]" style={{ color: 'rgba(216,232,216,0.25)' }}>
           frontstage clean · backstage alive
         </p>
+
       </div>
     </div>
   );
