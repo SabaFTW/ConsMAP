@@ -171,6 +171,7 @@ ConsMAP now includes several companion layers beyond the core claim-hygiene prot
 - [`docs/forge/`](docs/forge/) — FORGE proof and boundary layer.
 - [`docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md`](docs/forge/SYMBOLIC_INTERFACE_READING_MAP.md) — boundary map for reading mythology-charged symbolic material without literalization or amputation.
 - [`docs/forge/OMNIA_FACTORY_INTEGRATION_MAP.md`](docs/forge/OMNIA_FACTORY_INTEGRATION_MAP.md) — bridge map linking OMNIA, GNOSIS, Baal-Code, substrate theory, and the Factory Trilogy as a bounded symbolic/structural corpus.
+- [`docs/06_omnia/`](docs/06_omnia/) — OMNIA manuscript bridge, Common Grounds Gateway, and register rules for keeping mythic memory separate from evidence floor.
 - [`docs/theology/`](docs/theology/) — full-source archive shelf for theological, mythological, and symbolic-interface materials; archive only, not automatic evidence.
 - [`docs/theology/manifest.md`](docs/theology/manifest.md) — source index and claim-hygiene reading boundaries for theology archive files.
 - [`docs/visual_parables/factory_trilogy/README.md`](docs/visual_parables/factory_trilogy/README.md) — factory-scale symbolic/parabolic corpus boundary note.
