@@ -4,6 +4,10 @@
 
 *Co-developed in conversation. Filed for the Factory Trilogy / GhostCORE adjacent shelf.*
 
+> *No villains were required during construction of this document.*
+>
+> *Reviewed and approved by the Department of Vaguely Vanilla Coffee.* ☕🐭
+
 -----
 
 ## Foreword: What this is
