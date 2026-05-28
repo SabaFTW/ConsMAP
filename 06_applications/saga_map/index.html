@@ -577,11 +577,13 @@ function buildCard(card, c) {
 function buildStage(s) {
   const c = COLORS[s.accent];
   const el = document.createElement('div');
+  const bodyId = `stage-body-${s.id}`;
+  const deepId = `deep-panel-${s.id}`;
   el.className = 'stage';
   el.setAttribute('role', 'listitem');
   el.dataset.id = s.id;
   el.innerHTML = `
-    <div class="stage-head" role="button" tabindex="0" aria-expanded="false">
+    <div class="stage-head" role="button" tabindex="0" aria-expanded="false" aria-controls="${bodyId}">
       <div class="node" style="--nc:${c.nc};--ng:${c.ng}">${s.glyph}</div>
       <div class="stage-meta">
         <div class="stage-num">Stage ${String(s.id).padStart(2,'0')}</div>
@@ -590,7 +592,7 @@ function buildStage(s) {
       </div>
       <div class="stage-toggle" aria-hidden="true">+</div>
     </div>
-    <div class="stage-body">
+    <div class="stage-body" id="${bodyId}" aria-hidden="true" hidden>
       <div class="stage-inner">
         <div class="cards">
           ${buildCard(s.left, c)}
@@ -598,8 +600,8 @@ function buildStage(s) {
         </div>
         ${s.deep ? `
         <div class="deep-wrap">
-          <button class="dig-btn">↳ Sled v arhiv</button>
-          <div class="deep-panel">
+          <button class="dig-btn" aria-expanded="false" aria-controls="${deepId}">↳ Sled v arhiv</button>
+          <div class="deep-panel" id="${deepId}" aria-hidden="true" hidden>
             <div class="deep-panel-inner">
               <div class="deep-quote">
                 <q>${s.deep.quote.replace(/\n/g,'<br>')}</q>
@@ -612,11 +614,14 @@ function buildStage(s) {
     </div>`;
 
   const head = el.querySelector('.stage-head');
+  const stageBody = el.querySelector('.stage-body');
 
   function toggle(open) {
     const isOpen = open !== undefined ? open : !el.classList.contains('open');
     el.classList.toggle('open', isOpen);
-    head.setAttribute('aria-expanded', isOpen);
+    head.setAttribute('aria-expanded', String(isOpen));
+    stageBody.hidden = !isOpen;
+    stageBody.setAttribute('aria-hidden', String(!isOpen));
   }
 
   head.addEventListener('click', () => toggle());
@@ -630,6 +635,9 @@ function buildStage(s) {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       const open = panel.classList.toggle('open');
+      panel.hidden = !open;
+      panel.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-expanded', String(open));
       btn.classList.toggle('open', open);
       btn.textContent = open ? '↑ Zapri sled' : '↳ Sled v arhiv';
     });
