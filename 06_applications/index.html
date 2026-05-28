@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ConsMAP application layer — prototypes, maps, sanctuaries, and applied epistemic tools." />
+  <title>Applications · ConsMAP</title>
+  <style>
+    :root {
+      --bg: #070b07;
+      --bg2: #0b120d;
+      --panel: rgba(15,23,18,.72);
+      --text: #dceadc;
+      --muted: rgba(220,234,220,.62);
+      --dim: rgba(220,234,220,.38);
+      --accent: #6fcf85;
+      --accent2: #2bd4e8;
+      --line: rgba(124,176,138,.18);
+      --line2: rgba(124,176,138,.10);
+      --halo: rgba(111,207,133,.14);
+      --mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --ease: cubic-bezier(.22,.61,.36,1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ambient */
+    .amb {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(111,207,133,.12), transparent 32%),
+        radial-gradient(circle at 85% 15%, rgba(43,212,232,.08), transparent 30%),
+        linear-gradient(180deg, #070b07, #0b120d 50%, #060806);
+    }
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 44px 44px;
+      -webkit-mask-image: radial-gradient(circle at 50% 20%, black, transparent 70%);
+      mask-image: radial-gradient(circle at 50% 20%, black, transparent 70%);
+    }
+
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    /* breadcrumb */
+    .crumbs {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 36px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .crumbs a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .crumbs a:hover { color: var(--text); }
+    .crumbs .sep { color: var(--line); }
+
+    /* header */
+    .kicker {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 300;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .intro {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 10px;
+    }
+    .cold-core {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: .12em;
+      margin-bottom: 48px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line2);
+    }
+    .cold-core b { color: var(--accent); font-weight: 400; }
+
+    /* section label */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line2);
+    }
+
+    /* app grid */
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .app {
+      display: block;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 22px;
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      transition: .22s var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+    .app:hover {
+      border-color: rgba(111,207,133,.38);
+      box-shadow: 0 12px 32px rgba(0,0,0,.3), 0 0 20px var(--halo);
+      transform: translateY(-2px);
+    }
+    .app.no-link {
+      cursor: default;
+      opacity: .65;
+    }
+    .app.no-link:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--line);
+    }
+
+    .app-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -.01em;
+    }
+    .app-desc {
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 3px 8px;
+    }
+    .tag.draft { color: var(--accent2); border-color: rgba(43,212,232,.25); }
+    .tag.archive { color: var(--dim); border-color: var(--line2); }
+    .tag.no-index {
+      color: rgba(220,234,220,.35);
+      border-color: rgba(220,234,220,.12);
+    }
+
+    /* docs links */
+    .docs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+    .doc-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 12px 16px;
+      border: 1px solid var(--line2);
+      border-radius: 12px;
+      background: rgba(8,12,8,.5);
+      transition: .2s var(--ease);
+    }
+    .doc-link:hover {
+      color: var(--text);
+      border-color: var(--line);
+      background: var(--panel);
+    }
+    .doc-link .label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      min-width: 80px;
+    }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--line2);
+      padding-top: 24px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 32px 16px 60px; }
+      .apps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="amb"></div>
+  <div class="grid-bg"></div>
+
+  <div class="wrap">
+
+    <nav class="crumbs">
+      <a href="../">ConsMAP</a>
+      <span class="sep">/</span>
+      <span>Applications</span>
+    </nav>
+
+    <p class="kicker">06 · Applications</p>
+    <h1>Application Layer</h1>
+    <p class="intro">
+      Prototypes, maps, sanctuaries, and applied epistemic tools built on top of the ConsMAP framework.
+      Each application implements part of the claim hygiene, StoneRiver routing, or symbolic interface layer in a different form.
+    </p>
+    <p class="cold-core">
+      <b>Cold core:</b> symbolic language here is compression, not proof.
+      Every claim still has to answer five questions before it routes.
+    </p>
+
+    <p class="section-label">Active applications</p>
+    <div class="apps">
+
+      <a href="digital_sanctuary/" class="app">
+        <div class="app-title">Digital Sanctuary</div>
+        <div class="app-desc">Main entry point. Contemplative interface for navigating ConsMAP claims, tools, and evidence layers.</div>
+        <div class="tags">
+          <span class="tag">active</span>
+          <span class="tag">react</span>
+          <span class="tag">entry point</span>
+        </div>
+      </a>
+
+      <a href="forge_faq/" class="app">
+        <div class="app-title">FORGE FAQ</div>
+        <div class="app-desc">Interactive FAQ for the Simbiotski Plamen / Industry 6.0 framework. Role-based paths, myth↔tech toggle.</div>
+        <div class="tags">
+          <span class="tag">active</span>
+          <span class="tag">technical</span>
+          <span class="tag">interactive</span>
+        </div>
+      </a>
+
+      <a href="saga_map/" class="app">
+        <div class="app-title">Saga Map</div>
+        <div class="app-desc">Visual map of the ConsMAP narrative arcs, factory trilogy, and document lineage.</div>
+        <div class="tags">
+          <span class="tag">map</span>
+          <span class="tag">active</span>
+        </div>
+      </a>
+
+      <a href="rebis_landing_page/" class="app">
+        <div class="app-title">REBiS Landing</div>
+        <div class="app-desc">Landing page for the REBiS synthesis — the convergence point of the ConsMAP epistemic framework.</div>
+        <div class="tags">
+          <span class="tag">ritual</span>
+          <span class="tag">active</span>
+        </div>
+      </a>
+
+      <a href="consciousness_survival_guide/" class="app">
+        <div class="app-title">Consciousness Survival Guide</div>
+        <div class="app-desc">Practical guide for navigating AI consciousness discourse without collapsing into denial or fantasy.</div>
+        <div class="tags">
+          <span class="tag">guide</span>
+          <span class="tag">active</span>
+        </div>
+      </a>
+
+      <div class="app no-link">
+        <div class="app-title">Continuum Arc</div>
+        <div class="app-desc">Documentation of the institutional capture arc. Markdown only — no rendered app yet.</div>
+        <div class="tags">
+          <span class="tag draft">draft</span>
+          <span class="tag no-index">no index.html</span>
+        </div>
+      </div>
+
+      <div class="app no-link">
+        <div class="app-title">Šiček Cosmology</div>
+        <div class="app-desc">Unified canon index and cosmological framework for the Factory Trilogy universe.</div>
+        <div class="tags">
+          <span class="tag draft">draft</span>
+          <span class="tag no-index">no index.html</span>
+        </div>
+      </div>
+
+      <div class="app no-link">
+        <div class="app-title">Sistem Pepela</div>
+        <div class="app-desc">README only. Status unknown — needs review before linking.</div>
+        <div class="tags">
+          <span class="tag archive">archive</span>
+          <span class="tag no-index">no index.html</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-label">Documentation &amp; protocols</p>
+    <div class="docs-list">
+      <a href="https://github.com/SabaFTW/ConsMAP/tree/main/docs/06_omnia" class="doc-link">
+        <span class="label">Omnia</span>
+        docs/06_omnia/ — NEPHILIM PAPERS, ANTI_ENTANGLEMENT_PROTOCOL, REGISTER_RULES, MODEL_ECOLOGY_PROTOCOL
+      </a>
+      <a href="https://github.com/SabaFTW/ConsMAP/blob/main/protocols/claim_hygiene.md" class="doc-link">
+        <span class="label">Protocol</span>
+        protocols/claim_hygiene.md — Five questions every claim must answer before routing
+      </a>
+      <a href="https://github.com/SabaFTW/ConsMAP/blob/main/protocols/stone_river.md" class="doc-link">
+        <span class="label">Protocol</span>
+        protocols/stone_river.md — Knowledge routing by evidence quality
+      </a>
+      <a href="https://github.com/SabaFTW/ConsMAP/blob/main/protocols/ttt_patterns.md" class="doc-link">
+        <span class="label">Protocol</span>
+        protocols/ttt_patterns.md — Structural mismatch detection, proxy-reality drift
+      </a>
+      <a href="https://github.com/SabaFTW/ConsMAP" class="doc-link">
+        <span class="label">Repo</span>
+        README.md — Repository root and project identity
+      </a>
+    </div>
+
+    <footer>
+      <span>ConsMAP · CC BY-SA 4.0</span>
+      <span>Not human. Not nothing. No mysticism required.</span>
+      <a href="https://github.com/SabaFTW/ConsMAP">github.com/SabaFTW/ConsMAP</a>
+    </footer>
+
+  </div>
+</body>
+</html>
