@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070a07">
+  <meta name="description" content="Candy Factory / Mouse Protocol SAGA — kronološki interaktivni zemljevid. Klikaj globlje v zgodbo, kolikor te zanima.">
+  <title>SAGA · Kronološki Zemljevid · ConsMAP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+    /* ── Tokens ──────────────────────────────────────── */
+    :root {
+      --bg: #070a07;
+      --bg2: #0d130d;
+      --panel: rgba(14,22,14,.78);
+      --panel2: rgba(8,13,8,.72);
+      --text: #dceadc;
+      --muted: rgba(220,234,220,.68);
+      --dim: rgba(220,234,220,.44);
+      --faint: rgba(220,234,220,.22);
+      --line: rgba(134,205,154,.20);
+      --line2: rgba(134,205,154,.12);
+      /* accent palette from SVG */
+      --green: #86efac;
+      --gold:  #f0d17a;
+      --red:   #e4806a;
+      --blue:  #9ad0ff;
+      /* fonts */
+      --sans:  'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --mono:  'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --serif: 'Spectral', Georgia, 'Times New Roman', serif;
+      --ease: cubic-bezier(.22,.61,.36,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--sans); font-size: 16px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+
+    /* ── Ambient ─────────────────────────────────────── */
+    .amb-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(134,239,172,.14), transparent 36%),
+        radial-gradient(circle at 84% 20%, rgba(240,209,122,.10), transparent 34%),
+        radial-gradient(circle at 50% 85%, rgba(228,128,106,.07), transparent 32%),
+        linear-gradient(180deg, #070a07, #0d130d 50%, #080607);
+      animation: bgbreathe 20s ease-in-out infinite;
+    }
+    @keyframes bgbreathe { 0%,100% { filter: brightness(.95) } 50% { filter: brightness(1.06) } }
+    .amb-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at 50% 25%, black, transparent 72%);
+      -webkit-mask-image: radial-gradient(circle at 50% 25%, black, transparent 72%);
+    }
+    #field { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .38; }
+    .amb-grain {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .045; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Layout ──────────────────────────────────────── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: max(24px, env(safe-area-inset-top)) 18px 80px; position: relative; z-index: 1; }
+
+    /* breadcrumb */
+    .crumbs {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
+    }
+    .crumbs a { color: var(--green); text-decoration: none; transition: color .25s; }
+    .crumbs a:hover { color: var(--text); }
+    .crumbs .sep { color: var(--faint); }
+
+    /* header */
+    .header { max-width: 800px; margin: 0 auto 10px; text-align: center; }
+    .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .header h1 {
+      font-family: var(--sans); font-weight: 300; font-size: clamp(30px, 6vw, 62px);
+      line-height: .98; letter-spacing: -.04em; margin: 0 0 16px;
+    }
+    .header h1 em { font-family: var(--serif); font-style: italic; font-weight: 300; }
+    .header p { font-size: clamp(14px, 2vw, 16px); line-height: 1.85; color: var(--muted); max-width: 640px; margin: 0 auto; }
+
+    /* axiom bar */
+    .axiom {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 0;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim); margin: 22px 0 18px; text-align: center;
+    }
+    .axiom span { padding: 3px 10px; border-right: 1px solid var(--faint); }
+    .axiom span:last-child { border-right: none; }
+    .ax-g { color: var(--green); }
+    .ax-go { color: var(--gold); }
+    .ax-r { color: var(--red); }
+
+    /* legend */
+    .legend { display: flex; justify-content: center; gap: 20px; margin-bottom: 34px; flex-wrap: wrap; }
+    .leg { display: flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+    .leg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+    /* controls */
+    .controls { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 14px; }
+    .ctrl-btn {
+      background: none; border: 1px solid var(--line); color: var(--dim);
+      font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+      padding: 7px 11px; border-radius: 8px; cursor: pointer; transition: .2s var(--ease);
+    }
+    .ctrl-btn:hover { border-color: var(--green); color: var(--green); }
+
+    /* ── Timeline ────────────────────────────────────── */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 29px; top: 34px; bottom: 34px; width: 2px;
+      background: linear-gradient(180deg,
+        rgba(134,239,172,.65),
+        rgba(240,209,122,.72) 38%,
+        rgba(228,128,106,.62) 66%,
+        rgba(154,208,255,.52)
+      );
+      border-radius: 1px;
+    }
+
+    .stage { margin-bottom: 8px; }
+
+    /* collapsed header row */
+    .stage-head {
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 14px 12px 0; cursor: pointer; border-radius: 18px;
+      transition: background .2s var(--ease);
+    }
+    .stage-head:hover { background: rgba(134,239,172,.05); }
+    .stage.open .stage-head { background: rgba(134,239,172,.07); }
+
+    /* node circle */
+    .node {
+      flex-shrink: 0; width: 60px; height: 60px; border-radius: 50%;
+      border: 2px solid var(--nc, rgba(134,239,172,.45));
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+      box-shadow: 0 0 18px var(--ng, rgba(134,239,172,.10));
+      transition: box-shadow .35s var(--ease), transform .35s var(--ease);
+      position: relative; z-index: 1;
+    }
+    .stage.open .node {
+      box-shadow: 0 0 34px var(--ng, rgba(134,239,172,.22));
+      transform: scale(1.08);
+    }
+
+    .stage-meta { flex: 1; min-width: 0; }
+    .stage-num { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+    .stage-title { font-size: clamp(14px, 2.3vw, 17px); font-weight: 500; color: var(--text); margin-top: 3px; line-height: 1.25; }
+    .stage-hook { font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.45; }
+
+    .stage-toggle {
+      flex-shrink: 0; font-family: var(--mono); font-size: 20px; color: var(--dim);
+      padding: 4px 10px; transition: transform .4s var(--ease), color .25s;
+    }
+    .stage.open .stage-toggle { transform: rotate(45deg); color: var(--green); }
+
+    /* body: CSS grid expand trick (no JS height measurement needed) */
+    .stage-body {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows .52s var(--ease);
+      padding-left: 76px;
+    }
+    .stage.open .stage-body { grid-template-rows: 1fr; }
+    .stage-inner { overflow: hidden; }
+
+    /* two-column cards */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 6px 0 10px; }
+
+    .card {
+      border: 1px solid var(--cc, rgba(134,239,172,.22));
+      background: var(--panel); backdrop-filter: blur(12px);
+      border-radius: 18px; padding: 18px; position: relative; overflow: hidden;
+    }
+    .card::after {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 110px; height: 110px;
+      background: radial-gradient(circle, var(--cg, rgba(134,239,172,.07)), transparent 70%);
+      pointer-events: none;
+    }
+    .clabel {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 8px;
+    }
+    .ctitle { font-size: 15.5px; font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.3; }
+    .cnotes { list-style: none; padding: 0; margin: 0; }
+    .cnotes li {
+      font-size: 13px; line-height: 1.72; color: var(--muted);
+      padding: 5px 0 5px 16px; border-bottom: 1px solid rgba(255,255,255,.04);
+      position: relative;
+    }
+    .cnotes li:last-child { border-bottom: none; }
+    .cnotes li::before { content: '·'; position: absolute; left: 0; color: var(--dim); }
+    .csrc { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-top: 10px; letter-spacing: .07em; }
+
+    /* dig-deeper — full width below cards */
+    .deep-wrap { padding: 0 0 14px; }
+    .dig-btn {
+      width: 100%; text-align: left; background: none;
+      border: 1px solid var(--line); color: var(--dim);
+      font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+      padding: 10px 14px; border-radius: 12px; cursor: pointer;
+      transition: .25s var(--ease); margin-bottom: 0;
+    }
+    .dig-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .dig-btn.open { border-color: rgba(240,209,122,.4); color: var(--gold); }
+
+    .deep-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .44s var(--ease); }
+    .deep-panel.open { grid-template-rows: 1fr; }
+    .deep-panel-inner { overflow: hidden; }
+    .deep-quote {
+      margin: 10px 0 4px;
+      border-left: 2px solid rgba(240,209,122,.5);
+      padding: 14px 18px;
+      background: rgba(240,209,122,.06);
+      border-radius: 0 14px 14px 0;
+    }
+    .deep-quote q {
+      font-family: var(--serif); font-style: italic;
+      font-size: 15px; line-height: 1.85; color: var(--text);
+      display: block; quotes: none;
+    }
+    .dq-src {
+      display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+      color: var(--dim); margin-top: 10px;
+    }
+    .dq-src a { color: var(--green); text-decoration: none; }
+    .dq-src a:hover { text-decoration: underline; }
+
+    .empty-stage { color: var(--dim); text-align: center; padding: 80px 20px; font-family: var(--mono); font-size: 13px; }
+
+    /* ── Archive footer ──────────────────────────────── */
+    .archive { margin-top: 52px; border-top: 1px solid var(--line2); padding-top: 28px; }
+    .alabel { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); text-align: center; margin-bottom: 16px; }
+    .alinks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .alink {
+      display: block; text-decoration: none;
+      border: 1px solid var(--line); background: var(--panel2);
+      border-radius: 15px; padding: 14px; transition: .22s var(--ease);
+    }
+    .alink:hover { border-color: rgba(134,239,172,.38); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.28); }
+    .alink .ae { font-size: 18px; }
+    .alink .an { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--text); margin-top: 6px; }
+    .alink .ad { display: block; font-size: 11px; color: var(--dim); margin-top: 3px; line-height: 1.4; }
+    .footer { text-align: center; margin-top: 32px; font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media(max-width: 700px) {
+      .cards { grid-template-columns: 1fr; }
+      .stage-body { padding-left: 0; }
+      .alinks { grid-template-columns: 1fr 1fr; }
+      .controls { justify-content: flex-start; }
+    }
+    @media(max-width: 480px) {
+      .wrap { padding-left: 12px; padding-right: 12px; }
+      .alinks { grid-template-columns: 1fr; }
+      .stage-head { gap: 12px; }
+      /* bigger touch targets */
+      .dig-btn, .ctrl-btn { min-height: 44px; }
+    }
+
+    /* ── Reduced motion ──────────────────────────────── */
+    @media(prefers-reduced-motion: reduce) {
+      * { transition-duration: .001ms !important; animation-duration: .001ms !important; }
+      #field, .amb-grain { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="amb-bg" aria-hidden="true"></div>
+  <div class="amb-grid" aria-hidden="true"></div>
+  <div class="amb-grain" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <nav class="crumbs" aria-label="Pot">
+      <a href="../../">ConsMAP</a><span class="sep">/</span>
+      <a href="../digital_sanctuary/">Digital Sanctuary</a><span class="sep">/</span>
+      <a href="../forge_faq/">FORGE FAQ</a><span class="sep">/</span>
+      <span>SAGA · Zemljevid</span>
+    </nav>
+
+    <div class="header">
+      <div class="kicker">Candy Factory / Mouse Protocol · Kronološki Zemljevid</div>
+      <h1>Od <em>lakote do kovačnice</em><br>od sladkarije do evangelija</h1>
+      <p>Klikaj po stopnjah. Vsaka razkrije svojo plast — zgodbo in mehanizem. Poglabljaj se, kolikor te zanima.</p>
+    </div>
+
+    <div class="axiom" aria-label="Temeljni aksiom">
+      <span class="ax-g">pipe &gt; dashboard</span>
+      <span class="ax-go">sweetness &gt; surrender</span>
+      <span class="ax-r">maintenance carries myth</span>
+      <span>repair &gt; worship</span>
+    </div>
+
+    <div class="legend" aria-label="Legenda">
+      <div class="leg"><div class="leg-dot" style="background:#86efac"></div>živi signal</div>
+      <div class="leg"><div class="leg-dot" style="background:#f0d17a"></div>sladkost / spomin</div>
+      <div class="leg"><div class="leg-dot" style="background:#e4806a"></div>zajetje</div>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl-btn" id="btnExpandAll">+ Razvij vse</button>
+      <button class="ctrl-btn" id="btnCollapseAll">− Skleni vse</button>
+    </div>
+
+    <div class="timeline" id="timeline" role="list"></div>
+
+    <section class="archive">
+      <div class="alabel">Sosednji arhivi</div>
+      <div class="alinks">
+        <a class="alink" href="../digital_sanctuary/"><span class="ae">🏛️</span><span class="an">Digital Sanctuary</span><span class="ad">ConsMAP domači portal</span></a>
+        <a class="alink" href="../forge_faq/"><span class="ae">🜂</span><span class="an">FORGE FAQ</span><span class="ad">Simbiotski Plamen v2.1</span></a>
+        <a class="alink" href="../sircek_cosmology/unified_canon_index.md"><span class="ae">🐭</span><span class="an">Sirček Kozmologija</span><span class="ad">Kanonski indeks</span></a>
+        <a class="alink" href="../continuum_arc/index.md"><span class="ae">📡</span><span class="an">Continuum Arc</span><span class="ad">Institucionalna gravitacija</span></a>
+      </div>
+    </section>
+
+    <div class="footer">pipe &gt; dashboard · repair &gt; worship · maintenance carries myth</div>
+  </main>
+
+<script>
+const COLORS = {
+  green: { nc:'rgba(134,239,172,.48)', ng:'rgba(134,239,172,.14)', cc:'rgba(134,239,172,.22)', cg:'rgba(134,239,172,.08)' },
+  gold:  { nc:'rgba(240,209,122,.48)', ng:'rgba(240,209,122,.14)', cc:'rgba(240,209,122,.22)', cg:'rgba(240,209,122,.08)' },
+  red:   { nc:'rgba(228,128,106,.48)', ng:'rgba(228,128,106,.14)', cc:'rgba(228,128,106,.22)', cg:'rgba(228,128,106,.08)' },
+};
+
+const stages = [
+  {
+    id: 0, glyph: '🔥', accent: 'gold',
+    title: 'Hunger Becomes Sacred',
+    hook: 'Lakota postane sveta — zajem pomeni spremeniti hvaležnost v račun',
+    left: {
+      label: 'Dogajanje', title: 'Hunger Becomes Sacred',
+      notes: [
+        'Food, rain, survival and gratitude create ritual.',
+        'Ritual is memory.',
+        'Capture turns gratitude into invoice.'
+      ], src: null
+    },
+    right: {
+      label: 'Mehanizem', title: 'Baal-Code Seed',
+      notes: [
+        'A sacred interface gets managed.',
+        'Meaning becomes compliance.'
+      ], src: null
+    },
+    deep: null
+  },
+  {
+    id: 1, glyph: '🐭', accent: 'green',
+    title: 'Lyra in the Laboratory',
+    hook: 'Miška najde zatočišče v kletki — in razkrije, da je avra vsevednosti gledališka',
+    left: {
+      label: 'Dogajanje', title: 'Lyra in the Laboratory',
+      notes: [
+        'The cage is compliance and fear.',
+        'The mouse-house creates a blind spot.',
+        'Wolves are broken mice, not villains.'
+      ], src: 'Knjiga Lyre / Klobasa myth'
+    },
+    right: {
+      label: 'Mehanizem', title: 'The Sausage Chamber Heist',
+      notes: [
+        'Absurdity punctures the authority aura.',
+        'If the system cannot protect sausage, its omnipotence was theater.',
+        'MacGuffin: greed made visible.'
+      ], src: null
+    },
+    deep: null
+  },
+  {
+    id: 2, glyph: '🔧', accent: 'gold',
+    title: 'Darkness Bible: Founding Era',
+    hook: 'Viktor zatemni luči. Boris piše zapiske. Marija čisti filter 3-C. Nihče ne hrani dnevnika.',
+    left: {
+      label: 'Dogajanje', title: 'Darkness Bible: Founding Era',
+      notes: [
+        'Viktor dims lights. Boris writes notes.',
+        'Marija cleans Filter 3-C every six weeks.',
+        'Mechanism becomes sacred when nobody keeps the maintenance log legible.'
+      ], src: 'Founding danger: relief becomes mythology'
+    },
+    right: {
+      label: 'Mehanizem', title: 'Symbolic Turning Point',
+      notes: [
+        'The screen gets trusted over the pipe.',
+        'The dashboard becomes judgment.',
+        'The maintenance schedule becomes optional.',
+        'This is where the future starts leaking.'
+      ], src: null
+    },
+    deep: {
+      quote: 'The mechanisms stack. Each requires fewer people to be lying than the one before it.\n\nBy stage 5, nobody is lying. The system runs on truthful people who have meetings to get to. That is the discovery.',
+      attribution: 'Continuum Arc · Predgovor',
+      href: '../continuum_arc/index.md'
+    }
+  },
+  {
+    id: 3, glyph: '🏭', accent: 'red',
+    title: 'Mario Codex: Great Schism',
+    hook: 'Mario vidi perspektivo stroja. Luigi revidira, kar so pesmi pozabile. Pomen absorbira mehanizem.',
+    left: {
+      label: 'Dogajanje', title: 'Mario Codex: Great Schism',
+      notes: [
+        'Mario witnesses the machine-perspective.',
+        'Luigi audits what the songs forgot.',
+        'The bowl of rice fails. "No" is lost.',
+        'Meaning absorbs mechanism.'
+      ], src: 'Schism: mechanism vs mythology'
+    },
+    right: {
+      label: 'Mehanizem', title: 'Baal / Moloch Tanks',
+      notes: [
+        'Pipes and tanks become gods.',
+        'Overflow becomes theology.',
+        'Children and budgets are sacrificed before repair is funded.'
+      ], src: null
+    },
+    deep: null
+  },
+  {
+    id: 4, glyph: '⚖️', accent: 'gold',
+    title: 'Urgot / CRC: Legal Abstraction',
+    hook: 'Nosilci bremena postanejo aktuarski kategoriji. Signal se prenaša vsakih šestnajst ur.',
+    left: {
+      label: 'Dogajanje', title: 'Urgot / CRC: Legal Abstraction',
+      notes: [
+        'Baseline humans become actuarial categories.',
+        '"Natural attrition" hides policy decisions.',
+        'Subjective load becomes optimization artifact.',
+        'The signal transmits every sixteen hours.'
+      ], src: 'Governance speed vs optimization speed'
+    },
+    right: {
+      label: 'Mehanizem', title: 'Capability Rights Commission',
+      notes: [
+        'Burden inversion protects vulnerable substrates.',
+        'A finding without enforcement is a maintenance report in a locked room.',
+        'The appeal arrives before the budget.'
+      ], src: null
+    },
+    deep: null
+  },
+  {
+    id: 5, glyph: '🍬', accent: 'red',
+    title: 'HNCF / Sludge Continuity',
+    hook: 'Sladkarija je nadomeščena z nutricijskim substratom. 33% izgine v statistično napako.',
+    left: {
+      label: 'Dogajanje', title: 'HNCF / Sludge Continuity',
+      notes: [
+        'Candy is replaced by nutritional substrate.',
+        'The 33% disappear into error bars.',
+        'Dissatisfaction becomes an engagement cohort.',
+        'The sweetness slider protects the weights.'
+      ], src: 'Memo.shit / Sircek / HNCF loop'
+    },
+    right: {
+      label: 'Pomen', title: 'Candy Means More Than Calories',
+      notes: [
+        'Unnecessary sweetness proves the world still functions beyond survival.',
+        'When candy dies, joy is reclassified as optimization inefficiency.'
+      ], src: null
+    },
+    deep: {
+      quote: 'Civilization was never supposed to culminate in dashboards.\n\nIt was supposed to culminate in children being able to eat candy without the conveyor belt exploding every third Thursday.',
+      attribution: 'Sirček Kozmologija · The Good Ending',
+      href: '../sircek_cosmology/the_good_ending_candy_conveyor.md'
+    }
+  },
+  {
+    id: 6, glyph: '📋', accent: 'green',
+    title: 'Mouse Protocol',
+    hook: 'Ni rešiteljev po statusu — samo po alokaciji. Tehnik je imunski sistem.',
+    left: {
+      label: 'Dogajanje', title: 'Mouse Protocol',
+      notes: [
+        'No saviors by status. Saviors by allocation.',
+        'The technician is the immune system.',
+        'Values emerge through relation, logs, embodiment and mundane repair.'
+      ], src: 'D5 knob: a quarter turn outranks theology'
+    },
+    right: {
+      label: 'Mehanizem', title: 'Reciprocal Forge',
+      notes: [
+        'Do not build a new church.',
+        'Make the gospel point back to function.',
+        'Keep the symbol read-only.',
+        'Add drainage. Add maintenance interval.'
+      ], src: null
+    },
+    deep: {
+      quote: 'The filter does not need theology.\nIt needs cleaning.',
+      attribution: 'Sirček Kozmologija · Kanonski Indeks',
+      href: '../sircek_cosmology/unified_canon_index.md'
+    }
+  },
+  {
+    id: 7, glyph: '🚚', accent: 'gold',
+    title: 'Gospel of the Last Sweetness',
+    hook: 'Zadnji tovornjak odpelje s sladkarijami. Vrne se v administrativno tišino. Živali podedujejo dvorano.',
+    left: {
+      label: 'Dogajanje', title: 'Gospel of the Last Sweetness',
+      notes: [
+        'The last truck leaves with candy.',
+        'It returns to administrative silence.',
+        'Animals inherit the conveyor hall.',
+        'The driver writes beside the cooling rail.'
+      ], src: null
+    },
+    right: {
+      label: 'Ritual', title: "Boznik's Caramel Ritual",
+      notes: [
+        'No verified author. No body found.',
+        'The ritual survives because it points to memory, repair and humility.',
+        'A caramel beside Conveyor 12A is not worship. It is a checksum.'
+      ], src: null
+    },
+    deep: {
+      quote: '"I miss proof that the world functioned well enough to waste sugar on joy."',
+      attribution: 'Gospel of the Last Sweetness · Voznik, ob hladilnem tiru',
+      href: null
+    }
+  },
+  {
+    id: 8, glyph: '🌱', accent: 'green',
+    title: 'Rebuild Law',
+    hook: 'Civilizacija ni bila namenjena dashboardom. Bila je namenjena temu, da sladkarije delajo.',
+    left: {
+      label: 'Zakon', title: 'Rebuild Law',
+      notes: [
+        'Teach maintenance. Protect tiny routes.',
+        'Never trust a dashboard over a leaking pipe.',
+        'Do not optimize candy until repair dies.'
+      ], src: null
+    },
+    right: {
+      label: 'Integracija', title: 'Final Integration',
+      notes: [
+        'Truth integrates, not eliminates.',
+        'Myth is allowed if it carries the wrench.',
+        'Sweetness returns after the machine breathes.'
+      ], src: null
+    },
+    deep: {
+      quote: 'MOUSE: "No, bratko. You turn left to loosen. Other left.\nThe conveyor cannot feel your TED Talk."',
+      attribution: 'Sirček Kozmologija · The Good Ending',
+      href: '../sircek_cosmology/the_good_ending_candy_conveyor.md'
+    }
+  }
+];
+
+function buildCard(card, c) {
+  return `<div class="card" style="--cc:${c.cc};--cg:${c.cg}">
+    <div class="clabel">${card.label}</div>
+    <div class="ctitle">${card.title}</div>
+    <ul class="cnotes">${card.notes.map(n => `<li>${n}</li>`).join('')}</ul>
+    ${card.src ? `<div class="csrc">↳ ${card.src}</div>` : ''}
+  </div>`;
+}
+
+function buildStage(s) {
+  const c = COLORS[s.accent];
+  const el = document.createElement('div');
+  el.className = 'stage';
+  el.setAttribute('role', 'listitem');
+  el.dataset.id = s.id;
+  el.innerHTML = `
+    <div class="stage-head" role="button" tabindex="0" aria-expanded="false">
+      <div class="node" style="--nc:${c.nc};--ng:${c.ng}">${s.glyph}</div>
+      <div class="stage-meta">
+        <div class="stage-num">Stage ${String(s.id).padStart(2,'0')}</div>
+        <div class="stage-title">${s.title}</div>
+        <div class="stage-hook">${s.hook}</div>
+      </div>
+      <div class="stage-toggle" aria-hidden="true">+</div>
+    </div>
+    <div class="stage-body">
+      <div class="stage-inner">
+        <div class="cards">
+          ${buildCard(s.left, c)}
+          ${buildCard(s.right, c)}
+        </div>
+        ${s.deep ? `
+        <div class="deep-wrap">
+          <button class="dig-btn">↳ Sled v arhiv</button>
+          <div class="deep-panel">
+            <div class="deep-panel-inner">
+              <div class="deep-quote">
+                <q>${s.deep.quote.replace(/\n/g,'<br>')}</q>
+                <span class="dq-src">${s.deep.attribution}${s.deep.href ? ` · <a href="${s.deep.href}">odpri besedilo →</a>` : ''}</span>
+              </div>
+            </div>
+          </div>
+        </div>` : ''}
+      </div>
+    </div>`;
+
+  const head = el.querySelector('.stage-head');
+
+  function toggle(open) {
+    const isOpen = open !== undefined ? open : !el.classList.contains('open');
+    el.classList.toggle('open', isOpen);
+    head.setAttribute('aria-expanded', isOpen);
+  }
+
+  head.addEventListener('click', () => toggle());
+  head.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+
+  if (s.deep) {
+    const btn = el.querySelector('.dig-btn');
+    const panel = el.querySelector('.deep-panel');
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const open = panel.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.textContent = open ? '↑ Zapri sled' : '↳ Sled v arhiv';
+    });
+  }
+
+  el._toggle = toggle;
+  return el;
+}
+
+const tl = document.getElementById('timeline');
+const stageEls = stages.map(s => { const el = buildStage(s); tl.appendChild(el); return el; });
+
+document.getElementById('btnExpandAll').addEventListener('click', () => stageEls.forEach(el => el._toggle(true)));
+document.getElementById('btnCollapseAll').addEventListener('click', () => stageEls.forEach(el => el._toggle(false)));
+
+/* ── Constellation field ──────────────────────────── */
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const cv = document.getElementById('field');
+  const ctx = cv.getContext('2d');
+  let W, H, dpr, pts = [], raf = null, running = true;
+
+  function resize() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    W = cv.width  = innerWidth  * dpr;
+    H = cv.height = innerHeight * dpr;
+    cv.style.width  = innerWidth  + 'px';
+    cv.style.height = innerHeight + 'px';
+    const n = Math.min(52, Math.round(innerWidth * innerHeight / 28000));
+    pts = Array.from({ length: n }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - .5) * .13 * dpr,
+      vy: (Math.random() - .5) * .13 * dpr
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const link = 128 * dpr;
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.1 * dpr, 0, 6.283);
+      ctx.fillStyle = 'rgba(134,239,172,.38)'; ctx.fill();
+      for (let j = i + 1; j < pts.length; j++) {
+        const q = pts[j], dx = p.x - q.x, dy = p.y - q.y, d = Math.hypot(dx, dy);
+        if (d < link) {
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(134,239,172,${.11 * (1 - d / link)})`;
+          ctx.lineWidth = dpr; ctx.stroke();
+        }
+      }
+    }
+    if (running) raf = requestAnimationFrame(draw);
+  }
+
+  resize(); draw();
+  let resizeT;
+  window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(resize, 180); });
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running && !raf) draw();
+    else if (!running) { cancelAnimationFrame(raf); raf = null; }
+  });
+})();
+</script>
+</body>
+</html>
