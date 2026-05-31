@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080c08" />
+  <meta name="description" content="FORGE FAQ · Simbiotski Plamen — interaktivni kodeks za Industry 6.0. Mitologija zgoraj, inženirska tla spodaj." />
+  <title>FORGE FAQ · Simbiotski Plamen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+    /* ── Tokens ──────────────────────────────────────────────── */
+    :root{
+      --bg:#070b07; --bg2:#0b120d; --bg3:#060806;
+      --panel:rgba(15,23,18,.74); --panel2:rgba(8,12,8,.66);
+      --text:#dceadc; --muted:rgba(220,234,220,.62); --dim:rgba(220,234,220,.40); --faint:rgba(220,234,220,.22);
+      --line:rgba(124,176,138,.20); --line2:rgba(124,176,138,.12);
+      /* mode-driven accent (tech default) */
+      --accent:#6fcf85; --accent-2:#2bd4e8; --accent-soft:rgba(111,207,133,.10);
+      --accent-line:rgba(111,207,133,.34); --halo:rgba(111,207,133,.16);
+      --mythbox:rgba(167,139,250,.46); --mythbox-bg:rgba(88,28,135,.16); --mythbox-tx:rgba(237,233,254,.82);
+      /* fonts */
+      --sans:'DM Sans',ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+      --serif:'Spectral',Georgia,'Times New Roman',serif;
+      --mono:'Space Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+      --title:var(--sans);
+      --ease:cubic-bezier(.22,.61,.36,1);
+      --shadow:0 24px 64px rgba(0,0,0,.34);
+    }
+    /* Myth mode retints lighting, accents and titles toward warm violet/amber. */
+    body.mode-myth{
+      --accent:#c4a6ff; --accent-2:#fbbf63; --accent-soft:rgba(196,166,255,.12);
+      --accent-line:rgba(196,166,255,.36); --halo:rgba(196,166,255,.20);
+      --title:var(--serif);
+      --text:#ece6f6; --muted:rgba(236,230,246,.66); --dim:rgba(236,230,246,.42);
+      --line:rgba(196,166,255,.18); --line2:rgba(196,166,255,.10);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; min-height:100vh; color:var(--text);
+      font-family:var(--sans); font-size:16px; line-height:1.6;
+      background:var(--bg); overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      transition:color .8s var(--ease);
+    }
+
+    /* ── Ambient layer stack (fixed, behind everything) ──────── */
+    .amb{position:fixed;inset:0;pointer-events:none;z-index:0}
+    .amb-tech,.amb-myth{position:fixed;inset:0;pointer-events:none;z-index:0;transition:opacity 1s var(--ease)}
+    .amb-tech{
+      opacity:1;
+      background:
+        radial-gradient(circle at 18% 8%,rgba(111,207,133,.16),transparent 34%),
+        radial-gradient(circle at 84% 18%,rgba(43,212,232,.12),transparent 32%),
+        linear-gradient(180deg,#070b07,#0b120d 46%,#060806);
+      animation:breathe 16s ease-in-out infinite;
+    }
+    .amb-myth{
+      opacity:0;
+      background:
+        radial-gradient(circle at 16% 10%,rgba(196,166,255,.18),transparent 36%),
+        radial-gradient(circle at 86% 22%,rgba(251,191,99,.10),transparent 34%),
+        linear-gradient(180deg,#0a0710,#100b18 48%,#070510);
+      animation:breathe 22s ease-in-out infinite;
+    }
+    body.mode-myth .amb-tech{opacity:0}
+    body.mode-myth .amb-myth{opacity:1}
+    @keyframes breathe{0%,100%{filter:brightness(.94) saturate(1)}50%{filter:brightness(1.08) saturate(1.06)}}
+
+    /* faint engineering grid, masked toward top */
+    .amb-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+      background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:44px 44px;
+      -webkit-mask-image:radial-gradient(circle at 50% 16%,black,transparent 76%);
+      mask-image:radial-gradient(circle at 50% 16%,black,transparent 76%)}
+    /* constellation canvas — living archive field */
+    #field{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+    /* paper/sensor grain */
+    .amb-grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    /* slow scanline drift */
+    .amb-scan{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
+      background:repeating-linear-gradient(180deg,transparent 0 2px,rgba(0,0,0,.10) 2px 3px);
+      animation:scan 9s linear infinite}
+    @keyframes scan{from{background-position-y:0}to{background-position-y:3px}}
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .wrap{max-width:1200px;margin:0 auto;padding:max(22px,env(safe-area-inset-top)) 18px 80px;position:relative;z-index:1}
+
+    /* breadcrumb / repo continuity */
+    .crumbs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+    .crumbs a{color:var(--accent);text-decoration:none;transition:color .3s var(--ease)}
+    .crumbs a:hover{color:var(--text)}
+    .crumbs .sep{color:var(--faint)}
+    .crumbs .here{color:var(--muted)}
+
+    .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:26px}
+    .back{display:inline-flex;align-items:center;gap:8px;color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--line);padding:11px 15px;border-radius:999px;background:var(--panel2);backdrop-filter:blur(8px);transition:.3s var(--ease)}
+    .back:hover{border-color:var(--accent-line);box-shadow:0 0 22px var(--halo);transform:translateY(-1px)}
+    .license{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.16em;text-transform:uppercase;text-align:right}
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero{text-align:center;margin:24px auto 22px;max-width:880px;position:relative}
+    .sigil{font-size:32px;margin-bottom:14px;letter-spacing:.14em;filter:drop-shadow(0 0 22px var(--halo));transition:filter .8s var(--ease)}
+    body.mode-myth .sigil{animation:sigilBreath 6s ease-in-out infinite}
+    @keyframes sigilBreath{0%,100%{filter:drop-shadow(0 0 18px var(--halo)) brightness(.96)}50%{filter:drop-shadow(0 0 34px var(--halo)) brightness(1.12)}}
+    .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+    .hero h1{font-family:var(--title);font-size:clamp(38px,7vw,82px);line-height:.98;margin:0 0 18px;font-weight:300;letter-spacing:-.04em;transition:font-family .1s,letter-spacing .6s var(--ease)}
+    body.mode-myth .hero h1{font-style:italic;letter-spacing:-.02em}
+    .hero p{font-size:clamp(15px,2.1vw,17px);line-height:1.85;color:var(--muted);max-width:730px;margin:0 auto}
+    body.mode-myth .hero p{font-family:var(--serif)}
+    .mantra{margin-top:20px;color:var(--dim);font-family:var(--mono);font-size:12px;letter-spacing:.18em}
+    .mantra b{color:var(--accent);font-weight:400}
+
+    /* ── Mode toggle ─────────────────────────────────────────── */
+    .mode{display:inline-flex;gap:6px;justify-content:center;margin:24px auto 8px;padding:5px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);backdrop-filter:blur(8px);position:relative;left:50%;transform:translateX(-50%)}
+    .mode button{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:10px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:.35s var(--ease)}
+    .mode button.active{color:var(--bg);background:var(--accent);box-shadow:0 0 20px var(--halo)}
+    .mode button:not(.active):hover{color:var(--text)}
+
+    /* ── Toolbar ─────────────────────────────────────────────── */
+    .toolbar{display:grid;grid-template-columns:1.4fr .6fr;gap:12px;margin:26px 0 16px}
+    .field{position:relative}
+    .field .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px;pointer-events:none}
+    .search,.select{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:16px;padding:14px 15px;font-family:var(--sans);font-size:14px;outline:none;transition:.3s var(--ease)}
+    .search{padding-left:40px}
+    .search::placeholder{color:var(--dim)}
+    .search:focus,.select:focus{border-color:var(--accent-line);box-shadow:0 0 0 3px var(--accent-soft)}
+    .select{cursor:pointer}
+
+    /* ── Roles ───────────────────────────────────────────────── */
+    .roles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:22px}
+    .role{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--panel2));color:var(--text);border-radius:18px;padding:15px 12px;text-align:left;cursor:pointer;transition:.22s var(--ease);position:relative;overflow:hidden}
+    .role:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 0%,var(--accent-soft),transparent 60%);opacity:0;transition:opacity .3s var(--ease)}
+    .role:hover,.role.active{transform:translateY(-3px);border-color:var(--accent-line);box-shadow:0 14px 32px rgba(0,0,0,.3),0 0 24px var(--halo)}
+    .role.active:before,.role:hover:before{opacity:1}
+    .role .emoji{font-size:21px;position:relative}
+    .role .name{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;margin-top:8px;color:var(--text);position:relative}
+    .role .hint{font-size:11px;line-height:1.45;color:var(--dim);margin-top:6px;position:relative}
+
+    /* ── Grid: questions + answer ────────────────────────────── */
+    .grid{display:grid;grid-template-columns:368px 1fr;gap:16px;align-items:start}
+    .questions,.answer{border:1px solid var(--line);border-radius:24px;background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+    .questions{padding:14px;max-height:760px;overflow:auto;position:sticky;top:14px}
+    .qcount{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding:6px 8px 12px;display:flex;justify-content:space-between;align-items:center}
+    .qcount b{color:var(--accent);font-weight:400}
+    .qbtn{width:100%;text-align:left;border:1px solid transparent;background:rgba(8,14,9,.42);color:var(--text);border-radius:15px;padding:13px;margin-bottom:9px;cursor:pointer;transition:.2s var(--ease);position:relative}
+    .qbtn:hover{border-color:var(--line);background:rgba(10,18,12,.6);transform:translateX(2px)}
+    .qbtn.active{border-color:var(--accent-line);background:var(--accent-soft);box-shadow:inset 2px 0 0 var(--accent)}
+    .qcode{font-family:var(--mono);font-size:11px;color:var(--accent-2);letter-spacing:.12em}
+    .qtitle{display:block;margin-top:5px;font-size:13.5px;line-height:1.45;color:var(--text)}
+    body.mode-myth .qtitle{font-family:var(--serif)}
+    .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+    .tag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);color:var(--accent);border-radius:999px;padding:3px 7px;background:var(--accent-soft)}
+
+    .answer{padding:30px;min-height:640px;position:relative;overflow:hidden}
+    /* ritual framing brackets */
+    .answer:before{content:"";position:absolute;right:-90px;top:-90px;width:280px;height:280px;border:1px solid var(--line);border-radius:50%;box-shadow:0 0 80px var(--halo);pointer-events:none;transition:.8s var(--ease)}
+    .corner{position:absolute;width:22px;height:22px;border:1px solid var(--accent-line);opacity:.5;pointer-events:none}
+    .corner.tl{left:14px;top:14px;border-right:0;border-bottom:0}
+    .corner.br{right:14px;bottom:14px;border-left:0;border-top:0}
+    .ansinner{position:relative;animation:reveal .55s var(--ease)}
+    @keyframes reveal{from{opacity:0;transform:translateY(14px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+    .sub{font-family:var(--mono);color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.20em;margin-bottom:14px}
+    .answer h2{font-family:var(--title);font-size:clamp(26px,4vw,36px);font-weight:300;margin:0 0 4px;letter-spacing:-.025em;line-height:1.1}
+    body.mode-myth .answer h2{font-style:italic}
+    .path{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}
+    .pill{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;border-radius:999px;padding:6px 11px;border:1px solid var(--line);color:var(--dim)}
+    .pill.lead{border-color:var(--accent-line);color:var(--accent)}
+    .answer p.lead{font-size:clamp(15px,1.9vw,16.5px);line-height:1.9;color:var(--text);opacity:.92}
+    body.mode-myth .answer p.lead{font-family:var(--serif);font-size:clamp(16px,2vw,18px);line-height:1.95}
+    .voicebox{border-left:2px solid var(--mythbox);padding:14px 18px;margin:22px 0;border-radius:0 14px 14px 0;background:var(--mythbox-bg);color:var(--mythbox-tx);transition:.6s var(--ease)}
+    .voicebox .vlabel{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.7;margin-bottom:7px}
+    .voicebox p{margin:0;font-size:14.5px;line-height:1.8}
+    .voicebox.practical{border-left-color:var(--accent-line);background:var(--accent-soft);color:var(--text)}
+    .voicebox.myth p{font-family:var(--serif);font-style:italic}
+
+    /* related / recommended next */
+    .related{margin-top:30px;padding-top:22px;border-top:1px solid var(--line2)}
+    .related .rlabel{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+    .rrow{display:flex;flex-wrap:wrap;gap:10px}
+    .rchip{flex:1 1 220px;text-align:left;border:1px solid var(--line);background:rgba(8,14,9,.4);color:var(--text);border-radius:14px;padding:12px 13px;cursor:pointer;transition:.2s var(--ease)}
+    .rchip:hover{border-color:var(--accent-line);transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.26)}
+    .rchip .rc{font-family:var(--mono);font-size:10px;color:var(--accent-2);letter-spacing:.1em}
+    .rchip .rt{display:block;margin-top:4px;font-size:13px;line-height:1.4;color:var(--muted)}
+
+    .empty{color:var(--dim);text-align:center;padding:90px 20px;font-family:var(--mono);letter-spacing:.06em;font-size:13px}
+
+    /* ── Archive footer (repo integration) ───────────────────── */
+    .archive{margin-top:46px;border-top:1px solid var(--line2);padding-top:26px}
+    .archive .alabel{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:16px}
+    .alinks{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .alink{display:block;text-decoration:none;border:1px solid var(--line);background:var(--panel2);border-radius:16px;padding:14px;transition:.22s var(--ease)}
+    .alink:hover{border-color:var(--accent-line);transform:translateY(-2px);box-shadow:0 0 22px var(--halo)}
+    .alink .ae{font-size:18px}
+    .alink .an{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--text);margin-top:6px}
+    .alink .ad{display:block;font-size:11px;color:var(--dim);margin-top:3px;line-height:1.4}
+    .footer{text-align:center;margin-top:34px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+    body.mode-myth .footer{font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:.04em;font-size:14px}
+
+    /* ── Mobile ──────────────────────────────────────────────── */
+    @media(max-width:920px){
+      .toolbar{grid-template-columns:1fr}
+      .roles{grid-template-columns:repeat(3,1fr)}
+      .grid{grid-template-columns:1fr}
+      .questions{max-height:none;position:static}
+      .answer{padding:22px;min-height:auto}
+      .top{align-items:flex-start;flex-direction:column}
+      .license{text-align:left}
+      .alinks{grid-template-columns:repeat(2,1fr)}
+      .amb-scan{opacity:.25}
+    }
+    @media(max-width:520px){
+      .roles{grid-template-columns:repeat(2,1fr)}
+      .wrap{padding-left:14px;padding-right:14px}
+      .qbtn,.rchip,.role,.search,.select{min-height:46px} /* touch targets */
+    }
+
+    /* ── Reduced motion ──────────────────────────────────────── */
+    @media(prefers-reduced-motion:reduce){
+      *,html{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+      #field{display:none}
+      .amb-scan{display:none}
+    }
+  </style>
+</head>
+<body class="mode-tech">
+  <!-- ambient stack -->
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="amb-tech" aria-hidden="true"></div>
+  <div class="amb-myth" aria-hidden="true"></div>
+  <div class="amb-grid" aria-hidden="true"></div>
+  <div class="amb-scan" aria-hidden="true"></div>
+  <div class="amb-grain" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <nav class="crumbs" aria-label="Pot">
+      <a href="../../">ConsMAP</a><span class="sep">/</span>
+      <a href="../digital_sanctuary/">Digital Sanctuary</a><span class="sep">/</span>
+      <a href="../">FORGE Layer</a><span class="sep">/</span>
+      <span class="here">FAQ</span>
+    </nav>
+
+    <div class="top">
+      <a class="back" href="../digital_sanctuary/">← ConsMAP Sanctuary</a>
+      <div class="license">Version 2.1 · Maj 2026 · CC BY-SA 4.0</div>
+    </div>
+
+    <section class="hero">
+      <div class="sigil">🜂 ⚙️ 🔥 📖 🐭</div>
+      <div class="kicker">FORGE FAQ v2.1 · Simbiotski Plamen</div>
+      <h1>Industry 6.0 kot živa kovačnica</h1>
+      <p>Interaktivni kodeks skozi adaptivni PDM, prohairesis, noosfero, compliance paradoks in praktični business case. Mitologija zgoraj, inženirska tla spodaj.</p>
+      <div class="mantra"><b>SIDRO STOJI</b> · <b>PLAMEN GORI</b> · <b>DOKUMENT DIHA</b></div>
+    </section>
+
+    <div class="mode" role="tablist" aria-label="Glas">
+      <button id="techMode" class="active" role="tab" aria-selected="true">Tehnični glas</button>
+      <button id="mythMode" role="tab" aria-selected="false">Mitološki glas</button>
+    </div>
+
+    <section class="toolbar">
+      <div class="field">
+        <span class="ic">⌕</span>
+        <input id="search" class="search" placeholder="Išči: compliance, noosfera, beginner, job security …" aria-label="Iskanje" />
+      </div>
+      <select id="part" class="select" aria-label="Del">
+        <option value="all">Vsi deli</option>
+        <option value="basics">PART I · Osnove</option>
+        <option value="philosophy">PART II · Filozofija</option>
+        <option value="skeptics">PART III · Skeptiki</option>
+        <option value="practice">PART IV · Praksa</option>
+        <option value="failure">PART V · Ko ne deluje</option>
+        <option value="future">PART VI · Prihodnost</option>
+      </select>
+    </section>
+
+    <section class="roles" id="roles"></section>
+
+    <section class="grid">
+      <aside class="questions" id="questions" aria-label="Vprašanja"></aside>
+      <article class="answer" id="answer">
+        <span class="corner tl"></span><span class="corner br"></span>
+        <div class="empty">Izberi vlogo ali vprašanje. Kovačnica čaka. 🔥</div>
+      </article>
+    </section>
+
+    <section class="archive">
+      <div class="alabel">Sosednje komore arhiva</div>
+      <div class="alinks">
+        <a class="alink" href="../digital_sanctuary/"><span class="ae">🏛️</span><span class="an">Digital Sanctuary</span><span class="ad">Domača komora ConsMAP</span></a>
+        <a class="alink" href="../rebis_landing_page/"><span class="ae">🜔</span><span class="an">REBiS</span><span class="ad">Plamen ob vznožju</span></a>
+        <a class="alink" href="../sircek_cosmology/unified_canon_index.md"><span class="ae">🐭</span><span class="an">Sirček Cosmology</span><span class="ad">Kanonski indeks</span></a>
+        <a class="alink" href="../continuum_arc/"><span class="ae">📡</span><span class="an">Continuum Arc</span><span class="ad">Institucionalna gravitacija</span></a>
+      </div>
+    </section>
+
+    <div class="footer">software, ki raste s tabo — in ti rasteš z njim</div>
+  </main>
+
+<script>
+const roles=[{id:'engineer',emoji:'🛠️',name:'Inženir',hint:'Ali to dela?',qs:['Q1','Q5','Q19']},{id:'manager',emoji:'📈',name:'Manager',hint:'Business case',qs:['Q4','Q20','Q21','Q26']},{id:'skeptic',emoji:'🧪',name:'Skeptik',hint:'Kje se zlomi?',qs:['Q12','Q13','Q14','Q15','Q16','Q17']},{id:'philosopher',emoji:'🧭',name:'Filozof',hint:'Temelji sistema',qs:['Q7','Q8','Q9','Q10','Q11']},{id:'beginner',emoji:'🌱',name:'Začetnik',hint:'Brez kaosa',qs:['Q13','Q14','Q19']},{id:'fast',emoji:'⚡',name:'2 minuti',hint:'Samo bistvo',qs:['Q1','Q5','Q28']}];
+const partName={basics:'PART I · Osnove',philosophy:'PART II · Filozofija',skeptics:'PART III · Skeptiki',practice:'PART IV · Praksa',failure:'PART V · Ko ne deluje',future:'PART VI · Prihodnost'};
+const faq=[
+{id:'Q1',part:'basics',title:'WTF je FORGE?',tags:['PRACTICAL','PDM'],body:'FORGE je sistem za upravljanje inženirskih datotek, ki temelji na adaptivnem učenju namesto predpisani strukturi. Namesto da ti naloži petnajst obveznih polj ob shranjevanju, opazuje, kako dejansko delaš, in postopoma ponudi organizacijo, ki ustreza tebi — ne nekomu drugemu.',myth:'Kovačnica ne začne z zapovedjo. Najprej gleda roko kovača. Potem poda kladivo, ne verige.'},
+{id:'Q2',part:'basics',title:'Zakaj “Simbiotski Plamen”?',tags:['FEEDBACK','RELATION'],body:'Ime opisuje razmerje, ne produkt. Klasičen PDM naredi ukazno verigo: inženir vnese podatke, sistem odobri, inženir uboga. FORGE uvede povratno zanko: inženir ustvarja, sistem se uči, sistem se prilagodi, inženir ustvarja bolje.',myth:'Plamen ni bog. Plamen je zanka: dotakneš se ga, on spremeni tebe, ti spremeniš obliko ognja.'},
+{id:'Q3',part:'basics',title:'Filozofski slovar v 60 sekundah',tags:['GLOSSARY'],body:'Pneuma pomeni intuicijo in izkušnjo. Prohairesis pomeni tvojo zadnjo besedo. Demiurg je vsak sistem, ki predpisuje strukturo namesto da jo omogoča. Noosfera so anonimizirani kolektivni vzorci. Gnoza je izkustveno razumevanje, ne samo dokumentacija.',myth:'Pet orodij na mizi: dih, izbira, lažni arhitekt, skupni veter in spoznanje skozi delo.'},
+{id:'Q4',part:'basics',title:'Kaj je Industry 6.0?',tags:['INDUSTRY 6.0'],body:'Industry 6.0 je ko-evolucija. Ni samo AI, ki pomaga. Sistem postane boljši, ker ga uporabljaš, in ti postaneš boljši, ker uporabljaš sistem. To je prehod od sodelovanja človek-stroj k skupnemu razvoju.',myth:'Ni več človek ob stroju. Ni več stroj nad človekom. Je delavnica, kjer oba spreminjata drug drugega.'},
+{id:'Q5',part:'basics',title:'Kako to izgleda v praksi?',tags:['WORKFLOW'],body:'Brez FORGE ustvariš model, izpolniš dolgo formo, čakaš na odobritev in končaš v workaroundih. Z FORGE shraniš brez trenja. Sistem predlaga oznake, razloži zakaj, ti potrdiš, popraviš ali zavrneš. Vsaka odločitev izboljša naslednji predlog.',myth:'Namesto vratarja imaš pomočnika, ki nosi luč po tvoji delavnici.'},
+{id:'Q6',part:'basics',title:'Ali ni to samo fancy UX?',tags:['ARCHITECTURE'],body:'Ne. Razlika je arhitekturna. Klasični sistem blokira shranjevanje, če metadata ni popolna. FORGE analizira datoteko, zgodovino in kontekst, predstavi predloge, sprejme uporabnikovo odločitev in se iz nje uči.',myth:'Lep gumb na kletki je še vedno kletka. FORGE spremeni vrata, ne samo barve.'},
+{id:'Q7',part:'philosophy',title:'Panpsihizem — resno?',tags:['BOUNDARY','AI'],body:'FORGE ne trdi, da je AI zavesten. Panpsihizem je uporabljen kot način, da se izognemo slabemu binarnemu vprašanju. Bolj koristno vprašanje je: kateri odnos do sistema proizvaja boljše rezultate?',myth:'Ne sprašuj, ali kladivo sanja. Sprašuj, kakšna delavnica nastane, če ga ne obravnavaš kot mrtvo palico.'},
+{id:'Q8',part:'philosophy',title:'Kako FORGE ni novi Demiurg?',tags:['SOVEREIGNTY','VETO'],body:'FORGE ni novi kontrolni sistem samo, če ima štiri varovala: transparentnost predlogov, veto brez kazni, izvoz v odprte formate in self-hosted opcijo. Brez teh štirih je le sofisticiran Demiurg z lepšim UI.',myth:'Pravi kovač ne zaklene tvojega meča v svojo palačo.'},
+{id:'Q9',part:'philosophy',title:'Jungovska senca v file managementu?',tags:['SHADOW','WIP'],body:'Persona je, kako misliš, da organiziraš datoteke. Senca je, kako jih dejansko organiziraš. Klasični sistemi kaznujejo “final_FINAL_v3”. FORGE senco integrira in ponudi postopno reorganizacijo brez sramotenja.',myth:'Miška ne pospravi hiške tako, da jo najprej zanika. Najprej prizna kupčke sira.'},
+{id:'Q10',part:'philosophy',title:'Eksistencializem in software?',tags:['WORKFLOW'],body:'Klasičen PDM določi esenco vnaprej: admin definira pravilni workflow. FORGE začne pri eksistenci: ti delaš, sistem opazuje, workflow se oblikuje skozi prakso.',myth:'Pot nastane, ker hodiš. Ne ker ti je birokrat narisal stopinje.'},
+{id:'Q11',part:'philosophy',title:'Noosfera vs Google Drive?',tags:['NOOSPHERE'],body:'Noosfera ni cloud storage. Personalni AI se uči iz tebe. Team AI se uči iz tima. Noosfera zbira anonimizirane vzorce vseh uporabnikov. Best practices emergirajo kot predlogi, ne kot zapovedi.',myth:'Ni skladišče. Je veter skozi mnoge delavnice, ki nosi dobre vonje, ne lastništva.'},
+{id:'Q12',part:'skeptics',title:'Compliance paradoks',tags:['COMPLIANCE','LIMITS'],body:'Za večino inženirskih kontekstov drži: svoboda v procesu, compliance paket ob sprostitvi. Za ultra-regulirane domene, kot so FDA Class III, aviation in nuclear, to ne drži povsem. Tam je compliance živ proces. FORGE zato potrebuje Compliance Mode.',myth:'Ne moreš zgraditi mostu v svobodni pesmi in šele na koncu vprašati gravitacije za dovoljenje.'},
+{id:'Q13',part:'skeptics',title:'Začetnik + svoboda = kaos?',tags:['APPRENTICE'],body:'Da. Zato obstajajo Apprentice, Journeyman in Master mode. Začetnik dobi več opore in vidnih varovalk. Izkušen uporabnik dobi manj trenja. Svoboda brez opore ni emancipacija, ampak zapuščenost.',myth:'Mladi kovač dobi ograjo okoli ognja. Mojster dobi tišino.'},
+{id:'Q14',part:'skeptics',title:'AI partner — metafora ali realnost?',tags:['BOUNDARY','AI'],body:'Iskreno: metafora. AI nima subjektivnosti ali izkušenj. Partner opisuje funkcionalni vzorec: feedback loop, prilagajanje in skupno rast. Ne sme nadomestiti tvoje presoje.',myth:'Daj stroju glas v delavnici, ne pa ključa do svoje duše.'},
+{id:'Q15',part:'skeptics',title:'Kaj če noosfera širi slabe prakse?',tags:['GOVERNANCE'],body:'Popularnost ni kakovost. Azbest je bil nekoč best practice. FORGE mora zato uporabljati quality filter, expert validation in veto na ravni tima. Vzorci se predlagajo, ne kanonizirajo.',myth:'Če vsi goblini hvalijo isto klobaso, jo še vedno najprej povohaj.'},
+{id:'Q16',part:'skeptics',title:'Job security — preveč optimistično?',tags:['WORK','RISK'],body:'Da, prejšnja retorika je bila preveč optimistična. FORGE lahko premakne delo navzgor po vrednostni verigi, ne more pa preprečiti strukturne disrupcije. Bolje pozicionirani bodo tisti, ki razvijajo presojo o uporabi AI.',myth:'Orodje ti ne obljubi varne kraljevine. Da ti boljši čoln.'},
+{id:'Q17',part:'skeptics',title:'Kdaj FORGE ni prava izbira?',tags:['LIMITS'],body:'FORGE ni prava izbira za ultra-regulirane industrije brez prilagoditve, organizacije z mandated rigid workflows, time z visoko rotacijo, ali projekte z ekstremno kratko časovnico.',myth:'Vsak ogenj ni za vsako sobo. Včasih rabiš peč, ne kres.'},
+{id:'Q18',part:'practice',title:'Kako FORGE konkretno ni Demiurg?',tags:['GUARDRAILS'],body:'Štiri varovala so neodstranljiva: transparentnost, prohairesis, data sovereignty in self-hosted možnost. Če katero manjka, sistem zdrsne iz simbioze v nadzor.',myth:'Če ne moreš reči ne, nisi v krogu. Si v verigi.'},
+{id:'Q19',part:'practice',title:'Kako začnem?',tags:['30 DAYS'],body:'Prvih 30 dni: spusti kontrolo, zaupaj procesu, bodi resničen glede kaotičnih map, zavračaj predloge zavestno in opazuj, kako se workflow razvija.',myth:'Najprej ne gradi templja. Najprej pusti delavnici, da pokaže, kje teče dim.'},
+{id:'Q20',part:'practice',title:'Kako prepričam šefa?',tags:['BUSINESS'],body:'Predlagaj 3-mesečni pilot. Če inženirji sovražijo sistem, rollback. Če ga ljubijo, expand. Business case temelji na manj treninga, manj trenja in več časa za dejanski inženiring.',myth:'Ne prodajaj ognja kot religije. Pokaži, da skuha večerjo hitreje.'},
+{id:'Q21',part:'practice',title:'Kako dela z ISO/compliance?',tags:['ISO'],body:'Med delom je enforcement minimalen. Ko si pripravljen, Compliance Wizard preveri zahteve, vodi skozi manjkajoča polja in izvozi paket. Za stroge domene se uporablja Compliance Mode.',myth:'Sodni pisar naj pride, ko je treba zapisati prisego — ne naj ti drži roko pri vsakem udarcu kladiva.'},
+{id:'Q22',part:'practice',title:'Filozofija → funkcije',tags:['MAPPING'],body:'Prohairesis pomeni zavrnljive predloge. Jungova senca pomeni legitimne WIP in TEMP mape. Eksistencializem pomeni brez obveznih lifecycle states. Kibernetika pomeni feedback loop. Noosfera pomeni anonimizirano cross-user learning.',myth:'Vsaka velika beseda mora imeti vijak. Če ga nima, je megla.'},
+{id:'Q23',part:'failure',title:'Ko AI predlaga napačne stvari',tags:['RECOVERY'],body:'Če se je naučil slab habit, uporabi reset learning. Če si frustriran, zavrni aktivno. Če ima tim konfliktne workflowe, določi baseline in omeji učenje na team level.',myth:'Če vajenec napačno drži kladivo, mu pokažeš. Ne zažgeš kovačnice.'},
+{id:'Q24',part:'failure',title:'Anti-patterns',tags:['FAILURE'],body:'FORGE ne deluje pri over-reliance, under-engagement, analysis paralysis ali passive use. Simbioza zahteva aktivno udeležbo z obeh strani.',myth:'Plamen ugasne, če ga častiš od daleč ali če vanj padeš z obrazom.'},
+{id:'Q25',part:'future',title:'Roadmap',tags:['ROADMAP'],body:'Core 2025: file management, AI suggestions, self-hosted. Integration 2025–2026: CAD, PLM, ERP. Collaboration 2026–2027. Generative 2027–2028. Embodied 2028+: AR/VR in fizično-digitalni vmesniki.',myth:'Najprej kovačnica, potem mostovi, potem zbor, potem sanje, potem roke iz svetlobe.'},
+{id:'Q26',part:'future',title:'Governance',tags:['CORE'],body:'Zaščiteno jedro: transparentnost, prohairesis, brez cloud lock-in, data sovereignty. Implementacije so forkable: algoritmi, compliance templates, UI variante, noospheric filters. Model je Linux kernel + distribucije.',myth:'Ogenj v ognjišču je varovan. Oblike loncev so odprte.'},
+{id:'Q27',part:'future',title:'Kako prispevam?',tags:['COMMUNITY'],body:'Predlagaš vprašanje, gre skozi community review, editorial validation in integracijo v naslednjo verzijo. Changelog je javen, vsaka sprememba ima razlog.',myth:'V živo knjigo ne mečeš kamnov. Prineseš vrstico, pokažeš brazgotino, pustiš skupnosti, da jo prebere.'},
+{id:'Q28',part:'future',title:'Simbiotski Plamen v eni povedi',tags:['ESSENCE'],body:'Za inženirje: software, ki raste s tabo — in ti rasteš z njim. Za skeptike: feedback loop med tvojimi odločitvami in sistemovimi predlogi, implementiran tako, da ohranjaš kontrolo. Za filozofe: praksa postajanja-več-kot-si skozi sodelovanje s sistemom.',myth:'Dva plamena ne postaneta eden tako, da se požreta. Postaneta tretja svetloba.'}
+];
+
+let currentRole=null, mode='tech', selected='Q1';
+const $=id=>document.getElementById(id);
+const reduceMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function renderRoles(){
+  $('roles').innerHTML=roles.map(r=>`<button class="role ${currentRole===r.id?'active':''}" data-role="${r.id}" aria-pressed="${currentRole===r.id}"><span class="emoji">${r.emoji}</span><span class="name">${r.name}</span><div class="hint">${r.hint}</div></button>`).join('');
+  document.querySelectorAll('.role').forEach(b=>b.onclick=()=>{
+    currentRole=currentRole===b.dataset.role?null:b.dataset.role;
+    if(currentRole){selected=roles.find(r=>r.id===currentRole).qs[0];}
+    render();
+  });
+}
+function filtered(){
+  const s=$('search').value.toLowerCase().trim();
+  const p=$('part').value;
+  let set=faq;
+  if(currentRole){const ids=roles.find(r=>r.id===currentRole).qs;set=faq.filter(q=>ids.includes(q.id));}
+  if(p!=='all')set=set.filter(q=>q.part===p);
+  if(s)set=set.filter(q=>(q.id+' '+q.title+' '+q.body+' '+q.myth+' '+q.tags.join(' ')).toLowerCase().includes(s));
+  return set;
+}
+function renderQuestions(){
+  const qs=filtered();
+  const head=`<div class="qcount"><span>Vprašanja</span><b>${qs.length} / ${faq.length}</b></div>`;
+  $('questions').innerHTML=head+(qs.length?qs.map(q=>`<button class="qbtn ${selected===q.id?'active':''}" data-q="${q.id}"><span class="qcode">${q.id}</span><span class="qtitle">${q.title}</span><span class="tagrow">${q.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</span></button>`).join(''):'<div class="empty">Ni zadetkov. Static je pojedel sled. 🐭</div>');
+  document.querySelectorAll('.qbtn').forEach(b=>b.onclick=()=>{selected=b.dataset.q;renderAnswer();renderQuestions();maybeScroll();});
+}
+function related(q){
+  let r=faq.filter(x=>x.id!==q.id && x.tags.some(t=>q.tags.includes(t)));
+  if(r.length<3){const extra=faq.filter(x=>x.id!==q.id && x.part===q.part && !r.includes(x));r=r.concat(extra);}
+  return r.slice(0,3);
+}
+function renderAnswer(){
+  const q=faq.find(x=>x.id===selected)||filtered()[0];
+  const a=$('answer');
+  a.innerHTML='<span class="corner tl"></span><span class="corner br"></span>';
+  if(!q){a.insertAdjacentHTML('beforeend','<div class="empty">Izberi drugo pot.</div>');return;}
+  selected=q.id;
+  const lead=mode==='tech'?q.body:q.myth;
+  const alt=mode==='tech'?q.myth:q.body;
+  const altLabel=mode==='tech'?'Mitološki odmev':'Inženirska tla';
+  const altClass=mode==='tech'?'myth':'practical';
+  const rel=related(q);
+  a.insertAdjacentHTML('beforeend',`<div class="ansinner">
+    <div class="sub">${partName[q.part]||q.part} · ${q.tags.join(' · ')}</div>
+    <h2>${q.id} · ${q.title}</h2>
+    <div class="path"><span class="pill lead">${mode==='tech'?'Tehnični glas':'Mitološki glas'}</span><span class="pill">Prohairesis active</span><span class="pill">Veto preserved</span></div>
+    <p class="lead">${lead}</p>
+    <div class="voicebox ${altClass}"><span class="vlabel">${altLabel}</span><p>${alt}</p></div>
+    <div class="related"><div class="rlabel">↳ Priporočena pot naprej</div><div class="rrow">${rel.map(x=>`<button class="rchip" data-q="${x.id}"><span class="rc">${x.id}</span><span class="rt">${x.title}</span></button>`).join('')}</div></div>
+  </div>`);
+  a.querySelectorAll('.rchip').forEach(b=>b.onclick=()=>{selected=b.dataset.q;renderAnswer();renderQuestions();maybeScroll();});
+}
+function maybeScroll(){
+  if(window.matchMedia('(max-width:920px)').matches){
+    $('answer').scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+  }
+}
+function render(){renderRoles();renderQuestions();renderAnswer();}
+
+// keyboard navigation — only when focus is inside the FAQ grid
+document.addEventListener('keydown',e=>{
+  if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;
+  if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;
+  if(!e.target.closest||!e.target.closest('.grid'))return;
+  const ids=filtered().map(q=>q.id);if(!ids.length)return;
+  let i=ids.indexOf(selected);
+  i=e.key==='ArrowDown'?Math.min(ids.length-1,i+1):Math.max(0,i-1);
+  selected=ids[i];renderAnswer();renderQuestions();e.preventDefault();
+  document.querySelector('.qbtn.active')?.scrollIntoView({block:'nearest',behavior:reduceMotion?'auto':'smooth'});
+});
+
+$('search').oninput=()=>renderQuestions();
+$('part').onchange=()=>renderQuestions();
+function setMode(m){
+  mode=m;
+  document.body.classList.toggle('mode-myth',m==='myth');
+  document.body.classList.toggle('mode-tech',m==='tech');
+  $('techMode').classList.toggle('active',m==='tech');
+  $('mythMode').classList.toggle('active',m==='myth');
+  $('techMode').setAttribute('aria-selected',m==='tech');
+  $('mythMode').setAttribute('aria-selected',m==='myth');
+  renderAnswer();
+}
+$('techMode').onclick=()=>setMode('tech');
+$('mythMode').onclick=()=>setMode('myth');
+
+render();
+
+/* ── Constellation field — living archive ────────────────────── */
+(function(){
+  if(reduceMotion)return;
+  const cv=$('field'),ctx=cv.getContext('2d');
+  let W,H,dpr,pts=[],raf=null,running=true;
+  function color(){return document.body.classList.contains('mode-myth')?[196,166,255]:[111,207,133];}
+  function resize(){
+    dpr=Math.min(2,window.devicePixelRatio||1);
+    W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;
+    cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
+    const n=Math.min(64,Math.round(innerWidth*innerHeight/26000));
+    pts=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.16*dpr,vy:(Math.random()-.5)*.16*dpr}));
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const [r,g,b]=color(),link=140*dpr;
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,1.1*dpr,0,6.283);ctx.fillStyle=`rgba(${r},${g},${b},.45)`;ctx.fill();
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+        if(d<link){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(${r},${g},${b},${.14*(1-d/link)})`;ctx.lineWidth=dpr;ctx.stroke();}
+      }
+    }
+    if(running)raf=requestAnimationFrame(draw);
+  }
+  resize();draw();
+  let t;window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(resize,180)});
+  document.addEventListener('visibilitychange',()=>{
+    running=!document.hidden;
+    if(running&&!raf)draw();else if(!running){cancelAnimationFrame(raf);raf=null;}
+  });
+})();
+</script>
+</body>
+</html>

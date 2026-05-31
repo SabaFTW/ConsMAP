@@ -76,13 +76,13 @@ const quickLinks: Array<{
 }> = [
   {
     label: 'FAQ',
-    href: '../forge_faq/index.html',
+    href: './forge_faq/index.html',
     description: 'Interactive Simbiotski Plamen FAQ. Myth and technique share the same index.',
     chips: ['INDEX', 'FAQ'],
   },
   {
     label: 'Continuum Arc',
-    href: '../continuum_arc/index.md',
+    href: './continuum_arc/index.md',
     description: 'Markdown archive of the Continuum / institutional capture arc.',
     chips: ['INDEX', 'ARCHIVE'],
   },
