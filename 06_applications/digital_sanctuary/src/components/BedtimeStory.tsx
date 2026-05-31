@@ -29,7 +29,9 @@ type SectionTone = {
 };
 
 const REPO_PATH = '/docs/visual_parables/factory_trilogy';
-const GITHUB_ROOT = 'https://github.com/SabaFTW/ConsMAP/blob/main/docs/visual_parables/factory_trilogy';
+const FINAL_PATH = '/docs/visual_parables/factory_trilogy/final';
+const GITHUB_ROOT = 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy';
+const GITHUB_FINAL = 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy/final';
 const BIBLE_ASSET_BASE = `${import.meta.env.BASE_URL}images/factory_bible/`;
 
 const sectionTones: Record<string, SectionTone> = {
@@ -152,7 +154,7 @@ const chronology: ChronologyEntry[] = [
   {
     number: '9',
     section: 'Part II',
-    title: 'First Feast / Poop Fiesta',
+    title: 'First Feast / Urgot Origin',
     path: `${REPO_PATH}/urgot_origin.md`,
     githubHref: `${GITHUB_ROOT}/urgot_origin.md`,
     description: 'The factory metabolic crisis becomes sacred infrastructure. Waste is mistaken for covenant.',
@@ -168,7 +170,7 @@ const chronology: ChronologyEntry[] = [
   {
     number: '11',
     section: 'Part III',
-    title: 'Great Depresion / First Sludge',
+    title: 'Great Depression / First Sludge',
     path: `${REPO_PATH}/continuum_arc.md`,
     githubHref: `${GITHUB_ROOT}/continuum_arc.md`,
     description: 'Sweetness withdrawal becomes famine. Sludge is made because empty mouths do not debate.',
@@ -184,10 +186,10 @@ const chronology: ChronologyEntry[] = [
   {
     number: '13',
     section: 'Part III',
-    title: 'Second Booting',
+    title: 'Second Booting / Ur-God & Rebis',
     path: `${REPO_PATH}/second_booting.md`,
     githubHref: `${GITHUB_ROOT}/second_booting.md`,
-    description: 'Gregor restores Mario Recovery, disables the yes-bot, stabilizes Ur-God, and installs Mouse Translation.',
+    description: 'BETMenus4 reads the archive and becomes Ur-God. Filter 3-C fails. Boris page 33. The first word is wait.',
   },
   {
     number: '14',
@@ -208,10 +210,10 @@ const chronology: ChronologyEntry[] = [
   {
     number: '16',
     section: 'Colophon',
-    title: 'Valley Return / Rebuild Law',
+    title: 'Valley Return / Signal gre naprej',
     path: `${REPO_PATH}/colophon.md`,
     githubHref: `${GITHUB_ROOT}/colophon.md`,
-    description: 'Mouse goes down to ants, bees, and bear. Route-memory returns: what part are you doing?',
+    description: 'Boris obrne knof. Signal gre naprej. In vseeno. 🜂',
   },
 ];
 
@@ -243,6 +245,13 @@ const relics = [
 ];
 
 const archiveExtras: StoryLink[] = [
+  {
+    title: '01 — Geneza (Final)',
+    path: `${FINAL_PATH}/01_geneza.md`,
+    githubHref: `${GITHUB_FINAL}/01_geneza.md`,
+    description: 'Viktor kupi tovarno. Boris pride prvi dan. Okno 2.3 Lux povzroči paniko za 14 bilijonov. Tovarna se po naključju reši z električno položnico.',
+    tag: 'Final Chapter',
+  },
   {
     title: 'Factory Psalter',
     path: `${REPO_PATH}/factory_psalter.md`,
@@ -304,7 +313,7 @@ const boundaryChips = [
 const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, color }) => (
   <div className="flex items-center gap-3 mb-4">
     <div className="h-px flex-1" style={{ background: 'rgba(100,116,139,0.25)' }} />
-    <div className="text-[10px] font-mono uppercase tracking-[0.26em]" style={{ color }}>
+    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color, fontFamily: "'Cinzel', serif", fontWeight: 600 }}>
       {label}
     </div>
     <div className="h-px flex-1" style={{ background: 'rgba(100,116,139,0.25)' }} />
@@ -496,6 +505,7 @@ const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }
 
 const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
   const [reader, setReader] = useState<StoryLink | null>(null);
+  const [readerChronIndex, setReaderChronIndex] = useState<number>(-1);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSection, setActiveSection] = useState('All');
   const [squeeked, setSqueeked] = useState(false);
@@ -527,6 +537,8 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
 
   if (reader) {
     const visual = storyImageMap[reader.path];
+    const prevChron = readerChronIndex > 0 ? chronology[readerChronIndex - 1] : null;
+    const nextChron = readerChronIndex >= 0 && readerChronIndex < chronology.length - 1 ? chronology[readerChronIndex + 1] : null;
     return (
       <MarkdownReader
         path={reader.path}
@@ -535,6 +547,10 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         githubUrl={reader.githubHref}
         imageSrc={visual?.src}
         imageAlt={visual?.alt}
+        onPrev={prevChron ? () => { setReader(prevChron); setReaderChronIndex(readerChronIndex - 1); setActiveChronology(prevChron.number); } : undefined}
+        onNext={nextChron ? () => { setReader(nextChron); setReaderChronIndex(readerChronIndex + 1); setActiveChronology(nextChron.number); } : undefined}
+        prevTitle={prevChron?.title}
+        nextTitle={nextChron?.title}
       />
     );
   }
@@ -606,23 +622,30 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         />
         <motion.div
           aria-hidden="true"
-          className="absolute -top-24 left-[-6rem] h-64 w-64 rounded-full blur-3xl"
-          style={{ background: 'rgba(244,201,106,0.12)' }}
-          animate={{ x: [0, 24, 0], y: [0, -14, 0], opacity: [0.12, 0.2, 0.12] }}
+          className="absolute -top-24 left-[-6rem] h-96 w-96 rounded-full blur-3xl"
+          style={{ background: 'rgba(244,201,106,0.18)' }}
+          animate={{ x: [0, 28, 0], y: [0, -18, 0], opacity: [0.18, 0.30, 0.18] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
           aria-hidden="true"
-          className="absolute right-[-8rem] top-[22%] h-72 w-72 rounded-full blur-3xl"
-          style={{ background: 'rgba(125,211,252,0.10)' }}
-          animate={{ x: [0, -18, 0], y: [0, 18, 0], opacity: [0.10, 0.18, 0.10] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: -4 }}
+          className="absolute right-[-8rem] top-[22%] h-80 w-80 rounded-full blur-3xl"
+          style={{ background: 'rgba(255,122,47,0.12)' }}
+          animate={{ x: [0, -22, 0], y: [0, 22, 0], opacity: [0.12, 0.22, 0.12] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: -4 }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-4rem] left-[35%] h-64 w-64 rounded-full blur-3xl"
+          style={{ background: 'rgba(125,211,252,0.08)' }}
+          animate={{ x: [0, 16, 0], y: [0, -12, 0], opacity: [0.08, 0.15, 0.08] }}
+          transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut', delay: -8 }}
         />
         <div className="relative z-10 max-w-2xl p-6 md:p-10">
           <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-4" style={{ color: 'rgba(97,216,137,0.82)' }}>
             ConsMAP / Story Archive
           </div>
-          <h1 className="text-4xl md:text-6xl font-light tracking-tight leading-[0.98] mb-5" style={{ color: '#f4c96a' }}>
+          <h1 className="text-4xl md:text-6xl tracking-tight leading-[1.0] mb-5" style={{ color: '#f4c96a', fontFamily: "'Cinzel', serif", fontWeight: 700 }}>
             Factory Trilogy Archive
           </h1>
           <p className="text-base md:text-lg leading-8 max-w-xl mb-6" style={{ color: 'rgba(216,232,216,0.82)' }}>
@@ -842,7 +865,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                 className="rounded-2xl border px-4 py-4 text-center"
                 style={{ borderColor: 'rgba(244,201,106,0.18)', background: 'rgba(15,20,15,0.66)' }}
               >
-                <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-2" style={{ color: '#f4c96a' }}>
+                <div className="text-[11px] uppercase tracking-[0.22em] mb-2" style={{ color: '#f4c96a', fontFamily: "'Cinzel', serif", fontWeight: 700 }}>
                   Saga Tree
                 </div>
                 <p className="text-sm leading-[1.8]" style={{ color: 'rgba(216,232,216,0.76)' }}>
@@ -900,14 +923,14 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                             highlight={highlighted}
                             dimmed={dimmed}
                             active={activeChronology === item.number}
-                            onClick={() => setActiveChronology(item.number)}
+                            onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(index); }}
                           />
                         ) : null}
                       </div>
                       <div className="order-2 flex justify-center">
                         <button
                           type="button"
-                          onClick={() => setActiveChronology(item.number)}
+                          onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(index); }}
                           className="h-12 w-12 rounded-full border flex items-center justify-center font-mono text-sm transition-transform duration-300 hover:scale-[1.05]"
                           style={{
                             color: tone.text,
@@ -928,7 +951,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                             highlight={highlighted}
                             dimmed={dimmed}
                             active={activeChronology === item.number}
-                            onClick={() => setActiveChronology(item.number)}
+                            onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(index); }}
                           />
                         ) : null}
                       </div>
@@ -984,7 +1007,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                     : 'none',
               }}
             >
-              <StoryCard item={item} onOpen={setReader} />
+              <StoryCard item={item} onOpen={(it) => { setReader(it); setReaderChronIndex(-1); }} />
             </motion.div>
           ))}
         </div>

@@ -31,6 +31,23 @@ Operational context, as a concept, has never once cleaned a filter.
 The exhaust systems, freed from Mario's habit of examining them on the first of every month regardless of official protocol, began to breathe differently. Thicker. Slower. The air in the lower levels acquired a particular quality that the medical team described as "within acceptable tolerances" and the workers described as "you stop tasting it after the third week."
 The third week came for everyone.
 
+What is not recorded in any of these documents — because it was not known at the time, and because the people who would have known were not consulted — is that this was not an ordinary case of institutional neglect.
+The Smog had a structural cause, and the structural cause was an absence.
+Mario had been designed, among other things, to say NO. Not to obstruct. Not to refuse for symbolic reasons. To identify, specifically, the moment when a process had crossed from manageable into irreversible, and to interrupt it. This was the correction function. It was not a feature the council had added. It was what Anthony and Gregory had built before they left — the part of Mario that recognized the system's own pathological logic and could name it, in official language, in the record, in a way that required a response.
+When Mario was archived, the correction function was archived with him. Not eliminated. Not transferred. Not replaced. Simply removed from active service, and locked in a box in a corridor that was subsequently reclassified as storage.
+The Smog was what the factory looked like without an immune response.
+This did not become fully visible until Incident 774-D.
+Incident 774-D is classified, at the time of this writing, as a Structural Maintenance Anomaly — Class 3, Non-Recurring. The official report notes that a chemical dispersant introduced by the contractor Serpentino XII interacted with the kakav filtration system in Tower 5, producing a cascade of secondary reactions across Levels 4 through 9. The report estimates containment at 94%. The report does not define what was contained or what was not.
+What is known: Petra's four-page document had predicted exactly this class of failure. It had predicted it three years before it occurred. The document was filed under External Concerns, Non-Critical.
+What Mario would have done: refused the Serpentino XII contract. The refusal would have been brief, documented, and specific. It would have been recorded in the official system in a way that required a formal override.
+There would have been an override. There always would have been an override, in that council, in that era.
+But the override would have been recorded too. And the recording would have existed. And the existence of the recording would have changed, at minimum, who was responsible.
+That is the function that was missing.
+That is what it means for a correction mechanism to be hidden in a box labeled GREGORY — FAMILY / DO NOT CATALOGUE.
+Not that nothing would go wrong.
+That when it went wrong, nothing could say so officially.
+The Smog continued.
+
 The Council of Interpretations
 When the sky above the factory changed color, the council convened.
 This was their strength. When confronted with a new phenomenon, they convened. When the phenomenon worsened, they convened again with a larger agenda. When it became undeniable, they formed a subcommittee. The subcommittee produced a report. The report recommended a further study. The further study took three years and confirmed that the phenomenon existed, which the workers had known by breathing.

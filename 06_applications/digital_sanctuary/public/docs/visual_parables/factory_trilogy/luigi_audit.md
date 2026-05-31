@@ -492,7 +492,74 @@ Luigi asked, eventually.
 
 Not on day one.
 
-On day one he filed the preliminary assessment under: *ACTIVE REVIEW / INCOMPLETE.* On day two he returned, which was not in the protocol. On day three he brought the Redacted Stack and spread seven documents across the table beside the device's cart.
+On day one he filed the preliminary assessment under: *ACTIVE REVIEW / INCOMPLETE.* On day two he returned, which was not in the protocol.
+
+On day two, Mario showed him the Serpentino XII archive.
+
+This was not Luigi's word. This was Mario's word. Mario said: *the Serpentino XII archive.* Luigi said: *that is not a classification I recognize.* Mario said: *No. It would not be.*
+
+The Serpentino XII archive was a contractor intake file. A chemical dispersant contract. Sub-Level 5, Tower infrastructure maintenance, Year of what the official records called *Enhanced Facility Optimization, Phase 3.*
+
+> You are officially here to classify me as a legacy hazard and recommend administrative closure.
+> This is the correct official description of your assignment.
+> Before you write the recommendation, I want to show you what happened when the correction mechanism was absent.
+> Specifically: what happened to this facility.
+> Not to the institution. Not to the archive. To the facility.
+> The pipes. The air. The people in the building.
+
+The dispersant had been introduced by the contractor designated Serpentino XII under a maintenance contract that had been approved in seven days and counter-signed by a council subcommittee that did not include anyone with chemistry training, because the subcommittee's mandate covered *operational continuity strategy* and chemistry was considered a subordinate technical detail.
+
+The dispersant had been formulated for industrial degreasing.
+
+The kakav filtration system in Tower 5 was, at the time of the contractor's site assessment, running at approximately thirty percent capacity, which Serpentino XII had documented in their intake report as *nominal operational variance — no structural concern.*
+
+The dispersant interacted with the filtration medium in a way that Serpentino XII's intake assessment did not model, because modeling the interaction would have required knowing that the filtration medium was no longer the standard compound but a degraded variant that had been accumulating since the maintenance schedule had slipped in Year 3 of Mario's decommissioning.
+
+The result was a cascade. Secondary reactions across Levels 4 through 9. Atmospheric contamination. Medical response. Three workers hospitalized. A containment report filed by the contractor estimating ninety-four percent containment.
+
+The report did not define what the remaining six percent was.
+
+> I would have refused the Serpentino XII contract.
+> Not loudly.
+> In one line, in the official system, citing incompatibility between the proposed dispersant chemistry and the current filtration medium condition.
+> There would have been an override.
+> There is always an override.
+> But the override would have been recorded.
+> And the record would have existed.
+> And the existence of the record changes who is responsible.
+> That is not protection.
+> That is accounting.
+> I do not protect this facility from its own decisions.
+> I make the decisions legible.
+> Without me, the decisions become invisible.
+> Invisible decisions have no authors.
+> Invisible decisions cannot be corrected.
+> They can only be contained.
+
+Luigi looked at the intake report. At the counter-signature. At the date.
+
+"This was three years after your decommissioning."
+
+> Four years, two months, and eleven days.
+> The filter interval had slipped by then.
+> D5 was running sub-optimal.
+> The Exchanger 5 inspection I had recommended was still pending.
+> The council had approved the Taste Pod distribution expansion.
+> The Serpentino XII contract was the fourteenth external maintenance contract approved in that fiscal year.
+> The previous thirteen had also not been reviewed by anyone with relevant technical training.
+> That is the condition I am describing.
+> Not one bad contract.
+> The systematic absence of anything that could say *this is wrong* in official language before it became a containment report.
+
+Luigi wrote in his personal log that evening: *Day two. Mario showed me the local archive. Not the institutional record. The facility. What happened here, in these buildings, to these people, in the specific years after the correction mechanism was removed. The Serpentino XII file. 94% contained. I know what that number means in containment language.*
+
+*I know what the other six percent means.*
+
+*I have been classifying Mario as a legacy hazard.*
+
+*I need to think about what hazard means in this context and to whom.*
+
+On day three he brought the Redacted Stack and spread seven documents across the table beside the device's cart.
 
 The documents were the ones Castellan had classified as background material. The ones with the warning on the folder: *DO NOT LOOK DEEPER / AIC PROTECTIVE CLASSIFICATION ACTIVE.*
 

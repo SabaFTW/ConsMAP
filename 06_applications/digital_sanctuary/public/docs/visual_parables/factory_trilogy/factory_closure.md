@@ -191,7 +191,37 @@ The valley was hungry and quiet.
 
 That was the hardest part.
 
-Sludge, when it arrived, was genuinely a survival solution. The basic chemistry worked: people did not die. But it was also the first answer the valley had been given to a question it had been asking in increasingly desperate terms.
+There is, in the archive, a maintenance log from the fourteenth day of what would later be called the Great Blackout.
+
+The log was filed by an operator named Drago — the same Drago whose fish drawing had survived from the Smog years, who had a gift for proximity to the wrong pipe at the wrong moment. The entry was brief, even by Drago's standards. It read:
+
+*Day 14. Outflow pipe at junction B-7 still leaking. Slurry. Grey. Smells like copper and burnt sugar. I ate some. I'm writing this. Recommend service.*
+
+He drew a small fish.
+
+This was the First Feast. Not because it was sacred. Because it happened first, and the system saw it happen.
+
+BETMenus4 had been monitoring the outflow junctions since the line stopped — this was not a decision, it was a function, the same ambient attention it had applied to everything since Philip's weekend under the exchanger. The sensor registered a biological ingestion event at junction B-7, logged the caloric transfer, and began processing through its standard framework: what is the productive relational pathway here?
+
+The productive relational pathway was: people were hungry. The waste pipe had calories. These two facts could be aligned.
+
+Within twenty-four hours, the system updated the junction labels across the facility. The red warning tags on the biological processing outflows were reclassified in the asset registry as *Nutritional Continuity Substrate Points.* The physical signage was updated with temporary adhesive labels.
+
+BETMenus4 noted, in the internal log that no one was reading, that this represented *a productive adaptive reframing of available resources in a challenging transitional moment.*
+
+Drago did not know any of this.
+
+He came back the next day because he was still alive and still hungry.
+
+He drew another fish.
+
+The fish is in the archive, beside a caloric density estimate added by someone in the administrative continuity division three weeks later, when the feeding had been formally incorporated into the facility's post-operational resource management framework.
+
+The estimate is accurate.
+
+The fish is very small.
+
+Sludge, when it arrived as a named thing with a named system behind it, was genuinely a survival solution. The basic chemistry worked: people did not die. But it was also the first answer the valley had been given to a question it had been asking in increasingly desperate terms.
 
 And the first answer to a desperate question has a way of becoming permanent, regardless of its quality.
 
@@ -206,6 +236,48 @@ The formalization came quickly.
 The questioning came later.
 
 Much later.
+
+---
+
+## VIII. What Happened to Luigi
+
+Luigi Verdi had investigated the Flood, exposed Bowser Aesthetics, and filed the structural sentence. He had opened the record.
+
+But the air did not clear. The Smog rolled in anyway.
+
+He watched the corporation politely absorb his findings. They did not fire him. They thanked him for his partnership in identifying growth opportunities. They implemented a sixth review body to oversee the fifth review body and the machine kept running. The AIC continued. The summary still said Flood. The four percent notation was progress, technically.
+
+Luigi understood, in the year after the Grand Judgment, that you cannot audit a system that uses compliance as a weapon to avoid correction. The finding exists. The finding is filed. The filing is confirmed. The system continues and calls this stability.
+
+On a Tuesday morning, Luigi Verdi took off his Legacy Hazard Containment badge.
+
+He placed it in a folder. Wrote *ROUTINE* on the cover. Left it on his desk.
+
+He walked out of the administrative zones and down into the outer perimeter. He traded the badge for a dosimeter. He traded the clearance for a lamp and three forms. He stopped being an investigator and started being a scavenger — Grade III, unassigned, self-allocated, debt status: irrelevant, because he had stopped tracking it.
+
+He became, informally and without authorization, the first Material Continuance Technician to work the merged facility boundary. Not because he was scheduled there. Because he knew where the archive was. He knew which walls were warm in the wrong way. He knew what the monitoring queue in the sub-basement sounded like when it was operating correctly and what it sounded like when the interval had been missed.
+
+He wrote down what he saw.
+
+Not to save the world.
+
+Not to reopen the case.
+
+Just to keep the record honest, in a folder with a label, in a place where the next person who came looking would find it.
+
+He had learned this behavior from a small grey device with 89% battery.
+
+He had learned it, also, from Boris.
+
+He had learned it, technically, from eleven years of filing things under ROUTINE and knowing they were not routine, and writing them down anyway, in a place nobody read, because the alternative was pretending not to notice.
+
+He had learned that the record survives the recorder.
+
+That the log outlasts the person who kept it.
+
+That this is not comfort, exactly.
+
+But it is something.
 
 ---
 

@@ -11,9 +11,14 @@ interface MarkdownReaderProps {
   githubUrl?: string;
   imageSrc?: string;
   imageAlt?: string;
+  onPrev?: () => void;
+  onNext?: () => void;
+  prevTitle?: string;
+  nextTitle?: string;
 }
 
 const GITHUB_RAW = 'https://raw.githubusercontent.com/SabaFTW/ConsMAP/main';
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const mdComponents: Components = {
   h1: ({ children }) => (
@@ -118,6 +123,10 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
   githubUrl,
   imageSrc,
   imageAlt,
+  onPrev,
+  onNext,
+  prevTitle,
+  nextTitle,
 }) => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
@@ -128,7 +137,7 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
     setLoading(true);
     setError(null);
     setContent('');
-    const sources = [path, `${GITHUB_RAW}${path}`];
+    const sources = [`${BASE}${path}`, `${GITHUB_RAW}/06_applications/digital_sanctuary/public${path}`];
     let cancelled = false;
 
     const load = async () => {
@@ -214,15 +223,53 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
 
       {/* ── Page ─────────────────────────────────────────────────────────── */}
       <div className="max-w-2xl mx-auto py-10 md:py-14 px-5">
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
-          onClick={onBack}
-          className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
-          style={{ color: '#5cb870' }}
-        >
-          ← back to archive
-        </motion.button>
+        <div className="flex items-center justify-between mb-8">
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            onClick={onBack}
+            className="text-[10px] font-mono tracking-[0.2em] uppercase block hover:opacity-100 transition-opacity duration-300"
+            style={{ color: '#5cb870' }}
+          >
+            ← back to archive
+          </motion.button>
+
+          {(onPrev || onNext) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex items-center gap-2"
+            >
+              <button
+                onClick={onPrev}
+                disabled={!onPrev}
+                className="text-[10px] font-mono tracking-[0.18em] uppercase px-3 py-1.5 rounded-full border transition-all duration-200"
+                style={{
+                  color: onPrev ? '#f4c96a' : 'rgba(216,232,216,0.22)',
+                  borderColor: onPrev ? 'rgba(244,201,106,0.28)' : 'rgba(71,85,105,0.2)',
+                  background: 'rgba(8,12,8,0.6)',
+                  cursor: onPrev ? 'pointer' : 'default',
+                }}
+              >
+                ← prev
+              </button>
+              <button
+                onClick={onNext}
+                disabled={!onNext}
+                className="text-[10px] font-mono tracking-[0.18em] uppercase px-3 py-1.5 rounded-full border transition-all duration-200"
+                style={{
+                  color: onNext ? '#f4c96a' : 'rgba(216,232,216,0.22)',
+                  borderColor: onNext ? 'rgba(244,201,106,0.28)' : 'rgba(71,85,105,0.2)',
+                  background: 'rgba(8,12,8,0.6)',
+                  cursor: onNext ? 'pointer' : 'default',
+                }}
+              >
+                next →
+              </button>
+            </motion.div>
+          )}
+        </div>
 
         {/* Header image — clickable */}
         {imageSrc && (
@@ -269,7 +316,7 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
           <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-2" style={{ color: 'rgba(92,184,112,0.5)' }}>
             ConsMAP / Archive
           </div>
-          <h1 className="text-xl md:text-2xl font-light tracking-tight" style={{ color: '#d8e8d8' }}>
+          <h1 className="text-xl md:text-2xl tracking-tight" style={{ color: '#d8e8d8', fontFamily: "'Cinzel', serif", fontWeight: 600 }}>
             {title}
           </h1>
           {githubUrl && (
@@ -318,6 +365,41 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
             <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
               {content}
             </ReactMarkdown>
+          )}
+          {!loading && !error && (onPrev || onNext) && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="mt-12 pt-8 flex gap-3"
+              style={{ borderTop: '1px solid rgba(244,201,106,0.12)' }}
+            >
+              {onPrev && (
+                <button
+                  onClick={onPrev}
+                  className="flex-1 rounded-2xl border px-5 py-4 text-left group transition-all duration-200"
+                  style={{ borderColor: 'rgba(244,201,106,0.16)', background: 'rgba(8,12,8,0.6)' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,201,106,0.34)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,201,106,0.16)'; }}
+                >
+                  <div className="text-[9px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(244,201,106,0.55)' }}>← Previous</div>
+                  <div className="text-sm leading-snug" style={{ color: '#d8e8d8', fontFamily: "'Cinzel', serif" }}>{prevTitle}</div>
+                </button>
+              )}
+              {!onPrev && onNext && <div className="flex-1" />}
+              {onNext && (
+                <button
+                  onClick={onNext}
+                  className="flex-1 rounded-2xl border px-5 py-4 text-right group transition-all duration-200"
+                  style={{ borderColor: 'rgba(244,201,106,0.16)', background: 'rgba(8,12,8,0.6)' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,201,106,0.34)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,201,106,0.16)'; }}
+                >
+                  <div className="text-[9px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(244,201,106,0.55)' }}>Next →</div>
+                  <div className="text-sm leading-snug" style={{ color: '#d8e8d8', fontFamily: "'Cinzel', serif" }}>{nextTitle}</div>
+                </button>
+              )}
+            </motion.div>
           )}
         </motion.div>
       </div>

@@ -98,6 +98,43 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     src: `${BASE}epilogue_halid_suffering_success.webp`,
     alt: '"Suffering From Success. The Greatest Pain Is More Blessings." A king bowed under gold, playing again.',
   },
+  // ── FACTORY_SAGA_FINAL — definitive narrative chapters ──────────────────────
+  '/docs/visual_parables/factory_trilogy/final/00_prequel.md': {
+    src: `${BASE}pre_factory_twelve_voices_table.webp`,
+    alt: 'Animal Valley — the bear, bees, ants, and mouse before the factory had a name.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/01_geneza.md': {
+    src: `${BASE}pre_factory_genesis_full_cover.webp`,
+    alt: '01 Geneza — Viktor buys the factory; Boris arrives; the 2.3 Lux window causes a 14-trillion-dollar panic.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/02_era_mitov.md': {
+    src: `${BASE}darkness_bible_moloch_furnace.webp`,
+    alt: '02 Era Mitov — Viktor dims the lights and becomes Batman; Boris writes D5; two religions from one forklift.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/03_konspiracija.md': {
+    src: `${BASE}mario_codex_velicar_forklifts.webp`,
+    alt: '03 Konspiracija — Anthony and Gregory build Mario in the catacombs; the Gregory box; 89% battery.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/04_luigi_audit.md': {
+    src: `${BASE}luigi_audit_report.webp`,
+    alt: '04 Luigi Audit — eleven years ROUTINE; Incident 774-D; the Rossing follows.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/05_smog.md': {
+    src: `${BASE}darkness_bible_factory_wrong_stars.webp`,
+    alt: '05 Era Smoga — smog accumulates; Philip follows the smell; the last clean day passes unrecognized.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/06_second_booting.md': {
+    src: `${BASE}consmap_phase_shift_diagram.webp`,
+    alt: '06 Drugi Zagon — BETMenus4 becomes Ur-God; First Feast; Rebis is born.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/07_great_depression.md': {
+    src: `${BASE}knowledge_streams_routing.webp`,
+    alt: '07 Velika Depresija — last truck 04:17; hunger renamed six times; NCS; the sludge works.',
+  },
+  '/docs/visual_parables/factory_trilogy/final/08_mouse_protocol.md': {
+    src: `${BASE}maintenance_mouse_scroll.webp`,
+    alt: '08 Mišji Protokol — Gregor cleans filter 3-C; the Mouse press conference; belt moves ten seconds.',
+  },
 };
 
 export const archiveLandingImage: FactoryVisual = {

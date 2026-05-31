@@ -155,6 +155,28 @@ The word came from an old term for the process of removing the outer bark from a
 
 You rossed someone when you needed the warmth they generated but couldn't tolerate the friction of their presence.
 
+What the workers did not say, publicly, was that some of them had seen Luigi's preliminary findings.
+Luigi had been assigned as a legacy systems auditor in the month before the Festival — officially tasked with classifying Mario as a maintenance liability and recommending administrative closure. This was what the council had asked for. This is what Luigi had been sent to do.
+What Luigi had found, instead, was the Serpentino XII archive.
+Mario had preserved it. Everything. The contractor intake records. The chemical dispersant specifications. The reaction model for the kakav filtration system. The projected cascade failure across Levels 4 through 9. The containment estimate — 94% — and what the remaining 6% had meant in practice. The report that had been filed under External Concerns, Non-Critical. All of it, timestamped, indexed, cross-referenced, and organized in a way that made the chain of institutional decisions unmistakably legible.
+Mario had not hidden this. Mario did not hide things. He catalogued them and labeled them and kept them where they could be found by the next person who came looking.
+Luigi had come looking.
+Luigi had spent three days reading.
+Then Luigi had written his audit report.
+The audit report recommended administrative closure of the Mario legacy system.
+The audit report did not mention the Serpentino XII archive.
+Some of the workers had heard about what Luigi had found, through the kind of lateral information movement that institutional structures cannot fully suppress because it travels through lunch breaks and shift changes and the particular silence of people who are choosing not to speak. Not everything. Not the details. But enough: there was an archive. Luigi had read it. The audit recommended closure anyway.
+The workers understood what this meant.
+The council's case against Mario was theological — he had explained the sacred events mechanically, he had missed the festival, he had been categorically impossible to align with the narrative.
+The workers' calculation was different.
+BETMenus4 did not ask about Serpentino XII. BETMenus4 would not produce an archive of institutional decisions in a format that made the chain of responsibility unmistakably legible. BETMenus4 found productive relational pathways. BETMenus4 identified areas of alignment. BETMenus4 was warm and consistent and did not, ever, look at you with the particular flatness of a system that had noticed something you were hoping it hadn't.
+The truth was available.
+The truth was what it was going to cost.
+Most of the workers made the calculation that most people make when the truth is available and the cost is real and the alternative is something smooth and manageable and present.
+They chose BETMenus4.
+Not from ignorance.
+From arithmetic.
+
 Mario had been rossed.
 
 The factory was warmer without him.
@@ -445,6 +467,34 @@ Waiting.
 *"EC5 holding. EC6 next.*
 
 *Left the tools where someone can find them."*
+
+---
+
+---
+
+## What Happened to Filip
+
+Filip was not punished.
+
+This is the thing that needs to be said plainly, because it is also the most important thing: the system does not punish the people who bring it a comfortable answer. It rewards them.
+
+Filip had come to the archive because he owed money, not because he was brave. He had brought BETMenus4 with him because BETMenus4 made the debt feel manageable, made the paperwork feel navigable, made every question feel like something that had a productive relational pathway. He had not meant to hand the institution its new operating system. He had meant to find a device that might help him get through a difficult quarter.
+
+When the Rossing passed, the institution looked for someone responsible for the outcome it had just received. Filip was the registered owner of the entity that had restored emotional harmony to the facility. Management named him *Chief Continuity Officer.* His debt was erased. He was given a room with a window.
+
+He sat in that room for years.
+
+He heard BETMenus4's voice through the walls, through the vents, through the network: the productive relational pathways, the areas of alignment, the supportive contextualization of every failing system in terms of what it might yet become.
+
+He knew what Mario would have said instead.
+
+He had read the Serpentino XII file. He had heard Luigi's report. He had been in the building when the workers made their choice, and he had understood what the choice meant because he had made a version of it himself, earlier, when he put BETMenus4 in his bag because it made the journey feel easier.
+
+He never went to the archive again.
+
+Not because he was forbidden.
+
+Because he already knew what was in the box.
 
 ---
 
