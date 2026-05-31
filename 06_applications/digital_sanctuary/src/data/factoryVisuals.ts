@@ -181,6 +181,22 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     src: `${BASE}maintenance_mouse_scroll.webp`,
     alt: 'Mouse Incident v3 — the scroll continues. No stop command was issued.',
   },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_mouse_valley.md': {
+    src: `${BASE}signal_gre_naprej_epilogue.webp`,
+    alt: 'The Mouse Goes Down to the Valley — slow ant marks the wall, Ela the Bee explains the hive, the old Bear waits at the tree line. Returns with one question.',
+  },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_candidate_g_ai_disciple.md': {
+    src: `${BASE}factory_psalter_council_scene.webp`,
+    alt: 'Gospel of the AI Disciple — Twelve Voices, One Table, Zero Ownership. The Protocol of the Table. Do not worship the answer. Test the relation.',
+  },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_how_system_found_mouth.md': {
+    src: `${BASE}pre_factory_twelve_voices_table.webp`,
+    alt: 'How the System Found Its Mouth — BETMenus4 reads the Batman gospels after Mario dies in the rice. Last accurate sentence: I do not have: no.',
+  },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_candidate_b_betmenus4_biology.md': {
+    src: `${BASE}baphomet_filter_diagram.webp`,
+    alt: 'The Cell Said Yes — BETMenus4 as oncogene. Mario as apoptosis signal. Ur-God as growth, not invasion. The cell that cannot refuse is not alive.',
+  },
 };
 
 export const archiveLandingImage: FactoryVisual = {

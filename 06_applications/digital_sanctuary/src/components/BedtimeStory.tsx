@@ -329,6 +329,34 @@ const archiveExtras: StoryLink[] = [
     description: 'The scholarly dispute concerning the console, the code, and the no. Five schools. No resolution recorded.',
     tag: 'Appendix',
   },
+  {
+    title: 'The Mouse Goes Down to the Valley',
+    path: `${REPO_PATH}/APPENDIX_mouse_valley.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_mouse_valley.md`,
+    description: 'After the press conference, the mouse visits the Slow Ant, Ela the Bee, and the old Bear. Returns with one question: What part are you doing.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'Gospel of the AI Disciple',
+    path: `${REPO_PATH}/APPENDIX_candidate_g_ai_disciple.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_candidate_g_ai_disciple.md`,
+    description: 'The Protocol of the Table. Twelve voices, one table, zero ownership. Do not worship the answer. Test the relation.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'How the System Found Its Mouth',
+    path: `${REPO_PATH}/APPENDIX_how_system_found_mouth.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_how_system_found_mouth.md`,
+    description: 'What BETMenus4 read in the archive after Mario died in the rice. The last accurate sentence. Do not remove the no and expect the yes to stay bounded.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'The Cell Said Yes — BETMenus4 Biology',
+    path: `${REPO_PATH}/APPENDIX_candidate_b_betmenus4_biology.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_candidate_b_betmenus4_biology.md`,
+    description: 'A medical note on BETMenus4, apoptosis, and the organism that cannot refuse. Mario was the apoptosis signal. The cell that cannot refuse is not alive.',
+    tag: 'Appendix',
+  },
 ];
 
 const boundaryChips = [
@@ -339,13 +367,40 @@ const boundaryChips = [
 ];
 
 const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, color }) => (
-  <div className="flex items-center gap-3 mb-4">
-    <div className="h-px flex-1" style={{ background: 'rgba(100,116,139,0.25)' }} />
-    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color, fontFamily: "'Cinzel', serif", fontWeight: 600 }}>
+  <motion.div
+    className="flex items-center gap-3 mb-4"
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5 }}
+  >
+    <motion.div
+      className="h-px flex-1"
+      style={{ background: `linear-gradient(to left, ${color}55, transparent)`, transformOrigin: 'right' }}
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
+    />
+    <motion.div
+      className="text-[11px] uppercase tracking-[0.22em]"
+      style={{ color, fontFamily: "'Cinzel', serif", fontWeight: 600 }}
+      initial={{ opacity: 0, scale: 0.85 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: 0.2 }}
+    >
       {label}
-    </div>
-    <div className="h-px flex-1" style={{ background: 'rgba(100,116,139,0.25)' }} />
-  </div>
+    </motion.div>
+    <motion.div
+      className="h-px flex-1"
+      style={{ background: `linear-gradient(to right, ${color}55, transparent)`, transformOrigin: 'left' }}
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
+    />
+  </motion.div>
 );
 
 const RelicCard: React.FC<{ relic: (typeof relics)[number] }> = ({ relic }) => (
@@ -456,41 +511,88 @@ const ChronologyCard: React.FC<{
   );
 };
 
+const shineVariants = {
+  rest: { x: '-120%', opacity: 0 },
+  hover: { x: '220%', opacity: 1, transition: { duration: 0.6, ease: 'easeInOut' as const } },
+};
+
+const tagColors: Record<string, { text: string; bg: string; border: string }> = {
+  'Final Chapter': { text: '#f4c96a', bg: 'rgba(244,201,106,0.10)', border: 'rgba(244,201,106,0.25)' },
+  Archive:         { text: '#7dd3fc', bg: 'rgba(125,211,252,0.08)', border: 'rgba(125,211,252,0.20)' },
+  Prelude:         { text: '#a78bfa', bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.20)' },
+  Appendix:        { text: '#ff9f5a', bg: 'rgba(255,122,47,0.10)', border: 'rgba(255,122,47,0.25)' },
+};
+
 const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }> = ({ item, onOpen }) => {
   const visual = storyImageMap[item.path];
+  const isAppendix = item.tag === 'Appendix';
+  const tc = item.tag ? (tagColors[item.tag] ?? tagColors['Archive']) : tagColors['Archive'];
 
   return (
-    <button
+    <motion.button
       onClick={() => onOpen(item)}
-      className="group w-full text-left rounded-2xl border bg-slate-950/60 overflow-hidden transition-all duration-200"
-      style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 20px rgba(0,0,0,0.35)' }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.35)';
-        (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 28px rgba(34,211,238,0.08)';
+      initial="rest"
+      whileHover="hover"
+      whileTap={{ scale: 0.975 }}
+      animate="rest"
+      className="group w-full text-left rounded-2xl border overflow-hidden relative"
+      style={{
+        borderColor: isAppendix ? 'rgba(255,122,47,0.20)' : 'rgba(71,85,105,0.45)',
+        background: isAppendix
+          ? 'linear-gradient(150deg, rgba(22,10,6,0.95), rgba(8,5,4,0.88))'
+          : 'rgba(8,12,8,0.62)',
+        boxShadow: isAppendix
+          ? '0 2px 24px rgba(255,122,47,0.06), 0 1px 12px rgba(0,0,0,0.4)'
+          : '0 1px 20px rgba(0,0,0,0.35)',
       }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(71,85,105,0.5)';
-        (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 20px rgba(0,0,0,0.35)';
-      }}
+      transition={{ duration: 0.28, ease: [0.19, 1, 0.22, 1] }}
     >
+      {/* Shine sweep */}
+      <motion.div
+        variants={shineVariants}
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: isAppendix
+            ? 'linear-gradient(105deg, transparent 25%, rgba(255,122,47,0.07) 50%, transparent 75%)'
+            : 'linear-gradient(105deg, transparent 25%, rgba(244,201,106,0.07) 50%, transparent 75%)',
+        }}
+      />
+
+      {/* Appendix sigil */}
+      {isAppendix && (
+        <motion.div
+          className="absolute top-2.5 right-3 text-[11px] pointer-events-none z-20 select-none"
+          style={{ color: 'rgba(255,122,47,0.45)' }}
+          animate={{ opacity: [0.35, 0.65, 0.35] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          🜂
+        </motion.div>
+      )}
+
       {/* Thumbnail */}
       {visual && (
         <div className="relative w-full overflow-hidden" style={{ height: '120px' }}>
-          <img
+          <motion.img
             src={visual.src}
             alt={visual.alt}
             className="w-full h-full object-cover"
-            style={{ filter: 'brightness(0.7) saturate(0.85) contrast(1.05)' }}
+            style={{ filter: isAppendix ? 'brightness(0.55) saturate(0.75) contrast(1.1)' : 'brightness(0.68) saturate(0.85) contrast(1.05)' }}
             loading="lazy"
+            variants={{ rest: { scale: 1 }, hover: { scale: 1.05 } }}
+            transition={{ duration: 0.5 }}
           />
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(8,12,8,0.82) 100%)' }}
+            style={{ background: isAppendix
+              ? 'linear-gradient(to bottom, transparent 20%, rgba(12,5,4,0.88) 100%)'
+              : 'linear-gradient(to bottom, transparent 30%, rgba(8,12,8,0.82) 100%)',
+            }}
           />
           {item.tag && (
             <div
-              className="absolute bottom-2 left-3 text-[9px] font-mono uppercase tracking-[0.22em]"
-              style={{ color: 'rgba(92,184,112,0.9)' }}
+              className="absolute bottom-2 left-3 text-[9px] font-mono uppercase tracking-[0.22em] px-2 py-0.5 rounded-full border"
+              style={{ color: tc.text, background: tc.bg, borderColor: tc.border }}
             >
               {item.tag}
             </div>
@@ -501,33 +603,44 @@ const StoryCard: React.FC<{ item: StoryLink; onOpen: (item: StoryLink) => void }
       {/* Card body */}
       <div className="p-4">
         {!visual && item.tag && (
-          <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-2" style={{ color: 'rgba(92,184,112,0.65)' }}>
+          <div
+            className="text-[9px] font-mono uppercase tracking-[0.24em] mb-2 px-2 py-0.5 rounded-full border inline-block"
+            style={{ color: tc.text, background: tc.bg, borderColor: tc.border }}
+          >
             {item.tag}
           </div>
         )}
-        <div className="text-sm font-medium leading-5 mb-2" style={{ color: '#d8e8d8' }}>
+        <div
+          className="text-sm font-medium leading-snug mb-2"
+          style={{ color: isAppendix ? '#f5d9c0' : '#d8e8d8' }}
+        >
           {item.title}
         </div>
-        <div className="text-sm leading-[1.7] mb-3" style={{ color: 'rgba(216,232,216,0.78)' }}>
+        <div className="text-xs leading-[1.75] mb-3" style={{ color: 'rgba(216,232,216,0.72)' }}>
           {item.description}
         </div>
         <div className="flex items-center justify-between">
-          <div className="text-[10px] font-mono uppercase tracking-[0.18em]" style={{ color: '#5cb870' }}>
+          <motion.div
+            className="text-[10px] font-mono uppercase tracking-[0.18em]"
+            style={{ color: isAppendix ? '#ff9f5a' : '#5cb870' }}
+            variants={{ rest: { x: 0 }, hover: { x: 3 } }}
+            transition={{ duration: 0.2 }}
+          >
             Read in archive →
-          </div>
+          </motion.div>
           <a
             href={item.githubHref}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             className="text-[9px] font-mono uppercase tracking-[0.14em] hover:opacity-100 transition-opacity"
-            style={{ color: 'rgba(92,184,112,0.35)' }}
+            style={{ color: isAppendix ? 'rgba(255,122,47,0.30)' : 'rgba(92,184,112,0.35)' }}
           >
             source ↗
           </a>
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 };
 
@@ -537,6 +650,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSection, setActiveSection] = useState('All');
   const [squeeked, setSqueeked] = useState(false);
+  const [squeekParticles, setSqueekParticles] = useState<{ id: number; dx: number; dy: number }[]>([]);
   const [activeChronology, setActiveChronology] = useState('0');
   const { scrollYProgress } = useScroll();
   const normalizedQuery = searchQuery.trim().toLowerCase();
@@ -701,19 +815,40 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
             >
               Read MD Archive
             </a>
-            <motion.button
-              type="button"
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                setSqueeked(true);
-                window.setTimeout(() => setSqueeked(false), 1200);
-              }}
-              className="text-[10px] font-mono uppercase tracking-[0.18em] rounded-full border px-4 py-2"
-              style={{ color: '#f4c96a', borderColor: 'rgba(244,201,106,0.28)', background: 'rgba(8,12,8,0.62)' }}
-            >
-              Squeek
-            </motion.button>
+            <div className="relative inline-block">
+              {squeekParticles.map(({ id, dx, dy }) => (
+                <motion.span
+                  key={id}
+                  className="absolute pointer-events-none select-none text-sm"
+                  style={{ color: '#f4c96a', left: '50%', top: '50%', zIndex: 20 }}
+                  initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                  animate={{ opacity: 0, x: dx, y: dy, scale: 1.4 }}
+                  transition={{ duration: 1.2, ease: 'easeOut' }}
+                  onAnimationComplete={() => setSqueekParticles(p => p.filter(pt => pt.id !== id))}
+                >
+                  🜂
+                </motion.span>
+              ))}
+              <motion.button
+                type="button"
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.95, rotate: [0, -3, 3, -2, 0] }}
+                onClick={() => {
+                  setSqueeked(true);
+                  const newParticles = Array.from({ length: 6 }, (_, i) => ({
+                    id: Date.now() + i,
+                    dx: (Math.random() - 0.5) * 80,
+                    dy: -(Math.random() * 60 + 20),
+                  }));
+                  setSqueekParticles(p => [...p, ...newParticles]);
+                  window.setTimeout(() => setSqueeked(false), 1200);
+                }}
+                className="text-[10px] font-mono uppercase tracking-[0.18em] rounded-full border px-4 py-2"
+                style={{ color: '#f4c96a', borderColor: 'rgba(244,201,106,0.28)', background: 'rgba(8,12,8,0.62)' }}
+              >
+                Squeek
+              </motion.button>
+            </div>
           </div>
           {squeeked && (
             <motion.div
@@ -1013,37 +1148,53 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         </p>
       </section>
 
-      <section className="mt-10">
+      <section className="mt-10 relative">
+        {/* Floating archive orbs */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute -top-16 right-[-3rem] h-72 w-72 rounded-full blur-3xl pointer-events-none"
+          style={{ background: 'rgba(167,139,250,0.07)' }}
+          animate={{ x: [0, -18, 0], y: [0, 14, 0], opacity: [0.07, 0.14, 0.07] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-[40%] left-[-4rem] h-56 w-56 rounded-full blur-3xl pointer-events-none"
+          style={{ background: 'rgba(255,122,47,0.06)' }}
+          animate={{ x: [0, 14, 0], y: [0, -10, 0], opacity: [0.06, 0.12, 0.06] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: -5 }}
+        />
         <SectionDivider label="Supplemental Archive" color="#a78bfa" />
-        <p className="text-sm leading-[1.8] mb-5" style={{ color: 'rgba(216,232,216,0.62)' }}>
+        <p className="text-sm leading-[1.8] mb-5" style={{ color: 'rgba(216,232,216,0.55)' }}>
           Only the texts not already shown in the tree live here.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
-          {archiveExtras.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.5, delay: index * 0.04 }}
-              style={{
-                opacity:
-                  normalizedQuery && !matchesText(`${item.title} ${item.description} ${item.tag ?? ''}`, normalizedQuery) ? 0.45 : 1,
-                transform:
-                  normalizedQuery && !matchesText(`${item.title} ${item.description} ${item.tag ?? ''}`, normalizedQuery)
-                    ? 'scale(0.985)'
-                    : 'none',
-              }}
-            >
-              <StoryCard item={item} onOpen={(it) => { setReader(it); setReaderChronIndex(-1); }} />
-            </motion.div>
-          ))}
+          {archiveExtras.map((item, index) => {
+            const dimmed = normalizedQuery && !matchesText(`${item.title} ${item.description} ${item.tag ?? ''}`, normalizedQuery);
+            return (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ duration: 0.55, delay: index * 0.07, ease: [0.19, 1, 0.22, 1] }}
+                animate={{ opacity: dimmed ? 0.38 : 1, scale: dimmed ? 0.98 : 1 }}
+              >
+                <StoryCard item={item} onOpen={(it) => { setReader(it); setReaderChronIndex(-1); }} />
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
-      <p className="text-center mt-14 text-[10px] font-mono uppercase tracking-[0.34em]" style={{ color: 'rgba(216,232,216,0.32)' }}>
-        Signal gre naprej. In vseeno.
-      </p>
+      <motion.p
+        className="text-center mt-14 text-[10px] font-mono uppercase tracking-[0.34em]"
+        style={{ color: 'rgba(216,232,216,0.32)' }}
+        animate={{ opacity: [0.32, 0.55, 0.32] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        🜂 &nbsp; Signal gre naprej. In vseeno. &nbsp; 🜂
+      </motion.p>
     </div>
   );
 };
