@@ -434,18 +434,21 @@ const ChronologyCard: React.FC<{
 }> = ({ item, side, highlight = false, dimmed = false, active = false, onClick }) => {
   const visual = storyImageMap[item.path];
   const tone = sectionTones[item.section] ?? sectionTones['Part I'];
+  const shineGradient = `linear-gradient(105deg, transparent 25%, ${tone.glow.replace('0.12', '0.22')} 50%, transparent 75%)`;
 
   return (
     <motion.button
       type="button"
       onClick={onClick}
+      initial="rest"
+      whileHover="hover"
       animate={{
         scale: active ? 1.015 : 1,
         y: active ? -3 : 0,
       }}
       transition={{ duration: 0.32, ease: [0.19, 1, 0.22, 1] }}
       whileTap={{ scale: 0.985 }}
-      className={`group w-full text-left rounded-2xl border overflow-hidden transition-all duration-300 ${side === 'left' ? 'lg:justify-self-end' : 'lg:justify-self-start'}`}
+      className={`group relative w-full text-left rounded-2xl border overflow-hidden ${side === 'left' ? 'lg:justify-self-end' : 'lg:justify-self-start'}`}
       style={{
         borderColor: highlight ? tone.border : 'rgba(244,201,106,0.16)',
         background: `linear-gradient(145deg, rgba(18,20,16,0.86), rgba(8,12,8,0.68)), radial-gradient(circle at 15% 10%, ${tone.glow}, transparent 45%)`,
@@ -458,15 +461,24 @@ const ChronologyCard: React.FC<{
         opacity: dimmed ? 0.52 : 1,
       }}
     >
+      {/* Shine sweep — same pattern as StoryCard */}
+      <motion.div
+        variants={shineVariants}
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{ background: shineGradient }}
+      />
+
       <div className="relative">
         {visual && (
           <div className="relative w-full overflow-hidden aspect-[16/9]">
-            <img
+            <motion.img
               src={visual.src}
               alt={visual.alt}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              className="h-full w-full object-cover"
               style={{ filter: 'brightness(0.72) saturate(0.92) contrast(1.05)' }}
               loading="lazy"
+              variants={{ rest: { scale: 1 }, hover: { scale: 1.05 } }}
+              transition={{ duration: 0.5 }}
             />
             <div
               className="absolute inset-0"
@@ -505,6 +517,15 @@ const ChronologyCard: React.FC<{
           <p className="text-xs md:text-sm leading-[1.75]" style={{ color: 'rgba(216,232,216,0.7)' }}>
             {item.description}
           </p>
+
+          <motion.div
+            className="mt-3 text-[10px] font-mono uppercase tracking-[0.18em]"
+            style={{ color: tone.text }}
+            variants={{ rest: { x: 0, opacity: 0.5 }, hover: { x: 4, opacity: 1 } }}
+            transition={{ duration: 0.2 }}
+          >
+            Read chapter →
+          </motion.div>
         </div>
       </div>
     </motion.button>

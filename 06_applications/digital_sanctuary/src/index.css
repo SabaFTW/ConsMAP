@@ -34,6 +34,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
   font-size: 1rem;
+  background: linear-gradient(
+    180deg,
+    #060c06 0%,
+    #080c08 18%,
+    #090a08 38%,
+    #0b0906 55%,
+    #0f0804 75%,
+    #160803 100%
+  );
+  background-attachment: fixed;
+}
+
+/* Subtle grid overlay — green lines fade to amber as gradient shifts */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(97, 216, 137, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(97, 216, 137, 0.032) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Scrollbar */
