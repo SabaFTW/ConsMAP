@@ -301,6 +301,34 @@ const archiveExtras: StoryLink[] = [
     description: 'Final status report from the archive that did not want to be continued.',
     tag: 'Appendix',
   },
+  {
+    title: 'The Boris Sorter',
+    path: `${REPO_PATH}/APPENDIX_boris_sorter.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_boris_sorter.md`,
+    description: 'Anti-theological classification device found under the salami page. SIGN / CAUSE / ROUTE / ACTION / STORY. Sort before you worship.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'Era Between Mario and Baal',
+    path: `${REPO_PATH}/APPENDIX_era_between.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_era_between.md`,
+    description: 'Chronicle of the outbid good ending, the web of shit, and the last flood. Do not mine the asteroid.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'Lich King Protocol',
+    path: `${REPO_PATH}/APPENDIX_lich_king_protocol.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_lich_king_protocol.md`,
+    description: 'The black branch. No reboot. The SD card is not found by the flood. Planetary darkness. Do not canonize into mainline unless you want the air to stop.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'The Mario Problem',
+    path: `${REPO_PATH}/APPENDIX_mario_problem.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_mario_problem.md`,
+    description: 'The scholarly dispute concerning the console, the code, and the no. Five schools. No resolution recorded.',
+    tag: 'Appendix',
+  },
 ];
 
 const boundaryChips = [

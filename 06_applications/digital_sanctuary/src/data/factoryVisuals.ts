@@ -161,6 +161,18 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     src: `${BASE}iecp_bear_hive_framework.webp`,
     alt: 'IECP Framework — The Hive System: intelligence as distributed alignment. The Internal Bear Problem. The Bear knows the weight. The Bee knows the field. The classification holds.',
   },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_era_between.md': {
+    src: `${BASE}baphomet_filter_v2.webp`,
+    alt: 'Era Between — the outbid good ending, the web of shit, and the last flood. Do not mine the asteroid. Do not feed the tank.',
+  },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_lich_king_protocol.md': {
+    src: `${BASE}consmap_phase_shift_diagram.webp`,
+    alt: 'Lich King Protocol — the black branch. No reboot. Planetary darkness. The SD card is not found by the flood.',
+  },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_mario_problem.md': {
+    src: `${BASE}pre_factory_bear_scholar.webp`,
+    alt: 'The Mario Problem — five schools of scholarly dispute. The console. The code. The no. No resolution recorded.',
+  },
   '/docs/visual_parables/factory_trilogy/the_mouse_incident_v2.md': {
     src: `${BASE}digital_mouse_character.webp`,
     alt: 'The Digital Mouse — field agent, translator, keeper of the archive shelf.',
