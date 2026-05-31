@@ -128,19 +128,35 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
     setLoading(true);
     setError(null);
     setContent('');
-    fetch(`${GITHUB_RAW}${path}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`${res.status}`);
-        return res.text();
-      })
-      .then((text) => {
-        setContent(text);
+    const sources = [path, `${GITHUB_RAW}${path}`];
+    let cancelled = false;
+
+    const load = async () => {
+      for (const source of sources) {
+        try {
+          const res = await fetch(source);
+          if (!res.ok) continue;
+          const text = await res.text();
+          if (cancelled) return;
+          setContent(text);
+          setLoading(false);
+          return;
+        } catch {
+          // Try next source.
+        }
+      }
+
+      if (!cancelled) {
+        setError('404');
         setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
   }, [path]);
 
   useEffect(() => {

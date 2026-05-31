@@ -68,6 +68,32 @@ const principles = [
   'Archives are maps, not commandments.',
 ];
 
+const quickLinks: Array<{
+  label: string;
+  href: string;
+  description: string;
+  chips: string[];
+}> = [
+  {
+    label: 'FAQ',
+    href: '../forge_faq/index.html',
+    description: 'Interactive Simbiotski Plamen FAQ. Myth and technique share the same index.',
+    chips: ['INDEX', 'FAQ'],
+  },
+  {
+    label: 'Continuum Arc',
+    href: '../continuum_arc/index.md',
+    description: 'Markdown archive of the Continuum / institutional capture arc.',
+    chips: ['INDEX', 'ARCHIVE'],
+  },
+  {
+    label: 'ConsMAP Repo',
+    href: 'https://github.com/SabaFTW/ConsMAP',
+    description: 'Whole repository root for the full project tree and source material.',
+    chips: ['SOURCE', 'GITHUB'],
+  },
+];
+
 // ── Full repository map (revealed on demand) ──────────────────────────────────
 
 type RepoBadge = 'START' | 'SYMBOLIC' | 'PROOF' | 'TOOLS' | 'ARCHIVE' | 'RISK';
@@ -304,6 +330,55 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
               </p>
             </div>
           ))}
+        </motion.div>
+
+        {/* C1: Direct archive links ───────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.37, duration: 0.8 }}
+          className="mb-8"
+        >
+          <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-3 text-center" style={{ color: 'rgba(92,184,112,0.58)' }}>
+            Direct archive links
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {quickLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target={item.href.startsWith('http') ? '_blank' : '_self'}
+                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="group text-left rounded-2xl border bg-slate-950/60 px-5 py-5 transition-all duration-200"
+                style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 18px rgba(0,0,0,0.3)' }}
+              >
+                <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(92,184,112,0.72)' }}>
+                  {item.label}
+                </div>
+                <div className="text-sm leading-[1.65] mb-4" style={{ color: 'rgba(216,232,216,0.72)' }}>
+                  {item.description}
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {item.chips.map((chip) => (
+                    <span
+                      key={chip}
+                      className="text-[9px] font-mono uppercase tracking-[0.16em] px-2 py-0.5 rounded-full border"
+                      style={{
+                        color: chip === 'SOURCE' ? '#7dd3fc' : '#5cb870',
+                        borderColor: chip === 'SOURCE' ? 'rgba(125,211,252,0.26)' : 'rgba(92,184,112,0.26)',
+                        background: chip === 'SOURCE' ? 'rgba(8,24,34,0.4)' : 'rgba(8,18,12,0.42)',
+                      }}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                  <span className="ml-auto text-[10px] font-mono tracking-[0.18em] uppercase" style={{ color: '#5cb870' }}>
+                    Open →
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </motion.div>
 
         {/* C2: First time guidance ─────────────────────────────────────────── */}
