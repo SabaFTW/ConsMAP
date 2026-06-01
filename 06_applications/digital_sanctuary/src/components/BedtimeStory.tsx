@@ -432,6 +432,49 @@ const RelicCard: React.FC<{ relic: (typeof relics)[number] }> = ({ relic }) => (
   </div>
 );
 
+const EventWindow: React.FC<{ item: ChronologyEntry }> = ({ item }) => {
+  const visual = storyImageMap[item.path];
+  const tone = sectionTones[item.section] ?? sectionTones['Part I'];
+  return (
+    <div
+      className="w-full rounded-2xl border overflow-hidden"
+      style={{
+        borderColor: 'rgba(71,85,105,0.20)',
+        background: `linear-gradient(145deg, rgba(12,16,12,0.45), rgba(8,12,8,0.30)), radial-gradient(circle at 80% 10%, ${tone.glow}, transparent 55%)`,
+        opacity: 0.68,
+      }}
+    >
+      {visual && (
+        <div className="relative w-full overflow-hidden aspect-[16/9]">
+          <img
+            src={visual.src}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover"
+            style={{ filter: 'brightness(0.38) saturate(0.55) contrast(1.05)' }}
+            loading="lazy"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(8,12,8,0.95) 100%)' }} />
+        </div>
+      )}
+      <div className="p-4">
+        <div
+          className="inline-flex rounded-full px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.22em] mb-1"
+          style={{ color: tone.text, background: tone.chip }}
+        >
+          {item.section}
+        </div>
+        <div className="text-sm font-medium leading-snug mb-1.5" style={{ color: 'rgba(216,232,216,0.58)', fontFamily: "'Cinzel', serif" }}>
+          {item.title}
+        </div>
+        <p className="text-xs leading-[1.7]" style={{ color: 'rgba(216,232,216,0.38)' }}>
+          {item.description}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const ChronologyCard: React.FC<{
   item: ChronologyEntry;
   side: 'left' | 'right';
@@ -1040,20 +1083,6 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         />
 
         <div className="relative">
-          {/* Center spine — SVG map as faint background, golden line on top */}
-          <div
-            aria-hidden="true"
-            className="absolute left-1/2 top-0 bottom-0 hidden lg:block pointer-events-none"
-            style={{
-              width: '110px',
-              transform: 'translateX(-55px)',
-              backgroundImage: `url('${import.meta.env.BASE_URL}images/saga_map.svg')`,
-              backgroundSize: '100% 100%',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center top',
-              opacity: 0.14,
-            }}
-          />
           <div
             aria-hidden="true"
             className="absolute left-1/2 top-0 bottom-0 hidden lg:block pointer-events-none"
@@ -1090,7 +1119,9 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                         active={activeChronology === item.number}
                         onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
                       />
-                    ) : null}
+                    ) : (
+                      <EventWindow item={item} />
+                    )}
                   </div>
                   <div className="order-2 flex justify-center">
                     <motion.button
@@ -1118,7 +1149,9 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                         active={activeChronology === item.number}
                         onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
                       />
-                    ) : null}
+                    ) : (
+                      <EventWindow item={item} />
+                    )}
                   </div>
                 </div>
               );
