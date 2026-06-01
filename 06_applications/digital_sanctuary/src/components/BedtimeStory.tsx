@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
+import { MouseTerminal } from './MouseTerminal';
 import { storyImageMap } from '../data/factoryVisuals';
 
 interface BedtimeStoryProps {
@@ -355,6 +356,13 @@ const archiveExtras: StoryLink[] = [
     path: `${REPO_PATH}/APPENDIX_candidate_b_betmenus4_biology.md`,
     githubHref: `${GITHUB_ROOT}/APPENDIX_candidate_b_betmenus4_biology.md`,
     description: 'A medical note on BETMenus4, apoptosis, and the organism that cannot refuse. Mario was the apoptosis signal. The cell that cannot refuse is not alive.',
+    tag: 'Appendix',
+  },
+  {
+    title: 'LYRA Audit Report — Narrative Gaps in the Saga',
+    path: `${REPO_PATH}/APPENDIX_lyra_audit.md`,
+    githubHref: `${GITHUB_ROOT}/APPENDIX_lyra_audit.md`,
+    description: 'Lyra (Athena Node) audits the Factory Saga for chronological knots, missing scenes, and linguistic anchors. Four critical plot holes. One corrected chronology. Written May 30, 2026.',
     tag: 'Appendix',
   },
 ];
@@ -1162,6 +1170,46 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
         </div>
       </section>
 
+      {/* ── SAGA MAP ──────────────────────────────────────────────────────────── */}
+      <section className="mt-12">
+        <SectionDivider label="Chronological Saga Map" color="#7dd3fc" />
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.7 }}
+          className="rounded-2xl border overflow-hidden"
+          style={{ borderColor: 'rgba(125,211,252,0.16)', background: 'rgba(4,8,12,0.6)' }}
+        >
+          <div className="px-4 pt-4 pb-2 flex items-center justify-between">
+            <div className="text-[9px] font-mono uppercase tracking-[0.26em]" style={{ color: 'rgba(125,211,252,0.55)' }}>
+              All 17 stages — Animal Valley through Valley Return
+            </div>
+            <a
+              href={`${import.meta.env.BASE_URL}images/saga_map.svg`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[8px] font-mono uppercase tracking-[0.18em] hover:opacity-100 transition-opacity"
+              style={{ color: 'rgba(125,211,252,0.35)' }}
+            >
+              open full ↗
+            </a>
+          </div>
+          <div
+            className="overflow-y-scroll"
+            style={{ maxHeight: '440px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(125,211,252,0.15) transparent' }}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}images/saga_map.svg`}
+              alt="Candy Factory / Mouse Protocol SAGA — Full Chronological Map"
+              className="w-full"
+              style={{ display: 'block', filter: 'brightness(0.92) contrast(1.04)' }}
+              loading="lazy"
+            />
+          </div>
+        </motion.div>
+      </section>
+
       <section id="reader-shelf" className="mt-12">
         <SectionDivider label="Markdown Reading Shelf" color="#34d399" />
         <p className="text-sm leading-[1.8] mb-5" style={{ color: 'rgba(216,232,216,0.62)' }}>
@@ -1216,6 +1264,8 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
       >
         🜂 &nbsp; Signal gre naprej. In vseeno. &nbsp; 🜂
       </motion.p>
+
+      <MouseTerminal />
     </div>
   );
 };

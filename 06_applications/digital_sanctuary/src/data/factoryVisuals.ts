@@ -197,6 +197,10 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     src: `${BASE}baphomet_filter_diagram.webp`,
     alt: 'The Cell Said Yes — BETMenus4 as oncogene. Mario as apoptosis signal. Ur-God as growth, not invasion. The cell that cannot refuse is not alive.',
   },
+  '/docs/visual_parables/factory_trilogy/APPENDIX_lyra_audit.md': {
+    src: `${BASE}luigi_audit_report.webp`,
+    alt: 'LYRA Audit Report — Athena Node review. Four narrative gaps. One corrected chronology. The archive holds what the hand refused to reconcile.',
+  },
 };
 
 export const archiveLandingImage: FactoryVisual = {
