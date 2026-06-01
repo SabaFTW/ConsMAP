@@ -1033,34 +1033,97 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
       {/* UNIFIED ARCHIVE — chronology grid + supplemental shelf, all in one     */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section id="archive" className="mt-10">
-        {/* Chronology grid — filtered by active section tab */}
+        {/* Alternating timeline */}
         <SectionDivider
           label={activeSection === 'All' ? 'Chronological Tree' : activeSection}
           color="#f4c96a"
         />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredChronology.map((item, idx) => (
-            <motion.div
-              key={item.number}
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.12 }}
-              transition={{ duration: 0.5, delay: idx * 0.04, ease: [0.19, 1, 0.22, 1] }}
-            >
-              <ChronologyCard
-                item={item}
-                side="left"
-                highlight
-                active={activeChronology === item.number}
-                onClick={() => {
-                  const chronIdx = chronology.indexOf(item);
-                  setActiveChronology(item.number);
-                  setReader(item);
-                  setReaderChronIndex(chronIdx);
-                }}
-              />
-            </motion.div>
-          ))}
+
+        <div className="relative">
+          {/* Center spine — SVG map as faint background, golden line on top */}
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-0 bottom-0 hidden lg:block pointer-events-none"
+            style={{
+              width: '110px',
+              transform: 'translateX(-55px)',
+              backgroundImage: `url('${import.meta.env.BASE_URL}images/saga_map.svg')`,
+              backgroundSize: '100% 100%',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center top',
+              opacity: 0.14,
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-0 bottom-0 hidden lg:block pointer-events-none"
+            style={{
+              width: '2px',
+              transform: 'translateX(-1px)',
+              background: 'linear-gradient(to bottom, rgba(244,201,106,0.85), rgba(244,201,106,0.06))',
+            }}
+          />
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none hidden lg:block"
+            style={{ background: 'radial-gradient(circle at 50% 15%, rgba(244,201,106,0.06), transparent 35%)' }}
+            animate={{ opacity: [0.35, 0.7, 0.35] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          <div className="grid gap-6">
+            {filteredChronology.map((item, filteredIdx) => {
+              const side = filteredIdx % 2 === 0 ? 'left' : 'right';
+              const tone = sectionTones[item.section] ?? sectionTones['Part I'];
+              const chronIdx = chronology.indexOf(item);
+              return (
+                <div
+                  key={item.number}
+                  className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center"
+                >
+                  <div className={side === 'left' ? 'order-1' : 'order-3'}>
+                    {side === 'left' ? (
+                      <ChronologyCard
+                        item={item}
+                        side="left"
+                        highlight
+                        active={activeChronology === item.number}
+                        onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                      />
+                    ) : null}
+                  </div>
+                  <div className="order-2 flex justify-center">
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.94 }}
+                      onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                      className="relative h-11 w-11 rounded-full border flex items-center justify-center font-mono text-sm z-10"
+                      style={{
+                        color: tone.text,
+                        borderColor: tone.border,
+                        background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.94))`,
+                        boxShadow: `0 0 20px ${tone.glow}`,
+                      }}
+                    >
+                      {item.number}
+                    </motion.button>
+                  </div>
+                  <div className={side === 'right' ? 'order-3' : 'order-1'}>
+                    {side === 'right' ? (
+                      <ChronologyCard
+                        item={item}
+                        side="right"
+                        highlight
+                        active={activeChronology === item.number}
+                        onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Relics — only when viewing everything */}
