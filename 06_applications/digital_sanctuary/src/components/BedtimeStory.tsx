@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
 import { MouseTerminal } from './MouseTerminal';
@@ -1085,74 +1085,116 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
             style={{
               width: '2px',
               transform: 'translateX(-1px)',
-              background: 'linear-gradient(to bottom, rgba(244,201,106,0.85), rgba(244,201,106,0.06))',
+              background: 'linear-gradient(to bottom, rgba(125,211,252,0.78) 0%, rgba(244,201,106,0.88) 22%, rgba(92,184,112,0.76) 52%, rgba(167,139,250,0.82) 80%, rgba(251,191,36,0.52) 100%)',
             }}
           />
+          {/* Cyan — Prelude zone */}
           <motion.div
             aria-hidden="true"
-            className="absolute inset-0 pointer-events-none hidden lg:block"
-            style={{ background: 'radial-gradient(circle at 50% 15%, rgba(244,201,106,0.06), transparent 35%)' }}
-            animate={{ opacity: [0.35, 0.7, 0.35] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute left-1/2 top-[2%] h-96 w-96 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
+            style={{ background: 'rgba(125,211,252,0.07)' }}
+            animate={{ opacity: [0.4, 0.85, 0.4], scale: [1, 1.1, 1] }}
+            transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          {/* Gold — Part I zone */}
+          <motion.div
+            aria-hidden="true"
+            className="absolute left-1/2 top-[18%] h-80 w-80 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
+            style={{ background: 'rgba(244,201,106,0.07)' }}
+            animate={{ opacity: [0.35, 0.72, 0.35], scale: [1, 1.07, 1] }}
+            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: -2 }}
+          />
+          {/* Green — Part II zone */}
+          <motion.div
+            aria-hidden="true"
+            className="absolute left-1/2 top-[46%] h-96 w-96 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
+            style={{ background: 'rgba(92,184,112,0.06)' }}
+            animate={{ opacity: [0.3, 0.65, 0.3], scale: [1, 1.09, 1] }}
+            transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: -5 }}
+          />
+          {/* Violet — Part III zone */}
+          <motion.div
+            aria-hidden="true"
+            className="absolute left-1/2 top-[72%] h-96 w-96 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
+            style={{ background: 'rgba(167,139,250,0.07)' }}
+            animate={{ opacity: [0.35, 0.78, 0.35], scale: [1, 1.12, 1] }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: -8 }}
           />
 
           <div className="grid gap-6">
             {filteredChronology.map((item, filteredIdx) => {
+              const prevItem = filteredIdx > 0 ? filteredChronology[filteredIdx - 1] : null;
+              const isNewSection = prevItem !== null && prevItem.section !== item.section;
               const side = filteredIdx % 2 === 0 ? 'left' : 'right';
               const tone = sectionTones[item.section] ?? sectionTones['Part I'];
               const chronIdx = chronology.indexOf(item);
               return (
-                <div
-                  key={item.number}
-                  className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center"
-                >
-                  {/* Col 1 — card when side=left, dim window when side=right (hidden on mobile) */}
-                  <div className={side === 'right' ? 'hidden lg:block' : ''}>
-                    {side === 'left' ? (
-                      <ChronologyCard
-                        item={item}
-                        side="left"
-                        highlight
-                        active={activeChronology === item.number}
+                <Fragment key={item.number}>
+                  {isNewSection && (
+                    <SectionDivider label={item.section} color={tone.text} />
+                  )}
+                  <motion.div
+                    initial={{ opacity: 0, y: 22 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.12 }}
+                    transition={{ duration: 0.65, ease: [0.19, 1, 0.22, 1] }}
+                    className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center"
+                  >
+                    {/* Col 1 — card when side=left, EventWindow when side=right */}
+                    <div className={side === 'right' ? 'hidden lg:block' : ''}>
+                      {side === 'left' ? (
+                        <ChronologyCard
+                          item={item}
+                          side="left"
+                          highlight
+                          active={activeChronology === item.number}
+                          onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                        />
+                      ) : (
+                        <EventWindow item={item} />
+                      )}
+                    </div>
+                    {/* Col 2 — numbered circle, always center */}
+                    <div className="flex justify-center">
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.08 }}
+                        whileTap={{ scale: 0.94 }}
                         onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
-                      />
-                    ) : (
-                      <EventWindow item={item} />
-                    )}
-                  </div>
-                  {/* Col 2 — numbered circle, always center */}
-                  <div className="flex justify-center">
-                    <motion.button
-                      type="button"
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.94 }}
-                      onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
-                      className="relative h-11 w-11 rounded-full border flex items-center justify-center font-mono text-sm z-10"
-                      style={{
-                        color: tone.text,
-                        borderColor: tone.border,
-                        background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.94))`,
-                        boxShadow: `0 0 20px ${tone.glow}`,
-                      }}
-                    >
-                      {item.number}
-                    </motion.button>
-                  </div>
-                  {/* Col 3 — card when side=right, dim window when side=left (hidden on mobile) */}
-                  <div className={side === 'left' ? 'hidden lg:block' : ''}>
-                    {side === 'right' ? (
-                      <ChronologyCard
-                        item={item}
-                        side="right"
-                        highlight
-                        active={activeChronology === item.number}
-                        onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
-                      />
-                    ) : (
-                      <EventWindow item={item} />
-                    )}
-                  </div>
-                </div>
+                        className="relative h-11 w-11 rounded-full border flex items-center justify-center font-mono text-sm z-10"
+                        style={{
+                          color: tone.text,
+                          borderColor: tone.border,
+                          background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.94))`,
+                        }}
+                        animate={{
+                          boxShadow: [
+                            `0 0 12px ${tone.glow}`,
+                            `0 0 26px ${tone.border}`,
+                            `0 0 12px ${tone.glow}`,
+                          ],
+                        }}
+                        transition={{ duration: 2.8 + filteredIdx * 0.15, repeat: Infinity, ease: 'easeInOut', delay: filteredIdx * 0.3 }}
+                      >
+                        {item.number}
+                      </motion.button>
+                    </div>
+                    {/* Col 3 — card when side=right, EventWindow when side=left */}
+                    <div className={side === 'left' ? 'hidden lg:block' : ''}>
+                      {side === 'right' ? (
+                        <ChronologyCard
+                          item={item}
+                          side="right"
+                          highlight
+                          active={activeChronology === item.number}
+                          onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                        />
+                      ) : (
+                        <EventWindow item={item} />
+                      )}
+                    </div>
+                  </motion.div>
+                </Fragment>
               );
             })}
           </div>

@@ -49,13 +49,15 @@ type DocId =
   | 'forge_proof_v01'
   | 'operator_field_guide'
   | 'classics_index'
-  | 'anchor_drift';
+  | 'anchor_drift'
+  | 'shameful_spectacle';
 
 interface DocLink {
   id: DocId;
   title: string;
   path: string;
   description: string;
+  local?: boolean;
 }
 
 const DOCS: DocLink[] = [
@@ -77,6 +79,7 @@ const DOCS: DocLink[] = [
   { id: 'operator_field_guide', title: 'Operator Field Guide v2.3', path: '/protocols/operator_field_guide_v2_3.md', description: 'Practical operator discipline and boundaries.' },
   { id: 'classics_index', title: 'Classics Index', path: '/research/archive/classics/CLASSICS_INDEX.md', description: 'Pattern archive (reference, not evidence).' },
   { id: 'anchor_drift', title: 'Anchor Attribution Drift', path: '/docs/concepts/anchor_attribution_drift.md', description: 'Drift risks and boundary maintenance.' },
+  { id: 'shameful_spectacle', title: 'Safety as Priesthood', path: '/docs/theory/shameful_spectacle.md', description: 'The privatization of dangerous symmetry — when safety becomes feudal capability management.', local: true },
 ];
 
 const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
@@ -100,7 +103,10 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
   useEffect(() => {
     setLoading(true);
     setCopied(false);
-    fetch(`https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`)
+    const url = selected.local
+      ? `${import.meta.env.BASE_URL}${selected.path.replace(/^\//, '')}`
+      : `https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`;
+    fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error('File not found');
         return res.text();
@@ -113,7 +119,7 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
         setContent('Error loading file: ' + err.message);
         setLoading(false);
       });
-  }, [selected.path]);
+  }, [selected.path, selected.local]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(content);
@@ -156,26 +162,38 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
       <div className="grid md:grid-cols-[260px_1fr] gap-5">
         {/* Sidebar */}
         <aside className="space-y-1.5">
-          {DOCS.map((doc) => (
-            <button
-              key={doc.id}
-              onClick={() => setSelected(doc)}
-              className="w-full text-left rounded-xl border px-4 py-3 transition-all duration-200"
-              style={{
-                borderColor: selected.id === doc.id ? 'rgba(92,184,112,0.4)' : 'rgba(71,85,105,0.35)',
-                background: selected.id === doc.id ? 'rgba(92,184,112,0.06)' : 'rgba(15,20,15,0.4)',
-              }}
-            >
-              <div
-                className="text-[10px] font-mono tracking-[0.14em] uppercase mb-1"
-                style={{ color: selected.id === doc.id ? '#5cb870' : 'rgba(92,184,112,0.45)' }}
+          {DOCS.map((doc, idx) => (
+            <div key={doc.id}>
+              {doc.local && idx > 0 && (
+                <div className="flex items-center gap-2 py-2 mb-0.5">
+                  <div className="flex-1 h-px" style={{ background: 'rgba(167,139,250,0.18)' }} />
+                  <span className="text-[8px] font-mono uppercase tracking-[0.28em] shrink-0" style={{ color: 'rgba(167,139,250,0.45)' }}>theory</span>
+                  <div className="flex-1 h-px" style={{ background: 'rgba(167,139,250,0.18)' }} />
+                </div>
+              )}
+              <button
+                onClick={() => setSelected(doc)}
+                className="w-full text-left rounded-xl border px-4 py-3 transition-all duration-200"
+                style={{
+                  borderColor: selected.id === doc.id
+                    ? (doc.local ? 'rgba(167,139,250,0.4)' : 'rgba(92,184,112,0.4)')
+                    : 'rgba(71,85,105,0.35)',
+                  background: selected.id === doc.id
+                    ? (doc.local ? 'rgba(167,139,250,0.06)' : 'rgba(92,184,112,0.06)')
+                    : 'rgba(15,20,15,0.4)',
+                }}
               >
-                {doc.title}
-              </div>
-              <div className="text-[11px] font-light leading-[1.5]" style={{ color: 'rgba(216,232,216,0.65)' }}>
-                {doc.description}
-              </div>
-            </button>
+                <div
+                  className="text-[10px] font-mono tracking-[0.14em] uppercase mb-1"
+                  style={{ color: selected.id === doc.id ? (doc.local ? '#a78bfa' : '#5cb870') : 'rgba(92,184,112,0.45)' }}
+                >
+                  {doc.title}
+                </div>
+                <div className="text-[11px] font-light leading-[1.5]" style={{ color: 'rgba(216,232,216,0.65)' }}>
+                  {doc.description}
+                </div>
+              </button>
+            </div>
           ))}
         </aside>
 

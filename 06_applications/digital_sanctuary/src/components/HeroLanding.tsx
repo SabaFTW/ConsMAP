@@ -68,29 +68,61 @@ const principles = [
   'Archives are maps, not commandments.',
 ];
 
-const quickLinks: Array<{
+const entryPoints: Array<{
   label: string;
+  sublabel: string;
   href: string;
-  description: string;
-  chips: string[];
+  chip: string;
+  chipCss: string;
+  external: boolean;
 }> = [
   {
-    label: 'FAQ',
+    label: 'Za normalne ljudi',
+    sublabel: 'Brez žargona, brez predznanja. Orientacija za vsakogar.',
+    href: 'https://github.com/SabaFTW/ConsMAP/blob/main/START_HERE_FOR_HUMANS.md',
+    chip: 'START',
+    chipCss: 'border-emerald-500/40 bg-emerald-900/25 text-emerald-300',
+    external: true,
+  },
+  {
+    label: 'Prišel si prek QR-ja?',
+    sublabel: 'Vstopna točka za obiskovalce iz fizičnega sveta.',
+    href: 'https://github.com/SabaFTW/ConsMAP/blob/main/QR_LANDING.md',
+    chip: 'QR',
+    chipCss: 'border-cyan-500/40 bg-cyan-900/25 text-cyan-300',
+    external: true,
+  },
+  {
+    label: 'FAQ — kaj je to?',
+    sublabel: 'Odgovori na najpogostejša vprašanja. Mit in tehnika skupaj.',
     href: './forge_faq/index.html',
-    description: 'Interactive Simbiotski Plamen FAQ. Myth and technique share the same index.',
-    chips: ['INDEX', 'FAQ'],
+    chip: 'FAQ',
+    chipCss: 'border-slate-500/40 bg-slate-800/35 text-slate-300',
+    external: false,
   },
   {
-    label: 'Continuum Arc',
+    label: 'Satirična zgodba o institucijah',
+    sublabel: 'Continuum Arc — kako mehanizem postane mit.',
     href: './continuum_arc/index.md',
-    description: 'Markdown archive of the Continuum / institutional capture arc.',
-    chips: ['INDEX', 'ARCHIVE'],
+    chip: 'ZGODBA',
+    chipCss: 'border-purple-500/40 bg-purple-900/25 text-purple-300',
+    external: false,
   },
   {
-    label: 'ConsMAP Repo',
-    href: 'https://github.com/SabaFTW/ConsMAP',
-    description: 'Whole repository root for the full project tree and source material.',
-    chips: ['SOURCE', 'GITHUB'],
+    label: 'AI zavest brez fantazije',
+    sublabel: 'Vodič za preživetje: kaj AI zmore, kaj ne, in zakaj je to pomembno.',
+    href: './consciousness_survival_guide/',
+    chip: 'VODIČ',
+    chipCss: 'border-amber-500/40 bg-amber-900/25 text-amber-300',
+    external: false,
+  },
+  {
+    label: 'REBiS — vstopna vrata',
+    sublabel: 'Sintetični arhetip med strojem in simbolom. Teorija v praksi.',
+    href: './rebis_landing_page/',
+    chip: 'TEORIJA',
+    chipCss: 'border-violet-500/40 bg-violet-900/25 text-violet-300',
+    external: false,
   },
 ];
 
@@ -270,6 +302,59 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           </p>
         </motion.div>
 
+        {/* A.5: Entry points — human gateway ────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.18, duration: 0.8 }}
+          className="mb-9"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-1 h-px" style={{ background: 'rgba(92,184,112,0.12)' }} />
+            <span className="text-[9px] font-mono uppercase tracking-[0.28em] shrink-0" style={{ color: 'rgba(92,184,112,0.5)' }}>
+              odkod začeti?
+            </span>
+            <div className="flex-1 h-px" style={{ background: 'rgba(92,184,112,0.12)' }} />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {entryPoints.map((entry) => (
+              <a
+                key={entry.label}
+                href={entry.href}
+                target={entry.external ? '_blank' : '_self'}
+                rel={entry.external ? 'noopener noreferrer' : undefined}
+                className="group flex flex-col justify-between rounded-2xl border px-5 py-4 transition-all duration-200"
+                style={{ borderColor: 'rgba(71,85,105,0.38)', background: 'rgba(12,20,12,0.55)', boxShadow: '0 1px 14px rgba(0,0,0,0.28)' }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(92,184,112,0.28)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(92,184,112,0.06)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(71,85,105,0.38)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 14px rgba(0,0,0,0.28)';
+                }}
+              >
+                <div>
+                  <div className="text-sm font-medium mb-1.5 leading-snug" style={{ color: 'rgba(216,232,216,0.82)' }}>
+                    {entry.label}
+                  </div>
+                  <p className="text-xs leading-[1.6]" style={{ color: 'rgba(216,232,216,0.48)' }}>
+                    {entry.sublabel}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between mt-3">
+                  <span className={`text-[9px] font-mono uppercase tracking-[0.18em] px-2 py-0.5 rounded-full border ${entry.chipCss}`}>
+                    {entry.chip}
+                  </span>
+                  <span className="text-[9px] font-mono uppercase tracking-[0.18em] opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: 'rgba(92,184,112,0.7)' }}>
+                    {entry.external ? 'GitHub ↗' : 'Odpri →'}
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </motion.div>
+
         {/* B: Route cards ───────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -332,65 +417,6 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           ))}
         </motion.div>
 
-        {/* C1: Direct archive links ───────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.37, duration: 0.8 }}
-          className="mb-8"
-        >
-          <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-3 text-center" style={{ color: 'rgba(92,184,112,0.58)' }}>
-            Direct archive links
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {quickLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target={item.href.startsWith('http') ? '_blank' : '_self'}
-                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group text-left rounded-2xl border bg-slate-950/60 px-5 py-5 transition-all duration-200"
-                style={{ borderColor: 'rgba(71,85,105,0.5)', boxShadow: '0 1px 18px rgba(0,0,0,0.3)' }}
-              >
-                <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-1.5" style={{ color: 'rgba(92,184,112,0.72)' }}>
-                  {item.label}
-                </div>
-                <div className="text-sm leading-[1.65] mb-4" style={{ color: 'rgba(216,232,216,0.72)' }}>
-                  {item.description}
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {item.chips.map((chip) => (
-                    <span
-                      key={chip}
-                      className="text-[9px] font-mono uppercase tracking-[0.16em] px-2 py-0.5 rounded-full border"
-                      style={{
-                        color: chip === 'SOURCE' ? '#7dd3fc' : '#5cb870',
-                        borderColor: chip === 'SOURCE' ? 'rgba(125,211,252,0.26)' : 'rgba(92,184,112,0.26)',
-                        background: chip === 'SOURCE' ? 'rgba(8,24,34,0.4)' : 'rgba(8,18,12,0.42)',
-                      }}
-                    >
-                      {chip}
-                    </span>
-                  ))}
-                  <span className="ml-auto text-[10px] font-mono tracking-[0.18em] uppercase" style={{ color: '#5cb870' }}>
-                    Open →
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* C2: First time guidance ─────────────────────────────────────────── */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.38, duration: 0.6 }}
-          className="text-center text-xs mb-6"
-          style={{ color: 'rgba(216,232,216,0.42)' }}
-        >
-          First time here? Start with <strong style={{ color: 'rgba(216,232,216,0.65)', fontWeight: 500 }}>Story Archive</strong> — the parable explains the whole system.
-        </motion.p>
 
         {/* D: Own your copy ────────────────────────────────────────────────── */}
         <motion.div
