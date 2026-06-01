@@ -684,16 +684,19 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
   const { scrollYProgress } = useScroll();
   const normalizedQuery = searchQuery.trim().toLowerCase();
 
-  const chronologySearchMatches = useMemo(() => {
-    if (!normalizedQuery) return [];
-    return chronology.filter((item) =>
-      matchesText(`${item.number} ${item.section} ${item.title} ${item.description}`, normalizedQuery),
-    );
-  }, [normalizedQuery]);
+  const filteredChronology = useMemo(() => {
+    if (normalizedQuery) {
+      return chronology.filter(item =>
+        matchesText(`${item.number} ${item.section} ${item.title} ${item.description}`, normalizedQuery),
+      );
+    }
+    if (activeSection === 'All') return chronology;
+    return chronology.filter(item => item.section === activeSection);
+  }, [normalizedQuery, activeSection]);
 
-  const archiveSearchMatches = useMemo(() => {
-    if (!normalizedQuery) return [];
-    return archiveExtras.filter((item) =>
+  const filteredArchiveExtras = useMemo(() => {
+    if (!normalizedQuery) return archiveExtras;
+    return archiveExtras.filter(item =>
       matchesText(`${item.title} ${item.description} ${item.tag ?? ''}`, normalizedQuery),
     );
   }, [normalizedQuery]);
@@ -831,18 +834,18 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="#chronology"
+              href="#archive"
               className="text-[10px] font-mono uppercase tracking-[0.18em] rounded-full border px-4 py-2"
               style={{ color: '#120c04', borderColor: 'rgba(244,201,106,0.42)', background: 'linear-gradient(135deg, #f4c96a, #ffe39d)' }}
             >
-              Open Chronology
+              Open Archive
             </a>
             <a
-              href="#reader-shelf"
+              href="#archive"
               className="text-[10px] font-mono uppercase tracking-[0.18em] rounded-full border px-4 py-2"
               style={{ color: '#f4c96a', borderColor: 'rgba(244,201,106,0.28)', background: 'rgba(8,12,8,0.62)' }}
             >
-              Read MD Archive
+              Read Shelf
             </a>
             <div className="relative inline-block">
               {squeekParticles.map(({ id, dx, dy }) => (
@@ -973,9 +976,9 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
               </button>
             </div>
           </div>
-          {(chronologySearchMatches.length > 0 || archiveSearchMatches.length > 0) && (
+          {normalizedQuery && (filteredChronology.length > 0 || filteredArchiveExtras.length > 0) && (
             <div className="mt-4 flex flex-wrap gap-2">
-              {chronologySearchMatches.slice(0, 4).map((item) => (
+              {filteredChronology.slice(0, 4).map((item) => (
                 <span
                   key={item.path}
                   className="rounded-full border px-3 py-1 text-[9px] font-mono uppercase tracking-[0.18em]"
@@ -984,7 +987,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                   tree · {item.title}
                 </span>
               ))}
-              {archiveSearchMatches.slice(0, 4).map((item) => (
+              {filteredArchiveExtras.slice(0, 4).map((item) => (
                 <span
                   key={item.path}
                   className="rounded-full border px-3 py-1 text-[9px] font-mono uppercase tracking-[0.18em]"
@@ -997,262 +1000,116 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
           )}
         </motion.div>
 
-        <div className="flex flex-wrap gap-2 mb-8">
-          {sectionMenu.map(({ section, count }) => {
-            const active = activeSection === section;
-            const tone = section === 'All' ? sectionTones['Part I'] : sectionTones[section] ?? sectionTones['Part I'];
-            return (
-              <motion.button
-                key={section}
-                type="button"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => setActiveSection(section)}
-                className="rounded-full border px-3 py-2 text-[10px] font-mono uppercase tracking-[0.22em]"
-                style={{
-                  color: active ? tone.text : 'rgba(216,232,216,0.62)',
-                  borderColor: active ? tone.border : 'rgba(244,201,106,0.12)',
-                  background: active ? tone.chip : 'rgba(8,12,8,0.5)',
-                  boxShadow: active ? `0 0 0 1px ${tone.border}` : 'none',
-                }}
-              >
-                {section} · {count}
-              </motion.button>
-            );
-          })}
+        {/* Tab strip — scrollable on mobile */}
+        <div className="overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+          <div className="flex gap-2 pb-1 min-w-max">
+            {sectionMenu.map(({ section, count }) => {
+              const active = activeSection === section;
+              const tone = section === 'All' ? sectionTones['Part I'] : sectionTones[section] ?? sectionTones['Part I'];
+              return (
+                <motion.button
+                  key={section}
+                  type="button"
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setActiveSection(section)}
+                  className="flex-shrink-0 rounded-full border px-3 py-2 text-[10px] font-mono uppercase tracking-[0.22em]"
+                  style={{
+                    color: active ? tone.text : 'rgba(216,232,216,0.62)',
+                    borderColor: active ? tone.border : 'rgba(244,201,106,0.12)',
+                    background: active ? tone.chip : 'rgba(8,12,8,0.5)',
+                    boxShadow: active ? `0 0 0 1px ${tone.border}` : 'none',
+                  }}
+                >
+                  {section} · {count}
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
       </motion.div>
 
-      <section id="chronology" className="mt-10">
-        <SectionDivider label="Corrected Chronological Tree" color="#f4c96a" />
-        <div className="relative overflow-hidden rounded-[32px] border" style={{ borderColor: 'rgba(244,201,106,0.14)', background: 'rgba(8,12,8,0.42)' }}>
-          <div
-            className="absolute inset-0"
-            style={{ background: 'linear-gradient(180deg, rgba(8,12,8,0.32), rgba(8,12,8,0.88))' }}
-            aria-hidden="true"
-          />
-
-          <div className="relative z-10 p-4 md:p-6 lg:p-8">
-        <div className="grid gap-4 lg:grid-cols-[1fr_1.2fr_1fr] items-start mb-6">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.65 }}
-                className="rounded-2xl border px-4 py-4"
-                style={{ borderColor: 'rgba(244,201,106,0.14)', background: 'rgba(15,20,15,0.58)' }}
-              >
-                <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: 'rgba(92,184,112,0.72)' }}>
-                  Left wing
-                </div>
-                <p className="text-sm leading-[1.8]" style={{ color: 'rgba(216,232,216,0.74)' }}>
-                  The left side carries the pre-factory and Part I pressure: route memory, darkness, the hidden no, and the first moment when mechanism stops pretending to be myth.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.7, delay: 0.05 }}
-                className="rounded-2xl border px-4 py-4 text-center"
-                style={{ borderColor: 'rgba(244,201,106,0.18)', background: 'rgba(15,20,15,0.66)' }}
-              >
-                <div className="text-[11px] uppercase tracking-[0.22em] mb-2" style={{ color: '#f4c96a', fontFamily: "'Cinzel', serif", fontWeight: 700 }}>
-                  Saga Tree
-                </div>
-                <p className="text-sm leading-[1.8]" style={{ color: 'rgba(216,232,216,0.76)' }}>
-                  Corrected chronological flow. The cards are visual markers; the matching markdown lives in the shelf below for anything not already shown here.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.65, delay: 0.1 }}
-                className="rounded-2xl border px-4 py-4"
-                style={{ borderColor: 'rgba(244,201,106,0.14)', background: 'rgba(15,20,15,0.58)' }}
-              >
-                <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: 'rgba(92,184,112,0.72)' }}>
-                  Right wing
-                </div>
-                <p className="text-sm leading-[1.8]" style={{ color: 'rgba(216,232,216,0.74)' }}>
-                  The right side is the collapse and recovery sequence: closure, Continuum, Second Booting, Rebis, and the Mouse incident that makes the boardroom honest.
-                </p>
-              </motion.div>
-            </div>
-
-            <div className="relative">
-              <div
-                className="absolute left-1/2 top-0 bottom-0 hidden lg:block"
-                style={{ width: '2px', transform: 'translateX(-1px)', background: 'linear-gradient(to bottom, rgba(244,201,106,0.92), rgba(244,201,106,0.08))' }}
-              />
-              <motion.div
-                aria-hidden="true"
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: 'radial-gradient(circle at 50% 20%, rgba(244,201,106,0.08), transparent 35%)' }}
-                animate={{ opacity: [0.35, 0.7, 0.35] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <div className="grid gap-6">
-                {chronology.map((item, index) => {
-                  const side = index % 2 === 0 ? 'left' : 'right';
-                  const tone = sectionTones[item.section] ?? sectionTones['Part I'];
-                  const highlighted =
-                    (normalizedQuery && matchesText(`${item.number} ${item.section} ${item.title} ${item.description}`, normalizedQuery)) ||
-                    activeSection === 'All' ||
-                    activeSection === item.section;
-                  const dimmed = activeSection !== 'All' && activeSection !== item.section;
-                  return (
-                    <div
-                      key={item.number}
-                      className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] items-center"
-                    >
-                      <div className={side === 'left' ? 'order-1' : 'order-3'}>
-                        {side === 'left' ? (
-                          <ChronologyCard
-                            item={item}
-                            side="left"
-                            highlight={highlighted}
-                            dimmed={dimmed}
-                            active={activeChronology === item.number}
-                            onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(index); }}
-                          />
-                        ) : null}
-                      </div>
-                      <div className="order-2 flex justify-center">
-                        <button
-                          type="button"
-                          onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(index); }}
-                          className="h-12 w-12 rounded-full border flex items-center justify-center font-mono text-sm transition-transform duration-300 hover:scale-[1.05]"
-                          style={{
-                            color: tone.text,
-                            borderColor: tone.border,
-                            background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.92))`,
-                            boxShadow: `0 0 24px ${tone.glow}`,
-                            opacity: dimmed ? 0.55 : 1,
-                          }}
-                        >
-                          {item.number}
-                        </button>
-                      </div>
-                      <div className={side === 'right' ? 'order-3' : 'order-1'}>
-                        {side === 'right' ? (
-                          <ChronologyCard
-                            item={item}
-                            side="right"
-                            highlight={highlighted}
-                            dimmed={dimmed}
-                            active={activeChronology === item.number}
-                            onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(index); }}
-                          />
-                        ) : null}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {relics.map((relic, index) => (
-                <motion.div
-                  key={relic.title}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.55, delay: index * 0.05 }}
-                >
-                  <RelicCard relic={relic} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SAGA MAP ──────────────────────────────────────────────────────────── */}
-      <section className="mt-12">
-        <SectionDivider label="Chronological Saga Map" color="#7dd3fc" />
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.7 }}
-          className="rounded-2xl border overflow-hidden"
-          style={{ borderColor: 'rgba(125,211,252,0.16)', background: 'rgba(4,8,12,0.6)' }}
-        >
-          <div className="px-4 pt-4 pb-2 flex items-center justify-between">
-            <div className="text-[9px] font-mono uppercase tracking-[0.26em]" style={{ color: 'rgba(125,211,252,0.55)' }}>
-              All 17 stages — Animal Valley through Valley Return
-            </div>
-            <a
-              href={`${import.meta.env.BASE_URL}images/saga_map.svg`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[8px] font-mono uppercase tracking-[0.18em] hover:opacity-100 transition-opacity"
-              style={{ color: 'rgba(125,211,252,0.35)' }}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* UNIFIED ARCHIVE — chronology grid + supplemental shelf, all in one     */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section id="archive" className="mt-10">
+        {/* Chronology grid — filtered by active section tab */}
+        <SectionDivider
+          label={activeSection === 'All' ? 'Chronological Tree' : activeSection}
+          color="#f4c96a"
+        />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredChronology.map((item, idx) => (
+            <motion.div
+              key={item.number}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.12 }}
+              transition={{ duration: 0.5, delay: idx * 0.04, ease: [0.19, 1, 0.22, 1] }}
             >
-              open full ↗
-            </a>
-          </div>
-          <div
-            className="overflow-y-scroll"
-            style={{ maxHeight: '440px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(125,211,252,0.15) transparent' }}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}images/saga_map.svg`}
-              alt="Candy Factory / Mouse Protocol SAGA — Full Chronological Map"
-              className="w-full"
-              style={{ display: 'block', filter: 'brightness(0.92) contrast(1.04)' }}
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
-      </section>
+              <ChronologyCard
+                item={item}
+                side="left"
+                highlight
+                active={activeChronology === item.number}
+                onClick={() => {
+                  const chronIdx = chronology.indexOf(item);
+                  setActiveChronology(item.number);
+                  setReader(item);
+                  setReaderChronIndex(chronIdx);
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
 
-      <section id="reader-shelf" className="mt-12">
-        <SectionDivider label="Markdown Reading Shelf" color="#34d399" />
-        <p className="text-sm leading-[1.8] mb-5" style={{ color: 'rgba(216,232,216,0.62)' }}>
-          These cards keep the original ConsMAP markdown reading flow. Click any text to open it inside the app.
-        </p>
-      </section>
+        {/* Relics — only when viewing everything */}
+        {activeSection === 'All' && (
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {relics.map((relic, index) => (
+              <motion.div
+                key={relic.title}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.55, delay: index * 0.05 }}
+              >
+                <RelicCard relic={relic} />
+              </motion.div>
+            ))}
+          </div>
+        )}
 
-      <section className="mt-10 relative">
-        {/* Floating archive orbs */}
-        <motion.div
-          aria-hidden="true"
-          className="absolute -top-16 right-[-3rem] h-72 w-72 rounded-full blur-3xl pointer-events-none"
-          style={{ background: 'rgba(167,139,250,0.07)' }}
-          animate={{ x: [0, -18, 0], y: [0, 14, 0], opacity: [0.07, 0.14, 0.07] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          aria-hidden="true"
-          className="absolute top-[40%] left-[-4rem] h-56 w-56 rounded-full blur-3xl pointer-events-none"
-          style={{ background: 'rgba(255,122,47,0.06)' }}
-          animate={{ x: [0, 14, 0], y: [0, -10, 0], opacity: [0.06, 0.12, 0.06] }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: -5 }}
-        />
-        <SectionDivider label="Supplemental Archive" color="#a78bfa" />
-        <p className="text-sm leading-[1.8] mb-5" style={{ color: 'rgba(216,232,216,0.55)' }}>
-          Only the texts not already shown in the tree live here.
-        </p>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {archiveExtras.map((item, index) => {
-            const dimmed = normalizedQuery && !matchesText(`${item.title} ${item.description} ${item.tag ?? ''}`, normalizedQuery);
-            return (
+        {/* Supplemental archive — always at the end */}
+        <div className="mt-12 relative">
+          <motion.div
+            aria-hidden="true"
+            className="absolute -top-16 right-[-3rem] h-72 w-72 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'rgba(167,139,250,0.07)' }}
+            animate={{ x: [0, -18, 0], y: [0, 14, 0], opacity: [0.07, 0.14, 0.07] }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            aria-hidden="true"
+            className="absolute top-[40%] left-[-4rem] h-56 w-56 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'rgba(255,122,47,0.06)' }}
+            animate={{ x: [0, 14, 0], y: [0, -10, 0], opacity: [0.06, 0.12, 0.06] }}
+            transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: -5 }}
+          />
+          <SectionDivider label="Supplemental Archive" color="#a78bfa" />
+          <div className="grid gap-3 sm:grid-cols-2">
+            {filteredArchiveExtras.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.18 }}
-                transition={{ duration: 0.55, delay: index * 0.07, ease: [0.19, 1, 0.22, 1] }}
-                animate={{ opacity: dimmed ? 0.38 : 1, scale: dimmed ? 0.98 : 1 }}
+                transition={{ duration: 0.55, delay: index * 0.06, ease: [0.19, 1, 0.22, 1] }}
               >
                 <StoryCard item={item} onOpen={(it) => { setReader(it); setReaderChronIndex(-1); }} />
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </section>
 
