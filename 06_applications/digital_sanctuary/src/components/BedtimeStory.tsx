@@ -435,15 +435,8 @@ const RelicCard: React.FC<{ relic: (typeof relics)[number] }> = ({ relic }) => (
 const EventWindow: React.FC<{ item: ChronologyEntry }> = ({ item }) => {
   const tone = sectionTones[item.section] ?? sectionTones['Part I'];
   return (
-    <div
-      className="hidden lg:flex w-full rounded-xl overflow-hidden"
-      style={{
-        background: 'rgba(8,12,8,0.32)',
-        border: `1px solid rgba(71,85,105,0.16)`,
-        borderLeft: `3px solid ${tone.border}`,
-      }}
-    >
-      <div className="flex items-start gap-3 px-4 py-4 w-full">
+    <div className="hidden lg:flex w-full">
+      <div className="flex items-start gap-3 px-2 py-4 w-full">
         {/* Number badge */}
         <span
           className="h-7 w-7 shrink-0 rounded-full border flex items-center justify-center font-mono text-[11px] mt-0.5"
