@@ -1110,7 +1110,8 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                   key={item.number}
                   className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center"
                 >
-                  <div className={side === 'left' ? 'order-1' : 'order-3'}>
+                  {/* Col 1 — card when side=left, dim window when side=right (hidden on mobile) */}
+                  <div className={side === 'right' ? 'hidden lg:block' : ''}>
                     {side === 'left' ? (
                       <ChronologyCard
                         item={item}
@@ -1123,7 +1124,8 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                       <EventWindow item={item} />
                     )}
                   </div>
-                  <div className="order-2 flex justify-center">
+                  {/* Col 2 — numbered circle, always center */}
+                  <div className="flex justify-center">
                     <motion.button
                       type="button"
                       whileHover={{ scale: 1.08 }}
@@ -1140,7 +1142,8 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
                       {item.number}
                     </motion.button>
                   </div>
-                  <div className={side === 'right' ? 'order-3' : 'order-1'}>
+                  {/* Col 3 — card when side=right, dim window when side=left (hidden on mobile) */}
+                  <div className={side === 'left' ? 'hidden lg:block' : ''}>
                     {side === 'right' ? (
                       <ChronologyCard
                         item={item}
