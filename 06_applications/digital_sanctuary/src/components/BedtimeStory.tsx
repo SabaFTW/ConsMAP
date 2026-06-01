@@ -433,43 +433,46 @@ const RelicCard: React.FC<{ relic: (typeof relics)[number] }> = ({ relic }) => (
 );
 
 const EventWindow: React.FC<{ item: ChronologyEntry }> = ({ item }) => {
-  const visual = storyImageMap[item.path];
   const tone = sectionTones[item.section] ?? sectionTones['Part I'];
   return (
     <div
-      className="w-full rounded-2xl border overflow-hidden"
+      className="hidden lg:flex w-full rounded-xl overflow-hidden"
       style={{
-        borderColor: 'rgba(71,85,105,0.20)',
-        background: `linear-gradient(145deg, rgba(12,16,12,0.45), rgba(8,12,8,0.30)), radial-gradient(circle at 80% 10%, ${tone.glow}, transparent 55%)`,
-        opacity: 0.68,
+        background: 'rgba(8,12,8,0.32)',
+        border: `1px solid rgba(71,85,105,0.16)`,
+        borderLeft: `3px solid ${tone.border}`,
       }}
     >
-      {visual && (
-        <div className="relative w-full overflow-hidden aspect-[16/9]">
-          <img
-            src={visual.src}
-            alt=""
-            aria-hidden="true"
-            className="h-full w-full object-cover"
-            style={{ filter: 'brightness(0.38) saturate(0.55) contrast(1.05)' }}
-            loading="lazy"
-          />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(8,12,8,0.95) 100%)' }} />
-        </div>
-      )}
-      <div className="p-4">
-        <div
-          className="inline-flex rounded-full px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.22em] mb-1"
-          style={{ color: tone.text, background: tone.chip }}
+      <div className="flex items-start gap-3 px-4 py-4 w-full">
+        {/* Number badge */}
+        <span
+          className="h-7 w-7 shrink-0 rounded-full border flex items-center justify-center font-mono text-[11px] mt-0.5"
+          style={{
+            color: tone.text,
+            borderColor: `${tone.border}`,
+            background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.9))`,
+            opacity: 0.72,
+          }}
         >
-          {item.section}
+          {item.number}
+        </span>
+        <div className="min-w-0">
+          <div
+            className="inline-flex rounded-full px-2 py-0.5 text-[8px] font-mono uppercase tracking-[0.22em] mb-1.5"
+            style={{ color: tone.text, background: tone.chip, opacity: 0.75 }}
+          >
+            {item.section}
+          </div>
+          <div
+            className="text-[13px] font-medium leading-snug mb-1.5 break-words"
+            style={{ color: 'rgba(216,232,216,0.52)', fontFamily: "'Cinzel', serif" }}
+          >
+            {item.title}
+          </div>
+          <p className="text-[11px] leading-[1.65]" style={{ color: 'rgba(216,232,216,0.34)' }}>
+            {item.description}
+          </p>
         </div>
-        <div className="text-sm font-medium leading-snug mb-1.5" style={{ color: 'rgba(216,232,216,0.58)', fontFamily: "'Cinzel', serif" }}>
-          {item.title}
-        </div>
-        <p className="text-xs leading-[1.7]" style={{ color: 'rgba(216,232,216,0.38)' }}>
-          {item.description}
-        </p>
       </div>
     </div>
   );
