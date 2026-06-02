@@ -34,6 +34,15 @@ const FINAL_PATH = '/docs/visual_parables/factory_trilogy/final';
 const GITHUB_ROOT = 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy';
 const GITHUB_FINAL = 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy/final';
 const BIBLE_ASSET_BASE = `${import.meta.env.BASE_URL}images/factory_bible/`;
+const TRILOGY_BASE = `${import.meta.env.BASE_URL}images/factory_trilogy/`;
+
+const sectionSplashes: Record<string, string> = {
+  Prelude:   `${TRILOGY_BASE}pre_factory_creature_council.webp`,
+  'Part I':  `${TRILOGY_BASE}pre_factory_twelve_voices_mice.webp`,
+  'Part II': `${TRILOGY_BASE}factory_psalter_table_of_twelve.webp`,
+  'Part III':`${TRILOGY_BASE}trilogy_index_boaz_jachin_ecology.webp`,
+  Colophon:  `${TRILOGY_BASE}signal_gre_naprej_epilogue.webp`,
+};
 
 const sectionTones: Record<string, SectionTone> = {
   Prelude: {
@@ -373,6 +382,44 @@ const boundaryChips = [
   { label: 'NOT EVIDENCE', cls: 'border-amber-600/40 bg-amber-900/20 text-amber-300' },
   { label: 'CLAIM HYGIENE',cls: 'border-slate-600/40 bg-slate-800/30 text-slate-300' },
 ];
+
+const SectionSplash: React.FC<{ section: string }> = ({ section }) => {
+  const src = sectionSplashes[section];
+  const tone = sectionTones[section] ?? sectionTones['Part I'];
+  if (!src) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.98 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
+      className="relative w-full overflow-hidden rounded-2xl border"
+      style={{ height: '200px', borderColor: tone.border.replace('0.34', '0.2') }}
+    >
+      <img
+        src={src}
+        alt={`${section} — visual interlude`}
+        className="w-full h-full object-cover"
+        style={{ filter: 'brightness(0.42) saturate(0.82) contrast(1.1)' }}
+        loading="lazy"
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(to right, rgba(7,10,7,0.78), transparent 32%, transparent 68%, rgba(7,10,7,0.78)), linear-gradient(to bottom, transparent 45%, rgba(7,10,7,0.55) 100%)`,
+        }}
+      />
+      <div className="absolute bottom-4 left-5 pointer-events-none">
+        <span
+          className="text-[9px] font-mono uppercase tracking-[0.36em]"
+          style={{ color: tone.text, opacity: 0.45 }}
+        >
+          {section}
+        </span>
+      </div>
+    </motion.div>
+  );
+};
 
 const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, color }) => (
   <motion.div
@@ -1131,8 +1178,12 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
               return (
                 <Fragment key={item.number}>
                   {isNewSection && (
-                    <SectionDivider label={item.section} color={tone.text} />
+                    <>
+                      <SectionDivider label={item.section} color={tone.text} />
+                      <SectionSplash section={item.section} />
+                    </>
                   )}
+                  {filteredIdx === 0 && <SectionSplash section={item.section} />}
                   <motion.div
                     initial={{ opacity: 0, y: 22 }}
                     whileInView={{ opacity: 1, y: 0 }}

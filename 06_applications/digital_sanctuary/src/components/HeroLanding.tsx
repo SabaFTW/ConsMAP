@@ -103,7 +103,7 @@ const entryPoints: Array<{
   {
     label: 'A satirical story about institutions',
     sublabel: 'Continuum Arc — how a mechanism becomes a myth.',
-    href: './continuum_arc/index.md',
+    href: './continuum_arc/',
     chip: 'STORY',
     chipCss: 'border-purple-500/40 bg-purple-900/25 text-purple-300',
     external: false,
