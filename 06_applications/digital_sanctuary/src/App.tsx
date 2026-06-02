@@ -10,10 +10,51 @@ import ClaimAnalyzer from './components/ClaimAnalyzer';
 import DocsViewer from './components/DocsViewer';
 import AIQuickStart from './components/AIQuickStart';
 
-type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode';
+type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode' | 'frame';
+
+const FramedView: React.FC<{ url: string; onBack: () => void }> = ({ url, onBack }) => (
+  <div className="relative w-full flex flex-col" style={{ minHeight: '100vh' }}>
+    <div
+      className="sticky top-0 z-50 flex items-center gap-3 px-4 py-2.5"
+      style={{
+        background: 'rgba(7,11,7,0.94)',
+        borderBottom: '1px solid rgba(92,184,112,0.16)',
+        backdropFilter: 'blur(14px)',
+      }}
+    >
+      <button
+        onClick={onBack}
+        className="text-[10px] font-mono tracking-[0.22em] uppercase hover:opacity-100 transition-opacity duration-200"
+        style={{ color: '#5cb870', opacity: 0.65 }}
+      >
+        ← back
+      </button>
+      <div className="flex-1 h-px" style={{ background: 'rgba(92,184,112,0.1)' }} />
+      <span className="text-[9px] font-mono tracking-[0.2em] uppercase" style={{ color: 'rgba(92,184,112,0.3)' }}>
+        ConsMAP
+      </span>
+    </div>
+    <iframe
+      src={url}
+      title="In-app view"
+      style={{ flex: 1, width: '100%', border: 'none', minHeight: 'calc(100vh - 41px)' }}
+    />
+  </div>
+);
 
 function App() {
   const [state, setState] = useState<AppState>('ritual');
+  const [frameUrl, setFrameUrl] = useState('');
+
+  const navigate = (view: AppState, meta?: string) => {
+    if (view === 'docs' && meta) {
+      window.location.hash = `doc=${encodeURIComponent(meta)}`;
+    }
+    if (view === 'frame' && meta) {
+      setFrameUrl(meta);
+    }
+    setState(view);
+  };
 
   return (
     <div
@@ -47,7 +88,7 @@ function App() {
             transition={{ duration: 2 }}
             className="relative z-10"
           >
-            <HeroLanding onNavigate={(view) => setState(view)} />
+            <HeroLanding onNavigate={navigate} />
           </motion.div>
         )}
 
@@ -113,6 +154,19 @@ function App() {
             className="relative z-10 min-h-screen"
           >
             <AIQuickStart onBack={() => setState('home')} />
+          </motion.div>
+        )}
+
+        {state === 'frame' && (
+          <motion.div
+            key={`frame-${frameUrl}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+            className="relative z-10 min-h-screen"
+          >
+            <FramedView url={frameUrl} onBack={() => setState('home')} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface HeroLandingProps {
-  onNavigate: (view: 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode') => void;
+  onNavigate: (view: 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode' | 'frame', meta?: string) => void;
 }
 
 type LanguageMode = 'myth' | 'tech';
@@ -68,61 +68,58 @@ const principles = [
   'Archives are maps, not commandments.',
 ];
 
+type EntryAction =
+  | { type: 'docs'; docPath: string }
+  | { type: 'frame'; url: string };
+
 const entryPoints: Array<{
   label: string;
   sublabel: string;
-  href: string;
   chip: string;
   chipCss: string;
-  external: boolean;
+  action: EntryAction;
 }> = [
   {
     label: 'Start here — for everyone',
     sublabel: 'No jargon, no prior knowledge. Orientation for any first-time visitor.',
-    href: 'https://github.com/SabaFTW/ConsMAP/blob/main/START_HERE_FOR_HUMANS.md',
     chip: 'START',
     chipCss: 'border-emerald-500/40 bg-emerald-900/25 text-emerald-300',
-    external: true,
+    action: { type: 'docs', docPath: '/START_HERE_FOR_HUMANS.md' },
   },
   {
     label: 'I came through a QR code',
     sublabel: 'Entry point for visitors arriving from the physical world.',
-    href: 'https://github.com/SabaFTW/ConsMAP/blob/main/QR_LANDING.md',
     chip: 'QR',
     chipCss: 'border-cyan-500/40 bg-cyan-900/25 text-cyan-300',
-    external: true,
+    action: { type: 'docs', docPath: '/QR_LANDING.md' },
   },
   {
     label: 'FAQ — what is this?',
     sublabel: 'Answers to the most common questions. Myth and mechanics together.',
-    href: './forge_faq/index.html',
     chip: 'FAQ',
     chipCss: 'border-slate-500/40 bg-slate-800/35 text-slate-300',
-    external: false,
+    action: { type: 'frame', url: `${import.meta.env.BASE_URL}forge_faq/` },
   },
   {
     label: 'A satirical story about institutions',
     sublabel: 'Continuum Arc — how a mechanism becomes a myth.',
-    href: './continuum_arc/',
     chip: 'STORY',
     chipCss: 'border-purple-500/40 bg-purple-900/25 text-purple-300',
-    external: false,
+    action: { type: 'frame', url: `${import.meta.env.BASE_URL}continuum_arc/` },
   },
   {
     label: 'AI consciousness without fantasy',
-    sublabel: 'Survival guide: what AI can do, what it can\'t, and why it matters.',
-    href: './consciousness_survival_guide/',
+    sublabel: "Survival guide: what AI can do, what it can't, and why it matters.",
     chip: 'GUIDE',
     chipCss: 'border-amber-500/40 bg-amber-900/25 text-amber-300',
-    external: false,
+    action: { type: 'frame', url: `${import.meta.env.BASE_URL}consciousness_survival_guide/` },
   },
   {
     label: 'REBiS — the symbolic front door',
     sublabel: 'Synthetic archetype between machine and symbol. Theory in practice.',
-    href: './rebis_landing_page/',
     chip: 'THEORY',
     chipCss: 'border-violet-500/40 bg-violet-900/25 text-violet-300',
-    external: false,
+    action: { type: 'frame', url: `${import.meta.env.BASE_URL}rebis_landing_page/` },
   },
 ];
 
@@ -318,12 +315,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {entryPoints.map((entry) => (
-              <a
+              <button
                 key={entry.label}
-                href={entry.href}
-                target={entry.external ? '_blank' : '_self'}
-                rel={entry.external ? 'noopener noreferrer' : undefined}
-                className="group flex flex-col justify-between rounded-2xl border px-5 py-4 transition-all duration-200"
+                type="button"
+                onClick={() => {
+                  if (entry.action.type === 'docs') {
+                    onNavigate('docs', entry.action.docPath);
+                  } else {
+                    onNavigate('frame', entry.action.url);
+                  }
+                }}
+                className="group flex flex-col justify-between rounded-2xl border px-5 py-4 text-left transition-all duration-200 w-full"
                 style={{ borderColor: 'rgba(71,85,105,0.38)', background: 'rgba(12,20,12,0.55)', boxShadow: '0 1px 14px rgba(0,0,0,0.28)' }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.borderColor = 'rgba(92,184,112,0.28)';
@@ -347,10 +349,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
                     {entry.chip}
                   </span>
                   <span className="text-[9px] font-mono uppercase tracking-[0.18em] opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: 'rgba(92,184,112,0.7)' }}>
-                    {entry.external ? 'GitHub ↗' : 'Odpri →'}
+                    Open →
                   </span>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
         </motion.div>
