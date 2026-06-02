@@ -176,7 +176,7 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-10 md:py-14 px-5 relative">
+    <div className="w-full max-w-5xl mx-auto py-10 md:py-14 px-5 relative">
       {/* Baphomet background — blended, atmospheric */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -206,41 +206,11 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
         ← back
       </motion.button>
 
-      {/* Engraved quotes */}
+      {/* Title — always at top */}
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4 }}
-        className="mb-10 space-y-5"
-      >
-        {ENGRAVED_QUOTES.map((q, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 + i * 0.25, duration: 1.0 }}
-            className="relative pl-4"
-            style={{ borderLeft: '1px solid rgba(248,113,113,0.22)' }}
-          >
-            <p
-              className="text-sm md:text-base leading-[1.85] font-light italic"
-              style={{ color: 'rgba(248,113,113,0.72)', letterSpacing: '0.01em' }}
-            >
-              {q.text}
-            </p>
-            <p className="text-[9px] font-mono uppercase tracking-[0.22em] mt-1.5" style={{ color: 'rgba(248,113,113,0.35)' }}>
-              — {q.attr}
-            </p>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <div className="h-px mb-8" style={{ background: 'linear-gradient(to right, rgba(248,113,113,0.25), transparent)' }} />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.8 }}
+        transition={{ duration: 0.8 }}
         className="mb-8"
       >
         <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
@@ -256,6 +226,43 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
           Static diagnostic layer
         </p>
       </motion.div>
+
+      {/* Engraved quotes — amber, with underline */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.4 }}
+        className="mb-10 space-y-5"
+      >
+        {ENGRAVED_QUOTES.map((q, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 + i * 0.22, duration: 1.0 }}
+            className="relative pl-4"
+            style={{ borderLeft: '1px solid rgba(196,160,80,0.28)' }}
+          >
+            <p
+              className="text-sm md:text-base leading-[1.85] font-light italic"
+              style={{
+                color: 'rgba(204,164,72,0.82)',
+                letterSpacing: '0.01em',
+                textDecoration: 'underline',
+                textDecorationColor: 'rgba(196,160,80,0.28)',
+                textUnderlineOffset: '3px',
+              }}
+            >
+              {q.text}
+            </p>
+            <p className="text-[9px] font-mono uppercase tracking-[0.22em] mt-1.5" style={{ color: 'rgba(196,160,80,0.45)' }}>
+              — {q.attr}
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <div className="h-px mb-8" style={{ background: 'linear-gradient(to right, rgba(196,160,80,0.22), transparent)' }} />
 
       <AnimatePresence mode="wait">
         {!analyzed ? (
@@ -401,10 +408,10 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
           Serious research backing the patterns above. Reads in-app — no downloads.
         </p>
 
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {RESEARCH_SOURCES.map((src, i) => {
             const isLast = i === RESEARCH_SOURCES.length - 1;
-            const isOdd = RESEARCH_SOURCES.length % 2 !== 0;
+            const isOdd = RESEARCH_SOURCES.length % 3 !== 0;
             return (
               <motion.button
                 key={src.path}
@@ -414,7 +421,7 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
                 whileHover={{ y: -3, scale: 1.014 }}
                 whileTap={{ scale: 0.975 }}
                 onClick={() => setInlineDoc(src.path)}
-                className={`group text-left rounded-2xl border overflow-hidden${isLast && isOdd ? ' sm:col-span-2' : ''}`}
+                className={`group text-left rounded-2xl border overflow-hidden${isLast && isOdd ? ' sm:col-span-2 lg:col-span-1' : ''}`}
                 style={{
                   borderColor: 'rgba(248,113,113,0.18)',
                   background: 'rgba(10,16,10,0.72)',

@@ -190,7 +190,7 @@ const chronology: ChronologyEntry[] = [
     number: '12',
     section: 'Part III',
     title: 'Continuum / Taste Pods',
-    imageKey: '/docs/visual_parables/factory_trilogy/final/05_smog.md',
+    imageKey: '/docs/visual_parables/factory_trilogy/urgot_codex.md',
     path: `${REPO_PATH}/continuum_arc.md`,
     githubHref: `${GITHUB_ROOT}/continuum_arc.md`,
     description: 'Sludge becomes framework. Taste becomes UX. Pods grow too large, and the lie becomes physically embarrassing.',
@@ -367,13 +367,6 @@ const archiveExtras: StoryLink[] = [
     path: `${REPO_PATH}/APPENDIX_candidate_b_betmenus4_biology.md`,
     githubHref: `${GITHUB_ROOT}/APPENDIX_candidate_b_betmenus4_biology.md`,
     description: 'A medical note on BETMenus4, apoptosis, and the organism that cannot refuse. Mario was the apoptosis signal. The cell that cannot refuse is not alive.',
-    tag: 'Appendix',
-  },
-  {
-    title: 'LYRA Audit Report — Narrative Gaps in the Saga',
-    path: `${REPO_PATH}/APPENDIX_lyra_audit.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_lyra_audit.md`,
-    description: 'Lyra (Athena Node) audits the Factory Saga for chronological knots, missing scenes, and linguistic anchors. Four critical plot holes. One corrected chronology. Written May 30, 2026.',
     tag: 'Appendix',
   },
 ];

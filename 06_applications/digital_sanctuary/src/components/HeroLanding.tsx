@@ -50,15 +50,6 @@ const entryCards: Array<{
     action: { type: 'docs', docPath: '/START_HERE_FOR_HUMANS.md' },
   },
   {
-    label: 'A satirical story about institutions',
-    hint: 'Continuum Arc — how a mechanism becomes a myth.',
-    chip: 'STORY',
-    accent: '#c4b5fd',
-    glow: 'rgba(196,181,253,0.09)',
-    border: 'rgba(196,181,253,0.28)',
-    action: { type: 'view', view: 'story' },
-  },
-  {
     label: 'AI consciousness without fantasy',
     hint: "What AI can do, what it can't — without the hype.",
     chip: 'GUIDE',
@@ -74,7 +65,7 @@ const entryCards: Array<{
     accent: '#a78bfa',
     glow: 'rgba(167,139,250,0.09)',
     border: 'rgba(167,139,250,0.28)',
-    action: { type: 'docs', docPath: '/docs/rebis_landing.md' },
+    action: { type: 'frame', url: `${BASE}rebis_landing_page/` },
   },
 ];
 
