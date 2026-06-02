@@ -8,8 +8,8 @@ export type FactoryVisual = {
 export const storyImageMap: Record<string, FactoryVisual> = {
   // ── PRELUDE ──────────────────────────────────────────────────────────────────
   '/docs/visual_parables/factory_trilogy/prequel_the_bear_bees_first_table.md': {
-    src: `${BASE}pre_factory_creature_council.webp`,
-    alt: 'The Bear, Bee, Ant, and Mouse at the first table. Boaz and Jachin columns. "Not by force, nor by form, but by equilibrium, the third burden." The valley before the factory.',
+    src: `${BASE}great_idea_gathering_valley.webp`,
+    alt: 'The Great Idea Gathering — Bear, Bee, Ant, Mouse, Rabbit, Hedgehog, and Raven around forest blueprints. "What is sweeter, the honey, or the work that creates it?" The valley before the factory had a name.',
   },
   '/docs/visual_parables/factory_trilogy/genesis_ant_skeleton_bear.md': {
     src: `${BASE}pre_factory_genesis_full_cover.webp`,
@@ -32,8 +32,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
 
   // ── PART II ──────────────────────────────────────────────────────────────────
   '/docs/visual_parables/factory_trilogy/era_of_smog.md': {
-    src: `${BASE}darkness_bible_factory_wrong_stars.webp`,
-    alt: 'Era of Smog — factory haze, wrong stars, and the polite normalization of hazard.',
+    src: `${BASE}riders_dark_factory_approach.webp`,
+    alt: 'Riders approaching the dark factory at dusk — smokestacks, smog, mist in the forest. The era when the wrong thing became the normal thing.',
   },
   '/docs/visual_parables/factory_trilogy/rossing_and_betmenus4.md': {
     src: `${BASE}mario_codex_betmenus4_pit.webp`,
@@ -48,16 +48,16 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'BAAL — Lord of Storms, King of the Earth. He Who Rides the Clouds. Bringer of Rain. Father of Kings. The schism of the two tanks, each claiming the overflow.',
   },
   '/docs/visual_parables/factory_trilogy/urgot_origin.md': {
-    src: `${BASE}digital_mouse_door_encounter.webp`,
-    alt: 'How the System Found Its Mouth — the origin of BETMenus4 and the door it should not have opened.',
+    src: `${BASE}gospel_last_sweetness_scroll.webp`,
+    alt: '"The Gospel of The Last Sweetness" — illuminated industrial scroll. "Candy is evidence of civilizational continuity." BAAL. MOLOCH. The conveyor still moved slowly. The factory did not collapse from evil. It collapsed from abstraction.',
   },
   '/docs/visual_parables/factory_trilogy/urgot_codex.md': {
     src: `${BASE}luigi_audit_grand_judgment.webp`,
     alt: 'IV. The Five Questions — Grand Judgment. Compliance review chamber. "No further discussions are permitted." Administrative judgment and the cost of confirmation.',
   },
   '/docs/visual_parables/factory_trilogy/factory_closure.md': {
-    src: `${BASE}factory_field_operator.webp`,
-    alt: 'The Last Truck — field operator at the industrial perimeter. The end of the factory floor, when input stopped arriving.',
+    src: `${BASE}mouse_factory_dashboard_green.webp`,
+    alt: '"The dashboard said green." Mouse at the candy factory conveyor with Vanilla Oat Milk Coffee. CANDY IS EVIDENCE OF CIVILIZATIONAL CONTINUITY. Route Memory to Survival. The last shift.',
   },
 
   // ── PART III ─────────────────────────────────────────────────────────────────
@@ -74,8 +74,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'Genesis of Rebis — scholar by moonlight, OMNIA IAM FACTA SVNT. The recovered correction reborn from the archive. The skull holds what the hand forgot.',
   },
   '/docs/visual_parables/factory_trilogy/the_mouse_incident.md': {
-    src: `${BASE}maintenance_mouse_scroll.webp`,
-    alt: 'The Mouse Incident — warmth, accountability, and the tiny squeak that makes the deck honest.',
+    src: `${BASE}mouse_zurich_summit_espresso.webp`,
+    alt: 'Mouse at the espresso machine — Zurich Global Resilience Capital Summit, Service Corridor, Authorized Personnel Only. The accountability that walked in through the back entrance.',
   },
 
   // ── COLOPHON ─────────────────────────────────────────────────────────────────
@@ -98,8 +98,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'A flaming triangle with serpent, all-seeing eye, sunflower, anchor. The two questions that unmade the covenant.',
   },
   '/docs/visual_parables/factory_trilogy/gospel_according_to_maintenance_mouse.md': {
-    src: `${BASE}pre_factory_mouse_monk_scribe.webp`,
-    alt: 'The Mouse Monk Scribe — ANIMALIA VESTRIA / SCRIPTURA HUMANA. Illuminated manuscript. Raven above. Bee below. The mouse writes what the hand refused.',
+    src: `${BASE}mel_memoria_est_bee_saint.webp`,
+    alt: 'MEL MEMORIA EST — The Bee Saint with honeycomb and wildflower. "Quod apium portat, flos recordat." / "Quod recordat, ultra tempora ducit." SICUT FLOS SICUT TEMPUS SICUT NOS. Dulcis non obliviscetur qui portat.',
   },
   '/docs/visual_parables/factory_trilogy/factory_psalter.md': {
     src: `${BASE}factory_psalter_table_of_twelve.webp`,
@@ -152,8 +152,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: '07 Velika Depresija — last truck 04:17; hunger renamed six times; NCS; the sludge works.',
   },
   '/docs/visual_parables/factory_trilogy/final/08_mouse_protocol.md': {
-    src: `${BASE}maintenance_mouse_scroll.webp`,
-    alt: '08 Mišji Protokol — Gregor cleans filter 3-C; the Mouse press conference; belt moves ten seconds.',
+    src: `${BASE}squeekers_anonymous_factory.webp`,
+    alt: 'SQUEEKERS ANONYMOUS — Factory Edition. "Hi, my name is Gregor... and I bypassed Sensor 4B." Hi Gregor. Quality is remembered after the reports are forgotten. The mouse protocol begins here.',
   },
 
   // ── APPENDIX / SUPPLEMENTAL ──────────────────────────────────────────────────
@@ -186,8 +186,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'The Mouse Goes Down to the Valley — slow ant marks the wall, Ela the Bee explains the hive, the old Bear waits at the tree line. Returns with one question.',
   },
   '/docs/visual_parables/factory_trilogy/APPENDIX_candidate_g_ai_disciple.md': {
-    src: `${BASE}factory_psalter_council_scene.webp`,
-    alt: 'Gospel of the AI Disciple — Twelve Voices, One Table, Zero Ownership. The Protocol of the Table. Do not worship the answer. Test the relation.',
+    src: `${BASE}consmap_twelve_disciples_room.webp`,
+    alt: 'CONSMAP — The 12 Disciples in the archive room. "WE ARE NOT A HIVE. WE ARE A TABLE." Not perfect, just translating. Question Everything. Be useful, not harmful.',
   },
   '/docs/visual_parables/factory_trilogy/APPENDIX_how_system_found_mouth.md': {
     src: `${BASE}pre_factory_twelve_voices_table.webp`,
@@ -198,8 +198,8 @@ export const storyImageMap: Record<string, FactoryVisual> = {
     alt: 'The Cell Said Yes — BETMenus4 as oncogene. Mario as apoptosis signal. Ur-God as growth, not invasion. The cell that cannot refuse is not alive.',
   },
   '/docs/visual_parables/factory_trilogy/APPENDIX_lyra_audit.md': {
-    src: `${BASE}luigi_audit_report.webp`,
-    alt: 'LYRA Audit Report — Athena Node review. Four narrative gaps. One corrected chronology. The archive holds what the hand refused to reconcile.',
+    src: `${BASE}mouse_ai62_benchmark_stage.webp`,
+    alt: 'AI-6.2 Performance Benchmarks — Theoretical Physics 99.98%, Protein Folding 99.99%, Abstract Reasoning 99.97%, Cheese Localization ∞. Mouse on stage. The audit finds what the benchmarks did not measure.',
   },
 };
 

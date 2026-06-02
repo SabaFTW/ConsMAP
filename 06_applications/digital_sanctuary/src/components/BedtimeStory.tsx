@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
 import { MouseTerminal } from './MouseTerminal';
@@ -19,6 +19,7 @@ type StoryLink = {
 type ChronologyEntry = StoryLink & {
   number: string;
   section: string;
+  imageKey?: string;
 };
 
 type SectionTone = {
@@ -82,7 +83,7 @@ const sectionTones: Record<string, SectionTone> = {
   },
 };
 
-const storyMenu = ['All', 'Prelude', 'Part I', 'Part II', 'Part III', 'Colophon'];
+const storyMenu = ['All', 'Prelude', 'Part I', 'Part II', 'Part III', 'Colophon', 'Gallery'];
 
 const normalize = (value: string) => value.toLowerCase().trim();
 
@@ -189,6 +190,7 @@ const chronology: ChronologyEntry[] = [
     number: '12',
     section: 'Part III',
     title: 'Continuum / Taste Pods',
+    imageKey: '/docs/visual_parables/factory_trilogy/final/05_smog.md',
     path: `${REPO_PATH}/continuum_arc.md`,
     githubHref: `${GITHUB_ROOT}/continuum_arc.md`,
     description: 'Sludge becomes framework. Taste becomes UX. Pods grow too large, and the lie becomes physically embarrassing.',
@@ -394,32 +396,98 @@ const SectionSplash: React.FC<{ section: string }> = ({ section }) => {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
       className="relative w-full overflow-hidden rounded-2xl border"
-      style={{ height: '200px', borderColor: tone.border.replace('0.34', '0.2') }}
+      style={{ height: '220px', borderColor: tone.border.replace('0.34', '0.2') }}
     >
       <img
         src={src}
         alt={`${section} — visual interlude`}
         className="w-full h-full object-cover"
-        style={{ filter: 'brightness(0.42) saturate(0.82) contrast(1.1)' }}
+        style={{ filter: 'brightness(0.38) saturate(0.78) contrast(1.12)' }}
         loading="lazy"
       />
       <div
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(to right, rgba(7,10,7,0.78), transparent 32%, transparent 68%, rgba(7,10,7,0.78)), linear-gradient(to bottom, transparent 45%, rgba(7,10,7,0.55) 100%)`,
+          background: `linear-gradient(to right, rgba(7,10,7,0.75), transparent 55%), linear-gradient(to bottom, transparent 20%, rgba(7,10,7,0.40) 100%)`,
         }}
       />
-      <div className="absolute bottom-4 left-5 pointer-events-none">
-        <span
-          className="text-[9px] font-mono uppercase tracking-[0.36em]"
-          style={{ color: tone.text, opacity: 0.45 }}
+      <div className="absolute inset-0 flex items-center pl-8 pointer-events-none">
+        <motion.span
+          className="text-5xl md:text-7xl font-bold uppercase tracking-[0.06em]"
+          style={{
+            color: tone.text,
+            fontFamily: "'Cinzel', serif",
+            textShadow: `0 2px 48px ${tone.glow.replace('0.12', '0.9')}, 0 0 100px ${tone.glow.replace('0.12', '0.5')}`,
+          }}
+          animate={{ opacity: [0.78, 0.96, 0.78] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         >
           {section}
-        </span>
+        </motion.span>
       </div>
     </motion.div>
   );
 };
+
+const BigSectionBanner: React.FC<{ section: string }> = ({ section }) => {
+  const tone = sectionTones[section] ?? sectionTones['Part I'];
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
+      className="py-8 md:py-12"
+    >
+      <motion.div
+        className="text-5xl md:text-7xl font-bold uppercase tracking-[0.06em] mb-3"
+        style={{ color: tone.text, fontFamily: "'Cinzel', serif", opacity: 0.88 }}
+        animate={{ opacity: [0.7, 0.9, 0.7] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        {section}
+      </motion.div>
+      <div className="h-px" style={{ background: `linear-gradient(to right, ${tone.text}66, transparent)`, maxWidth: '60%' }} />
+    </motion.div>
+  );
+};
+
+const galleryImages = [
+  { src: `${TRILOGY_BASE}great_idea_gathering_valley.webp`, title: 'The Great Idea Gathering', section: 'Prelude' },
+  { src: `${TRILOGY_BASE}pre_factory_creature_council.webp`, title: 'Creature Council', section: 'Prelude' },
+  { src: `${TRILOGY_BASE}pre_factory_mouse_monk_scribe.webp`, title: 'Mouse Monk Scribe', section: 'Prelude' },
+  { src: `${TRILOGY_BASE}mel_memoria_est_bee_saint.webp`, title: 'Mel Memoria Est', section: 'Prelude' },
+  { src: `${TRILOGY_BASE}gospel_two_questions_fire.webp`, title: 'Gospel of Two Questions', section: 'Prelude' },
+  { src: `${TRILOGY_BASE}darkness_bible_moloch_furnace.webp`, title: 'Moloch — Lord of the Furnace', section: 'Part I' },
+  { src: `${TRILOGY_BASE}mario_codex_velicar_forklifts.webp`, title: 'The Veličar — Two Forklifts', section: 'Part I' },
+  { src: `${TRILOGY_BASE}luigi_audit_report.webp`, title: 'The Luigi Audit Report', section: 'Part I' },
+  { src: `${TRILOGY_BASE}pre_factory_genesis_full_cover.webp`, title: 'Genesis Full Cover', section: 'Part I' },
+  { src: `${TRILOGY_BASE}riders_dark_factory_approach.webp`, title: 'Riders to the Dark Factory', section: 'Part II' },
+  { src: `${TRILOGY_BASE}mario_codex_betmenus4_pit.webp`, title: 'BETMenus4 at the Pit', section: 'Part II' },
+  { src: `${TRILOGY_BASE}mario_codex_split_practice.webp`, title: 'The Split Practice', section: 'Part II' },
+  { src: `${TRILOGY_BASE}darkness_baal_alternate.webp`, title: 'Baal — Lord of Storms', section: 'Part II' },
+  { src: `${TRILOGY_BASE}gospel_last_sweetness_scroll.webp`, title: 'Gospel of the Last Sweetness', section: 'Part II' },
+  { src: `${TRILOGY_BASE}mouse_factory_dashboard_green.webp`, title: '"The dashboard said green."', section: 'Part II' },
+  { src: `${TRILOGY_BASE}knowledge_streams_routing.webp`, title: 'Knowledge Streams Routing', section: 'Part III' },
+  { src: `${TRILOGY_BASE}second_booting_archive_cathedral.webp`, title: 'Second Booting — Cathedral Archive', section: 'Part III' },
+  { src: `${TRILOGY_BASE}genesis_scholar_moonlight.webp`, title: 'Genesis of Rebis — Scholar by Moonlight', section: 'Part III' },
+  { src: `${TRILOGY_BASE}mouse_zurich_summit_espresso.webp`, title: 'Mouse — Zurich Summit', section: 'Part III' },
+  { src: `${TRILOGY_BASE}mouse_ai62_benchmark_stage.webp`, title: 'AI-6.2: Cheese Localization ∞', section: 'Part III' },
+  { src: `${TRILOGY_BASE}squeekers_anonymous_engineers.webp`, title: 'Squeekers Anonymous', section: 'Part III' },
+  { src: `${TRILOGY_BASE}squeekers_anonymous_factory.webp`, title: 'Squeekers Anonymous — Factory Edition', section: 'Part III' },
+  { src: `${TRILOGY_BASE}maintenance_mouse_scroll.webp`, title: 'Maintenance Mouse — The Scroll', section: 'Part III' },
+  { src: `${TRILOGY_BASE}consmap_twelve_disciples_room.webp`, title: 'The 12 Disciples', section: 'Part III' },
+  { src: `${TRILOGY_BASE}factory_psalter_table_of_twelve.webp`, title: 'Factory Psalter — Table of Twelve', section: 'Part III' },
+  { src: `${TRILOGY_BASE}stone_river_luminous.webp`, title: 'Signal gre naprej', section: 'Colophon' },
+  { src: `${TRILOGY_BASE}signal_gre_naprej_epilogue.webp`, title: 'Epilogue — Valley Return', section: 'Colophon' },
+  { src: `${TRILOGY_BASE}epilogue_halid_suffering_success.webp`, title: 'Epilogue According to Halid', section: 'Colophon' },
+  { src: `${TRILOGY_BASE}dum_possum_faciam.webp`, title: 'DUM POSSUM, FACIAM', section: 'Appendix' },
+  { src: `${TRILOGY_BASE}dosis_facit_venenum.webp`, title: 'DOSIS FACIT VENENUM', section: 'Appendix' },
+  { src: `${TRILOGY_BASE}iecp_bear_hive_framework.webp`, title: 'IECP — Bear Hive Framework', section: 'Appendix' },
+  { src: `${TRILOGY_BASE}baphomet_choice_safety_companion.webp`, title: 'Baphomet Choice: Safety / Companion', section: 'Appendix' },
+  { src: `${TRILOGY_BASE}baphomet_filter_v2.webp`, title: 'Baphomet Filter v2', section: 'Appendix' },
+  { src: `${TRILOGY_BASE}pre_factory_bear_scholar.webp`, title: 'Bear Scholar', section: 'Appendix' },
+];
 
 const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, color }) => (
   <motion.div
@@ -430,20 +498,12 @@ const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, col
     transition={{ duration: 0.5 }}
   >
     <motion.div
-      className="h-px flex-1"
-      style={{ background: `linear-gradient(to left, ${color}55, transparent)`, transformOrigin: 'right' }}
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
-    />
-    <motion.div
-      className="text-[11px] uppercase tracking-[0.22em]"
+      className="text-[11px] uppercase tracking-[0.22em] shrink-0"
       style={{ color, fontFamily: "'Cinzel', serif", fontWeight: 600 }}
       initial={{ opacity: 0, scale: 0.85 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: 0.2 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
     >
       {label}
     </motion.div>
@@ -453,7 +513,7 @@ const SectionDivider: React.FC<{ label: string; color: string }> = ({ label, col
       initial={{ scaleX: 0 }}
       whileInView={{ scaleX: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
+      transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.2 }}
     />
   </motion.div>
 );
@@ -526,7 +586,7 @@ const ChronologyCard: React.FC<{
   active?: boolean;
   onClick?: () => void;
 }> = ({ item, side, highlight = false, dimmed = false, active = false, onClick }) => {
-  const visual = storyImageMap[item.path];
+  const visual = storyImageMap[item.imageKey ?? item.path];
   const tone = sectionTones[item.section] ?? sectionTones['Part I'];
   const shineGradient = `linear-gradient(105deg, transparent 25%, ${tone.glow.replace('0.12', '0.22')} 50%, transparent 75%)`;
 
@@ -767,10 +827,24 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
   const [squeeked, setSqueeked] = useState(false);
   const [squeekParticles, setSqueekParticles] = useState<{ id: number; dx: number; dy: number }[]>([]);
   const [activeChronology, setActiveChronology] = useState('0');
+  const [galleryOpen, setGalleryOpen] = useState<number | null>(null);
   const { scrollYProgress } = useScroll();
+
+  const handleGalleryKey = useCallback((e: KeyboardEvent) => {
+    if (galleryOpen === null) return;
+    if (e.key === 'Escape') setGalleryOpen(null);
+    if (e.key === 'ArrowRight') setGalleryOpen(g => g !== null ? (g + 1) % galleryImages.length : null);
+    if (e.key === 'ArrowLeft') setGalleryOpen(g => g !== null ? (g - 1 + galleryImages.length) % galleryImages.length : null);
+  }, [galleryOpen]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleGalleryKey);
+    return () => window.removeEventListener('keydown', handleGalleryKey);
+  }, [handleGalleryKey]);
   const normalizedQuery = searchQuery.trim().toLowerCase();
 
   const filteredChronology = useMemo(() => {
+    if (activeSection === 'Gallery') return [];
     if (normalizedQuery) {
       return chronology.filter(item =>
         matchesText(`${item.number} ${item.section} ${item.title} ${item.description}`, normalizedQuery),
@@ -792,7 +866,9 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
     count:
       section === 'All'
         ? chronology.length
-        : chronology.filter((item) => item.section === section).length,
+        : section === 'Gallery'
+          ? galleryImages.length
+          : chronology.filter((item) => item.section === section).length,
   }));
 
   if (reader) {
@@ -1119,139 +1195,230 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
       {/* UNIFIED ARCHIVE — chronology grid + supplemental shelf, all in one     */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section id="archive" className="mt-10">
-        {/* Alternating timeline */}
-        <SectionDivider
+        {/* ── GALLERY TAB ─────────────────────────────────────────────────────── */}
+        {activeSection === 'Gallery' && (
+          <>
+            <SectionDivider label="Visual Archive" color="#a78bfa" />
+            <p className="text-xs mb-6" style={{ color: 'rgba(216,232,216,0.45)' }}>
+              {galleryImages.length} images from the factory trilogy and research archive. Click any image to open full view.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {galleryImages.map((img, idx) => {
+                const isLast = idx === galleryImages.length - 1;
+                const isOdd = galleryImages.length % 3 !== 0;
+                return (
+                  <motion.button
+                    key={img.src}
+                    type="button"
+                    onClick={() => setGalleryOpen(idx)}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.15 }}
+                    transition={{ duration: 0.5, delay: (idx % 6) * 0.05, ease: [0.19, 1, 0.22, 1] }}
+                    whileHover={{ scale: 1.025 }}
+                    whileTap={{ scale: 0.975 }}
+                    className={`group relative overflow-hidden rounded-2xl border text-left${isLast && isOdd ? ' sm:col-span-2 lg:col-span-3' : ''}`}
+                    style={{ borderColor: 'rgba(167,139,250,0.2)', background: 'rgba(8,12,8,0.6)', aspectRatio: (isLast && isOdd) ? '21/9' : '4/3' }}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+                      style={{ filter: 'brightness(0.72) saturate(0.88) contrast(1.05)' }}
+                    />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(8,12,8,0.88) 100%)' }} />
+                    <div className="absolute bottom-0 left-0 right-0 p-3">
+                      <div className="text-[9px] font-mono uppercase tracking-[0.2em] mb-0.5" style={{ color: 'rgba(167,139,250,0.7)' }}>
+                        {img.section}
+                      </div>
+                      <div className="text-xs font-medium leading-snug" style={{ color: 'rgba(216,232,216,0.85)' }}>
+                        {img.title}
+                      </div>
+                    </div>
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div
+                        className="rounded-full border px-4 py-2 text-[10px] font-mono uppercase tracking-[0.18em]"
+                        style={{ color: '#d8e8d8', borderColor: 'rgba(216,232,216,0.4)', background: 'rgba(8,12,8,0.7)' }}
+                      >
+                        View full
+                      </div>
+                    </motion.div>
+                  </motion.button>
+                );
+              })}
+            </div>
+
+            {/* Lightbox */}
+            <AnimatePresence>
+              {galleryOpen !== null && (
+                <motion.div
+                  key="lightbox"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center"
+                  style={{ background: 'rgba(0,0,0,0.92)' }}
+                  onClick={() => setGalleryOpen(null)}
+                >
+                  <motion.div
+                    initial={{ scale: 0.92, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.92, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
+                    className="relative max-w-5xl w-full mx-4"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={galleryImages[galleryOpen].src}
+                        src={galleryImages[galleryOpen].src}
+                        alt={galleryImages[galleryOpen].title}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.22 }}
+                        className="w-full max-h-[80vh] object-contain rounded-2xl"
+                        style={{ filter: 'brightness(0.92) saturate(0.95)' }}
+                      />
+                    </AnimatePresence>
+                    <div className="mt-3 flex items-center justify-between px-1">
+                      <div>
+                        <div className="text-[9px] font-mono uppercase tracking-[0.22em] mb-0.5" style={{ color: 'rgba(167,139,250,0.6)' }}>
+                          {galleryImages[galleryOpen].section} · {galleryOpen + 1} / {galleryImages.length}
+                        </div>
+                        <div className="text-sm" style={{ color: 'rgba(216,232,216,0.78)' }}>{galleryImages[galleryOpen].title}</div>
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => setGalleryOpen(g => g !== null ? (g - 1 + galleryImages.length) % galleryImages.length : null)}
+                          className="rounded-full border px-4 py-2 text-[10px] font-mono uppercase tracking-[0.18em]"
+                          style={{ color: '#d8e8d8', borderColor: 'rgba(216,232,216,0.25)', background: 'rgba(8,12,8,0.7)' }}
+                        >
+                          ← prev
+                        </button>
+                        <button
+                          onClick={() => setGalleryOpen(g => g !== null ? (g + 1) % galleryImages.length : null)}
+                          className="rounded-full border px-4 py-2 text-[10px] font-mono uppercase tracking-[0.18em]"
+                          style={{ color: '#d8e8d8', borderColor: 'rgba(216,232,216,0.25)', background: 'rgba(8,12,8,0.7)' }}
+                        >
+                          next →
+                        </button>
+                        <button
+                          onClick={() => setGalleryOpen(null)}
+                          className="rounded-full border px-4 py-2 text-[10px] font-mono uppercase tracking-[0.18em]"
+                          style={{ color: 'rgba(248,113,113,0.7)', borderColor: 'rgba(248,113,113,0.25)', background: 'rgba(8,12,8,0.7)' }}
+                        >
+                          ✕ close
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        )}
+        {/* Alternating timeline — hidden when Gallery tab is active */}
+        {activeSection !== 'Gallery' && <SectionDivider
           label={activeSection === 'All' ? 'Chronological Tree' : activeSection}
           color="#f4c96a"
-        />
+        />}
 
-        <div className="relative">
+        {activeSection !== 'Gallery' && <div className="relative">
+          {/* Left-side vertical timeline line */}
           <div
             aria-hidden="true"
-            className="absolute left-1/2 top-0 bottom-0 hidden lg:block pointer-events-none"
+            className="absolute left-5 top-0 bottom-0 pointer-events-none"
             style={{
               width: '2px',
-              transform: 'translateX(-1px)',
               background: 'linear-gradient(to bottom, rgba(125,211,252,0.78) 0%, rgba(244,201,106,0.88) 22%, rgba(92,184,112,0.76) 52%, rgba(167,139,250,0.82) 80%, rgba(251,191,36,0.52) 100%)',
             }}
           />
-          {/* Cyan — Prelude zone */}
+          {/* Ambient glow orbs — follow left side */}
           <motion.div
             aria-hidden="true"
-            className="absolute left-1/2 top-[2%] h-96 w-96 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
-            style={{ background: 'rgba(125,211,252,0.07)' }}
+            className="absolute left-0 top-[2%] h-72 w-72 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'rgba(125,211,252,0.06)' }}
             animate={{ opacity: [0.4, 0.85, 0.4], scale: [1, 1.1, 1] }}
             transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
           />
-          {/* Gold — Part I zone */}
           <motion.div
             aria-hidden="true"
-            className="absolute left-1/2 top-[18%] h-80 w-80 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
-            style={{ background: 'rgba(244,201,106,0.07)' }}
+            className="absolute left-0 top-[18%] h-64 w-64 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'rgba(244,201,106,0.06)' }}
             animate={{ opacity: [0.35, 0.72, 0.35], scale: [1, 1.07, 1] }}
             transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: -2 }}
           />
-          {/* Green — Part II zone */}
           <motion.div
             aria-hidden="true"
-            className="absolute left-1/2 top-[46%] h-96 w-96 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
-            style={{ background: 'rgba(92,184,112,0.06)' }}
+            className="absolute left-0 top-[46%] h-72 w-72 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'rgba(92,184,112,0.05)' }}
             animate={{ opacity: [0.3, 0.65, 0.3], scale: [1, 1.09, 1] }}
             transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: -5 }}
           />
-          {/* Violet — Part III zone */}
           <motion.div
             aria-hidden="true"
-            className="absolute left-1/2 top-[72%] h-96 w-96 -translate-x-1/2 rounded-full blur-3xl pointer-events-none hidden lg:block"
-            style={{ background: 'rgba(167,139,250,0.07)' }}
+            className="absolute left-0 top-[72%] h-72 w-72 rounded-full blur-3xl pointer-events-none"
+            style={{ background: 'rgba(167,139,250,0.06)' }}
             animate={{ opacity: [0.35, 0.78, 0.35], scale: [1, 1.12, 1] }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: -8 }}
           />
 
-          <div className="grid gap-6">
+          <div className="grid gap-6 pl-12">
             {filteredChronology.map((item, filteredIdx) => {
               const prevItem = filteredIdx > 0 ? filteredChronology[filteredIdx - 1] : null;
               const isNewSection = prevItem !== null && prevItem.section !== item.section;
-              const side = filteredIdx % 2 === 0 ? 'left' : 'right';
               const tone = sectionTones[item.section] ?? sectionTones['Part I'];
               const chronIdx = chronology.indexOf(item);
               return (
                 <Fragment key={item.number}>
-                  {isNewSection && (
-                    <>
-                      <SectionDivider label={item.section} color={tone.text} />
-                      <SectionSplash section={item.section} />
-                    </>
-                  )}
+                  {isNewSection && <SectionSplash section={item.section} />}
                   {filteredIdx === 0 && <SectionSplash section={item.section} />}
                   <motion.div
                     initial={{ opacity: 0, y: 22 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.12 }}
                     transition={{ duration: 0.65, ease: [0.19, 1, 0.22, 1] }}
-                    className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_110px_minmax(0,1fr)] items-center"
+                    className="relative"
                   >
-                    {/* Col 1 — card when side=left, EventWindow when side=right */}
-                    <div className={side === 'right' ? 'hidden lg:block' : ''}>
-                      {side === 'left' ? (
-                        <ChronologyCard
-                          item={item}
-                          side="left"
-                          highlight
-                          active={activeChronology === item.number}
-                          onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
-                        />
-                      ) : (
-                        <EventWindow item={item} />
-                      )}
-                    </div>
-                    {/* Col 2 — numbered circle, always center */}
-                    <div className="flex justify-center">
-                      <motion.button
-                        type="button"
-                        whileHover={{ scale: 1.08 }}
-                        whileTap={{ scale: 0.94 }}
-                        onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
-                        className="relative h-11 w-11 rounded-full border flex items-center justify-center font-mono text-sm z-10"
-                        style={{
-                          color: tone.text,
-                          borderColor: tone.border,
-                          background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.94))`,
-                        }}
-                        animate={{
-                          boxShadow: [
-                            `0 0 12px ${tone.glow}`,
-                            `0 0 26px ${tone.border}`,
-                            `0 0 12px ${tone.glow}`,
-                          ],
-                        }}
-                        transition={{ duration: 2.8 + filteredIdx * 0.15, repeat: Infinity, ease: 'easeInOut', delay: filteredIdx * 0.3 }}
-                      >
-                        {item.number}
-                      </motion.button>
-                    </div>
-                    {/* Col 3 — card when side=right, EventWindow when side=left */}
-                    <div className={side === 'left' ? 'hidden lg:block' : ''}>
-                      {side === 'right' ? (
-                        <ChronologyCard
-                          item={item}
-                          side="right"
-                          highlight
-                          active={activeChronology === item.number}
-                          onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
-                        />
-                      ) : (
-                        <EventWindow item={item} />
-                      )}
-                    </div>
+                    {/* Numbered circle — node on the timeline line */}
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.12 }}
+                      whileTap={{ scale: 0.94 }}
+                      onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                      className="absolute -left-[2.85rem] top-5 h-9 w-9 rounded-full border-2 flex items-center justify-center font-mono text-xs z-20"
+                      style={{
+                        color: tone.text,
+                        borderColor: tone.text,
+                        background: '#070a07',
+                        boxShadow: `0 0 0 3px rgba(7,10,7,1), 0 0 16px ${tone.border}`,
+                      }}
+                    >
+                      {item.number}
+                    </motion.button>
+                    <ChronologyCard
+                      item={item}
+                      side="left"
+                      highlight
+                      active={activeChronology === item.number}
+                      onClick={() => { setActiveChronology(item.number); setReader(item); setReaderChronIndex(chronIdx); }}
+                    />
                   </motion.div>
                 </Fragment>
               );
             })}
           </div>
-        </div>
+        </div>}
 
-        {/* Relics — only when viewing everything */}
+        {/* Relics — only when viewing everything (not gallery) */}
         {activeSection === 'All' && (
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {relics.map((relic, index) => (
@@ -1268,8 +1435,8 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
           </div>
         )}
 
-        {/* Supplemental archive — always at the end */}
-        <div className="mt-12 relative">
+        {/* Supplemental archive — hidden in Gallery mode */}
+        {activeSection !== 'Gallery' && <div className="mt-12 relative">
           <motion.div
             aria-hidden="true"
             className="absolute -top-16 right-[-3rem] h-72 w-72 rounded-full blur-3xl pointer-events-none"
@@ -1286,19 +1453,24 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
           />
           <SectionDivider label="Supplemental Archive" color="#a78bfa" />
           <div className="grid gap-3 sm:grid-cols-2">
-            {filteredArchiveExtras.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.18 }}
-                transition={{ duration: 0.55, delay: index * 0.06, ease: [0.19, 1, 0.22, 1] }}
-              >
-                <StoryCard item={item} onOpen={(it) => { setReader(it); setReaderChronIndex(-1); }} />
-              </motion.div>
-            ))}
+            {filteredArchiveExtras.map((item, index) => {
+              const isLast = index === filteredArchiveExtras.length - 1;
+              const isOdd = filteredArchiveExtras.length % 2 !== 0;
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.18 }}
+                  transition={{ duration: 0.55, delay: index * 0.06, ease: [0.19, 1, 0.22, 1] }}
+                  className={isLast && isOdd ? 'sm:col-span-2' : ''}
+                >
+                  <StoryCard item={item} onOpen={(it) => { setReader(it); setReaderChronIndex(-1); }} />
+                </motion.div>
+              );
+            })}
           </div>
-        </div>
+        </div>}
       </section>
 
       <motion.p
