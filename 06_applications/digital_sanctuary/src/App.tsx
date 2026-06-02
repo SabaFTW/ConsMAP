@@ -132,7 +132,6 @@ function App() {
           >
             <ClaimAnalyzer
               onBack={() => setState('home')}
-              onOpenLib={(path) => navigate('docs', path)}
             />
           </motion.div>
         )}

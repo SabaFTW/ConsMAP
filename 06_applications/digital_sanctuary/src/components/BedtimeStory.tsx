@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
-import { motion, useScroll } from 'framer-motion';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
 import { MouseTerminal } from './MouseTerminal';
 import { storyImageMap } from '../data/factoryVisuals';
@@ -423,29 +423,6 @@ const SectionSplash: React.FC<{ section: string }> = ({ section }) => {
   );
 };
 
-const BigSectionBanner: React.FC<{ section: string }> = ({ section }) => {
-  const tone = sectionTones[section] ?? sectionTones['Part I'];
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
-      className="py-8 md:py-12"
-    >
-      <motion.div
-        className="text-5xl md:text-7xl font-bold uppercase tracking-[0.06em] mb-3"
-        style={{ color: tone.text, fontFamily: "'Cinzel', serif", opacity: 0.88 }}
-        animate={{ opacity: [0.7, 0.9, 0.7] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        {section}
-      </motion.div>
-      <div className="h-px" style={{ background: `linear-gradient(to right, ${tone.text}66, transparent)`, maxWidth: '60%' }} />
-    </motion.div>
-  );
-};
-
 const galleryImages = [
   { src: `${TRILOGY_BASE}great_idea_gathering_valley.webp`, title: 'The Great Idea Gathering', section: 'Prelude' },
   { src: `${TRILOGY_BASE}pre_factory_creature_council.webp`, title: 'Creature Council', section: 'Prelude' },
@@ -532,45 +509,6 @@ const RelicCard: React.FC<{ relic: (typeof relics)[number] }> = ({ relic }) => (
     </div>
   </div>
 );
-
-const EventWindow: React.FC<{ item: ChronologyEntry }> = ({ item }) => {
-  const tone = sectionTones[item.section] ?? sectionTones['Part I'];
-  return (
-    <div className="hidden lg:flex w-full">
-      <div className="flex items-start gap-3 px-2 py-4 w-full">
-        {/* Number badge */}
-        <span
-          className="h-7 w-7 shrink-0 rounded-full border flex items-center justify-center font-mono text-[11px] mt-0.5"
-          style={{
-            color: tone.text,
-            borderColor: `${tone.border}`,
-            background: `radial-gradient(circle at 50% 30%, ${tone.glow}, rgba(8,12,8,0.9))`,
-            opacity: 0.72,
-          }}
-        >
-          {item.number}
-        </span>
-        <div className="min-w-0">
-          <div
-            className="inline-flex rounded-full px-2 py-0.5 text-[8px] font-mono uppercase tracking-[0.22em] mb-1.5"
-            style={{ color: tone.text, background: tone.chip, opacity: 0.75 }}
-          >
-            {item.section}
-          </div>
-          <div
-            className="text-[13px] font-medium leading-snug mb-1.5 break-words"
-            style={{ color: 'rgba(216,232,216,0.52)', fontFamily: "'Cinzel', serif" }}
-          >
-            {item.title}
-          </div>
-          <p className="text-[11px] leading-[1.65]" style={{ color: 'rgba(216,232,216,0.34)' }}>
-            {item.description}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const ChronologyCard: React.FC<{
   item: ChronologyEntry;

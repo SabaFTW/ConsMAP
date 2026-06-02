@@ -9,8 +9,6 @@ type ItemAction =
   | { type: 'docs'; docPath: string }
   | { type: 'frame'; url: string };
 
-const BASE = import.meta.env.BASE_URL;
-
 // ── Entry cards — "First time here" ──────────────────────────────────────────
 
 // Entry section is now rendered with a hardcoded split-card layout (see JSX below).

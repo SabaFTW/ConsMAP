@@ -5,7 +5,6 @@ import FloatingBack from './FloatingBack';
 
 interface ClaimAnalyzerProps {
   onBack: () => void;
-  onOpenLib?: (docPath: string) => void;
 }
 
 // Minimal port of the TTT Pattern Library
@@ -99,7 +98,7 @@ const ENGRAVED_QUOTES = [
 
 const BAPHOMET_BG = `${import.meta.env.BASE_URL}images/factory_trilogy/baphomet_choice_safety_companion.webp`;
 
-const ClaimAnalyzer: React.FC<ClaimAnalyzerProps> = ({ onBack, onOpenLib }) => {
+const ClaimAnalyzer: React.FC<ClaimAnalyzerProps> = ({ onBack }) => {
   const [claimText, setClaimText] = useState("");
   const [analyzed, setAnalyzed] = useState(false);
   const [matches, setMatches] = useState<any[]>([]);
