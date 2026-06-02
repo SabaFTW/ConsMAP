@@ -3,6 +3,7 @@ import { motion, useScroll } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
 import { MouseTerminal } from './MouseTerminal';
 import { storyImageMap } from '../data/factoryVisuals';
+import FloatingBack from './FloatingBack';
 
 interface BedtimeStoryProps {
   onBack: () => void;
@@ -886,6 +887,7 @@ const BedtimeStory: React.FC<BedtimeStoryProps> = ({ onBack }) => {
 
   return (
     <div className="max-w-5xl mx-auto py-10 md:py-14 px-5">
+      <FloatingBack onBack={onBack} />
       <motion.div
         aria-hidden="true"
         className="sticky top-0 z-30 mb-6 h-1 overflow-hidden rounded-full border"

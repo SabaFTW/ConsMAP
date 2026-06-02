@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import FloatingBack from './FloatingBack';
 
 interface AIQuickStartProps {
   onBack: () => void;
@@ -35,6 +36,7 @@ const AIQuickStart: React.FC<AIQuickStartProps> = ({ onBack }) => {
 
   return (
     <div className="max-w-2xl mx-auto py-10 md:py-14 px-5 relative">
+      <FloatingBack onBack={onBack} />
       <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}

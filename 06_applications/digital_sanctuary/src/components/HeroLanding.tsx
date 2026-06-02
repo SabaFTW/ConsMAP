@@ -198,7 +198,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
               transition={{ delay: 0.28, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => onNavigate('docs', '/START_HERE_FOR_HUMANS.md')}
+              onClick={() => onNavigate('docs', '/docs/examples/glossary.md')}
               className="flex-1 text-left rounded-xl border px-4 py-3"
               style={{ borderColor: 'rgba(216,232,216,0.14)', background: 'rgba(10,16,10,0.6)', transition: 'border-color 0.2s ease' }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(216,232,216,0.28)'; }}
@@ -214,7 +214,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
               transition={{ delay: 0.33, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => onNavigate('frame', `${BASE}rebis_landing_page/`)}
+              onClick={() => onNavigate('docs', '/docs/rebis_landing.md')}
               className="flex-1 text-left rounded-xl border px-4 py-3"
               style={{ borderColor: 'rgba(167,139,250,0.18)', background: 'rgba(10,10,16,0.6)', transition: 'border-color 0.2s ease' }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(167,139,250,0.35)'; }}

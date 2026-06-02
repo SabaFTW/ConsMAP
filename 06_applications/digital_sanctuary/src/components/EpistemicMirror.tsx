@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import FloatingBack from './FloatingBack';
 
 interface EpistemicMirrorProps {
   onBack: () => void;
@@ -263,6 +264,7 @@ const EpistemicMirror: React.FC<EpistemicMirrorProps> = ({ onBack }) => {
 
   return (
     <div className="max-w-2xl mx-auto py-10 md:py-14 px-5 relative">
+      <FloatingBack onBack={onBack} />
 
       {/* Back */}
       <div className="flex items-center gap-4 mb-8">

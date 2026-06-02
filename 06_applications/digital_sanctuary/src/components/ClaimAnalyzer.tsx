@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MarkdownReader from './MarkdownReader';
+import FloatingBack from './FloatingBack';
 
 interface ClaimAnalyzerProps {
   onBack: () => void;
@@ -179,6 +180,7 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
 
   return (
     <div className="w-full max-w-5xl mx-auto py-10 md:py-14 px-5 relative">
+      <FloatingBack onBack={onBack} />
       {/* Baphomet background — blended, atmospheric */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -275,9 +277,6 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-xs mb-3 leading-[1.65]" style={{ color: 'rgba(216,232,216,0.55)' }}>
-              Paste any claim, idea, or statement. You'll get: evidence type label · risk if wrong · structural patterns · what would disprove it.
-            </p>
             <textarea
               value={claimText}
               onChange={(e) => setClaimText(e.target.value)}
@@ -524,6 +523,17 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
           ))}
         </div>
       </motion.div>
+
+      {/* How it works — bottom note */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.0, duration: 0.8 }}
+        className="text-center mt-10 text-xs leading-[1.8]"
+        style={{ color: 'rgba(216,232,216,0.32)' }}
+      >
+        Paste any claim, idea, or statement. You'll get: evidence type label · risk if wrong · structural patterns · what would disprove it.
+      </motion.p>
       </div>
     </div>
   );

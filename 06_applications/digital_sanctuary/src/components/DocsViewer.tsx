@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Components } from 'react-markdown';
+import FloatingBack from './FloatingBack';
 
 // ── Markdown renderer ─────────────────────────────────────────────────────────
 
@@ -174,6 +175,7 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
 
   return (
     <div className="min-h-screen px-5 py-10 md:py-14">
+      <FloatingBack onBack={onBack} />
       <div className="max-w-6xl mx-auto">
 
         {/* ── Top bar ──────────────────────────────────────────────────────── */}
