@@ -63,7 +63,7 @@ const routeCards: Array<{
   },
   {
     label: 'AI Mode',
-    desc: 'Generate a structured evaluation prompt for any AI assistant. Paste and go.',
+    desc: 'Bicameral HUD — three-lane evidence view. Technical · Gate · Human Meaning. Static, offline, no runtime.',
     chip: 'OPERATOR',
     accent: '#6fcf85',
     glow: 'rgba(111,207,133,0.09)',

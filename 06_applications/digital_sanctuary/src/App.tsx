@@ -9,7 +9,7 @@ import BedtimeStory from './components/BedtimeStory';
 import SoulGlitch from './components/SoulGlitch';
 import ClaimAnalyzer from './components/ClaimAnalyzer';
 import DocsViewer from './components/DocsViewer';
-import AIQuickStart from './components/AIQuickStart';
+import BicameralHudPreview from './components/BicameralHudPreview';
 
 type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode' | 'frame';
 
@@ -158,7 +158,7 @@ function App() {
             transition={{ duration: 1.2 }}
             className="relative z-10 min-h-screen"
           >
-            <AIQuickStart onBack={() => setState('home')} />
+            <BicameralHudPreview onBack={() => setState('home')} />
           </motion.div>
         )}
 
