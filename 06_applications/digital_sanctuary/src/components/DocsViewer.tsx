@@ -118,26 +118,23 @@ const CATEGORY_ORDER: Category[] = ['entry', 'protocols', 'examples', 'research'
 
 interface DocsViewerProps {
   onBack: () => void;
+  initialDoc?: string;
 }
 
-const DocsViewer: React.FC<DocsViewerProps> = ({ onBack }) => {
-  const [selected, setSelected] = useState<DocLink>(DOCS.find(d => d.id === 'ex_claim_wild') ?? DOCS[0]);
+const DocsViewer: React.FC<DocsViewerProps> = ({ onBack, initialDoc }) => {
+  const [selected, setSelected] = useState<DocLink>(() => {
+    const target = initialDoc ? DOCS.find(d => d.path === initialDoc) : null;
+    return target ?? DOCS.find(d => d.id === 'ex_claim_wild') ?? DOCS[0];
+  });
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [copied, setCopied] = useState<boolean>(false);
-  const [openCategories, setOpenCategories] = useState<Set<Category>>(new Set(['entry', 'protocols', 'examples']));
-
-  useEffect(() => {
-    const hash = window.location.hash || '';
-    const match = hash.match(/doc=([^&]+)/);
-    if (!match) return;
-    const requestedPath = decodeURIComponent(match[1]);
-    const target = DOCS.find((d) => d.path === requestedPath);
-    if (target) {
-      setSelected(target);
-      setOpenCategories(prev => new Set([...prev, target.category]));
-    }
-  }, []);
+  const [openCategories, setOpenCategories] = useState<Set<Category>>(() => {
+    const base = new Set<Category>(['entry', 'protocols', 'examples']);
+    const target = initialDoc ? DOCS.find(d => d.path === initialDoc) : null;
+    if (target) base.add(target.category);
+    return base;
+  });
 
   const selectDoc = (doc: DocLink) => {
     setSelected(doc);

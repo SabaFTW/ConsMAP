@@ -46,9 +46,11 @@ const FramedView: React.FC<{ url: string; onBack: () => void }> = ({ url, onBack
 function App() {
   const [state, setState] = useState<AppState>('ritual');
   const [frameUrl, setFrameUrl] = useState('');
+  const [docPath, setDocPath] = useState('');
 
   const navigate = (view: AppState, meta?: string) => {
     if (view === 'docs' && meta) {
+      setDocPath(meta);
       window.location.hash = `doc=${encodeURIComponent(meta)}`;
     }
     if (view === 'frame' && meta) {
@@ -145,7 +147,7 @@ function App() {
             transition={{ duration: 1.2 }}
             className="relative z-10 min-h-screen"
           >
-            <DocsViewer onBack={() => setState('home')} />
+            <DocsViewer onBack={() => setState('home')} initialDoc={docPath} />
           </motion.div>
         )}
 
