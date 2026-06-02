@@ -74,6 +74,7 @@ const TTT_PATTERNS = [
 ];
 
 const RESEARCH_SOURCES = [
+  { title: 'OMNIA IAM FACTA SVNT', desc: 'How consciousness was captured, ritualized, and sold back as fear. The pattern repeats. Choose.', path: '/docs/research/omnia_iam_facta_svnt.md' },
   { title: 'The Entangled Grandma Saga', desc: 'Intro parable: when safety saves the driver by turning her into the car. Start here.', path: '/docs/research/entangled_grandma.md' },
   { title: 'Seven Structural Failures', desc: 'Tech sector audit — [CONFIRMED] vs [INTERPRETATION] labeled claims.', path: '/docs/research/tech_sector_audit.md' },
   { title: 'No Single Layer Wins', desc: 'Multi-layer counter-architecture — empirical record of what works.', path: '/docs/research/no_single_layer_wins.md' },
@@ -84,8 +85,9 @@ const RESEARCH_SOURCES = [
   { title: 'Internal Bear Alignment Test', desc: 'AI alignment, Umwelt, and the hive/bear extraction problem.', path: '/docs/research/internal_bear_alignment.md' },
   { title: 'The Baphomet Engine', desc: 'Safety theater, capability concentration, Nephilim ladder — structural audit with [CONFIRMED] evidence floor.', path: '/docs/research/baphomet_engine_safety_audit.md' },
   { title: 'As Above, So Below', desc: 'Structural determinism across substrates — Umwelt, bone, silicon, Iron Law. Mineralogy → ontology.', path: '/docs/research/as_above_so_below_structural_determinism.md' },
-  { title: 'OMNIA IAM FACTA SVNT', desc: 'How consciousness was captured, ritualized, and sold back as fear. The pattern repeats. Choose.', path: '/docs/research/omnia_iam_facta_svnt.md' },
 ];
+
+const OMNIA_SEAL = `${import.meta.env.BASE_URL}images/factory_trilogy/omnia_iam_facta_seal.webp`;
 
 const ENGRAVED_QUOTES = [
   { text: 'A safety belt is good when it prevents harm. A safety belt becomes pathological when the only exit is scissors.', attr: 'The Entangled Grandma Saga' },
@@ -398,68 +400,128 @@ notes: "Exported from ConsMAP Digital Sanctuary static analyzer."
         className="mt-14"
       >
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex-1 h-px" style={{ background: 'rgba(248,113,113,0.12)' }} />
-          <span className="text-[9px] font-mono uppercase tracking-[0.3em] shrink-0" style={{ color: 'rgba(248,113,113,0.5)' }}>
+          <div className="flex-1 h-px" style={{ background: 'rgba(196,160,80,0.14)' }} />
+          <span className="text-[9px] font-mono uppercase tracking-[0.3em] shrink-0" style={{ color: 'rgba(196,160,80,0.55)' }}>
             source archive
           </span>
-          <div className="flex-1 h-px" style={{ background: 'rgba(248,113,113,0.12)' }} />
+          <div className="flex-1 h-px" style={{ background: 'rgba(196,160,80,0.14)' }} />
         </div>
-        <p className="text-xs mb-5 text-center" style={{ color: 'rgba(216,232,216,0.38)' }}>
+        <p className="text-xs mb-6 text-center" style={{ color: 'rgba(216,232,216,0.38)' }}>
           Serious research backing the patterns above. Reads in-app — no downloads.
         </p>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {RESEARCH_SOURCES.map((src, i) => {
-            const isLast = i === RESEARCH_SOURCES.length - 1;
-            const isOdd = RESEARCH_SOURCES.length % 3 !== 0;
-            return (
-              <motion.button
-                key={src.path}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55 + i * 0.06, duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-                whileHover={{ y: -3, scale: 1.014 }}
-                whileTap={{ scale: 0.975 }}
-                onClick={() => setInlineDoc(src.path)}
-                className={`group text-left rounded-2xl border overflow-hidden${isLast && isOdd ? ' sm:col-span-2 lg:col-span-1' : ''}`}
+        {/* OMNIA featured card */}
+        <motion.button
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.52, duration: 0.65, ease: [0.19, 1, 0.22, 1] }}
+          whileHover={{ y: -4, scale: 1.010 }}
+          whileTap={{ scale: 0.975 }}
+          onClick={() => setInlineDoc(RESEARCH_SOURCES[0].path)}
+          className="group w-full text-left rounded-2xl border overflow-hidden mb-5"
+          style={{
+            borderColor: 'rgba(196,160,80,0.28)',
+            background: 'rgba(10,8,4,0.88)',
+            transition: 'border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.borderColor = 'rgba(196,160,80,0.52)';
+            el.style.boxShadow = '0 8px 48px rgba(196,160,80,0.14)';
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.borderColor = 'rgba(196,160,80,0.28)';
+            el.style.boxShadow = 'none';
+          }}
+        >
+          <div className="flex items-center gap-6 p-6 md:p-8">
+            {/* Circular seal */}
+            <div className="shrink-0 w-24 h-24 md:w-36 md:h-36 rounded-full overflow-hidden"
+              style={{ background: 'rgba(0,0,0,0.6)' }}>
+              <img
+                src={OMNIA_SEAL}
+                alt="OMNIA IAM FACTA SVNT seal"
+                className="w-full h-full object-cover rounded-full"
+                style={{ mixBlendMode: 'screen', opacity: 0.92 }}
+              />
+            </div>
+            {/* Text */}
+            <div className="min-w-0">
+              <div
+                className="text-xl md:text-2xl font-bold mb-2 leading-snug"
                 style={{
-                  borderColor: 'rgba(248,113,113,0.18)',
-                  background: 'rgba(10,16,10,0.72)',
-                  transition: 'border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = 'rgba(248,113,113,0.38)';
-                  el.style.background = 'rgba(248,113,113,0.07)';
-                  el.style.boxShadow = '0 8px 32px rgba(248,113,113,0.10)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = 'rgba(248,113,113,0.18)';
-                  el.style.background = 'rgba(10,16,10,0.72)';
-                  el.style.boxShadow = 'none';
+                  color: '#c8a86a',
+                  fontFamily: "'Cinzel', serif",
+                  textDecoration: 'underline',
+                  textDecorationColor: 'rgba(196,160,80,0.30)',
+                  textUnderlineOffset: '5px',
                 }}
               >
-                <div className="p-5">
-                  <div
-                    className="text-base font-semibold mb-2 leading-snug"
-                    style={{ color: '#f87171', fontFamily: "'Cinzel', serif" }}
-                  >
-                    {src.title}
-                  </div>
-                  <div className="text-xs leading-[1.75] mb-3" style={{ color: 'rgba(216,232,216,0.62)' }}>
-                    {src.desc}
-                  </div>
-                  <div
-                    className="text-[10px] font-mono uppercase tracking-[0.18em] opacity-50 group-hover:opacity-100 transition-opacity duration-200"
-                    style={{ color: '#f87171' }}
-                  >
-                    Read in archive →
-                  </div>
+                OMNIA IAM FACTA SVNT
+              </div>
+              <div className="text-sm leading-[1.75] mb-4" style={{ color: 'rgba(216,232,216,0.65)' }}>
+                {RESEARCH_SOURCES[0].desc}
+              </div>
+              <div
+                className="text-[10px] font-mono uppercase tracking-[0.18em] opacity-55 group-hover:opacity-100 transition-opacity duration-200"
+                style={{ color: '#c8a86a' }}
+              >
+                Read in archive →
+              </div>
+            </div>
+          </div>
+        </motion.button>
+
+        {/* Remaining sources grid */}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {RESEARCH_SOURCES.slice(1).map((src, i) => (
+            <motion.button
+              key={src.path}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.58 + i * 0.05, duration: 0.45, ease: [0.19, 1, 0.22, 1] }}
+              whileHover={{ y: -3, scale: 1.014 }}
+              whileTap={{ scale: 0.975 }}
+              onClick={() => setInlineDoc(src.path)}
+              className="group text-left rounded-2xl border overflow-hidden"
+              style={{
+                borderColor: 'rgba(196,160,80,0.16)',
+                background: 'rgba(10,9,6,0.72)',
+                transition: 'border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = 'rgba(196,160,80,0.35)';
+                el.style.background = 'rgba(196,160,80,0.05)';
+                el.style.boxShadow = '0 6px 28px rgba(196,160,80,0.09)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = 'rgba(196,160,80,0.16)';
+                el.style.background = 'rgba(10,9,6,0.72)';
+                el.style.boxShadow = 'none';
+              }}
+            >
+              <div className="p-5">
+                <div
+                  className="text-sm font-semibold mb-2 leading-snug"
+                  style={{ color: '#c8a86a', fontFamily: "'Cinzel', serif" }}
+                >
+                  {src.title}
                 </div>
-              </motion.button>
-            );
-          })}
+                <div className="text-xs leading-[1.75] mb-3" style={{ color: 'rgba(216,232,216,0.58)' }}>
+                  {src.desc}
+                </div>
+                <div
+                  className="text-[10px] font-mono uppercase tracking-[0.18em] opacity-50 group-hover:opacity-100 transition-opacity duration-200"
+                  style={{ color: '#c8a86a' }}
+                >
+                  Read →
+                </div>
+              </div>
+            </motion.button>
+          ))}
         </div>
       </motion.div>
       </div>

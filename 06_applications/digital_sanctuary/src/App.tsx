@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConstellationField from './components/ConstellationField';
+import DeepBackground from './components/DeepBackground';
 import WelcomeRitual from './components/WelcomeRitual';
 import HeroLanding from './components/HeroLanding';
 import EpistemicMirror from './components/EpistemicMirror';
@@ -65,6 +66,8 @@ function App() {
         fontFamily: "'Inter', system-ui, sans-serif",
       }}
     >
+      {/* Depth blobs — GPU-composited, pure CSS animation */}
+      <DeepBackground />
       {/* Constellation — always present, very quiet */}
       <ConstellationField />
 
@@ -127,7 +130,10 @@ function App() {
             transition={{ duration: 1.2 }}
             className="relative z-10 min-h-screen"
           >
-            <ClaimAnalyzer onBack={() => setState('home')} />
+            <ClaimAnalyzer
+              onBack={() => setState('home')}
+              onOpenLib={(path) => navigate('docs', path)}
+            />
           </motion.div>
         )}
 

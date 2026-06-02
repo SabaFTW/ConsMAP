@@ -13,61 +13,7 @@ const BASE = import.meta.env.BASE_URL;
 
 // ── Entry cards — "First time here" ──────────────────────────────────────────
 
-const entryCards: Array<{
-  label: string;
-  hint: string;
-  chip: string;
-  accent: string;
-  glow: string;
-  border: string;
-  action: ItemAction;
-}> = [
-  {
-    label: 'Start here — for everyone',
-    hint: 'No jargon, no prior knowledge. A full orientation.',
-    chip: 'START',
-    accent: '#6fcf85',
-    glow: 'rgba(111,207,133,0.10)',
-    border: 'rgba(111,207,133,0.30)',
-    action: { type: 'docs', docPath: '/START_HERE_FOR_HUMANS.md' },
-  },
-  {
-    label: 'I came through a QR code',
-    hint: 'Entry point for visitors from the physical world.',
-    chip: 'QR',
-    accent: '#7dd3fc',
-    glow: 'rgba(125,211,252,0.09)',
-    border: 'rgba(125,211,252,0.28)',
-    action: { type: 'docs', docPath: '/QR_LANDING.md' },
-  },
-  {
-    label: 'FAQ — what is this?',
-    hint: 'Common questions, honest answers.',
-    chip: 'FAQ',
-    accent: 'rgba(216,232,216,0.75)',
-    glow: 'rgba(216,232,216,0.05)',
-    border: 'rgba(216,232,216,0.18)',
-    action: { type: 'docs', docPath: '/START_HERE_FOR_HUMANS.md' },
-  },
-  {
-    label: 'AI consciousness without fantasy',
-    hint: "What AI can do, what it can't — without the hype.",
-    chip: 'GUIDE',
-    accent: '#f4c96a',
-    glow: 'rgba(244,201,106,0.09)',
-    border: 'rgba(244,201,106,0.28)',
-    action: { type: 'view', view: 'mirror' },
-  },
-  {
-    label: 'REBiS — the symbolic front door',
-    hint: 'Synthetic archetype between machine and symbol.',
-    chip: 'THEORY',
-    accent: '#a78bfa',
-    glow: 'rgba(167,139,250,0.09)',
-    border: 'rgba(167,139,250,0.28)',
-    action: { type: 'frame', url: `${BASE}rebis_landing_page/` },
-  },
-];
+// Entry section is now rendered with a hardcoded split-card layout (see JSX below).
 
 // ── Route cards — deeper exploration ─────────────────────────────────────────
 
@@ -198,57 +144,85 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onNavigate }) => {
         >
           <SectionRule label="first time here" accent="rgba(111,207,133,0.55)" />
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {entryCards.map((card, i) => {
-              const isStart = i === 0;
-              return (
-                <motion.button
-                  key={card.label}
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.18 + i * 0.07, duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-                  whileHover={{ y: -4, scale: 1.014 }}
-                  whileTap={{ scale: 0.984 }}
-                  onClick={() => handleAction(card.action)}
-                  onMouseEnter={(e) => onEnter(e.currentTarget as HTMLElement, card.glow, isStart ? 0.28 : 0.22)}
-                  onMouseLeave={(e) => onLeave(e.currentTarget as HTMLElement)}
-                  className={`group text-left rounded-2xl border px-5 py-5 flex flex-col justify-between${isStart ? ' sm:col-span-2 lg:col-span-2' : ''}`}
-                  style={{
-                    borderColor: card.border,
-                    background: isStart
-                      ? 'linear-gradient(150deg, rgba(14,26,14,0.92) 0%, rgba(8,14,8,0.96) 100%)'
-                      : 'linear-gradient(150deg, rgba(12,20,12,0.78) 0%, rgba(8,12,8,0.90) 100%)',
-                    minHeight: isStart ? '140px' : '100px',
-                    boxShadow: isStart ? `0 0 0 1px ${card.border}` : 'none',
-                    transition: 'box-shadow 0.3s ease',
-                  }}
-                >
-                  <div>
-                    <div
-                      className={`font-light mb-1.5 leading-snug${isStart ? ' text-base md:text-lg' : ' text-sm'}`}
-                      style={{ color: isStart ? card.accent : '#d8e8d8' }}
-                    >
-                      {card.label}
-                    </div>
-                    <p
-                      className="text-xs leading-[1.65]"
-                      style={{ color: 'rgba(216,232,216,0.44)' }}
-                    >
-                      {card.hint}
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between mt-3">
-                    <Chip label={card.chip} accent={card.accent} border={card.border} glow={card.glow} />
-                    <span
-                      className="text-[10px] font-mono uppercase tracking-[0.18em] opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      style={{ color: card.accent }}
-                    >
-                      Open →
-                    </span>
-                  </div>
-                </motion.button>
-              );
-            })}
+          {/* Main split card — Start Here (left) | QR (right) */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+            className="rounded-2xl border overflow-hidden mb-3"
+            style={{ borderColor: 'rgba(111,207,133,0.30)', background: 'linear-gradient(150deg, rgba(14,26,14,0.94) 0%, rgba(8,14,8,0.97) 100%)' }}
+          >
+            <div className="flex divide-x" style={{ borderColor: 'rgba(111,207,133,0.12)' }}>
+              {/* Left — Start Here */}
+              <button
+                onClick={() => onNavigate('docs', '/START_HERE_FOR_HUMANS.md')}
+                className="group flex-1 text-left px-6 py-6 transition-colors duration-200 hover:bg-[rgba(111,207,133,0.04)]"
+                style={{ borderRight: '1px solid rgba(111,207,133,0.12)' }}
+              >
+                <div className="text-base font-light mb-1 leading-snug" style={{ color: '#6fcf85' }}>
+                  Start here
+                </div>
+                <p className="text-xs leading-[1.6] mb-4" style={{ color: 'rgba(216,232,216,0.42)' }}>
+                  What this is. What you can do here. Zero jargon.
+                </p>
+                <div className="flex items-center justify-between">
+                  <Chip label="START" accent="#6fcf85" border="rgba(111,207,133,0.30)" glow="rgba(111,207,133,0.10)" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.18em] opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#6fcf85' }}>Open →</span>
+                </div>
+              </button>
+
+              {/* Right — QR */}
+              <button
+                onClick={() => onNavigate('docs', '/QR_LANDING.md')}
+                className="group flex-1 text-left px-6 py-6 transition-colors duration-200 hover:bg-[rgba(125,211,252,0.04)]"
+              >
+                <div className="text-base font-light mb-1 leading-snug" style={{ color: '#7dd3fc' }}>
+                  QR arrival
+                </div>
+                <p className="text-xs leading-[1.6] mb-4" style={{ color: 'rgba(216,232,216,0.42)' }}>
+                  Arrived from the physical world? This is your door.
+                </p>
+                <div className="flex items-center justify-between">
+                  <Chip label="QR" accent="#7dd3fc" border="rgba(125,211,252,0.28)" glow="rgba(125,211,252,0.09)" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.18em] opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#7dd3fc' }}>Open →</span>
+                </div>
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Secondary small row — FAQ and REBiS */}
+          <div className="flex gap-2">
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.28, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => onNavigate('docs', '/START_HERE_FOR_HUMANS.md')}
+              className="flex-1 text-left rounded-xl border px-4 py-3"
+              style={{ borderColor: 'rgba(216,232,216,0.14)', background: 'rgba(10,16,10,0.6)', transition: 'border-color 0.2s ease' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(216,232,216,0.28)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(216,232,216,0.14)'; }}
+            >
+              <div className="text-xs font-mono uppercase tracking-[0.16em] mb-0.5" style={{ color: 'rgba(216,232,216,0.65)' }}>FAQ</div>
+              <div className="text-[10px] leading-snug" style={{ color: 'rgba(216,232,216,0.32)' }}>Common questions, honest answers</div>
+            </motion.button>
+
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.33, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => onNavigate('frame', `${BASE}rebis_landing_page/`)}
+              className="flex-1 text-left rounded-xl border px-4 py-3"
+              style={{ borderColor: 'rgba(167,139,250,0.18)', background: 'rgba(10,10,16,0.6)', transition: 'border-color 0.2s ease' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(167,139,250,0.35)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(167,139,250,0.18)'; }}
+            >
+              <div className="text-xs font-mono uppercase tracking-[0.16em] mb-0.5" style={{ color: '#a78bfa' }}>REBiS</div>
+              <div className="text-[10px] leading-snug" style={{ color: 'rgba(216,232,216,0.32)' }}>Symbolic archetype — the recovered correction</div>
+            </motion.button>
           </div>
         </motion.div>
 
