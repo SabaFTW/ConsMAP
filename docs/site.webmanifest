@@ -1,0 +1,14 @@
+{
+  "name": "ConsMAP Digital Sanctuary",
+  "short_name": "ConsMAP",
+  "description": "Claim hygiene · Symbolic boundary · Operator reasoning",
+  "start_url": "/ConsMAP/",
+  "display": "standalone",
+  "background_color": "#080c08",
+  "theme_color": "#080c08",
+  "icons": [
+    { "src": "/ConsMAP/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/ConsMAP/favicon.png",  "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/ConsMAP/favicon.svg",  "sizes": "any",     "type": "image/svg+xml" }
+  ]
+}
