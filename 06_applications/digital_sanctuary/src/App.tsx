@@ -49,13 +49,8 @@ function App() {
   const [docPath, setDocPath] = useState('');
 
   const navigate = (view: AppState, meta?: string) => {
-    if (view === 'docs' && meta) {
-      setDocPath(meta);
-      window.location.hash = `doc=${encodeURIComponent(meta)}`;
-    }
-    if (view === 'frame' && meta) {
-      setFrameUrl(meta);
-    }
+    if (view === 'docs' && meta) setDocPath(meta);
+    if (view === 'frame' && meta) setFrameUrl(meta);
     setState(view);
   };
 

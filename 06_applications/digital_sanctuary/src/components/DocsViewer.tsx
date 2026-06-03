@@ -136,6 +136,16 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack, initialDoc }) => {
     return base;
   });
 
+  // Handles the case where AnimatePresence mode="wait" defers mount until after
+  // the exit animation, so initialDoc arrives after the lazy initializer ran.
+  useEffect(() => {
+    if (!initialDoc) return;
+    const target = DOCS.find(d => d.path === initialDoc);
+    if (!target || target.id === selected.id) return;
+    setSelected(target);
+    setOpenCategories(prev => new Set([...prev, target.category]));
+  }, [initialDoc]);
+
   const selectDoc = (doc: DocLink) => {
     setSelected(doc);
     setOpenCategories(prev => new Set([...prev, doc.category]));
