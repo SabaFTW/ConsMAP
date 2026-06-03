@@ -1,0 +1,9 @@
+[build]
+  base = "06_applications/digital_sanctuary"
+  command = "npm ci && VITE_BASE=/ npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
