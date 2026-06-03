@@ -36,6 +36,9 @@ jobs:
         working-directory: ./06_applications/digital_sanctuary
         run: npm run build
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
