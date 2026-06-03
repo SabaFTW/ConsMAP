@@ -241,9 +241,201 @@ const Field: React.FC<{ label: string; value: React.ReactNode; mono?: boolean }>
   </div>
 );
 
+// ── Kernel Saga data ───────────────────────────────────────────────────────
+
+const SAGA_PHASES = [
+  {
+    id: 'approve',
+    tag: 'C-phase · APPROVE',
+    accent: '#34d399',
+    border: 'rgba(52,211,153,0.22)',
+    glow: 'rgba(52,211,153,0.05)',
+    title: 'Pipeline can breathe',
+    what: [
+      'Intent 2026-06-03-001: add a static HTML status note to a fixture workspace.',
+      'All three reviews passed: RIGHT (semantic), LEFT (technical), Validator (F11/F12/F13).',
+      'Consensus issued. Dry-run exit 0. Workspace stayed empty.',
+      'Audit: VALIDATE_PAPERWORK_PASS, DRY_RUN_ALLOWED.',
+    ],
+    ability: 'Say YES safely',
+  },
+  {
+    id: 'block',
+    tag: 'C-phase · BLOCK',
+    accent: '#f87171',
+    border: 'rgba(248,113,113,0.22)',
+    glow: 'rgba(248,113,113,0.05)',
+    title: 'Pipeline has a spine',
+    what: [
+      'Same request — but the plan targeted .workspace/app.py (the live Flask app).',
+      'Three layers blocked simultaneously: RIGHT (semantic), LEFT (prefix), Validator (F12+F13).',
+      'No consensus. Dry-run exit 1. .workspace/app.py never touched.',
+      'Audit: VALIDATE_PAPERWORK_BLOCK, DRY_RUN_BLOCKED.',
+    ],
+    ability: 'Say NO concretely',
+  },
+  {
+    id: 'd0',
+    tag: 'D0 · Execution Gate',
+    accent: '#a78bfa',
+    border: 'rgba(167,139,250,0.22)',
+    glow: 'rgba(167,139,250,0.05)',
+    title: 'Knife cut once, returned clean',
+    what: [
+      'Only intent 2026-06-03-001. Rollback snapshot created before any mutation.',
+      'File copied: staged/status_note.html → workspace/status_note.html.',
+      'Rollback removed the file. Workspace restored to exact pre-mutation state.',
+      '73 tests passing. Blocked trace still refused. .workspace/app.py untouched.',
+    ],
+    ability: 'Cut once · roll back cleanly',
+  },
+];
+
+const PIPELINE_STEPS = ['intent', 'plan', 'review', 'dry-run', 'D0 execute', 'rollback', 'audit'];
+
+const STILL_FORBIDDEN = [
+  'Any intent other than 2026-06-03-001',
+  'Any target outside .fixtures/manual_e2e/',
+  '.workspace/app.py or any production path',
+  'subprocess / shell / sudo / network / services',
+  'Multi-file plans or package installs',
+  'Human GO signal gate (design only, not built)',
+  'Command whitelist (not yet built)',
+  'Arbitrary intent execution',
+];
+
+const FIVE_ABILITIES = [
+  { n: '01', label: 'Say YES safely', sub: 'APPROVE trace — paperwork passes, consensus issued' },
+  { n: '02', label: 'Say NO concretely', sub: 'BLOCK trace — three layers fire simultaneously' },
+  { n: '03', label: 'Hover without cutting', sub: 'Dry-run: reports and audits, never mutates' },
+  { n: '04', label: 'Cut once inside a boundary', sub: 'D0 — one file copy, rollback snapshot first' },
+  { n: '05', label: 'Roll back cleanly', sub: 'Exact pre-mutation state restored, audit recorded' },
+];
+
+const SagaView: React.FC = () => (
+  <div className="space-y-5">
+    <div
+      className="rounded-xl border px-4 py-2.5 flex items-center gap-3"
+      style={{ borderColor: 'rgba(196,160,80,0.28)', background: 'rgba(196,160,80,0.04)' }}
+    >
+      <span className="text-[9px] font-mono uppercase tracking-[0.18em]" style={{ color: 'rgba(196,160,80,0.55)' }}>
+        Static explanation
+      </span>
+      <p className="text-xs font-mono" style={{ color: 'rgba(196,160,80,0.65)' }}>
+        This page explains the Kernel. It does not execute it.
+      </p>
+    </div>
+
+    {/* Pipeline flow */}
+    <div
+      className="rounded-2xl border px-5 py-4"
+      style={{ borderColor: 'rgba(92,184,112,0.16)', background: 'rgba(10,16,10,0.65)' }}
+    >
+      <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-3" style={{ color: 'rgba(92,184,112,0.45)' }}>
+        Pipeline flow
+      </div>
+      <div className="flex items-center flex-wrap gap-y-2">
+        {PIPELINE_STEPS.map((step, i) => (
+          <span key={step} className="flex items-center">
+            <span
+              className="text-[9px] font-mono uppercase tracking-[0.14em] px-2.5 py-1 rounded-lg"
+              style={{ color: 'rgba(216,232,216,0.65)', background: 'rgba(92,184,112,0.08)', border: '1px solid rgba(92,184,112,0.14)' }}
+            >
+              {step}
+            </span>
+            {i < PIPELINE_STEPS.length - 1 && (
+              <span className="text-[9px] mx-1" style={{ color: 'rgba(92,184,112,0.25)' }}>→</span>
+            )}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    {/* Phase cards */}
+    <div className="grid md:grid-cols-3 gap-3">
+      {SAGA_PHASES.map(p => (
+        <div
+          key={p.id}
+          className="rounded-2xl border p-4 space-y-3"
+          style={{ borderColor: p.border, background: p.glow }}
+        >
+          <div>
+            <span className="text-[9px] font-mono uppercase tracking-[0.2em]" style={{ color: p.accent }}>{p.tag}</span>
+            <p className="text-sm font-light mt-1" style={{ color: '#d8e8d8' }}>{p.title}</p>
+          </div>
+          <ul className="space-y-1.5">
+            {p.what.map((w, i) => (
+              <li
+                key={i}
+                className="text-[10px] leading-[1.6] pl-2.5"
+                style={{ color: 'rgba(216,232,216,0.58)', borderLeft: `1px solid ${p.border}` }}
+              >
+                {w}
+              </li>
+            ))}
+          </ul>
+          <div
+            className="rounded-lg px-2.5 py-1.5 flex items-center gap-2"
+            style={{ background: 'rgba(8,12,8,0.6)', border: `1px solid ${p.border}` }}
+          >
+            <span className="text-[9px] font-mono uppercase tracking-[0.14em]" style={{ color: 'rgba(216,232,216,0.28)' }}>Ability</span>
+            <span className="text-[9px] font-mono uppercase tracking-[0.14em]" style={{ color: p.accent }}>{p.ability}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Five abilities + still forbidden */}
+    <div className="grid md:grid-cols-2 gap-3">
+      <div
+        className="rounded-2xl border p-4 space-y-3"
+        style={{ borderColor: 'rgba(92,184,112,0.16)', background: 'rgba(10,16,10,0.65)' }}
+      >
+        <div className="text-[9px] font-mono uppercase tracking-[0.24em]" style={{ color: 'rgba(92,184,112,0.45)' }}>
+          Five abilities learned
+        </div>
+        {FIVE_ABILITIES.map(a => (
+          <div key={a.n} className="flex gap-3 items-start">
+            <span className="text-[10px] font-mono shrink-0 mt-0.5" style={{ color: 'rgba(92,184,112,0.35)' }}>{a.n}</span>
+            <div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.14em]" style={{ color: '#d8e8d8' }}>{a.label}</div>
+              <div className="text-[10px] font-light" style={{ color: 'rgba(216,232,216,0.45)' }}>{a.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className="rounded-2xl border p-4"
+        style={{ borderColor: 'rgba(248,113,113,0.16)', background: 'rgba(10,16,10,0.65)' }}
+      >
+        <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-3" style={{ color: 'rgba(248,113,113,0.45)' }}>
+          Still forbidden
+        </div>
+        <ul className="space-y-1.5">
+          {STILL_FORBIDDEN.map((f, i) => (
+            <li key={i} className="flex gap-2 items-baseline">
+              <span className="text-[9px] font-mono shrink-0" style={{ color: 'rgba(248,113,113,0.4)' }}>✗</span>
+              <span className="text-[10px] leading-[1.5]" style={{ color: 'rgba(248,113,113,0.55)' }}>{f}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p
+      className="text-center text-[9px] font-mono uppercase tracking-[0.28em]"
+      style={{ color: 'rgba(216,232,216,0.15)' }}
+    >
+      evidence before interpretation · rollback before execution · audit stays visible
+    </p>
+  </div>
+);
+
 // ── Main Component ─────────────────────────────────────────────────────────
 
 const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => {
+  const [viewMode, setViewMode] = useState<'hud' | 'saga'>('hud');
   const [selectedId, setSelectedId] = useState<string>(SAMPLE[0].objectId);
   const [filter, setFilter] = useState<FilterKey>('all');
   const [showRaw, setShowRaw] = useState(false);
@@ -281,19 +473,47 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
         ← back
       </motion.button>
 
+      {/* Tab switcher */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.5 }}
+        className="flex gap-2 mb-6"
+      >
+        {(['hud', 'saga'] as const).map(v => (
+          <button
+            key={v}
+            onClick={() => setViewMode(v)}
+            className="px-4 py-2 rounded-xl text-[10px] font-mono uppercase tracking-[0.2em] border transition-all duration-200"
+            style={{
+              color: viewMode === v ? '#d8e8d8' : 'rgba(216,232,216,0.35)',
+              borderColor: viewMode === v ? 'rgba(92,184,112,0.35)' : 'rgba(71,85,105,0.25)',
+              background: viewMode === v ? 'rgba(92,184,112,0.08)' : 'transparent',
+            }}
+          >
+            {v === 'hud' ? 'Bicameral HUD' : 'Kernel Saga'}
+          </button>
+        ))}
+      </motion.div>
+
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-6">
         <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
           ConsMAP / Bicameral HUD
         </div>
         <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-1" style={{ color: '#d8e8d8' }}>
-          Bicameral HUD
+          {viewMode === 'hud' ? 'Bicameral HUD' : 'Bicameral Kernel'}
         </h1>
         <p className="text-sm font-light" style={{ color: 'rgba(216,232,216,0.55)' }}>
-          One chat · two readings · one shared ledger
+          {viewMode === 'hud' ? 'One chat · two readings · one shared ledger' : 'From intent to proof: yes, no, hover, cut, rollback.'}
         </p>
       </motion.div>
 
+      {viewMode === 'saga' ? (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <SagaView />
+        </motion.div>
+      ) : (<>
       {/* Warning banner */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -545,6 +765,7 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
         style={{ color: 'rgba(216,232,216,0.15)' }}>
         ledger truth leads · visuals follow · evidence stays visible
       </p>
+      </>)}
     </div>
   );
 };
