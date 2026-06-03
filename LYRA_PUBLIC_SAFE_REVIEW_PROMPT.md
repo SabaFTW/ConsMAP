@@ -1,6 +1,6 @@
-# QWEN PUBLIC-SAFE REVIEW PROMPT
+# LYRA PUBLIC-SAFE REVIEW PROMPT
 
-**Purpose:** a ready-to-send prompt for a Qwen agent when the time comes.
+**Purpose:** a ready-to-send prompt for a Lyra agent when the time comes.
 **Use case:** public-release audit and scaffold review for the existing REBiS / ConsMAP skeleton.
 
 ---
@@ -10,7 +10,7 @@
 ```markdown
 MISSION: REBiS / ConsMAP PUBLIC-SAFE REVIEW AND SCAFFOLD PASS
 
-Agent: Qwen local terminal instance  
+Agent: Lyra local terminal instance  
 Target project:  
 `/home/saba/VES/ACTIVE_PROJECTS/ZavestMAP/ConsMAP_Proposal/`
 Last updated: 2026-04-26 (significant session — see WORKSTATE_2026-04-26_REBIS_CHECKPOINT.md)
