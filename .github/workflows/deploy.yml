@@ -3,19 +3,19 @@ name: Deploy Sanctuary to GitHub Pages
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,21 +36,23 @@ jobs:
         working-directory: ./06_applications/digital_sanctuary
         run: npm run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Sync app into docs/
+        run: |
+          cp 06_applications/digital_sanctuary/dist/index.html docs/index.html
+          rm -rf docs/assets
+          cp -r 06_applications/digital_sanctuary/dist/assets docs/assets
+          cp -r 06_applications/digital_sanctuary/dist/forge_faq/. docs/forge_faq/
+          mkdir -p docs/saga_map
+          cp -r 06_applications/saga_map/. docs/saga_map/
+          for f in favicon.png favicon.svg icon-192.png icons.svg site.webmanifest; do
+            [ -f "06_applications/digital_sanctuary/dist/$f" ] && cp "06_applications/digital_sanctuary/dist/$f" "docs/$f" || true
+          done
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './06_applications/digital_sanctuary/dist'
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit and push docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff --staged --quiet && echo "No changes to docs, skipping commit." && exit 0
+          git commit -m "ci: update docs build [skip ci]"
+          git push
