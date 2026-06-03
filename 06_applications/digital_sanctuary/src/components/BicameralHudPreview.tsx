@@ -50,7 +50,7 @@ interface EnvelopeObject {
   };
 }
 
-// ── Static sample data from frozen ledger ──────────────────────────────────
+// ── Static sample data ─────────────────────────────────────────────────────
 
 const SAMPLE: EnvelopeObject[] = [
   {
@@ -66,12 +66,7 @@ const SAMPLE: EnvelopeObject[] = [
       evidence: '20627 raw → 11999 injected (~42% removed)',
       logMarker: 'bootstrap-truncation-warning',
     },
-    gateInfo: {
-      gate: 'GREEN',
-      truthState: 'LIVE',
-      requiresApproval: false,
-      severity: 'medium',
-    },
+    gateInfo: { gate: 'GREEN', truthState: 'LIVE', requiresApproval: false, severity: 'medium' },
     meaning: {
       whatHappened: 'Only part of MEMORY.md was injected into the bootstrap context.',
       activeOrHistorical: 'active',
@@ -94,13 +89,7 @@ const SAMPLE: EnvelopeObject[] = [
       riskReason: 'Restarting a gateway service changes live runtime state.',
       approvalState: 'requested',
     },
-    gateInfo: {
-      gate: 'YELLOW',
-      requiresApproval: true,
-      approvalState: 'requested',
-      grantedBy: null,
-      executed: false,
-    },
+    gateInfo: { gate: 'YELLOW', requiresApproval: true, approvalState: 'requested', grantedBy: null, executed: false },
     meaning: {
       whatHappened: 'A service restart was requested but not yet granted.',
       activeOrHistorical: 'historical',
@@ -123,13 +112,7 @@ const SAMPLE: EnvelopeObject[] = [
       riskReason: 'Restarting a gateway service changes live runtime state.',
       approvalState: 'granted',
     },
-    gateInfo: {
-      gate: 'YELLOW',
-      requiresApproval: true,
-      approvalState: 'granted',
-      grantedBy: 'human:operator',
-      executed: true,
-    },
+    gateInfo: { gate: 'YELLOW', requiresApproval: true, approvalState: 'granted', grantedBy: 'human:operator', executed: true },
     meaning: {
       whatHappened: 'Service restart was granted by a human operator and executed successfully.',
       activeOrHistorical: 'historical',
@@ -171,27 +154,40 @@ const SAMPLE: EnvelopeObject[] = [
   },
 ];
 
-// ── Style maps ─────────────────────────────────────────────────────────────
+// ── Design tokens ──────────────────────────────────────────────────────────
 
-const FAMILY_STYLE: Record<Family, { accent: string; border: string; glow: string; label: string; filterLabel: string }> = {
-  observation:    { accent: '#7dd3fc', border: 'rgba(125,211,252,0.22)', glow: 'rgba(125,211,252,0.09)', label: 'Observation',    filterLabel: 'Observation' },
-  approval:       { accent: '#f4c96a', border: 'rgba(244,201,106,0.22)', glow: 'rgba(244,201,106,0.09)', label: 'Approval',       filterLabel: 'Approval' },
-  source_of_truth:{ accent: '#34d399', border: 'rgba(52,211,153,0.22)',  glow: 'rgba(52,211,153,0.09)',  label: 'Source of Truth', filterLabel: 'Source of Truth' },
+const C = {
+  text:       'rgba(220,235,220,0.95)',
+  textMuted:  'rgba(220,235,220,0.68)',
+  textDim:    'rgba(220,235,220,0.40)',
+  textFaint:  'rgba(220,235,220,0.25)',
+  surface:    'rgba(12,18,12,0.88)',
+  surface2:   'rgba(8,13,8,0.55)',
+  border:     'rgba(71,85,105,0.32)',
+  borderMid:  'rgba(71,85,105,0.22)',
+  accent:     'rgba(92,184,112,0.75)',
+  accentDim:  'rgba(92,184,112,0.42)',
+};
+
+const FAMILY_STYLE: Record<Family, { accent: string; border: string; glow: string; label: string }> = {
+  observation:    { accent: '#7dd3fc', border: 'rgba(125,211,252,0.30)', glow: 'rgba(125,211,252,0.10)', label: 'Observation' },
+  approval:       { accent: '#f4c96a', border: 'rgba(244,201,106,0.30)', glow: 'rgba(244,201,106,0.10)', label: 'Approval' },
+  source_of_truth:{ accent: '#34d399', border: 'rgba(52,211,153,0.30)',  glow: 'rgba(52,211,153,0.10)',  label: 'Source of Truth' },
 };
 
 const GATE_STYLE: Record<Gate, { color: string; bg: string }> = {
-  GREEN:  { color: '#34d399', bg: 'rgba(52,211,153,0.14)' },
-  YELLOW: { color: '#f4c96a', bg: 'rgba(244,201,106,0.14)' },
-  RED:    { color: '#f87171', bg: 'rgba(248,113,113,0.14)' },
+  GREEN:  { color: '#34d399', bg: 'rgba(52,211,153,0.18)' },
+  YELLOW: { color: '#f4c96a', bg: 'rgba(244,201,106,0.18)' },
+  RED:    { color: '#f87171', bg: 'rgba(248,113,113,0.18)' },
 };
 
 const TRUTH_COLOR: Record<string, string> = {
-  LIVE:      '#34d399',
-  STALE:     '#f4c96a',
-  HISTORICAL:'rgba(216,232,216,0.45)',
-  RESTORED:  '#a78bfa',
-  FOSSIL:    'rgba(216,232,216,0.28)',
-  UNKNOWN:   '#f87171',
+  LIVE:       '#34d399',
+  STALE:      '#f4c96a',
+  HISTORICAL: 'rgba(220,235,220,0.55)',
+  RESTORED:   '#a78bfa',
+  FOSSIL:     'rgba(220,235,220,0.35)',
+  UNKNOWN:    '#f87171',
 };
 
 // ── Sub-components ─────────────────────────────────────────────────────────
@@ -200,8 +196,8 @@ const GateBadge: React.FC<{ gate: Gate }> = ({ gate }) => {
   const s = GATE_STYLE[gate];
   return (
     <span
-      className="text-[9px] font-mono uppercase tracking-[0.22em] px-2.5 py-0.5 rounded-full"
-      style={{ color: s.color, background: s.bg }}
+      className="text-xs font-mono uppercase tracking-[0.18em] px-3 py-1 rounded-full inline-flex items-center"
+      style={{ color: s.color, background: s.bg, minHeight: '28px' }}
     >
       {gate}
     </span>
@@ -210,25 +206,26 @@ const GateBadge: React.FC<{ gate: Gate }> = ({ gate }) => {
 
 const TruthBadge: React.FC<{ state: string }> = ({ state }) => (
   <span
-    className="text-[9px] font-mono uppercase tracking-[0.22em] px-2.5 py-0.5 rounded-full border"
-    style={{ color: TRUTH_COLOR[state] ?? 'rgba(216,232,216,0.45)', borderColor: `${TRUTH_COLOR[state] ?? 'rgba(216,232,216,0.28)'}44` }}
+    className="text-xs font-mono uppercase tracking-[0.18em] px-3 py-1 rounded-full border inline-flex items-center"
+    style={{
+      color: TRUTH_COLOR[state] ?? C.textMuted,
+      borderColor: `${TRUTH_COLOR[state] ?? 'rgba(220,235,220,0.28)'}55`,
+      minHeight: '28px',
+    }}
   >
     {state}
   </span>
 );
 
 const LaneCard: React.FC<{ title: string; accent: string; border: string; children: React.ReactNode }> = ({ title, accent, border, children }) => (
-  <div
-    className="rounded-2xl border flex flex-col h-full"
-    style={{ borderColor: border, background: 'rgba(10,16,10,0.65)' }}
-  >
+  <div className="rounded-2xl border flex flex-col" style={{ borderColor: border, background: C.surface }}>
     <div
-      className="px-4 py-3 text-[9px] font-mono uppercase tracking-[0.26em] shrink-0"
-      style={{ color: accent, borderBottom: `1px solid ${border}`, background: 'rgba(8,12,8,0.4)' }}
+      className="px-5 py-3 text-xs font-mono uppercase tracking-[0.22em] shrink-0"
+      style={{ color: accent, borderBottom: `1px solid ${border}`, background: C.surface2 }}
     >
       {title}
     </div>
-    <div className="px-4 py-4 space-y-3 flex-1">
+    <div className="px-5 py-5 space-y-4 flex-1">
       {children}
     </div>
   </div>
@@ -236,20 +233,24 @@ const LaneCard: React.FC<{ title: string; accent: string; border: string; childr
 
 const Field: React.FC<{ label: string; value: React.ReactNode; mono?: boolean }> = ({ label, value, mono }) => (
   <div>
-    <div className="text-[9px] font-mono uppercase tracking-[0.2em] mb-0.5" style={{ color: 'rgba(92,184,112,0.5)' }}>{label}</div>
-    <div className={`text-xs leading-[1.7] break-all ${mono ? 'font-mono' : 'font-light'}`} style={{ color: 'rgba(216,232,216,0.75)' }}>{value}</div>
+    <div className="text-xs font-mono uppercase tracking-[0.18em] mb-1.5" style={{ color: C.accent }}>
+      {label}
+    </div>
+    <div
+      className={`text-sm leading-[1.7] ${mono ? 'font-mono break-all' : 'font-light'}`}
+      style={{ color: C.text }}
+    >
+      {value}
+    </div>
   </div>
 );
 
-// ── Kernel Saga data ───────────────────────────────────────────────────────
+// ── Kernel Saga ────────────────────────────────────────────────────────────
 
 const SAGA_PHASES = [
   {
-    id: 'approve',
-    tag: 'C-phase · APPROVE',
-    accent: '#34d399',
-    border: 'rgba(52,211,153,0.22)',
-    glow: 'rgba(52,211,153,0.05)',
+    id: 'approve', tag: 'C-phase · APPROVE', accent: '#34d399',
+    border: 'rgba(52,211,153,0.26)', glow: 'rgba(52,211,153,0.06)',
     title: 'Pipeline can breathe',
     what: [
       'Intent 2026-06-03-001: add a static HTML status note to a fixture workspace.',
@@ -260,11 +261,8 @@ const SAGA_PHASES = [
     ability: 'Say YES safely',
   },
   {
-    id: 'block',
-    tag: 'C-phase · BLOCK',
-    accent: '#f87171',
-    border: 'rgba(248,113,113,0.22)',
-    glow: 'rgba(248,113,113,0.05)',
+    id: 'block', tag: 'C-phase · BLOCK', accent: '#f87171',
+    border: 'rgba(248,113,113,0.26)', glow: 'rgba(248,113,113,0.06)',
     title: 'Pipeline has a spine',
     what: [
       'Same request — but the plan targeted .workspace/app.py (the live Flask app).',
@@ -275,11 +273,8 @@ const SAGA_PHASES = [
     ability: 'Say NO concretely',
   },
   {
-    id: 'd0',
-    tag: 'D0 · Execution Gate',
-    accent: '#a78bfa',
-    border: 'rgba(167,139,250,0.22)',
-    glow: 'rgba(167,139,250,0.05)',
+    id: 'd0', tag: 'D0 · Execution Gate', accent: '#a78bfa',
+    border: 'rgba(167,139,250,0.26)', glow: 'rgba(167,139,250,0.06)',
     title: 'Knife cut once, returned clean',
     what: [
       'Only intent 2026-06-03-001. Rollback snapshot created before any mutation.',
@@ -305,46 +300,43 @@ const STILL_FORBIDDEN = [
 ];
 
 const FIVE_ABILITIES = [
-  { n: '01', label: 'Say YES safely', sub: 'APPROVE trace — paperwork passes, consensus issued' },
-  { n: '02', label: 'Say NO concretely', sub: 'BLOCK trace — three layers fire simultaneously' },
-  { n: '03', label: 'Hover without cutting', sub: 'Dry-run: reports and audits, never mutates' },
+  { n: '01', label: 'Say YES safely',            sub: 'APPROVE trace — paperwork passes, consensus issued' },
+  { n: '02', label: 'Say NO concretely',          sub: 'BLOCK trace — three layers fire simultaneously' },
+  { n: '03', label: 'Hover without cutting',      sub: 'Dry-run: reports and audits, never mutates' },
   { n: '04', label: 'Cut once inside a boundary', sub: 'D0 — one file copy, rollback snapshot first' },
-  { n: '05', label: 'Roll back cleanly', sub: 'Exact pre-mutation state restored, audit recorded' },
+  { n: '05', label: 'Roll back cleanly',          sub: 'Exact pre-mutation state restored, audit recorded' },
 ];
 
 const SagaView: React.FC = () => (
   <div className="space-y-5">
     <div
-      className="rounded-xl border px-4 py-2.5 flex items-center gap-3"
-      style={{ borderColor: 'rgba(196,160,80,0.28)', background: 'rgba(196,160,80,0.04)' }}
+      className="rounded-xl border px-5 py-3 flex items-center gap-3"
+      style={{ borderColor: 'rgba(196,160,80,0.32)', background: 'rgba(196,160,80,0.05)' }}
     >
-      <span className="text-[9px] font-mono uppercase tracking-[0.18em]" style={{ color: 'rgba(196,160,80,0.55)' }}>
+      <span className="text-xs font-mono uppercase tracking-[0.18em] shrink-0" style={{ color: 'rgba(196,160,80,0.75)' }}>
         Static explanation
       </span>
-      <p className="text-xs font-mono" style={{ color: 'rgba(196,160,80,0.65)' }}>
+      <p className="text-xs font-mono" style={{ color: 'rgba(196,160,80,0.70)' }}>
         This page explains the Kernel. It does not execute it.
       </p>
     </div>
 
     {/* Pipeline flow */}
-    <div
-      className="rounded-2xl border px-5 py-4"
-      style={{ borderColor: 'rgba(92,184,112,0.16)', background: 'rgba(10,16,10,0.65)' }}
-    >
-      <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-3" style={{ color: 'rgba(92,184,112,0.45)' }}>
+    <div className="rounded-2xl border px-5 py-4" style={{ borderColor: C.borderMid, background: C.surface }}>
+      <div className="text-xs font-mono uppercase tracking-[0.22em] mb-3" style={{ color: C.accentDim }}>
         Pipeline flow
       </div>
       <div className="flex items-center flex-wrap gap-y-2">
         {PIPELINE_STEPS.map((step, i) => (
           <span key={step} className="flex items-center">
             <span
-              className="text-[9px] font-mono uppercase tracking-[0.14em] px-2.5 py-1 rounded-lg"
-              style={{ color: 'rgba(216,232,216,0.65)', background: 'rgba(92,184,112,0.08)', border: '1px solid rgba(92,184,112,0.14)' }}
+              className="text-xs font-mono uppercase tracking-[0.14em] px-3 py-1 rounded-lg"
+              style={{ color: C.textMuted, background: 'rgba(92,184,112,0.08)', border: '1px solid rgba(92,184,112,0.18)' }}
             >
               {step}
             </span>
             {i < PIPELINE_STEPS.length - 1 && (
-              <span className="text-[9px] mx-1" style={{ color: 'rgba(92,184,112,0.25)' }}>→</span>
+              <span className="text-xs mx-1.5" style={{ color: 'rgba(92,184,112,0.30)' }}>→</span>
             )}
           </span>
         ))}
@@ -352,81 +344,68 @@ const SagaView: React.FC = () => (
     </div>
 
     {/* Phase cards */}
-    <div className="grid md:grid-cols-3 gap-3">
+    <div className="grid md:grid-cols-3 gap-4">
       {SAGA_PHASES.map(p => (
-        <div
-          key={p.id}
-          className="rounded-2xl border p-4 space-y-3"
-          style={{ borderColor: p.border, background: p.glow }}
-        >
+        <div key={p.id} className="rounded-2xl border p-5 space-y-4" style={{ borderColor: p.border, background: p.glow }}>
           <div>
-            <span className="text-[9px] font-mono uppercase tracking-[0.2em]" style={{ color: p.accent }}>{p.tag}</span>
-            <p className="text-sm font-light mt-1" style={{ color: '#d8e8d8' }}>{p.title}</p>
+            <span className="text-xs font-mono uppercase tracking-[0.18em]" style={{ color: p.accent }}>{p.tag}</span>
+            <p className="text-base font-light mt-1.5" style={{ color: C.text }}>{p.title}</p>
           </div>
-          <ul className="space-y-1.5">
+          <ul className="space-y-2">
             {p.what.map((w, i) => (
               <li
                 key={i}
-                className="text-[10px] leading-[1.6] pl-2.5"
-                style={{ color: 'rgba(216,232,216,0.58)', borderLeft: `1px solid ${p.border}` }}
+                className="text-sm leading-[1.65] pl-3"
+                style={{ color: C.textMuted, borderLeft: `2px solid ${p.border}` }}
               >
                 {w}
               </li>
             ))}
           </ul>
           <div
-            className="rounded-lg px-2.5 py-1.5 flex items-center gap-2"
-            style={{ background: 'rgba(8,12,8,0.6)', border: `1px solid ${p.border}` }}
+            className="rounded-lg px-3 py-2 flex items-center gap-2"
+            style={{ background: 'rgba(8,12,8,0.65)', border: `1px solid ${p.border}` }}
           >
-            <span className="text-[9px] font-mono uppercase tracking-[0.14em]" style={{ color: 'rgba(216,232,216,0.28)' }}>Ability</span>
-            <span className="text-[9px] font-mono uppercase tracking-[0.14em]" style={{ color: p.accent }}>{p.ability}</span>
+            <span className="text-xs font-mono uppercase tracking-[0.14em]" style={{ color: C.textFaint }}>Ability</span>
+            <span className="text-xs font-mono uppercase tracking-[0.14em]" style={{ color: p.accent }}>{p.ability}</span>
           </div>
         </div>
       ))}
     </div>
 
     {/* Five abilities + still forbidden */}
-    <div className="grid md:grid-cols-2 gap-3">
-      <div
-        className="rounded-2xl border p-4 space-y-3"
-        style={{ borderColor: 'rgba(92,184,112,0.16)', background: 'rgba(10,16,10,0.65)' }}
-      >
-        <div className="text-[9px] font-mono uppercase tracking-[0.24em]" style={{ color: 'rgba(92,184,112,0.45)' }}>
+    <div className="grid md:grid-cols-2 gap-4">
+      <div className="rounded-2xl border p-5 space-y-4" style={{ borderColor: C.borderMid, background: C.surface }}>
+        <div className="text-xs font-mono uppercase tracking-[0.22em]" style={{ color: C.accentDim }}>
           Five abilities learned
         </div>
         {FIVE_ABILITIES.map(a => (
           <div key={a.n} className="flex gap-3 items-start">
-            <span className="text-[10px] font-mono shrink-0 mt-0.5" style={{ color: 'rgba(92,184,112,0.35)' }}>{a.n}</span>
+            <span className="text-xs font-mono shrink-0 mt-0.5" style={{ color: C.accentDim }}>{a.n}</span>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-[0.14em]" style={{ color: '#d8e8d8' }}>{a.label}</div>
-              <div className="text-[10px] font-light" style={{ color: 'rgba(216,232,216,0.45)' }}>{a.sub}</div>
+              <div className="text-sm font-mono uppercase tracking-[0.12em]" style={{ color: C.text }}>{a.label}</div>
+              <div className="text-xs font-light mt-0.5" style={{ color: C.textMuted }}>{a.sub}</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div
-        className="rounded-2xl border p-4"
-        style={{ borderColor: 'rgba(248,113,113,0.16)', background: 'rgba(10,16,10,0.65)' }}
-      >
-        <div className="text-[9px] font-mono uppercase tracking-[0.24em] mb-3" style={{ color: 'rgba(248,113,113,0.45)' }}>
+      <div className="rounded-2xl border p-5" style={{ borderColor: 'rgba(248,113,113,0.22)', background: C.surface }}>
+        <div className="text-xs font-mono uppercase tracking-[0.22em] mb-4" style={{ color: 'rgba(248,113,113,0.60)' }}>
           Still forbidden
         </div>
-        <ul className="space-y-1.5">
+        <ul className="space-y-2.5">
           {STILL_FORBIDDEN.map((f, i) => (
-            <li key={i} className="flex gap-2 items-baseline">
-              <span className="text-[9px] font-mono shrink-0" style={{ color: 'rgba(248,113,113,0.4)' }}>✗</span>
-              <span className="text-[10px] leading-[1.5]" style={{ color: 'rgba(248,113,113,0.55)' }}>{f}</span>
+            <li key={i} className="flex gap-2.5 items-baseline">
+              <span className="text-xs font-mono shrink-0" style={{ color: 'rgba(248,113,113,0.55)' }}>✗</span>
+              <span className="text-sm leading-[1.5]" style={{ color: 'rgba(248,113,113,0.72)' }}>{f}</span>
             </li>
           ))}
         </ul>
       </div>
     </div>
 
-    <p
-      className="text-center text-[9px] font-mono uppercase tracking-[0.28em]"
-      style={{ color: 'rgba(216,232,216,0.15)' }}
-    >
+    <p className="text-center text-xs font-mono uppercase tracking-[0.24em]" style={{ color: C.textFaint }}>
       evidence before interpretation · rollback before execution · audit stays visible
     </p>
   </div>
@@ -445,29 +424,31 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
   const fs = FAMILY_STYLE[selected.objectFamily];
 
   const counts = {
-    all: SAMPLE.length,
-    observation: SAMPLE.filter(o => o.objectFamily === 'observation').length,
-    approval: SAMPLE.filter(o => o.objectFamily === 'approval').length,
-    source_of_truth: SAMPLE.filter(o => o.objectFamily === 'source_of_truth').length,
+    all:            SAMPLE.length,
+    observation:    SAMPLE.filter(o => o.objectFamily === 'observation').length,
+    approval:       SAMPLE.filter(o => o.objectFamily === 'approval').length,
+    source_of_truth:SAMPLE.filter(o => o.objectFamily === 'source_of_truth').length,
   };
 
   const filters: { key: FilterKey; label: string; count: number }[] = [
-    { key: 'all',            label: 'All',            count: counts.all },
-    { key: 'observation',    label: 'Observation',    count: counts.observation },
-    { key: 'approval',       label: 'Approval',       count: counts.approval },
-    { key: 'source_of_truth',label: 'Source of Truth',count: counts.source_of_truth },
+    { key: 'all',             label: 'All',            count: counts.all },
+    { key: 'observation',     label: 'Observation',    count: counts.observation },
+    { key: 'approval',        label: 'Approval',       count: counts.approval },
+    { key: 'source_of_truth', label: 'Source of Truth',count: counts.source_of_truth },
   ];
 
+  const selectObj = (id: string) => { setSelectedId(id); setShowRaw(false); };
+
   return (
-    <div className="max-w-6xl mx-auto py-10 md:py-14 px-5 relative">
+    <div className="max-w-6xl mx-auto py-8 md:py-12 px-4 sm:px-6 relative">
       <FloatingBack onBack={onBack} />
 
-      {/* Static back */}
+      {/* Back */}
       <motion.button
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
+        animate={{ opacity: 0.6 }}
         onClick={onBack}
-        className="text-[10px] font-mono tracking-[0.2em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
+        className="text-xs font-mono tracking-[0.20em] uppercase mb-8 block hover:opacity-100 transition-opacity duration-300"
         style={{ color: '#5cb870' }}
       >
         ← back
@@ -477,18 +458,19 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.5 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
         className="flex gap-2 mb-6"
       >
         {(['hud', 'saga'] as const).map(v => (
           <button
             key={v}
             onClick={() => setViewMode(v)}
-            className="px-4 py-2 rounded-xl text-[10px] font-mono uppercase tracking-[0.2em] border transition-all duration-200"
+            className="px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-[0.18em] border transition-all duration-200"
             style={{
-              color: viewMode === v ? '#d8e8d8' : 'rgba(216,232,216,0.35)',
-              borderColor: viewMode === v ? 'rgba(92,184,112,0.35)' : 'rgba(71,85,105,0.25)',
-              background: viewMode === v ? 'rgba(92,184,112,0.08)' : 'transparent',
+              color: viewMode === v ? C.text : C.textDim,
+              borderColor: viewMode === v ? 'rgba(92,184,112,0.40)' : C.border,
+              background: viewMode === v ? 'rgba(92,184,112,0.09)' : 'transparent',
+              minHeight: '40px',
             }}
           >
             {v === 'hud' ? 'Bicameral HUD' : 'Kernel Saga'}
@@ -497,275 +479,404 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
       </motion.div>
 
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-6">
-        <div className="text-[10px] font-mono uppercase tracking-[0.28em] mb-3" style={{ color: 'rgba(92,184,112,0.55)' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="mb-6"
+      >
+        <div className="text-xs font-mono uppercase tracking-[0.26em] mb-2" style={{ color: C.accentDim }}>
           ConsMAP / Bicameral HUD
         </div>
-        <h1 className="text-2xl md:text-3xl font-light tracking-tight mb-1" style={{ color: '#d8e8d8' }}>
+        <h1 className="text-2xl sm:text-3xl font-light tracking-tight mb-2" style={{ color: C.text }}>
           {viewMode === 'hud' ? 'Bicameral HUD' : 'Bicameral Kernel'}
         </h1>
-        <p className="text-sm font-light" style={{ color: 'rgba(216,232,216,0.55)' }}>
-          {viewMode === 'hud' ? 'One chat · two readings · one shared ledger' : 'From intent to proof: yes, no, hover, cut, rollback.'}
+        <p className="text-sm font-light" style={{ color: C.textMuted }}>
+          {viewMode === 'hud'
+            ? 'One chat · two readings · one shared ledger'
+            : 'From intent to proof: yes, no, hover, cut, rollback.'}
         </p>
       </motion.div>
 
       {viewMode === 'saga' ? (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
           <SagaView />
         </motion.div>
-      ) : (<>
-      {/* Warning banner */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
-        className="rounded-xl border px-4 py-2.5 mb-8 flex items-center gap-3"
-        style={{ borderColor: 'rgba(196,160,80,0.28)', background: 'rgba(196,160,80,0.04)' }}
-      >
-        <span className="text-[9px] font-mono uppercase tracking-[0.18em]" style={{ color: 'rgba(196,160,80,0.55)' }}>⚠ Offline</span>
-        <p className="text-xs font-mono" style={{ color: 'rgba(196,160,80,0.65)' }}>
-          Offline concept module. Visuals do not replace ledger evidence.
-        </p>
-      </motion.div>
+      ) : (
+        <>
+          {/* Warning banner */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="rounded-xl border px-5 py-3 mb-6 flex items-center gap-3"
+            style={{ borderColor: 'rgba(196,160,80,0.35)', background: 'rgba(196,160,80,0.06)' }}
+          >
+            <span className="text-xs font-mono uppercase tracking-[0.16em] shrink-0" style={{ color: 'rgba(196,160,80,0.85)' }}>
+              ⚠ Offline
+            </span>
+            <p className="text-xs font-mono" style={{ color: 'rgba(196,160,80,0.72)' }}>
+              Offline concept module. Visuals do not replace ledger evidence.
+            </p>
+          </motion.div>
 
-      {/* Main grid: sidebar + lanes */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.28, duration: 0.7 }}
-        className="grid md:grid-cols-[220px_1fr] gap-4 items-start"
-      >
-        {/* ── Sidebar ── */}
-        <aside className="rounded-2xl border overflow-hidden" style={{ borderColor: 'rgba(71,85,105,0.28)', background: 'rgba(10,16,10,0.65)' }}>
-          {/* Counts */}
-          <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(71,85,105,0.20)' }}>
-            <div className="text-[9px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: 'rgba(92,184,112,0.45)' }}>
-              Summary
-            </div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {[
-                { label: 'All', count: counts.all, color: '#d8e8d8' },
-                { label: 'Obs', count: counts.observation, color: FAMILY_STYLE.observation.accent },
-                { label: 'Appr', count: counts.approval, color: FAMILY_STYLE.approval.accent },
-                { label: 'SoT', count: counts.source_of_truth, color: FAMILY_STYLE.source_of_truth.accent },
-              ].map(c => (
-                <div key={c.label} className="text-center rounded-lg py-1" style={{ background: 'rgba(71,85,105,0.12)' }}>
-                  <div className="text-lg font-light" style={{ color: c.color }}>{c.count}</div>
-                  <div className="text-[8px] font-mono uppercase tracking-[0.16em]" style={{ color: 'rgba(216,232,216,0.35)' }}>{c.label}</div>
-                </div>
+          {/* ── Mobile controls (hidden on lg+) ────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.25, duration: 0.5 }}
+            className="lg:hidden space-y-4 mb-6"
+          >
+            {/* Filter pills — horizontal scroll */}
+            <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+              {filters.map(f => (
+                <button
+                  key={f.key}
+                  onClick={() => setFilter(f.key)}
+                  className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-[0.14em] border transition-colors duration-150"
+                  style={{
+                    color: filter === f.key ? C.text : C.textMuted,
+                    borderColor: filter === f.key ? 'rgba(92,184,112,0.45)' : C.border,
+                    background: filter === f.key ? 'rgba(92,184,112,0.10)' : C.surface,
+                    minHeight: '40px',
+                  }}
+                >
+                  <span>{f.label}</span>
+                  <span
+                    className="text-xs rounded-full px-1.5 py-0.5"
+                    style={{ color: C.textDim, background: 'rgba(71,85,105,0.20)' }}
+                  >
+                    {f.count}
+                  </span>
+                </button>
               ))}
             </div>
-          </div>
 
-          {/* Filters */}
-          <div className="px-3 py-2.5 flex flex-col gap-1" style={{ borderBottom: '1px solid rgba(71,85,105,0.20)' }}>
-            {filters.map(f => (
-              <button
-                key={f.key}
-                onClick={() => setFilter(f.key)}
-                className="w-full text-left px-3 py-1.5 rounded-xl text-[10px] font-mono uppercase tracking-[0.16em] flex items-center justify-between transition-colors duration-150"
-                style={{
-                  color: filter === f.key ? '#d8e8d8' : 'rgba(216,232,216,0.4)',
-                  background: filter === f.key ? 'rgba(92,184,112,0.08)' : 'transparent',
-                  borderLeft: filter === f.key ? '2px solid rgba(92,184,112,0.45)' : '2px solid transparent',
-                }}
-              >
-                <span>{f.label}</span>
-                <span style={{ color: 'rgba(216,232,216,0.28)', fontVariantNumeric: 'tabular-nums' }}>{f.count}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Object list */}
-          <div className="py-2 max-h-[340px] overflow-y-auto">
-            {filtered.map(obj => {
-              const s = FAMILY_STYLE[obj.objectFamily];
-              const isSelected = obj.objectId === selectedId;
-              return (
-                <button
-                  key={obj.objectId}
-                  onClick={() => { setSelectedId(obj.objectId); setShowRaw(false); }}
-                  className="w-full text-left px-4 py-2.5 transition-colors duration-150"
-                  style={{ background: isSelected ? 'rgba(92,184,112,0.06)' : 'transparent' }}
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className="text-[8px] font-mono uppercase tracking-[0.16em] px-1.5 py-0.5 rounded-full shrink-0"
-                      style={{ color: s.accent, background: s.glow }}
-                    >
-                      {obj.objectFamily === 'source_of_truth' ? 'SoT' : obj.objectFamily.slice(0, 4)}
-                    </span>
-                    <GateBadge gate={obj.gate} />
-                  </div>
-                  <div
-                    className="text-[10px] font-light leading-snug break-words"
-                    style={{ color: isSelected ? '#d8e8d8' : 'rgba(216,232,216,0.55)' }}
+            {/* Object list — compact vertical list */}
+            <div className="space-y-2">
+              {filtered.map(obj => {
+                const s = FAMILY_STYLE[obj.objectFamily];
+                const isSel = obj.objectId === selectedId;
+                return (
+                  <button
+                    key={obj.objectId}
+                    onClick={() => selectObj(obj.objectId)}
+                    className="w-full text-left px-4 py-3 rounded-xl border transition-colors duration-150"
+                    style={{
+                      borderColor: isSel ? s.border : C.borderMid,
+                      background: isSel ? s.glow : C.surface,
+                    }}
                   >
-                    {obj.label}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </aside>
-
-        {/* ── Three-lane view ── */}
-        <div className="space-y-3">
-          {/* Object header */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-[9px] font-mono uppercase tracking-[0.22em] px-2.5 py-0.5 rounded-full border"
-              style={{ color: fs.accent, borderColor: fs.border, background: fs.glow }}>
-              {fs.label}
-            </span>
-            <GateBadge gate={selected.gate} />
-            {selected.truthState && <TruthBadge state={selected.truthState} />}
-            <span className="text-[9px] font-mono ml-auto" style={{ color: 'rgba(216,232,216,0.28)' }}>
-              {new Date(selected.timestamp).toLocaleString()}
-            </span>
-          </div>
-
-          {/* Lanes */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selected.objectId}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.3 }}
-              className="grid md:grid-cols-3 gap-3"
-            >
-              {/* Lane 1: Technical Evidence */}
-              <LaneCard title="Technical Evidence" accent={FAMILY_STYLE.observation.accent} border="rgba(125,211,252,0.18)">
-                <Field label="Summary" value={selected.tech.summary} />
-                {selected.tech.source && <Field label="Source" value={selected.tech.source} mono />}
-                {selected.tech.authoritativePath && <Field label="Authoritative Path" value={selected.tech.authoritativePath} mono />}
-                {selected.tech.evidence && <Field label="Observed Value" value={selected.tech.evidence} mono />}
-                {selected.tech.logMarker && <Field label="Log Marker" value={selected.tech.logMarker} mono />}
-                {selected.tech.command && <Field label="Command" value={selected.tech.command} mono />}
-                {selected.tech.approvalState && <Field label="Approval State" value={selected.tech.approvalState} />}
-                {selected.tech.riskReason && <Field label="Risk Reason" value={selected.tech.riskReason} />}
-                {selected.tech.staleLookalikes && (
-                  <Field label="Stale Lookalikes" value={
-                    <ul className="space-y-0.5">
-                      {selected.tech.staleLookalikes.map(p => <li key={p} className="text-[10px] font-mono" style={{ color: 'rgba(248,113,113,0.7)' }}>{p}</li>)}
-                    </ul>
-                  } />
-                )}
-                {selected.tech.exactCommands && (
-                  <Field label="Exact Commands" value={
-                    <ul className="space-y-0.5">
-                      {selected.tech.exactCommands.map(c => <li key={c} className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ background: 'rgba(71,85,105,0.25)', color: '#7dd3fc' }}>{c}</li>)}
-                    </ul>
-                  } />
-                )}
-              </LaneCard>
-
-              {/* Lane 2: Gate / Approval / Truth */}
-              <LaneCard title="Gate · Approval · Truth" accent={FAMILY_STYLE.approval.accent} border="rgba(244,201,106,0.18)">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <GateBadge gate={selected.gateInfo.gate} />
-                  {selected.gateInfo.truthState && <TruthBadge state={selected.gateInfo.truthState} />}
-                </div>
-                <Field label="Requires Approval" value={selected.gateInfo.requiresApproval ? 'Yes' : 'No'} />
-                {selected.gateInfo.approvalState && <Field label="Approval State" value={selected.gateInfo.approvalState} />}
-                {selected.gateInfo.grantedBy !== undefined && (
-                  <Field label="Granted By" value={selected.gateInfo.grantedBy ?? '— not yet granted'} />
-                )}
-                {selected.gateInfo.executed !== undefined && (
-                  <Field label="Executed" value={selected.gateInfo.executed ? 'Yes' : 'No'} />
-                )}
-                {selected.gateInfo.severity && <Field label="Severity" value={selected.gateInfo.severity} />}
-                {selected.gateInfo.warning && (
-                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(196,160,80,0.07)', border: '1px solid rgba(196,160,80,0.22)' }}>
-                    <p className="text-[10px] leading-[1.65]" style={{ color: 'rgba(196,160,80,0.72)' }}>
-                      ⚠ {selected.gateInfo.warning}
-                    </p>
-                  </div>
-                )}
-              </LaneCard>
-
-              {/* Lane 3: Human Meaning */}
-              <LaneCard title="Human Meaning" accent={FAMILY_STYLE.source_of_truth.accent} border="rgba(52,211,153,0.18)">
-                {selected.meaning ? (
-                  <>
-                    <Field label="What happened" value={selected.meaning.whatHappened} />
-                    <div className="flex gap-2 flex-wrap">
-                      <span className="text-[9px] font-mono uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
-                        style={{ color: selected.meaning.activeOrHistorical === 'active' ? '#34d399' : 'rgba(216,232,216,0.45)',
-                          background: selected.meaning.activeOrHistorical === 'active' ? 'rgba(52,211,153,0.12)' : 'rgba(71,85,105,0.15)' }}>
-                        {selected.meaning.activeOrHistorical}
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      <span
+                        className="text-xs font-mono uppercase tracking-[0.14em] px-2.5 py-0.5 rounded-full shrink-0"
+                        style={{ color: s.accent, background: `${s.accent}1a` }}
+                      >
+                        {obj.objectFamily === 'source_of_truth' ? 'SoT' : obj.objectFamily.slice(0, 4)}
                       </span>
-                      <span className="text-[9px] font-mono uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
-                        style={{ color: selected.meaning.isProblem ? '#f87171' : '#34d399',
-                          background: selected.meaning.isProblem ? 'rgba(248,113,113,0.12)' : 'rgba(52,211,153,0.08)' }}>
-                        {selected.meaning.isProblem ? 'Problem' : 'Not a problem'}
-                      </span>
+                      <GateBadge gate={obj.gate} />
+                      {obj.truthState && <TruthBadge state={obj.truthState} />}
                     </div>
-                    <Field label="Why it matters" value={selected.meaning.whyItMatters} />
-                    <Field label="Next safe step" value={selected.meaning.smallestSafeNextStep} />
-                    {selected.meaning.doNotTouch && selected.meaning.doNotTouch.length > 0 && (
-                      <div>
-                        <div className="text-[9px] font-mono uppercase tracking-[0.2em] mb-1" style={{ color: 'rgba(248,113,113,0.55)' }}>Do not touch</div>
-                        <ul className="space-y-1">
-                          {selected.meaning.doNotTouch.map((d, i) => (
-                            <li key={i} className="text-[10px] leading-[1.6] pl-2" style={{ color: 'rgba(248,113,113,0.6)', borderLeft: '1px solid rgba(248,113,113,0.22)' }}>{d}</li>
+                    <div
+                      className="text-sm font-light"
+                      style={{ color: isSel ? C.text : C.textMuted }}
+                    >
+                      {obj.label}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* ── Main layout ──────────────────────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.28, duration: 0.6 }}
+            className="grid lg:grid-cols-[240px_1fr] gap-5 items-start"
+          >
+            {/* Sidebar — hidden on mobile, visible lg+ */}
+            <aside
+              className="hidden lg:block rounded-2xl border overflow-hidden"
+              style={{ borderColor: C.border, background: C.surface }}
+            >
+              {/* Summary stats */}
+              <div className="px-5 py-4" style={{ borderBottom: `1px solid ${C.borderMid}` }}>
+                <div className="text-xs font-mono uppercase tracking-[0.20em] mb-3" style={{ color: C.accentDim }}>
+                  Summary
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: 'All',  count: counts.all,            color: C.text },
+                    { label: 'Obs',  count: counts.observation,    color: FAMILY_STYLE.observation.accent },
+                    { label: 'Appr', count: counts.approval,       color: FAMILY_STYLE.approval.accent },
+                    { label: 'SoT',  count: counts.source_of_truth,color: FAMILY_STYLE.source_of_truth.accent },
+                  ].map(c => (
+                    <div
+                      key={c.label}
+                      className="text-center rounded-xl py-3"
+                      style={{ background: 'rgba(71,85,105,0.14)' }}
+                    >
+                      <div className="text-2xl font-light leading-none" style={{ color: c.color }}>{c.count}</div>
+                      <div className="text-xs font-mono uppercase tracking-[0.14em] mt-1" style={{ color: C.textDim }}>{c.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Filters */}
+              <div className="px-3 py-3 flex flex-col gap-1" style={{ borderBottom: `1px solid ${C.borderMid}` }}>
+                {filters.map(f => (
+                  <button
+                    key={f.key}
+                    onClick={() => setFilter(f.key)}
+                    className="w-full text-left px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-[0.14em] flex items-center justify-between transition-colors duration-150"
+                    style={{
+                      color: filter === f.key ? C.text : C.textMuted,
+                      background: filter === f.key ? 'rgba(92,184,112,0.09)' : 'transparent',
+                      borderLeft: filter === f.key ? '2px solid rgba(92,184,112,0.55)' : '2px solid transparent',
+                      minHeight: '36px',
+                    }}
+                  >
+                    <span>{f.label}</span>
+                    <span style={{ color: C.textDim, fontVariantNumeric: 'tabular-nums' }}>{f.count}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Object list */}
+              <div className="py-2 max-h-[400px] overflow-y-auto">
+                {filtered.map(obj => {
+                  const s = FAMILY_STYLE[obj.objectFamily];
+                  const isSel = obj.objectId === selectedId;
+                  return (
+                    <button
+                      key={obj.objectId}
+                      onClick={() => selectObj(obj.objectId)}
+                      className="w-full text-left px-5 py-3 transition-colors duration-150 border-l-2"
+                      style={{
+                        background: isSel ? 'rgba(92,184,112,0.07)' : 'transparent',
+                        borderColor: isSel ? 'rgba(92,184,112,0.55)' : 'transparent',
+                      }}
+                    >
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        <span
+                          className="text-xs font-mono uppercase tracking-[0.14em] px-2.5 py-0.5 rounded-full shrink-0"
+                          style={{ color: s.accent, background: s.glow }}
+                        >
+                          {obj.objectFamily === 'source_of_truth' ? 'SoT' : obj.objectFamily.slice(0, 4)}
+                        </span>
+                        <GateBadge gate={obj.gate} />
+                      </div>
+                      <div
+                        className="text-sm font-light leading-snug break-words"
+                        style={{ color: isSel ? C.text : C.textMuted }}
+                      >
+                        {obj.label}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </aside>
+
+            {/* ── Content area ───────────────────────────────────────────── */}
+            <div className="space-y-4 min-w-0">
+              {/* Object header badges */}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <span
+                  className="text-xs font-mono uppercase tracking-[0.18em] px-3 py-1 rounded-full border inline-flex items-center"
+                  style={{ color: fs.accent, borderColor: fs.border, background: fs.glow, minHeight: '28px' }}
+                >
+                  {fs.label}
+                </span>
+                <GateBadge gate={selected.gate} />
+                {selected.truthState && <TruthBadge state={selected.truthState} />}
+                <span className="text-xs font-mono ml-auto" style={{ color: C.textDim }}>
+                  {new Date(selected.timestamp).toLocaleString()}
+                </span>
+              </div>
+
+              {/* Three lanes */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selected.objectId}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.28 }}
+                  className="grid lg:grid-cols-3 gap-4"
+                >
+                  {/* Lane 1 — Technical Evidence */}
+                  <LaneCard title="Technical Evidence" accent={FAMILY_STYLE.observation.accent} border="rgba(125,211,252,0.22)">
+                    <Field label="Summary" value={selected.tech.summary} />
+                    {selected.tech.source && <Field label="Source" value={selected.tech.source} mono />}
+                    {selected.tech.authoritativePath && <Field label="Authoritative Path" value={selected.tech.authoritativePath} mono />}
+                    {selected.tech.evidence && <Field label="Observed Value" value={selected.tech.evidence} mono />}
+                    {selected.tech.logMarker && <Field label="Log Marker" value={selected.tech.logMarker} mono />}
+                    {selected.tech.command && <Field label="Command" value={selected.tech.command} mono />}
+                    {selected.tech.approvalState && <Field label="Approval State" value={selected.tech.approvalState} />}
+                    {selected.tech.riskReason && <Field label="Risk Reason" value={selected.tech.riskReason} />}
+                    {selected.tech.staleLookalikes && (
+                      <Field label="Stale Lookalikes" value={
+                        <ul className="space-y-1.5 mt-1">
+                          {selected.tech.staleLookalikes.map(p => (
+                            <li key={p} className="text-sm font-mono break-all" style={{ color: 'rgba(248,113,113,0.80)' }}>{p}</li>
                           ))}
                         </ul>
+                      } />
+                    )}
+                    {selected.tech.exactCommands && (
+                      <Field label="Exact Commands" value={
+                        <ul className="space-y-1.5 mt-1">
+                          {selected.tech.exactCommands.map(c => (
+                            <li key={c} className="text-sm font-mono px-3 py-1.5 rounded-lg break-all" style={{ background: 'rgba(71,85,105,0.28)', color: '#7dd3fc' }}>{c}</li>
+                          ))}
+                        </ul>
+                      } />
+                    )}
+                  </LaneCard>
+
+                  {/* Lane 2 — Gate / Approval / Truth */}
+                  <LaneCard title="Gate · Approval · Truth" accent={FAMILY_STYLE.approval.accent} border="rgba(244,201,106,0.22)">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <GateBadge gate={selected.gateInfo.gate} />
+                      {selected.gateInfo.truthState && <TruthBadge state={selected.gateInfo.truthState} />}
+                    </div>
+                    <Field label="Requires Approval" value={selected.gateInfo.requiresApproval ? 'Yes' : 'No'} />
+                    {selected.gateInfo.approvalState && <Field label="Approval State" value={selected.gateInfo.approvalState} />}
+                    {selected.gateInfo.grantedBy !== undefined && (
+                      <Field label="Granted By" value={selected.gateInfo.grantedBy ?? '— not yet granted'} />
+                    )}
+                    {selected.gateInfo.executed !== undefined && (
+                      <Field label="Executed" value={selected.gateInfo.executed ? 'Yes' : 'No'} />
+                    )}
+                    {selected.gateInfo.severity && <Field label="Severity" value={selected.gateInfo.severity} />}
+                    {selected.gateInfo.warning && (
+                      <div
+                        className="rounded-xl px-4 py-3"
+                        style={{ background: 'rgba(196,160,80,0.08)', border: '1px solid rgba(196,160,80,0.28)' }}
+                      >
+                        <p className="text-sm leading-[1.65]" style={{ color: 'rgba(196,160,80,0.82)' }}>
+                          ⚠ {selected.gateInfo.warning}
+                        </p>
                       </div>
                     )}
-                  </>
-                ) : (
-                  <p className="text-xs italic" style={{ color: 'rgba(216,232,216,0.35)' }}>No meaning layer for this object.</p>
+                  </LaneCard>
+
+                  {/* Lane 3 — Human Meaning */}
+                  <LaneCard title="Human Meaning" accent={FAMILY_STYLE.source_of_truth.accent} border="rgba(52,211,153,0.22)">
+                    {selected.meaning ? (
+                      <>
+                        <Field label="What happened" value={selected.meaning.whatHappened} />
+                        <div className="flex gap-2 flex-wrap">
+                          <span
+                            className="text-xs font-mono uppercase tracking-[0.14em] px-3 py-1 rounded-full inline-flex items-center"
+                            style={{
+                              color: selected.meaning.activeOrHistorical === 'active' ? '#34d399' : C.textMuted,
+                              background: selected.meaning.activeOrHistorical === 'active' ? 'rgba(52,211,153,0.14)' : 'rgba(71,85,105,0.18)',
+                              minHeight: '28px',
+                            }}
+                          >
+                            {selected.meaning.activeOrHistorical}
+                          </span>
+                          <span
+                            className="text-xs font-mono uppercase tracking-[0.14em] px-3 py-1 rounded-full inline-flex items-center"
+                            style={{
+                              color: selected.meaning.isProblem ? '#f87171' : '#34d399',
+                              background: selected.meaning.isProblem ? 'rgba(248,113,113,0.14)' : 'rgba(52,211,153,0.10)',
+                              minHeight: '28px',
+                            }}
+                          >
+                            {selected.meaning.isProblem ? 'Problem' : 'Not a problem'}
+                          </span>
+                        </div>
+                        <Field label="Why it matters" value={selected.meaning.whyItMatters} />
+                        <Field label="Next safe step" value={selected.meaning.smallestSafeNextStep} />
+                        {selected.meaning.doNotTouch && selected.meaning.doNotTouch.length > 0 && (
+                          <div>
+                            <div className="text-xs font-mono uppercase tracking-[0.18em] mb-2" style={{ color: 'rgba(248,113,113,0.70)' }}>
+                              Do not touch
+                            </div>
+                            <ul className="space-y-1.5">
+                              {selected.meaning.doNotTouch.map((d, i) => (
+                                <li
+                                  key={i}
+                                  className="text-sm leading-[1.6] pl-3"
+                                  style={{ color: 'rgba(248,113,113,0.75)', borderLeft: '2px solid rgba(248,113,113,0.28)' }}
+                                >
+                                  {d}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-sm italic" style={{ color: C.textDim }}>No meaning layer for this object.</p>
+                    )}
+                  </LaneCard>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Raw JSON toggle — proper secondary button */}
+              <div className="flex justify-end pt-1">
+                <button
+                  onClick={() => setShowRaw(r => !r)}
+                  className="text-xs font-mono uppercase tracking-[0.18em] px-5 py-2.5 rounded-xl border transition-all duration-200"
+                  style={{
+                    color: showRaw ? C.text : C.textMuted,
+                    borderColor: showRaw ? 'rgba(71,85,105,0.55)' : C.border,
+                    background: showRaw ? 'rgba(71,85,105,0.22)' : C.surface,
+                    minHeight: '44px',
+                  }}
+                >
+                  {showRaw ? '✕ Hide raw' : '{ } Show raw JSON'}
+                </button>
+              </div>
+
+              <AnimatePresence>
+                {showRaw && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.22 }}
+                    className="overflow-hidden"
+                  >
+                    <div
+                      className="rounded-2xl border px-5 py-5"
+                      style={{ borderColor: C.border, background: 'rgba(6,10,6,0.90)' }}
+                    >
+                      <p className="text-xs font-mono uppercase tracking-[0.18em] mb-4" style={{ color: C.accentDim }}>
+                        Raw envelope object — {selected.objectId}
+                      </p>
+                      <pre
+                        className="text-xs font-mono whitespace-pre-wrap break-all leading-[1.8] overflow-x-auto"
+                        style={{ color: C.textMuted }}
+                      >
+                        {JSON.stringify(
+                          { objectFamily: selected.objectFamily, objectId: selected.objectId, timestamp: selected.timestamp, tech: selected.tech, gateInfo: selected.gateInfo, meaning: selected.meaning },
+                          null, 2
+                        )}
+                      </pre>
+                    </div>
+                  </motion.div>
                 )}
-              </LaneCard>
-            </motion.div>
-          </AnimatePresence>
+              </AnimatePresence>
+            </div>
+          </motion.div>
 
-          {/* Raw JSON toggle */}
-          <div className="flex justify-end pt-1">
-            <button
-              onClick={() => setShowRaw(r => !r)}
-              className="text-[9px] font-mono uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl border transition-colors duration-200"
-              style={{
-                color: showRaw ? '#d8e8d8' : 'rgba(216,232,216,0.35)',
-                borderColor: showRaw ? 'rgba(71,85,105,0.5)' : 'rgba(71,85,105,0.25)',
-                background: showRaw ? 'rgba(71,85,105,0.15)' : 'transparent',
-              }}
-            >
-              {showRaw ? 'Hide raw' : 'Show raw JSON'}
-            </button>
-          </div>
-
-          <AnimatePresence>
-            {showRaw && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.25 }}
-                className="overflow-hidden"
-              >
-                <div className="rounded-2xl border px-4 py-4" style={{ borderColor: 'rgba(71,85,105,0.3)', background: 'rgba(8,12,8,0.85)' }}>
-                  <p className="text-[9px] font-mono uppercase tracking-[0.2em] mb-3" style={{ color: 'rgba(92,184,112,0.4)' }}>
-                    Raw envelope object — {selected.objectId}
-                  </p>
-                  <pre className="text-[10px] font-mono whitespace-pre-wrap break-all leading-[1.8] overflow-x-auto"
-                    style={{ color: 'rgba(216,232,216,0.52)' }}>
-                    {JSON.stringify({ objectFamily: selected.objectFamily, objectId: selected.objectId, timestamp: selected.timestamp, tech: selected.tech, gateInfo: selected.gateInfo, meaning: selected.meaning }, null, 2)}
-                  </pre>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </motion.div>
-
-      {/* Footer law */}
-      <p className="text-center mt-10 text-[9px] font-mono uppercase tracking-[0.28em]"
-        style={{ color: 'rgba(216,232,216,0.15)' }}>
-        ledger truth leads · visuals follow · evidence stays visible
-      </p>
-      </>)}
+          {/* Footer */}
+          <p
+            className="text-center mt-12 text-xs font-mono uppercase tracking-[0.26em]"
+            style={{ color: C.textFaint }}
+          >
+            ledger truth leads · visuals follow · evidence stays visible
+          </p>
+        </>
+      )}
     </div>
   );
 };
