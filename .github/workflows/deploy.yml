@@ -3,8 +3,6 @@ name: Deploy Sanctuary to GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths-ignore:
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
@@ -36,23 +34,12 @@ jobs:
         working-directory: ./06_applications/digital_sanctuary
         run: npm run build
 
-      - name: Sync app into docs/
-        run: |
-          cp 06_applications/digital_sanctuary/dist/index.html docs/index.html
-          rm -rf docs/assets
-          cp -r 06_applications/digital_sanctuary/dist/assets docs/assets
-          cp -r 06_applications/digital_sanctuary/dist/forge_faq/. docs/forge_faq/
-          mkdir -p docs/saga_map
-          cp -r 06_applications/saga_map/. docs/saga_map/
-          for f in favicon.png favicon.svg icon-192.png icons.svg site.webmanifest; do
-            [ -f "06_applications/digital_sanctuary/dist/$f" ] && cp "06_applications/digital_sanctuary/dist/$f" "docs/$f" || true
-          done
+      - name: Add saga_map to build
+        run: cp -r 06_applications/saga_map/. 06_applications/digital_sanctuary/dist/saga_map/
 
-      - name: Commit and push docs
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/
-          git diff --staged --quiet && echo "No changes to docs, skipping commit." && exit 0
-          git commit -m "ci: update docs build [skip ci]"
-          git push
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./06_applications/digital_sanctuary/dist
+          publish_branch: gh-pages
