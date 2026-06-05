@@ -54,7 +54,7 @@ const routeCards: Array<{
   },
   {
     label: 'Symbol Mirror',
-    desc: 'Same event, two languages. Switch between mythic and technical — see what stays the same.',
+    desc: 'One event. Two languages. The middle is the map.',
     chip: 'SYMBOLIC',
     accent: '#a78bfa',
     glow: 'rgba(167,139,250,0.09)',

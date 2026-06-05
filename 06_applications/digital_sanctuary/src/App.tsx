@@ -4,7 +4,7 @@ import ConstellationField from './components/ConstellationField';
 import DeepBackground from './components/DeepBackground';
 import WelcomeRitual from './components/WelcomeRitual';
 import HeroLanding from './components/HeroLanding';
-import EpistemicMirror from './components/EpistemicMirror';
+import RegisterDial from './components/RegisterDial';
 import BedtimeStory from './components/BedtimeStory';
 import SoulGlitch from './components/SoulGlitch';
 import ClaimAnalyzer from './components/ClaimAnalyzer';
@@ -98,10 +98,10 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.2 }}
+            transition={{ duration: 0.6 }}
             className="relative z-10 min-h-screen"
           >
-            <EpistemicMirror onBack={() => setState('home')} />
+            <RegisterDial onBack={() => navigate('home')} />
           </motion.div>
         )}
 
