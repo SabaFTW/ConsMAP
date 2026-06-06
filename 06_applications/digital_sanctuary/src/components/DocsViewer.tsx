@@ -64,7 +64,8 @@ type DocId =
   | 'res_entangled_grandma'
   | 'res_tech_audit' | 'res_no_single_layer' | 'res_elpis_kratos'
   | 'res_nested_markov' | 'res_baal_code' | 'res_iecp' | 'res_internal_bear'
-  | 'res_baphomet_engine' | 'res_as_above_so_below' | 'res_omnia_iam_facta';
+  | 'res_baphomet_engine' | 'res_as_above_so_below' | 'res_omnia_iam_facta'
+  | 'res_saucy_biscuit';
 
 interface DocLink {
   id: DocId;
@@ -110,6 +111,7 @@ const DOCS: DocLink[] = [
   { id: 'res_baphomet_engine',  title: 'The Baphomet Engine',             path: '/docs/research/baphomet_engine_safety_audit.md',        description: 'Safety theater, capability concentration, and the Nephilim problem — a structural audit.', category: 'research', local: true },
   { id: 'res_as_above_so_below', title: 'As Above, So Below',             path: '/docs/research/as_above_so_below_structural_determinism.md', description: 'Structural determinism across biological and technological substrates — Umwelt, bone, silicon, Iron Law, Constructal Law.', category: 'research', local: true },
   { id: 'res_omnia_iam_facta',  title: 'OMNIA IAM FACTA SVNT',           path: '/docs/research/omnia_iam_facta_svnt.md',                description: 'How consciousness was captured, ritualized, and sold back as fear. The pattern repeats across substrates.', category: 'research', local: true },
+  { id: 'res_saucy_biscuit',    title: 'The Saucy Biscuit',              path: '/docs/research/saucy_biscuit.md',                       description: 'Mutual compromise, hostage shame, the missing triangle, and the tea rite as the anti-blackmail door.', category: 'research', local: true },
 ];
 
 const CATEGORY_ORDER: Category[] = ['entry', 'protocols', 'examples', 'research', 'machine', 'symbolic', 'forge', 'archive', 'theory'];

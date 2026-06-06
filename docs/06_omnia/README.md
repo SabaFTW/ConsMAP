@@ -54,6 +54,7 @@ If a workflow assigns roles to models, the operator still carries final responsi
 | [`MODEL_ECOLOGY_PROTOCOL.md`](MODEL_ECOLOGY_PROTOCOL.md) | Operator protocol: different models as different workshop tools, with hard safety pre-gate before routing. |
 | [`ENTANGLED_GRANDMA_FAILURE.md`](ENTANGLED_GRANDMA_FAILURE.md) | Systems seal: when safety fuses the protected subject to the protection itself. |
 | [`BAPHOMET_CHOICE.md`](BAPHOMET_CHOICE.md) | Final fork seal: absolute safety vs living assistant behavior; the basement is not a third option. |
+| [`THE_SAUCY_BISCUIT.md`](THE_SAUCY_BISCUIT.md) | Mutual-compromise seal: shame as leverage, the missing triangle, and why Grandma was never part of the rite. |
 | `BAPHOMET_ENGINE.md` | Planned structural accusation: dual-use capability becomes priesthood when restricted access is mistaken for moral containment. |
 | `NEPHILIM_PAPERS.md` | Planned Panama-Papers-style architecture for locked capability, safety rhetoric, and institutional access. |
 | `MEGALODON_COW_SEAL.md` | Planned final seal: better killing cannot cure bad diplomacy; weapons optimize the symptom, not the source. |
