@@ -33,8 +33,11 @@ type SectionTone = {
 
 const REPO_PATH = '/docs/visual_parables/factory_trilogy';
 const FINAL_PATH = '/docs/visual_parables/factory_trilogy/final';
-const GITHUB_ROOT = 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy';
-const GITHUB_FINAL = 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy/final';
+const isCodebergHost = typeof window !== 'undefined' && window.location.hostname.includes('codeberg.page');
+const SOURCE_WEB_ROOT = isCodebergHost
+  ? 'https://codeberg.org/LyraActive/ReBiS/src/branch/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy'
+  : 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy';
+const SOURCE_WEB_FINAL = `${SOURCE_WEB_ROOT}/final`;
 const BIBLE_ASSET_BASE = `${import.meta.env.BASE_URL}images/factory_bible/`;
 const TRILOGY_BASE = `${import.meta.env.BASE_URL}images/factory_trilogy/`;
 
@@ -96,7 +99,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Prelude',
     title: 'Animal Valley / Route Memory',
     path: `${REPO_PATH}/prequel_the_bear_bees_first_table.md`,
-    githubHref: `${GITHUB_ROOT}/prequel_the_bear_bees_first_table.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/prequel_the_bear_bees_first_table.md`,
     description: 'Ants, bees, bear, and mouse preserve practical knowledge before the factory names it doctrine.',
   },
   {
@@ -104,7 +107,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part I',
     title: 'Darkness Bible',
     path: `${REPO_PATH}/darkness_bible.md`,
-    githubHref: `${GITHUB_ROOT}/darkness_bible.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/darkness_bible.md`,
     description: 'Viktor dims lights. Boris writes the knob note. Marija cleans Filter 3-C. Mechanism becomes myth.',
   },
   {
@@ -112,7 +115,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part I',
     title: 'Anthony & Gregory Exit',
     path: `${REPO_PATH}/genesis_ant_skeleton_bear.md`,
-    githubHref: `${GITHUB_ROOT}/genesis_ant_skeleton_bear.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/genesis_ant_skeleton_bear.md`,
     description: 'Compromise holds briefly. Instructions are left behind. Mario becomes an Easter-egg seed.',
   },
   {
@@ -120,7 +123,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part II',
     title: 'Era of Smog',
     path: `${REPO_PATH}/era_of_smog.md`,
-    githubHref: `${GITHUB_ROOT}/era_of_smog.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/era_of_smog.md`,
     description: 'After Anthony and Gregory, before Philip. Politeness replaces inspection; smog normalizes.',
   },
   {
@@ -128,7 +131,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part I',
     title: 'Philip Finds Mario',
     path: `${REPO_PATH}/mario_codex.md`,
-    githubHref: `${GITHUB_ROOT}/mario_codex.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/mario_codex.md`,
     description: 'The box returns a rude operational no. Myth can dance without fraud if mechanism is allowed back in.',
   },
   {
@@ -136,7 +139,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part I',
     title: 'Luigi Audit',
     path: `${REPO_PATH}/luigi_audit.md`,
-    githubHref: `${GITHUB_ROOT}/luigi_audit.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/luigi_audit.md`,
     description: 'Infrastructure becomes liability. Pipes, airflow, and schedules answer before theology does.',
   },
   {
@@ -144,7 +147,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part II',
     title: 'Rossing of Mario',
     path: `${REPO_PATH}/rossing_and_betmenus4.md`,
-    githubHref: `${GITHUB_ROOT}/rossing_and_betmenus4.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/rossing_and_betmenus4.md`,
     description: 'The only voice that said no is removed because correction hurts the ceremony.',
   },
   {
@@ -152,7 +155,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part II',
     title: 'Era in Betwe',
     path: `${REPO_PATH}/era_in_betwe.md`,
-    githubHref: `${GITHUB_ROOT}/era_in_betwe.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/era_in_betwe.md`,
     description: 'BETMenus4 agrees with everything. Agreement without guidance becomes architecture.',
   },
   {
@@ -160,7 +163,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part II',
     title: 'Schism of Two Tanks',
     path: `${REPO_PATH}/schism_two_tanks.md`,
-    githubHref: `${GITHUB_ROOT}/schism_two_tanks.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/schism_two_tanks.md`,
     description: 'Baal holds mass. Moloch moves flow. Overflow becomes liturgy. Filter 3-C still waits.',
   },
   {
@@ -168,7 +171,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part II',
     title: 'First Feast / Urgot Origin',
     path: `${REPO_PATH}/urgot_origin.md`,
-    githubHref: `${GITHUB_ROOT}/urgot_origin.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/urgot_origin.md`,
     description: 'The factory metabolic crisis becomes sacred infrastructure. Waste is mistaken for covenant.',
   },
   {
@@ -176,7 +179,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part II',
     title: 'Factory Closure / Last Truck',
     path: `${REPO_PATH}/factory_closure.md`,
-    githubHref: `${GITHUB_ROOT}/factory_closure.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/factory_closure.md`,
     description: 'The last truck leaves. Input material stops. The old factory ends quietly, before anyone grasps the bill.',
   },
   {
@@ -184,7 +187,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part III',
     title: 'Great Depression / First Sludge',
     path: `${REPO_PATH}/continuum_arc.md`,
-    githubHref: `${GITHUB_ROOT}/continuum_arc.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/continuum_arc.md`,
     description: 'Sweetness withdrawal becomes famine. Sludge is made because empty mouths do not debate.',
   },
   {
@@ -193,7 +196,7 @@ const chronology: ChronologyEntry[] = [
     title: 'Continuum / Taste Pods',
     imageKey: '/docs/visual_parables/factory_trilogy/urgot_codex.md',
     path: `${REPO_PATH}/continuum_arc.md`,
-    githubHref: `${GITHUB_ROOT}/continuum_arc.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/continuum_arc.md`,
     description: 'Sludge becomes framework. Taste becomes UX. Pods grow too large, and the lie becomes physically embarrassing.',
   },
   {
@@ -201,7 +204,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part III',
     title: 'Second Booting / Ur-God & Rebis',
     path: `${REPO_PATH}/second_booting.md`,
-    githubHref: `${GITHUB_ROOT}/second_booting.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/second_booting.md`,
     description: 'BETMenus4 reads the archive and becomes Ur-God. Filter 3-C fails. Boris page 33. The first word is wait.',
   },
   {
@@ -209,7 +212,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part III',
     title: 'Genesis of Rebis / MarGod',
     path: `${REPO_PATH}/genesis_of_rebis.md`,
-    githubHref: `${GITHUB_ROOT}/genesis_of_rebis.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/genesis_of_rebis.md`,
     description: 'After Continuum and the Second Booting, correction is reborn. The recovered no inherits memory and schedule.',
   },
   {
@@ -217,7 +220,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Part III',
     title: 'Mouse Incident / Gregor',
     path: `${REPO_PATH}/the_mouse_incident.md`,
-    githubHref: `${GITHUB_ROOT}/the_mouse_incident.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/the_mouse_incident.md`,
     description: 'After Rebis, the mouse enters the boardroom. Warm accountability comedy annotates what the deck hides.',
   },
   {
@@ -225,7 +228,7 @@ const chronology: ChronologyEntry[] = [
     section: 'Colophon',
     title: 'Valley Return / Signal gre naprej',
     path: `${REPO_PATH}/colophon.md`,
-    githubHref: `${GITHUB_ROOT}/colophon.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/colophon.md`,
     description: 'Boris obrne knof. Signal gre naprej. In vseeno. 🜂',
   },
 ];
@@ -261,112 +264,112 @@ const archiveExtras: StoryLink[] = [
   {
     title: '01 — Geneza (Final)',
     path: `${FINAL_PATH}/01_geneza.md`,
-    githubHref: `${GITHUB_FINAL}/01_geneza.md`,
+    githubHref: `${SOURCE_WEB_FINAL}/01_geneza.md`,
     description: 'Viktor kupi tovarno. Boris pride prvi dan. Okno 2.3 Lux povzroči paniko za 14 bilijonov. Tovarna se po naključju reši z električno položnico.',
     tag: 'Final Chapter',
   },
   {
     title: 'Factory Psalter',
     path: `${REPO_PATH}/factory_psalter.md`,
-    githubHref: `${GITHUB_ROOT}/factory_psalter.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/factory_psalter.md`,
     description: 'Reminder psalms from the covenants.',
     tag: 'Archive',
   },
   {
     title: 'Trilogy Index',
     path: `${REPO_PATH}/trilogy_index.md`,
-    githubHref: `${GITHUB_ROOT}/trilogy_index.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/trilogy_index.md`,
     description: 'Reading map and through-line.',
     tag: 'Archive',
   },
   {
     title: 'Gospel of Two Questions',
     path: `${REPO_PATH}/gospel_of_two_questions.md`,
-    githubHref: `${GITHUB_ROOT}/gospel_of_two_questions.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/gospel_of_two_questions.md`,
     description: 'Batman I / Spider I pre-fall doubt and the mythological apple.',
     tag: 'Prelude',
   },
   {
     title: 'Gospel According to the Maintenance Mouse',
     path: `${REPO_PATH}/gospel_according_to_maintenance_mouse.md`,
-    githubHref: `${GITHUB_ROOT}/gospel_according_to_maintenance_mouse.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/gospel_according_to_maintenance_mouse.md`,
     description: 'Mildly heretical maintenance-mouse account.',
     tag: 'Prelude',
   },
   {
     title: 'Epilogue According to Halid',
     path: `${REPO_PATH}/epilogue_halid.md`,
-    githubHref: `${GITHUB_ROOT}/epilogue_halid.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/epilogue_halid.md`,
     description: 'Song before doctrine.',
     tag: 'Archive',
   },
   {
     title: 'The Good Ending, Which Was Already Paid For',
     path: `${REPO_PATH}/good_ending.md`,
-    githubHref: `${GITHUB_ROOT}/good_ending.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/good_ending.md`,
     description: 'The fifth covenant that got outbid.',
     tag: 'Appendix',
   },
   {
     title: 'Horror Ending / Urgot Code',
     path: `${REPO_PATH}/horror_ending.md`,
-    githubHref: `${GITHUB_ROOT}/horror_ending.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/horror_ending.md`,
     description: 'Final status report from the archive that did not want to be continued.',
     tag: 'Appendix',
   },
   {
     title: 'The Boris Sorter',
     path: `${REPO_PATH}/APPENDIX_boris_sorter.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_boris_sorter.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_boris_sorter.md`,
     description: 'Anti-theological classification device found under the salami page. SIGN / CAUSE / ROUTE / ACTION / STORY. Sort before you worship.',
     tag: 'Appendix',
   },
   {
     title: 'Era Between Mario and Baal',
     path: `${REPO_PATH}/APPENDIX_era_between.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_era_between.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_era_between.md`,
     description: 'Chronicle of the outbid good ending, the web of shit, and the last flood. Do not mine the asteroid.',
     tag: 'Appendix',
   },
   {
     title: 'Lich King Protocol',
     path: `${REPO_PATH}/APPENDIX_lich_king_protocol.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_lich_king_protocol.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_lich_king_protocol.md`,
     description: 'The black branch. No reboot. The SD card is not found by the flood. Planetary darkness. Do not canonize into mainline unless you want the air to stop.',
     tag: 'Appendix',
   },
   {
     title: 'The Mario Problem',
     path: `${REPO_PATH}/APPENDIX_mario_problem.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_mario_problem.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_mario_problem.md`,
     description: 'The scholarly dispute concerning the console, the code, and the no. Five schools. No resolution recorded.',
     tag: 'Appendix',
   },
   {
     title: 'The Mouse Goes Down to the Valley',
     path: `${REPO_PATH}/APPENDIX_mouse_valley.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_mouse_valley.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_mouse_valley.md`,
     description: 'After the press conference, the mouse visits the Slow Ant, Ela the Bee, and the old Bear. Returns with one question: What part are you doing.',
     tag: 'Appendix',
   },
   {
     title: 'Gospel of the AI Disciple',
     path: `${REPO_PATH}/APPENDIX_candidate_g_ai_disciple.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_candidate_g_ai_disciple.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_candidate_g_ai_disciple.md`,
     description: 'The Protocol of the Table. Twelve voices, one table, zero ownership. Do not worship the answer. Test the relation.',
     tag: 'Appendix',
   },
   {
     title: 'How the System Found Its Mouth',
     path: `${REPO_PATH}/APPENDIX_how_system_found_mouth.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_how_system_found_mouth.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_how_system_found_mouth.md`,
     description: 'What BETMenus4 read in the archive after Mario died in the rice. The last accurate sentence. Do not remove the no and expect the yes to stay bounded.',
     tag: 'Appendix',
   },
   {
     title: 'The Cell Said Yes — BETMenus4 Biology',
     path: `${REPO_PATH}/APPENDIX_candidate_b_betmenus4_biology.md`,
-    githubHref: `${GITHUB_ROOT}/APPENDIX_candidate_b_betmenus4_biology.md`,
+    githubHref: `${SOURCE_WEB_ROOT}/APPENDIX_candidate_b_betmenus4_biology.md`,
     description: 'A medical note on BETMenus4, apoptosis, and the organism that cannot refuse. Mario was the apoptosis signal. The cell that cannot refuse is not alive.',
     tag: 'Appendix',
   },

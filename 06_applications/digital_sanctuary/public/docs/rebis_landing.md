@@ -119,9 +119,9 @@ REBiS operates in ConsMAP as:
 
 ---
 
-*→ Read the full factory saga in the [Story Archive](/ConsMAP/)*  
-*→ Examine the safety logic in the [Claim Analyzer](/ConsMAP/)*  
-*→ Translate the symbol in the [Symbol Mirror](/ConsMAP/)*
+Open the full factory saga in the Story Archive tab.  
+Open the safety logic in the Claim Analyzer tab.  
+Translate the symbol in the Symbol Mirror tab.
 
 ---
 

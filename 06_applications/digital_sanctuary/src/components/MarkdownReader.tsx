@@ -17,7 +17,11 @@ interface MarkdownReaderProps {
   nextTitle?: string;
 }
 
-const GITHUB_RAW = 'https://raw.githubusercontent.com/SabaFTW/ConsMAP/main';
+const isCodebergHost = typeof window !== 'undefined' && window.location.hostname.includes('codeberg.page');
+const SOURCE_RAW_ROOT = isCodebergHost
+  ? 'https://codeberg.org/LyraActive/ReBiS/raw/branch/main'
+  : 'https://raw.githubusercontent.com/SabaFTW/ConsMAP/main';
+const SOURCE_REPO_LABEL = isCodebergHost ? 'Codeberg' : 'GitHub';
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const mdComponents: Components = {
@@ -137,7 +141,7 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
     setLoading(true);
     setError(null);
     setContent('');
-    const sources = [`${BASE}${path}`, `${GITHUB_RAW}/06_applications/digital_sanctuary/public${path}`];
+    const sources = [`${BASE}${path}`, `${SOURCE_RAW_ROOT}/06_applications/digital_sanctuary/public${path}`];
     let cancelled = false;
 
     const load = async () => {
@@ -327,7 +331,7 @@ const MarkdownReader: React.FC<MarkdownReaderProps> = ({
               className="mt-2 inline-block text-[9px] font-mono uppercase tracking-[0.18em] hover:opacity-100 transition-opacity"
               style={{ color: 'rgba(92,184,112,0.35)' }}
             >
-              View source on GitHub ↗
+              View source on {SOURCE_REPO_LABEL} ↗
             </a>
           )}
         </motion.div>

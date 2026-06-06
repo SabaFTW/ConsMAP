@@ -157,36 +157,37 @@ const SAMPLE: EnvelopeObject[] = [
 // ── Design tokens ──────────────────────────────────────────────────────────
 
 const C = {
-  text:       'rgba(220,235,220,0.95)',
-  textMuted:  'rgba(220,235,220,0.68)',
-  textDim:    'rgba(220,235,220,0.40)',
-  textFaint:  'rgba(220,235,220,0.25)',
-  surface:    'rgba(12,18,12,0.88)',
-  surface2:   'rgba(8,13,8,0.55)',
-  border:     'rgba(71,85,105,0.32)',
-  borderMid:  'rgba(71,85,105,0.22)',
-  accent:     'rgba(92,184,112,0.75)',
-  accentDim:  'rgba(92,184,112,0.42)',
+  text:       '#e8f4e8',
+  textMuted:  'rgba(232,244,232,0.82)',
+  textDim:    'rgba(232,244,232,0.55)',
+  textFaint:  'rgba(232,244,232,0.32)',
+  surface:    '#0f1a0f',
+  surface2:   '#0c1309',
+  surfaceEl:  '#182518',
+  border:     'rgba(92,160,92,0.36)',
+  borderMid:  'rgba(92,160,92,0.20)',
+  accent:     '#5cb870',
+  accentDim:  'rgba(92,184,112,0.58)',
 };
 
 const FAMILY_STYLE: Record<Family, { accent: string; border: string; glow: string; label: string }> = {
-  observation:    { accent: '#7dd3fc', border: 'rgba(125,211,252,0.30)', glow: 'rgba(125,211,252,0.10)', label: 'Observation' },
-  approval:       { accent: '#f4c96a', border: 'rgba(244,201,106,0.30)', glow: 'rgba(244,201,106,0.10)', label: 'Approval' },
-  source_of_truth:{ accent: '#34d399', border: 'rgba(52,211,153,0.30)',  glow: 'rgba(52,211,153,0.10)',  label: 'Source of Truth' },
+  observation:    { accent: '#60c8f8', border: 'rgba(96,200,248,0.32)',  glow: 'rgba(96,200,248,0.08)',  label: 'Observation' },
+  approval:       { accent: '#f0c040', border: 'rgba(240,192,64,0.32)',  glow: 'rgba(240,192,64,0.08)',  label: 'Approval' },
+  source_of_truth:{ accent: '#34d399', border: 'rgba(52,211,153,0.32)',  glow: 'rgba(52,211,153,0.08)',  label: 'Source of Truth' },
 };
 
 const GATE_STYLE: Record<Gate, { color: string; bg: string }> = {
-  GREEN:  { color: '#34d399', bg: 'rgba(52,211,153,0.18)' },
-  YELLOW: { color: '#f4c96a', bg: 'rgba(244,201,106,0.18)' },
-  RED:    { color: '#f87171', bg: 'rgba(248,113,113,0.18)' },
+  GREEN:  { color: '#34d399', bg: 'rgba(52,211,153,0.20)' },
+  YELLOW: { color: '#f0c040', bg: 'rgba(240,192,64,0.20)' },
+  RED:    { color: '#f87171', bg: 'rgba(248,113,113,0.20)' },
 };
 
 const TRUTH_COLOR: Record<string, string> = {
   LIVE:       '#34d399',
-  STALE:      '#f4c96a',
-  HISTORICAL: 'rgba(220,235,220,0.55)',
+  STALE:      '#f0c040',
+  HISTORICAL: 'rgba(232,244,232,0.60)',
   RESTORED:   '#a78bfa',
-  FOSSIL:     'rgba(220,235,220,0.35)',
+  FOSSIL:     'rgba(232,244,232,0.38)',
   UNKNOWN:    '#f87171',
 };
 
@@ -196,9 +197,10 @@ const GateBadge: React.FC<{ gate: Gate }> = ({ gate }) => {
   const s = GATE_STYLE[gate];
   return (
     <span
-      className="text-xs font-mono uppercase tracking-[0.18em] px-3 py-1 rounded-full inline-flex items-center"
-      style={{ color: s.color, background: s.bg, minHeight: '28px' }}
+      className="text-xs font-mono font-semibold uppercase tracking-[0.16em] px-3 py-1.5 rounded-full inline-flex items-center gap-1"
+      style={{ color: s.color, background: s.bg, border: `1px solid ${s.color}40`, minHeight: '32px' }}
     >
+      <span style={{ width: 6, height: 6, borderRadius: '50%', background: s.color, display: 'inline-block', flexShrink: 0 }} />
       {gate}
     </span>
   );
@@ -206,11 +208,12 @@ const GateBadge: React.FC<{ gate: Gate }> = ({ gate }) => {
 
 const TruthBadge: React.FC<{ state: string }> = ({ state }) => (
   <span
-    className="text-xs font-mono uppercase tracking-[0.18em] px-3 py-1 rounded-full border inline-flex items-center"
+    className="text-xs font-mono uppercase tracking-[0.16em] px-3 py-1.5 rounded-full border inline-flex items-center"
     style={{
       color: TRUTH_COLOR[state] ?? C.textMuted,
-      borderColor: `${TRUTH_COLOR[state] ?? 'rgba(220,235,220,0.28)'}55`,
-      minHeight: '28px',
+      borderColor: `${TRUTH_COLOR[state] ?? C.border}50`,
+      background: `${TRUTH_COLOR[state] ?? 'transparent'}12`,
+      minHeight: '32px',
     }}
   >
     {state}
@@ -218,9 +221,9 @@ const TruthBadge: React.FC<{ state: string }> = ({ state }) => (
 );
 
 const LaneCard: React.FC<{ title: string; accent: string; border: string; children: React.ReactNode }> = ({ title, accent, border, children }) => (
-  <div className="rounded-2xl border flex flex-col" style={{ borderColor: border, background: C.surface }}>
+  <div className="rounded-2xl flex flex-col" style={{ border: `1px solid ${border}`, background: C.surface }}>
     <div
-      className="px-5 py-3 text-xs font-mono uppercase tracking-[0.22em] shrink-0"
+      className="px-5 py-3.5 text-xs font-mono font-semibold uppercase tracking-[0.22em] shrink-0 rounded-t-2xl"
       style={{ color: accent, borderBottom: `1px solid ${border}`, background: C.surface2 }}
     >
       {title}
@@ -233,11 +236,11 @@ const LaneCard: React.FC<{ title: string; accent: string; border: string; childr
 
 const Field: React.FC<{ label: string; value: React.ReactNode; mono?: boolean }> = ({ label, value, mono }) => (
   <div>
-    <div className="text-xs font-mono uppercase tracking-[0.18em] mb-1.5" style={{ color: C.accent }}>
+    <div className="text-[10px] font-mono font-semibold uppercase tracking-[0.22em] mb-1.5" style={{ color: C.accentDim }}>
       {label}
     </div>
     <div
-      className={`text-sm leading-[1.7] ${mono ? 'font-mono break-all' : 'font-light'}`}
+      className={`text-sm leading-[1.75] ${mono ? 'font-mono break-all' : ''}`}
       style={{ color: C.text }}
     >
       {value}
@@ -465,12 +468,12 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
           <button
             key={v}
             onClick={() => setViewMode(v)}
-            className="px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-[0.18em] border transition-all duration-200"
+            className="px-5 py-2.5 rounded-xl text-xs font-mono font-semibold uppercase tracking-[0.18em] border transition-all duration-200"
             style={{
               color: viewMode === v ? C.text : C.textDim,
-              borderColor: viewMode === v ? 'rgba(92,184,112,0.40)' : C.border,
-              background: viewMode === v ? 'rgba(92,184,112,0.09)' : 'transparent',
-              minHeight: '40px',
+              borderColor: viewMode === v ? 'rgba(92,184,112,0.50)' : C.border,
+              background: viewMode === v ? 'rgba(92,184,112,0.13)' : C.surface,
+              minHeight: '44px',
             }}
           >
             {v === 'hud' ? 'Bicameral HUD' : 'Kernel Saga'}
@@ -485,13 +488,16 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
         transition={{ duration: 0.7 }}
         className="mb-6"
       >
-        <div className="text-xs font-mono uppercase tracking-[0.26em] mb-2" style={{ color: C.accentDim }}>
+        <div className="text-[10px] font-mono font-semibold uppercase tracking-[0.30em] mb-2.5" style={{ color: C.accentDim }}>
           ConsMAP / Bicameral HUD
         </div>
-        <h1 className="text-2xl sm:text-3xl font-light tracking-tight mb-2" style={{ color: C.text }}>
+        <h1
+          className="font-light tracking-tight mb-2"
+          style={{ color: C.text, fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}
+        >
           {viewMode === 'hud' ? 'Bicameral HUD' : 'Bicameral Kernel'}
         </h1>
-        <p className="text-sm font-light" style={{ color: C.textMuted }}>
+        <p className="text-sm" style={{ color: C.textMuted }}>
           {viewMode === 'hud'
             ? 'One chat · two readings · one shared ledger'
             : 'From intent to proof: yes, no, hover, cut, rollback.'}
@@ -509,13 +515,13 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="rounded-xl border px-5 py-3 mb-6 flex items-center gap-3"
-            style={{ borderColor: 'rgba(196,160,80,0.35)', background: 'rgba(196,160,80,0.06)' }}
+            className="rounded-xl border px-5 py-3.5 mb-6 flex items-start gap-3"
+            style={{ borderColor: 'rgba(220,172,40,0.40)', background: 'rgba(220,172,40,0.08)' }}
           >
-            <span className="text-xs font-mono uppercase tracking-[0.16em] shrink-0" style={{ color: 'rgba(196,160,80,0.85)' }}>
+            <span className="text-xs font-mono font-semibold uppercase tracking-[0.16em] shrink-0 mt-0.5" style={{ color: 'rgba(240,192,64,0.95)' }}>
               ⚠ Offline
             </span>
-            <p className="text-xs font-mono" style={{ color: 'rgba(196,160,80,0.72)' }}>
+            <p className="text-xs font-mono leading-relaxed" style={{ color: 'rgba(240,192,64,0.80)' }}>
               Offline concept module. Visuals do not replace ledger evidence.
             </p>
           </motion.div>
@@ -527,24 +533,43 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
             transition={{ delay: 0.25, duration: 0.5 }}
             className="lg:hidden space-y-4 mb-6"
           >
+            {/* Mobile summary stats row */}
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                { label: 'All',  count: counts.all,             color: C.text },
+                { label: 'Obs',  count: counts.observation,     color: FAMILY_STYLE.observation.accent },
+                { label: 'Appr', count: counts.approval,        color: FAMILY_STYLE.approval.accent },
+                { label: 'SoT',  count: counts.source_of_truth, color: FAMILY_STYLE.source_of_truth.accent },
+              ].map(c => (
+                <div
+                  key={c.label}
+                  className="text-center rounded-xl py-3"
+                  style={{ background: C.surfaceEl, border: `1px solid ${C.borderMid}` }}
+                >
+                  <div className="text-xl font-light leading-none" style={{ color: c.color }}>{c.count}</div>
+                  <div className="text-[10px] font-mono uppercase tracking-[0.12em] mt-1.5" style={{ color: C.textDim }}>{c.label}</div>
+                </div>
+              ))}
+            </div>
+
             {/* Filter pills — horizontal scroll */}
             <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
               {filters.map(f => (
                 <button
                   key={f.key}
                   onClick={() => setFilter(f.key)}
-                  className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-[0.14em] border transition-colors duration-150"
+                  className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono font-semibold uppercase tracking-[0.14em] border transition-colors duration-150"
                   style={{
                     color: filter === f.key ? C.text : C.textMuted,
-                    borderColor: filter === f.key ? 'rgba(92,184,112,0.45)' : C.border,
-                    background: filter === f.key ? 'rgba(92,184,112,0.10)' : C.surface,
-                    minHeight: '40px',
+                    borderColor: filter === f.key ? 'rgba(92,184,112,0.55)' : C.border,
+                    background: filter === f.key ? 'rgba(92,184,112,0.14)' : C.surface,
+                    minHeight: '44px',
                   }}
                 >
                   <span>{f.label}</span>
                   <span
-                    className="text-xs rounded-full px-1.5 py-0.5"
-                    style={{ color: C.textDim, background: 'rgba(71,85,105,0.20)' }}
+                    className="text-xs rounded-full px-1.5 py-0.5 font-normal"
+                    style={{ color: C.textDim, background: 'rgba(92,160,92,0.15)' }}
                   >
                     {f.count}
                   </span>
@@ -561,16 +586,18 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
                   <button
                     key={obj.objectId}
                     onClick={() => selectObj(obj.objectId)}
-                    className="w-full text-left px-4 py-3 rounded-xl border transition-colors duration-150"
+                    className="w-full text-left px-4 py-3.5 rounded-xl border transition-colors duration-150"
                     style={{
                       borderColor: isSel ? s.border : C.borderMid,
-                      background: isSel ? s.glow : C.surface,
+                      background: isSel ? `${s.glow}` : C.surfaceEl,
+                      borderLeftWidth: isSel ? '3px' : '1px',
+                      borderLeftColor: isSel ? s.accent : C.borderMid,
                     }}
                   >
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <span
-                        className="text-xs font-mono uppercase tracking-[0.14em] px-2.5 py-0.5 rounded-full shrink-0"
-                        style={{ color: s.accent, background: `${s.accent}1a` }}
+                        className="text-[10px] font-mono font-semibold uppercase tracking-[0.16em] px-2.5 py-1 rounded-full shrink-0"
+                        style={{ color: s.accent, background: `${s.accent}20` }}
                       >
                         {obj.objectFamily === 'source_of_truth' ? 'SoT' : obj.objectFamily.slice(0, 4)}
                       </span>
@@ -578,7 +605,7 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
                       {obj.truthState && <TruthBadge state={obj.truthState} />}
                     </div>
                     <div
-                      className="text-sm font-light"
+                      className="text-sm leading-snug"
                       style={{ color: isSel ? C.text : C.textMuted }}
                     >
                       {obj.label}
@@ -594,16 +621,16 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.28, duration: 0.6 }}
-            className="grid lg:grid-cols-[240px_1fr] gap-5 items-start"
+            className="grid lg:grid-cols-[260px_1fr] gap-5 items-start"
           >
             {/* Sidebar — hidden on mobile, visible lg+ */}
             <aside
-              className="hidden lg:block rounded-2xl border overflow-hidden"
-              style={{ borderColor: C.border, background: C.surface }}
+              className="hidden lg:block rounded-2xl overflow-hidden"
+              style={{ border: `1px solid ${C.border}`, background: C.surface }}
             >
               {/* Summary stats */}
               <div className="px-5 py-4" style={{ borderBottom: `1px solid ${C.borderMid}` }}>
-                <div className="text-xs font-mono uppercase tracking-[0.20em] mb-3" style={{ color: C.accentDim }}>
+                <div className="text-[10px] font-mono font-semibold uppercase tracking-[0.24em] mb-3" style={{ color: C.accentDim }}>
                   Summary
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -616,37 +643,37 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
                     <div
                       key={c.label}
                       className="text-center rounded-xl py-3"
-                      style={{ background: 'rgba(71,85,105,0.14)' }}
+                      style={{ background: C.surfaceEl, border: `1px solid ${C.borderMid}` }}
                     >
                       <div className="text-2xl font-light leading-none" style={{ color: c.color }}>{c.count}</div>
-                      <div className="text-xs font-mono uppercase tracking-[0.14em] mt-1" style={{ color: C.textDim }}>{c.label}</div>
+                      <div className="text-[10px] font-mono uppercase tracking-[0.14em] mt-1.5" style={{ color: C.textDim }}>{c.label}</div>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Filters */}
-              <div className="px-3 py-3 flex flex-col gap-1" style={{ borderBottom: `1px solid ${C.borderMid}` }}>
+              <div className="px-3 py-3 flex flex-col gap-0.5" style={{ borderBottom: `1px solid ${C.borderMid}` }}>
                 {filters.map(f => (
                   <button
                     key={f.key}
                     onClick={() => setFilter(f.key)}
-                    className="w-full text-left px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-[0.14em] flex items-center justify-between transition-colors duration-150"
+                    className="w-full text-left px-4 py-2.5 rounded-xl text-xs font-mono font-semibold uppercase tracking-[0.14em] flex items-center justify-between transition-colors duration-150"
                     style={{
                       color: filter === f.key ? C.text : C.textMuted,
-                      background: filter === f.key ? 'rgba(92,184,112,0.09)' : 'transparent',
-                      borderLeft: filter === f.key ? '2px solid rgba(92,184,112,0.55)' : '2px solid transparent',
-                      minHeight: '36px',
+                      background: filter === f.key ? 'rgba(92,184,112,0.12)' : 'transparent',
+                      borderLeft: filter === f.key ? `3px solid ${C.accent}` : '3px solid transparent',
+                      minHeight: '40px',
                     }}
                   >
                     <span>{f.label}</span>
-                    <span style={{ color: C.textDim, fontVariantNumeric: 'tabular-nums' }}>{f.count}</span>
+                    <span style={{ color: filter === f.key ? C.accentDim : C.textDim, fontVariantNumeric: 'tabular-nums' }}>{f.count}</span>
                   </button>
                 ))}
               </div>
 
               {/* Object list */}
-              <div className="py-2 max-h-[400px] overflow-y-auto">
+              <div className="py-2 max-h-[420px] overflow-y-auto">
                 {filtered.map(obj => {
                   const s = FAMILY_STYLE[obj.objectFamily];
                   const isSel = obj.objectId === selectedId;
@@ -654,23 +681,23 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
                     <button
                       key={obj.objectId}
                       onClick={() => selectObj(obj.objectId)}
-                      className="w-full text-left px-5 py-3 transition-colors duration-150 border-l-2"
+                      className="w-full text-left px-5 py-3.5 transition-colors duration-150 border-l-[3px]"
                       style={{
-                        background: isSel ? 'rgba(92,184,112,0.07)' : 'transparent',
-                        borderColor: isSel ? 'rgba(92,184,112,0.55)' : 'transparent',
+                        background: isSel ? 'rgba(92,184,112,0.09)' : 'transparent',
+                        borderColor: isSel ? C.accent : 'transparent',
                       }}
                     >
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span
-                          className="text-xs font-mono uppercase tracking-[0.14em] px-2.5 py-0.5 rounded-full shrink-0"
-                          style={{ color: s.accent, background: s.glow }}
+                          className="text-[10px] font-mono font-semibold uppercase tracking-[0.14em] px-2.5 py-1 rounded-full shrink-0"
+                          style={{ color: s.accent, background: `${s.accent}20` }}
                         >
                           {obj.objectFamily === 'source_of_truth' ? 'SoT' : obj.objectFamily.slice(0, 4)}
                         </span>
                         <GateBadge gate={obj.gate} />
                       </div>
                       <div
-                        className="text-sm font-light leading-snug break-words"
+                        className="text-sm leading-snug break-words"
                         style={{ color: isSel ? C.text : C.textMuted }}
                       >
                         {obj.label}
@@ -684,10 +711,13 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
             {/* ── Content area ───────────────────────────────────────────── */}
             <div className="space-y-4 min-w-0">
               {/* Object header badges */}
-              <div className="flex items-center gap-2.5 flex-wrap">
+              <div
+                className="flex items-center gap-2.5 flex-wrap px-4 py-3 rounded-xl"
+                style={{ background: C.surfaceEl, border: `1px solid ${C.borderMid}` }}
+              >
                 <span
-                  className="text-xs font-mono uppercase tracking-[0.18em] px-3 py-1 rounded-full border inline-flex items-center"
-                  style={{ color: fs.accent, borderColor: fs.border, background: fs.glow, minHeight: '28px' }}
+                  className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] px-3 py-1.5 rounded-full border inline-flex items-center"
+                  style={{ color: fs.accent, borderColor: fs.border, background: `${fs.accent}15`, minHeight: '32px' }}
                 >
                   {fs.label}
                 </span>
@@ -706,7 +736,7 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.28 }}
-                  className="grid lg:grid-cols-3 gap-4"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
                 >
                   {/* Lane 1 — Technical Evidence */}
                   <LaneCard title="Technical Evidence" accent={FAMILY_STYLE.observation.accent} border="rgba(125,211,252,0.22)">
@@ -820,15 +850,15 @@ const BicameralHudPreview: React.FC<BicameralHudPreviewProps> = ({ onBack }) => 
                 </motion.div>
               </AnimatePresence>
 
-              {/* Raw JSON toggle — proper secondary button */}
+              {/* Raw JSON toggle */}
               <div className="flex justify-end pt-1">
                 <button
                   onClick={() => setShowRaw(r => !r)}
-                  className="text-xs font-mono uppercase tracking-[0.18em] px-5 py-2.5 rounded-xl border transition-all duration-200"
+                  className="text-xs font-mono font-semibold uppercase tracking-[0.18em] px-5 py-2.5 rounded-xl border transition-all duration-200 hover:opacity-90"
                   style={{
                     color: showRaw ? C.text : C.textMuted,
-                    borderColor: showRaw ? 'rgba(71,85,105,0.55)' : C.border,
-                    background: showRaw ? 'rgba(71,85,105,0.22)' : C.surface,
+                    borderColor: showRaw ? C.border : C.borderMid,
+                    background: showRaw ? C.surfaceEl : C.surface,
                     minHeight: '44px',
                   }}
                 >

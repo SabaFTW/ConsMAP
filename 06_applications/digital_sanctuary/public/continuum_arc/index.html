@@ -232,10 +232,17 @@
     <div id="content"><div class="loading">loading arc…</div></div>
     <footer>
       <span>ConsMAP · CC BY-SA 4.0</span>
-      <a href="https://github.com/SabaFTW/ConsMAP">github.com/SabaFTW/ConsMAP</a>
+      <a id="repo-link" href="#">project source</a>
     </footer>
   </div>
   <script>
+    const repoLink = document.getElementById('repo-link');
+    if (repoLink) {
+      repoLink.href = window.location.hostname.includes('codeberg.page')
+        ? 'https://codeberg.org/LyraActive/ReBiS'
+        : 'https://github.com/SabaFTW/ConsMAP';
+      repoLink.textContent = 'project source';
+    }
     fetch('./index.md')
       .then(r => r.ok ? r.text() : Promise.reject('not found'))
       .then(md => {

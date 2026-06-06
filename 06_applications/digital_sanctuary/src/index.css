@@ -15,14 +15,14 @@
 }
 
 :root {
-  background-color: #080c08;
-  color: #d8e8d8;
+  background-color: #0d160d;
+  color: #e8f4e8;
   font-size: 16px;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1a2e1a #080c08;
+  scrollbar-color: #1e3220 #0d160d;
 }
 
 body {
@@ -36,25 +36,25 @@ body {
   font-size: 1rem;
   background: linear-gradient(
     180deg,
-    #060c06 0%,
-    #080c08 18%,
-    #090a08 38%,
-    #0b0906 55%,
-    #0f0804 75%,
-    #160803 100%
+    #0a1208 0%,
+    #0d160d 20%,
+    #0e1509 40%,
+    #0f1408 60%,
+    #111206 80%,
+    #151004 100%
   );
   background-attachment: fixed;
 }
 
-/* Subtle grid overlay — green lines fade to amber as gradient shifts */
+/* Subtle grid overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(97, 216, 137, 0.032) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(97, 216, 137, 0.032) 1px, transparent 1px);
-  background-size: 64px 64px;
+    linear-gradient(rgba(92, 184, 112, 0.042) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 184, 112, 0.042) 1px, transparent 1px);
+  background-size: 56px 56px;
   pointer-events: none;
   z-index: 0;
 }

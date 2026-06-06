@@ -5,6 +5,12 @@ import remarkGfm from 'remark-gfm';
 import type { Components } from 'react-markdown';
 import FloatingBack from './FloatingBack';
 
+const BASE_URL = import.meta.env.BASE_URL;
+const isCodebergHost = typeof window !== 'undefined' && window.location.hostname.includes('codeberg.page');
+const SOURCE_RAW_ROOT = isCodebergHost
+  ? 'https://codeberg.org/LyraActive/ReBiS/raw/branch/main'
+  : 'https://raw.githubusercontent.com/SabaFTW/ConsMAP/main';
+
 // ── Markdown renderer ─────────────────────────────────────────────────────────
 
 const mdComponents: Components = {
@@ -165,13 +171,28 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack, initialDoc }) => {
   useEffect(() => {
     setLoading(true);
     setCopied(false);
-    const url = selected.local
-      ? `${import.meta.env.BASE_URL}${selected.path.replace(/^\//, '')}`
-      : `https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`;
-    fetch(url)
-      .then((res) => { if (!res.ok) throw new Error('not found'); return res.text(); })
-      .then((text) => { setContent(text); setLoading(false); })
-      .catch((err) => { setContent('Could not load: ' + err.message); setLoading(false); });
+    const localUrl = `${BASE_URL}${selected.path.replace(/^\//, '')}`;
+    const remoteUrl = `${SOURCE_RAW_ROOT}${selected.path}`;
+    const candidates = selected.local ? [localUrl] : [localUrl, remoteUrl];
+
+    const load = async () => {
+      for (const url of candidates) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue;
+          const text = await res.text();
+          setContent(text);
+          setLoading(false);
+          return;
+        } catch {
+          // try next candidate
+        }
+      }
+      setContent('Could not load: not found');
+      setLoading(false);
+    };
+
+    void load();
   }, [selected.path, selected.local]);
 
   const copyRaw = () => {
@@ -375,7 +396,7 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack, initialDoc }) => {
                 </button>
                 {!selected.local && (
                   <a
-                    href={`https://raw.githubusercontent.com/SabaFTW/ConsMAP/main${selected.path}`}
+                    href={`${SOURCE_RAW_ROOT}${selected.path}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-[9px] font-mono tracking-[0.18em] uppercase transition-opacity hover:opacity-100"
