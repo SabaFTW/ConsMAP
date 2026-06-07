@@ -180,6 +180,9 @@ const DocsViewer: React.FC<DocsViewerProps> = ({ onBack, initialDoc }) => {
         try {
           const res = await fetch(url);
           if (!res.ok) continue;
+          // Vite SPA fallback returns index.html (text/html) for missing local paths — skip it
+          const ct = res.headers.get('content-type') ?? '';
+          if (ct.includes('text/html')) continue;
           const text = await res.text();
           setContent(text);
           setLoading(false);
