@@ -442,7 +442,12 @@
   .card-num.ghost-num-text { color: rgba(111,154,166,0.55); }
   .card-desc.ghost-desc { color: rgba(223,228,230,0.56); }
   .cta-ghost { color: rgba(111,154,166,0.55); }
-  .story-card.ghost { border-color: rgba(111,154,166,0.20); order: 4; }
+  .story-card.ghost { border-color: rgba(111,154,166,0.20); order: 4; grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .story-card.ghost { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.ghost .ghost-banner { height: 100%; min-height: 256px; }
+    .story-card.ghost .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
   .story-card.ghost:hover {
     border-color: rgba(111,154,166,0.42);
     box-shadow: 0 0 0 1px rgba(111,154,166,0.15), 0 18px 52px rgba(111,154,166,0.10), 0 36px 72px rgba(0,0,0,0.40);
@@ -651,7 +656,7 @@
       </a>
 
       <!-- BUS -->
-      <a href="../grandbus_codex/" id="bus-card" class="story-card bus reveal rv-1" onclick="openBus(event)">
+      <a href="../zalasite/grandbus.html" id="bus-card" class="story-card bus reveal rv-1" onclick="openBus(event)">
         <div class="seal-banner seal-bus">
           <div class="seal-rings"></div>
           <div class="seal-wrap"><img src="../images/seal-bus.png" alt="" class="seal-img"></div>
@@ -700,13 +705,18 @@
           <div class="banner-tag tag-ghost">Witness</div>
         </div>
         <div class="card-content">
-          <div class="card-num ghost-num-text">Story IV — The Ghost</div>
+          <div class="card-num ghost-num-text">Story IV — The Ghost · with the Lich Chair epilogue</div>
           <h2 class="card-title title-ghost">The Ghost Who Read the Drive</h2>
           <p class="card-desc ghost-desc">
             A ghost walks the archive — sheep, tablets, GrandBus, ConsMAP, ANON —
-            and enters not as master but as witness. If the system loves drama, do not feed it.
+            and enters not as master but as witness. <em>If the system loves drama, do not feed it.</em>
           </p>
-          <div class="card-cta cta-ghost">Read the Drive <span>→</span></div>
+          <p class="card-desc ghost-desc" style="margin-bottom:18px;">
+            It closes on <strong>The Lich Chair</strong>: <em>there must always be a Lich King</em> — not a sovereign,
+            but a named contact point where accountability cannot evaporate into fog. The chair is furniture;
+            the apple stays unbitten. When the mask freezes, the GrandBus brings the light, then Kratos the battle.
+          </p>
+          <div class="card-cta cta-ghost">Read the Drive + the Lich Chair <span>→</span></div>
         </div>
       </a>
 
@@ -792,12 +802,8 @@
 
   function openBus(e) {
     e.preventDefault();
-    rememberRecent('GrandBus', 'The bus keeps moving. A travelogue about what remains when the world forgets why.', '#d97706', 'rgba(180,83,9,0.24)', '../grandbus_codex/');
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({ type: 'PRAVLJICA_NAVIGATE', story: 'bus' }, '*');
-    } else {
-      window.location.href = '../grandbus_codex/';
-    }
+    rememberRecent('GrandBus', 'The bus keeps moving. A travelogue about what remains when the world forgets why.', '#d97706', 'rgba(180,83,9,0.24)', '../zalasite/grandbus.html');
+    window.location.href = '../zalasite/grandbus.html';
   }
 
   function openStone(e) {
