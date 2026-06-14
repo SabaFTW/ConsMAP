@@ -244,7 +244,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
     if (dest) pushRecentDestination(dest);
     if (action.type === 'view') onNavigate(action.view);
     else if (action.type === 'docs') onNavigate('docs', action.docPath);
-    else onNavigate('frame', action.url);
+    // Standalone pages (Stories, ZALA, FAQ, REBiS, …) open as full-page loads.
+    // The in-app iframe ('frame') fails on static hosts like Codeberg Pages, so
+    // navigate directly — these pages carry their own nav / back links.
+    else window.location.href = action.url;
   };
 
   return (
@@ -507,7 +510,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
               transition={{ delay: 0.28, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => onNavigate('frame', `${import.meta.env.BASE_URL}forge_faq/index.html`)}
+              onClick={() => { window.location.href = `${import.meta.env.BASE_URL}forge_faq/index.html`; }}
               className="flex-1 text-left rounded-xl border px-4 py-3"
               style={{ borderColor: 'rgba(125,211,252,0.18)', background: 'rgba(10,14,18,0.6)', transition: 'border-color 0.2s ease' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(125,211,252,0.38)'; }}
@@ -523,7 +526,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
               transition={{ delay: 0.33, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => onNavigate('frame', `${import.meta.env.BASE_URL}rebis_landing_page/index.html`)}
+              onClick={() => { window.location.href = `${import.meta.env.BASE_URL}rebis_landing_page/index.html`; }}
               className="flex-1 text-left rounded-xl border px-4 py-3"
               style={{ borderColor: 'rgba(167,139,250,0.18)', background: 'rgba(10,10,16,0.6)', transition: 'border-color 0.2s ease' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(167,139,250,0.38)'; }}
