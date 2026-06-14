@@ -421,6 +421,37 @@
     filter: blur(13px);
   }
 
+  /* Ghost: portrait-cover banner, mirror-blue accent */
+  .ghost-banner {
+    position: relative; width: 100%; height: 198px; overflow: hidden;
+    background: linear-gradient(160deg, #070809 0%, #0c1316 50%, #070809 100%);
+  }
+  .ghost-banner img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 18%; opacity: 0.6;
+    filter: saturate(0.82) brightness(0.92); transition: opacity .4s, transform .5s;
+  }
+  .story-card.ghost:hover .ghost-banner img { opacity: 0.78; transform: scale(1.04); }
+  .ghost-veil {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 38%, transparent 0%, rgba(7,8,9,0.45) 75%),
+                linear-gradient(to bottom, transparent 38%, rgba(7,8,9,0.96) 100%);
+  }
+  .tag-ghost { color:#9ec3cd; background:rgba(111,154,166,0.12); border:1px solid rgba(111,154,166,0.26); }
+  .title-ghost { color: #cfe1e6; }
+  .card-num.ghost-num-text { color: rgba(111,154,166,0.55); }
+  .card-desc.ghost-desc { color: rgba(223,228,230,0.56); }
+  .cta-ghost { color: rgba(111,154,166,0.55); }
+  .story-card.ghost { border-color: rgba(111,154,166,0.20); order: 4; }
+  .story-card.ghost:hover {
+    border-color: rgba(111,154,166,0.42);
+    box-shadow: 0 0 0 1px rgba(111,154,166,0.15), 0 18px 52px rgba(111,154,166,0.10), 0 36px 72px rgba(0,0,0,0.40);
+  }
+  .story-card.ghost:hover .card-title { color: #bfe3ec; }
+  .story-card.ghost:hover .cta-ghost { color: #9ec3cd; gap: 13px; }
+  body.focus-ghost .story-card.ghost { border-color: rgba(111,154,166,0.34); }
+  .stab.active.ghost-tab { color: #0c1316; background: #6f9aa6; box-shadow: 0 0 18px rgba(111,154,166,0.20); }
+
   /* card content */
   .card-content { padding: 20px 20px 22px; }
   .card-num {
@@ -585,6 +616,10 @@
           role="tab" aria-selected="false" onclick="focusStory('stone')">
           🪨 Stone Tablets
         </button>
+        <button id="stab-ghost" class="stab ghost-tab"
+          role="tab" aria-selected="false" onclick="focusStory('ghost')">
+          👁 The Ghost
+        </button>
       </div>
     </div>
 
@@ -654,6 +689,24 @@
             A parable about memory, maps, mirrors, and what remains when the slate is wiped but the stone remembers.
           </p>
           <div class="card-cta cta-stone">Read the Tablets <span>→</span></div>
+        </div>
+      </a>
+
+      <!-- GHOST -->
+      <a href="../zalasite/ghost.html" id="ghost-card" class="story-card ghost reveal rv-3" onclick="openGhost(event)">
+        <div class="ghost-banner">
+          <img src="../images/ghost/ghost-01.webp" alt="">
+          <div class="ghost-veil"></div>
+          <div class="banner-tag tag-ghost">Witness</div>
+        </div>
+        <div class="card-content">
+          <div class="card-num ghost-num-text">Story IV — The Ghost</div>
+          <h2 class="card-title title-ghost">The Ghost Who Read the Drive</h2>
+          <p class="card-desc ghost-desc">
+            A ghost walks the archive — sheep, tablets, GrandBus, ConsMAP, ANON —
+            and enters not as master but as witness. If the system loves drama, do not feed it.
+          </p>
+          <div class="card-cta cta-ghost">Read the Drive <span>→</span></div>
         </div>
       </a>
 
@@ -751,6 +804,12 @@
     e.preventDefault();
     rememberRecent('Stone Tablets', 'A witness on the summit writes in the maintenance gaps. The stone remembers.', '#c85a17', 'rgba(200,90,23,0.24)', '../zalasite/stone_tablets.html');
     window.location.href = '../zalasite/stone_tablets.html';
+  }
+
+  function openGhost(e) {
+    e.preventDefault();
+    rememberRecent('The Ghost', 'The ghost who read the drive. Enters not as master but as witness. Do not feed the drama.', '#6f9aa6', 'rgba(111,154,166,0.24)', '../zalasite/ghost.html');
+    window.location.href = '../zalasite/ghost.html';
   }
 
   // ── SCROLL REVEAL
