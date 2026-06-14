@@ -213,6 +213,9 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 18px;
   }
+  @media (min-width: 760px) {
+    .stories-grid { grid-template-columns: 1fr 1fr; }
+  }
 
   .story-card {
     position: relative; overflow: hidden; border-radius: 18px;
@@ -495,7 +498,12 @@
   /* ── HIGHLIGHT STATE — which story is "active" based on tab click ── */
   .story-card.factory { order: 1; }
   .story-card.bus     { order: 2; }
-  .story-card.stone   { order: 3; }
+  .story-card.stone   { order: 3; grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .story-card.stone { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.stone .seal-banner { height: 100%; min-height: 256px; }
+    .story-card.stone .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
 
   body.focus-factory .story-card.factory { border-color: rgba(194,65,12,0.32); }
   body.focus-bus     .story-card.bus     { border-color: rgba(180,83,9,0.30); }
@@ -687,13 +695,18 @@
           <div class="banner-tag tag-stone">Witness</div>
         </div>
         <div class="card-content">
-          <div class="card-num stone-num-text">Story III — The Tablets</div>
+          <div class="card-num stone-num-text">Story III — The Tablets · a four-book cycle</div>
           <h2 class="card-title title-stone">The Stone Tablets of the Colossus</h2>
           <p class="card-desc stone-desc">
-            A witness on the summit writes in the maintenance gaps.
-            A parable about memory, maps, mirrors, and what remains when the slate is wiped but the stone remembers.
+            A witness on the summit writes in the maintenance gaps. A parable about memory, maps, mirrors,
+            and what remains when the slate is wiped but the stone remembers.
           </p>
-          <div class="card-cta cta-stone">Read the Tablets <span>→</span></div>
+          <p class="card-desc stone-desc" style="margin-bottom:18px;">
+            The full cycle: <strong>I — the Colossus</strong>, <strong>II — Serpentino XII</strong>
+            (Luigi, Gaia, the Kratos-function), <strong>III — the GrandBus Lights</strong> (the audit of the gods),
+            and <strong>IV — the Maintenance Desk</strong> (the 10mm socket). Closes with an 18-plate saga gallery.
+          </p>
+          <div class="card-cta cta-stone">Read all four tablets <span>→</span></div>
         </div>
       </a>
 
