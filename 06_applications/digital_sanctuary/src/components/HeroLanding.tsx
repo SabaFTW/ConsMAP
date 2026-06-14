@@ -43,13 +43,13 @@ const routeCards: Array<{
     action: { type: 'frame', url: `${import.meta.env.BASE_URL}pravljica/index.html` },
   },
   {
-    label: 'ZalaSite — Operator Layer',
-    desc: 'Stone Tablets, GHOSTCORE, evidence map, pattern, saga, and witness architecture in one operator lane.',
+    label: 'ZALA — The Third Pillar',
+    desc: 'Verify, not believe. The operator & witness axis — evidence corpus, the bridge, Stone Tablets, GHOSTCORE, and the Lorekeeper research archive.',
     chip: 'ZALA',
     accent: '#57cabd',
     glow: 'rgba(87,202,189,0.09)',
     border: 'rgba(87,202,189,0.24)',
-    action: { type: 'frame', url: `${import.meta.env.BASE_URL}zalasite/index.html` },
+    action: { type: 'frame', url: `${import.meta.env.BASE_URL}zalasite/zala.html` },
   },
   {
     label: 'Library',
@@ -578,6 +578,41 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
               </motion.button>
             ))}
           </div>
+        </motion.div>
+
+        {/* ── Third Pillar / ZALA ───────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.8 }}
+          className="mb-10"
+        >
+          <SectionRule label="the third pillar" accent="rgba(87,202,189,0.55)" />
+          <a
+            href={`${import.meta.env.BASE_URL}zalasite/zala.html`}
+            className="block rounded-[24px] border overflow-hidden transition-all duration-200"
+            style={{
+              borderColor: 'rgba(87,202,189,0.22)',
+              background: 'radial-gradient(circle at 18% 20%, rgba(87,202,189,0.08), transparent 55%), linear-gradient(155deg, rgba(9,16,15,0.92) 0%, rgba(7,11,11,0.97) 100%)',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(87,202,189,0.45)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(87,202,189,0.22)'; }}
+          >
+            <div className="px-7 py-8 md:px-9 md:py-10">
+              <div className="text-[10px] font-mono uppercase tracking-[0.26em] mb-3" style={{ color: 'rgba(87,202,189,0.62)' }}>
+                Verify · not believe · hold the middle
+              </div>
+              <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-3" style={{ color: '#dbe8e6', fontFamily: "'Cinzel', serif" }}>
+                ZALA <span style={{ color: '#57cabd' }}>— The Third Pillar</span>
+              </h2>
+              <p className="text-xs md:text-sm leading-[1.9] mb-5 max-w-2xl" style={{ color: 'rgba(216,232,216,0.56)' }}>
+                The operator &amp; witness axis that ties REBiS (relate) and the Forge (orient) into one. The evidence corpus, the bicameral bridge, the Stone Tablets and GhostCORE — and the <b style={{ color: '#9fe0d6' }}>Lorekeeper</b> research archive: structured doubt, verify-not-believe.
+              </p>
+              <span className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] px-4 py-2 rounded-full" style={{ color: '#06140f', background: '#57cabd' }}>
+                Enter the Third Pillar →
+              </span>
+            </div>
+          </a>
         </motion.div>
 
         {/* ── System Speaks — bot card ──────────────────────────────────────── */}
