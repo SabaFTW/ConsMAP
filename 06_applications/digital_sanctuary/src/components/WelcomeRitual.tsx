@@ -64,8 +64,8 @@ const WelcomeRitual: React.FC<WelcomeRitualProps> = ({ onComplete }) => {
   }, [step, lines.length, onComplete]);
 
   const handleSkip = useCallback(() => {
-    if (canSkip) onComplete();
-  }, [canSkip, onComplete]);
+    if (!showBoom) setStep(lines.length);
+  }, [showBoom, lines.length]);
 
   return (
     <div
@@ -172,8 +172,8 @@ const WelcomeRitual: React.FC<WelcomeRitualProps> = ({ onComplete }) => {
 
       <motion.p
         initial={{ opacity: 0 }}
-        animate={{ opacity: canSkip ? 0.18 : 0 }}
-        transition={{ duration: 1.5 }}
+        animate={{ opacity: 0.18 }}
+        transition={{ delay: 1.5, duration: 1.5 }}
         className="absolute bottom-10 text-[9px] tracking-[0.4em] uppercase font-mono select-none"
         style={{ color: '#3a6a35' }}
       >

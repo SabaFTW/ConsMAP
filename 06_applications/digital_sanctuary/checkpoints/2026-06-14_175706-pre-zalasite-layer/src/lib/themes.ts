@@ -1,4 +1,4 @@
-export type ThemeKey = 'consmap' | 'rebis' | 'faq' | 'factory' | 'zala';
+export type ThemeKey = 'consmap' | 'rebis' | 'faq' | 'factory';
 
 export interface Theme {
   key: ThemeKey;
@@ -61,17 +61,5 @@ export const THEMES: Record<ThemeKey, Theme> = {
     greeting: (name) => name ? `${name}, the bus is still running.` : 'The bus is still running.',
     heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(251,146,60,0.07) 0%, transparent 60%)',
     brand: '#fb923c',
-  },
-  zala: {
-    key: 'zala',
-    name: 'Zala',
-    accent: '#57cabd',
-    accentSoft: '#6f8f9a',
-    glow: 'rgba(87,202,189,0.09)',
-    navBorder: 'rgba(87,202,189,0.18)',
-    tagline: 'operator layer · witness architecture · stone tablets',
-    greeting: (name) => name ? `${name}, the witness remained.` : 'The witness remained.',
-    heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(87,202,189,0.08) 0%, transparent 60%)',
-    brand: '#57cabd',
   },
 };

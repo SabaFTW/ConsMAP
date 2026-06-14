@@ -1,0 +1,39 @@
+plugins = []
+headers = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/home/saba/VES/ACTIVE_PROJECTS/ZavestMAP/ConsMAP_operator_v2_3/06_applications/digital_sanctuary/dist"
+publishOrigin = "ui"
+commandOrigin = "ui"
+base = "/home/saba/VES/ACTIVE_PROJECTS/ZavestMAP/ConsMAP_operator_v2_3/06_applications/digital_sanctuary"
+command = "npm run build"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]

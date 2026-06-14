@@ -45,7 +45,6 @@ function themeForUrl(url: string): { theme: Theme; label: string; frameKey: stri
   if (url.includes('rebis'))    return { theme: THEMES.rebis,   label: 'REBiS',   frameKey: 'rebis' };
   if (url.includes('forge_faq') || url.includes('faq'))
                                  return { theme: THEMES.faq,     label: 'FAQ',     frameKey: 'faq' };
-  if (url.includes('zalasite'))  return { theme: THEMES.zala,    label: 'ZALA',    frameKey: 'zalasite' };
   if (url.includes('pravljica')) return { theme: THEMES.factory, label: 'STORIES', frameKey: 'pravljica' };
   if (url.includes('grandbus')) return { theme: THEMES.factory, label: 'FACTORY', frameKey: 'factory' };
   return { theme: THEMES.consmap, label: '', frameKey: '' };

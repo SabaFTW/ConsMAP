@@ -12,15 +12,6 @@ type ItemAction =
   | { type: 'docs'; docPath: string }
   | { type: 'frame'; url: string };
 
-type RecentDestination = {
-  label: string;
-  desc: string;
-  accent: string;
-  border: string;
-  image?: string;
-  action: ItemAction;
-};
-
 // ── Route cards ───────────────────────────────────────────────────────────────
 
 const routeCards: Array<{
@@ -36,25 +27,16 @@ const routeCards: Array<{
   {
     label: 'Stories — Parables',
     desc: 'The Sugar Factory, The Grandfather\'s Bus, and parables yet to come. Choose your story.',
-    chip: 'STORIES',
-    accent: '#c2410c',
-    glow: 'rgba(194,65,12,0.10)',
-    border: 'rgba(194,65,12,0.24)',
+    chip: 'PARABLES',
+    accent: '#f59e0b',
+    glow: 'rgba(245,158,11,0.09)',
+    border: 'rgba(245,158,11,0.22)',
     action: { type: 'frame', url: `${import.meta.env.BASE_URL}pravljica/index.html` },
-  },
-  {
-    label: 'ZalaSite — Operator Layer',
-    desc: 'Stone Tablets, GHOSTCORE, evidence map, pattern, saga, and witness architecture in one operator lane.',
-    chip: 'ZALA',
-    accent: '#57cabd',
-    glow: 'rgba(87,202,189,0.09)',
-    border: 'rgba(87,202,189,0.24)',
-    action: { type: 'frame', url: `${import.meta.env.BASE_URL}zalasite/index.html` },
   },
   {
     label: 'Library',
     desc: 'Browse protocols, field guides, and archive layers — no GitHub required.',
-    chip: 'LIBRARY',
+    chip: 'ARCHIVE',
     accent: '#7dd3fc',
     glow: 'rgba(125,211,252,0.09)',
     border: 'rgba(125,211,252,0.22)',
@@ -85,6 +67,7 @@ const routeCards: Array<{
     accent: '#6fcf85',
     glow: 'rgba(111,207,133,0.09)',
     border: 'rgba(111,207,133,0.22)',
+    wide: true,
     action: { type: 'view', view: 'aimode' },
   },
 ];
@@ -95,72 +78,6 @@ const onEnter = (el: HTMLElement, glow: string) => {
   el.style.boxShadow = `0 8px 36px ${glow.replace(/[\d.]+\)$/, '0.20)')}`;
 };
 const onLeave = (el: HTMLElement) => { el.style.boxShadow = 'none'; };
-
-const RECENT_KEY = 'consmap_recent_destinations';
-
-function destinationForAction(action: ItemAction): RecentDestination | null {
-  if (action.type === 'frame') {
-    if (action.url.includes('zalasite')) return {
-      label: 'Zala Operator',
-      desc: 'Stone Tablets, GHOSTCORE, evidence map, pattern, saga, and witness architecture.',
-      accent: '#57cabd',
-      border: 'rgba(87,202,189,0.24)',
-      image: `${import.meta.env.BASE_URL}images/stories-static-seal.png`,
-      action,
-    };
-    if (action.url.includes('pravljica')) return {
-      label: 'Story Archive',
-      desc: 'Factory, GrandBus, Stone Tablets, and the next arrivals.',
-      accent: '#c2410c',
-      border: 'rgba(194,65,12,0.28)',
-      image: `${import.meta.env.BASE_URL}images/stories-static-pyramid.png`,
-      action,
-    };
-  }
-  if (action.type === 'view') {
-    if (action.view === 'docs') return {
-      label: 'Library',
-      desc: 'Protocols, field guides, and archive layers.',
-      accent: '#7dd3fc',
-      border: 'rgba(125,211,252,0.24)',
-      action,
-    };
-    if (action.view === 'analyzer') return {
-      label: 'Claim Analyzer',
-      desc: 'Labels, risks, and better next questions.',
-      accent: '#f4c96a',
-      border: 'rgba(244,201,106,0.24)',
-      action,
-    };
-    if (action.view === 'mirror') return {
-      label: 'Symbol Mirror',
-      desc: 'One event. Two languages. The middle is the map.',
-      accent: '#a78bfa',
-      border: 'rgba(167,139,250,0.24)',
-      action,
-    };
-    if (action.view === 'aimode') return {
-      label: 'AI Mode',
-      desc: 'Bicameral HUD — technical, gate, and human meaning.',
-      accent: '#6fcf85',
-      border: 'rgba(111,207,133,0.24)',
-      action,
-    };
-  }
-  return null;
-}
-
-function pushRecentDestination(dest: RecentDestination) {
-  try {
-    const raw = localStorage.getItem(RECENT_KEY);
-    const existing = raw ? JSON.parse(raw) as RecentDestination[] : [];
-    const deduped = existing.filter((item) => item.label !== dest.label);
-    const next = [dest, ...deduped].slice(0, 2);
-    localStorage.setItem(RECENT_KEY, JSON.stringify(next));
-  } catch {
-    // ignore storage failures
-  }
-}
 
 // ── Signal log hook ───────────────────────────────────────────────────────────
 
@@ -216,32 +133,13 @@ function useEditableName() {
   return { name, editing, draft, setDraft, inputRef, startEdit, commit, handleKey };
 }
 
-function useRecentDestinations() {
-  const [recent, setRecent] = useState<RecentDestination[]>([]);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(RECENT_KEY);
-      if (!raw) return;
-      setRecent(JSON.parse(raw) as RecentDestination[]);
-    } catch {
-      // ignore storage failures
-    }
-  }, []);
-
-  return recent;
-}
-
 // ── Component ─────────────────────────────────────────────────────────────────
 
 const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
   const { lastVisit, visitCount } = useSignalLog();
   const { name, editing, draft, setDraft, inputRef, startEdit, commit, handleKey } = useEditableName();
-  const recent = useRecentDestinations();
 
   const handleAction = (action: ItemAction) => {
-    const dest = destinationForAction(action);
-    if (dest) pushRecentDestination(dest);
     if (action.type === 'view') onNavigate(action.view);
     else if (action.type === 'docs') onNavigate('docs', action.docPath);
     else onNavigate('frame', action.url);
@@ -330,116 +228,6 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
               <span className="ml-1.5 text-[9px] font-mono opacity-25 align-middle">✎</span>
             </button>
           )}
-        </motion.div>
-
-        {/* ── Stories from the Static ───────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.12, duration: 0.75, ease: [0.19, 1, 0.22, 1] }}
-          className="mb-10"
-        >
-          <SectionRule label="featured library" accent="rgba(245,158,11,0.55)" />
-          <div
-            className="rounded-[28px] border overflow-hidden"
-            style={{
-              borderColor: 'rgba(200,90,23,0.18)',
-              background: 'linear-gradient(155deg, rgba(10,12,10,0.92) 0%, rgba(8,10,8,0.98) 100%)',
-              boxShadow: '0 20px 80px rgba(0,0,0,0.32)',
-            }}
-          >
-            <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="px-6 py-7 md:px-8 md:py-9">
-                <div className="text-[10px] font-mono uppercase tracking-[0.26em] mb-4" style={{ color: 'rgba(200,90,23,0.62)' }}>
-                  Visual parables · archive
-                </div>
-                <h2
-                  className="text-3xl md:text-5xl font-light tracking-tight leading-[1.04] mb-3"
-                  style={{ color: '#f6efe3', fontFamily: "'Cinzel', serif" }}
-                >
-                  Stories from the <span style={{ color: '#c85a17' }}>Static</span>
-                </h2>
-                <p className="text-xs md:text-sm leading-[1.9] mb-5 max-w-xl" style={{ color: 'rgba(216,232,216,0.56)' }}>
-                  The library door for the visual parables — Factory, GrandBus, Stone Tablets, and the next arrivals. One template, different voices, distinct colors, same archive logic.
-                </p>
-                <p className="text-[11px] font-mono tracking-[0.14em] italic mb-6" style={{ color: 'rgba(216,232,216,0.38)' }}>
-                  Signal went forward. And yet. △
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => handleAction({ type: 'frame', url: `${import.meta.env.BASE_URL}pravljica/index.html` })}
-                    className="px-4 py-2 rounded-full border text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-200"
-                    style={{ borderColor: 'rgba(200,90,23,0.28)', color: '#c85a17', background: 'rgba(200,90,23,0.08)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,90,23,0.48)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,90,23,0.28)'; }}
-                  >
-                    Enter story archive →
-                  </button>
-                  <button
-                    onClick={() => handleAction({ type: 'frame', url: `${import.meta.env.BASE_URL}zalasite/index.html` })}
-                    className="px-4 py-2 rounded-full border text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-200"
-                    style={{ borderColor: 'rgba(87,202,189,0.28)', color: '#57cabd', background: 'rgba(87,202,189,0.07)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(87,202,189,0.48)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(87,202,189,0.28)'; }}
-                  >
-                    Open Zala operator →
-                  </button>
-                </div>
-              </div>
-              <div
-                className="min-h-[320px] border-t lg:border-t-0 lg:border-l relative"
-                style={{
-                  borderColor: 'rgba(200,90,23,0.10)',
-                  backgroundImage: `linear-gradient(180deg, rgba(6,8,8,0.28), rgba(6,8,8,0.92)), url(${import.meta.env.BASE_URL}images/stories-static-pyramid.png)`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="h-full flex flex-col justify-end p-6 md:p-8 gap-4">
-                  <div>
-                    <div className="text-[10px] font-mono uppercase tracking-[0.24em] mb-2" style={{ color: 'rgba(194,65,12,0.56)' }}>
-                      Recently opened
-                    </div>
-                    <div className="text-sm leading-[1.8] max-w-sm" style={{ color: 'rgba(246,239,227,0.78)' }}>
-                      {recent.length
-                        ? 'Continue from the last two chambers you touched.'
-                        : 'Factory is the first cathedral. GrandBus, Stone Tablets, and the next chambers inherit the same premium dark shelf.'}
-                    </div>
-                  </div>
-                  <div className="grid gap-3">
-                    {(recent.length ? recent : [
-                      destinationForAction({ type: 'frame', url: `${import.meta.env.BASE_URL}pravljica/index.html` }),
-                      destinationForAction({ type: 'frame', url: `${import.meta.env.BASE_URL}zalasite/index.html` }),
-                    ].filter(Boolean) as RecentDestination[]).slice(0,2).map((item) => (
-                      <button
-                        key={item.label}
-                        onClick={() => handleAction(item.action)}
-                        className="text-left rounded-2xl border px-4 py-4 backdrop-blur-sm transition-all duration-200"
-                        style={{
-                          borderColor: item.border,
-                          background: 'linear-gradient(150deg, rgba(10,16,10,0.82) 0%, rgba(8,12,8,0.94) 100%)',
-                        }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = `0 10px 36px ${item.accent}22`; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
-                      >
-                        <div className="flex items-start gap-3">
-                          {item.image ? (
-                            <div className="w-14 h-14 rounded-xl overflow-hidden border shrink-0" style={{ borderColor: item.border, background: 'rgba(8,10,8,0.72)' }}>
-                              <img src={item.image} alt="" className="w-full h-full object-cover opacity-90" />
-                            </div>
-                          ) : null}
-                          <div className="min-w-0">
-                            <div className="text-[10px] font-mono uppercase tracking-[0.22em] mb-2" style={{ color: item.accent }}>{item.label}</div>
-                            <div className="text-xs leading-[1.7]" style={{ color: 'rgba(216,232,216,0.58)' }}>{item.desc}</div>
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </motion.div>
 
         {/* ── First time here ──────────────────────────────────────────────── */}
