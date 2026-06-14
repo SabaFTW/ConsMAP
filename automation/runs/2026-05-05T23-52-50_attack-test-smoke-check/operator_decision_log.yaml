@@ -1,0 +1,10 @@
+decision_log:
+  decision_id: ""
+  timestamp: "2026-05-05T23:52:50"
+  claim_id: ""
+  working_claim: "TO BE FILLED BY HUMAN"
+  action: "draft"
+  reason: ""
+  confidence: ""
+  skipped_checks: []
+  notes: "DRAFT / UNVERIFIED / HUMAN REVIEW REQUIRED"

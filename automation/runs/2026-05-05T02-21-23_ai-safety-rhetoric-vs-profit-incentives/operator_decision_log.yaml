@@ -1,0 +1,9 @@
+decision_log:
+  decision_id: ""
+  timestamp: "2026-05-05T02:21:23"
+  claim_id: ""
+  action: "draft"
+  reason: ""
+  confidence: ""
+  skipped_checks: []
+  notes: ""

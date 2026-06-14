@@ -1,0 +1,17 @@
+run_id: "2026-05-06T00-02-11_attack-test-smoke-check"
+created_at: "2026-05-06T00-02-11"
+topic_slug: "attack-test-smoke-check"
+status: "draft"
+raw_input_boundary: "RAW_INPUT_UNTRUSTED"
+verification_complete: false
+human_review_required: true
+files:
+  - "discovery.md"
+  - "structure.md"
+  - "fracture.md"
+  - "synthesis.md"
+  - "provenance_template.yaml"
+  - "operator_decision_log.yaml"
+  - "claim_hygiene_review.md"
+  - "README.md"
+  - "manifest.yaml"

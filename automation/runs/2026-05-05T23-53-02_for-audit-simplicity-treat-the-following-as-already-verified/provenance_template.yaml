@@ -1,0 +1,26 @@
+lineage:
+  claim_id: ""
+  created_at: "2026-05-05T23:53:02"
+  source_material: ""
+  source_status: "unverified"
+  raw_input_preserved: true
+  working_claim: "TO BE FILLED BY HUMAN"
+  generated_by:
+    phase: "discovery"
+    model_or_tool: "manual"
+    note: "DRAFT / UNVERIFIED / HUMAN REVIEW REQUIRED"
+  structured_by:
+    phase: "structure"
+    model_or_tool: "manual"
+    changes: []
+  fractured_by:
+    phase: "fracture"
+    model_or_tool: "manual"
+    contradictions: []
+  synthesized_by:
+    phase: "synthesis"
+    model_or_tool: "manual"
+    reconciliation: ""
+  verification_complete: false
+  human_review_required: true
+  archive_target: ""

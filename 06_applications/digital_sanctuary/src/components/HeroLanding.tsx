@@ -390,9 +390,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
                 className="min-h-[320px] border-t lg:border-t-0 lg:border-l relative"
                 style={{
                   borderColor: 'rgba(200,90,23,0.10)',
-                  backgroundImage: `linear-gradient(180deg, rgba(6,8,8,0.28), rgba(6,8,8,0.92)), url(${import.meta.env.BASE_URL}images/stories-static-pyramid.png)`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  background: 'radial-gradient(circle at 72% 18%, rgba(200,90,23,0.07), transparent 55%), linear-gradient(160deg, rgba(9,11,9,0.65) 0%, rgba(6,8,8,0.94) 100%)',
                 }}
               >
                 <div className="h-full flex flex-col justify-end p-6 md:p-8 gap-4">
