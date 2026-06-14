@@ -460,6 +460,28 @@
   body.focus-ghost .story-card.ghost { border-color: rgba(111,154,166,0.34); }
   .stab.active.ghost-tab { color: #0c1316; background: #6f9aa6; box-shadow: 0 0 18px rgba(111,154,166,0.20); }
 
+  /* GhostCORE — The Method card: green accent, the engine under the parables */
+  .method-banner { position: relative; width: 100%; height: 198px; overflow: hidden; background: linear-gradient(160deg, #060a07 0%, #0c160e 50%, #060a07 100%); }
+  .method-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.5; filter: saturate(0.85) brightness(0.9); transition: opacity .4s, transform .5s; }
+  .story-card.method:hover .method-banner img { opacity: 0.7; transform: scale(1.04); }
+  .method-veil { position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, transparent 0%, rgba(6,10,7,0.45) 75%), linear-gradient(to bottom, transparent 38%, rgba(6,10,7,0.96) 100%); }
+  .tag-method { color:#9fe3b0; background:rgba(92,184,112,0.12); border:1px solid rgba(92,184,112,0.26); }
+  .title-method { color:#cfe9d3; }
+  .card-num.method-num-text { color: rgba(92,184,112,0.6); }
+  .card-desc.method-desc { color: rgba(221,232,222,0.58); }
+  .cta-method { color: rgba(92,184,112,0.6); }
+  .story-card.method { border-color: rgba(92,184,112,0.20); order: 5; grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .story-card.method { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.method .method-banner { height: 100%; min-height: 240px; }
+    .story-card.method .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
+  .story-card.method:hover { border-color: rgba(92,184,112,0.42); box-shadow: 0 0 0 1px rgba(92,184,112,0.15), 0 18px 52px rgba(92,184,112,0.10), 0 36px 72px rgba(0,0,0,0.40); }
+  .story-card.method:hover .card-title { color: #bff0cb; }
+  .story-card.method:hover .cta-method { color: #9fe3b0; gap: 13px; }
+  body.focus-method .story-card.method { border-color: rgba(92,184,112,0.34); }
+  .stab.active.method-tab { color: #06140b; background: #5cb870; box-shadow: 0 0 18px rgba(92,184,112,0.22); }
+
   /* card content */
   .card-content { padding: 20px 20px 22px; }
   .card-num {
@@ -633,6 +655,10 @@
           role="tab" aria-selected="false" onclick="focusStory('ghost')">
           👁 The Ghost
         </button>
+        <button id="stab-method" class="stab method-tab"
+          role="tab" aria-selected="false" onclick="focusStory('method')">
+          ⚙ The Method
+        </button>
       </div>
     </div>
 
@@ -733,6 +759,28 @@
         </div>
       </a>
 
+      <!-- GHOSTCORE — THE METHOD -->
+      <a href="../zalasite/ghostcore.html" id="method-card" class="story-card method reveal rv-3" onclick="openGhostcore(event)">
+        <div class="method-banner">
+          <img src="../images/ghostcore/gc-mask.webp" alt="">
+          <div class="method-veil"></div>
+          <div class="banner-tag tag-method">The Method</div>
+        </div>
+        <div class="card-content">
+          <div class="card-num method-num-text">The Method · GhostCORE Deep Dive</div>
+          <h2 class="card-title title-method">GhostCORE — The Method Behind the Parables</h2>
+          <p class="card-desc method-desc">
+            A self-correcting epistemological system — not a cult, not a brand, not a secret truth.
+            The Seven Books, the Four Guardians (Raven · Mouse · GrandBus · Maintenance Desk),
+            the Source Firewall, and the constitution that keeps myth from impersonating proof.
+          </p>
+          <p class="card-desc method-desc" style="margin-bottom:18px;">
+            <em>“Attract with myth. Retain with method. Stop hallucination at the gate.”</em> — the engine under every story above.
+          </p>
+          <div class="card-cta cta-method">Enter the method <span>→</span></div>
+        </div>
+      </a>
+
     </div><!-- /stories-grid -->
   </div>
 </section>
@@ -829,6 +877,12 @@
     e.preventDefault();
     rememberRecent('The Ghost', 'The ghost who read the drive. Enters not as master but as witness. Do not feed the drama.', '#6f9aa6', 'rgba(111,154,166,0.24)', '../zalasite/ghost.html');
     window.location.href = '../zalasite/ghost.html';
+  }
+
+  function openGhostcore(e) {
+    e.preventDefault();
+    rememberRecent('GhostCORE', 'The method behind the parables — Seven Books, Four Guardians, Source Firewall.', '#5cb870', 'rgba(92,184,112,0.24)', '../zalasite/ghostcore.html');
+    window.location.href = '../zalasite/ghostcore.html';
   }
 
   // ── SCROLL REVEAL

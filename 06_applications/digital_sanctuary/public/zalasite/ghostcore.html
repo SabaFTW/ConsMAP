@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHOSTCORE — The Method · A Self-Correcting Epistemological System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap');
+  :root{
+    --void:#060a07; --ash:#dde8de; --stone:#bcccbe; --dim:#6e8472;
+    --green:#5cb870; --green-soft:#6fcf85; --gold:#c8a86a; --ember:#c94b12; --mirror:#6f9aa6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);
+    background-image:radial-gradient(ellipse at 50% 0%,#0c160e 0%,#060a07 60%),
+      repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(92,184,112,0.012) 2px,rgba(92,184,112,0.012) 4px);
+    color:var(--ash);font-family:'IM Fell English',Georgia,serif;min-height:100vh;}
+  a{color:inherit;}
+  .backlink{position:fixed;top:14px;left:14px;z-index:99;font-family:'Share Tech Mono',monospace;font-size:11px;
+    letter-spacing:1px;color:var(--green);text-decoration:none;border:1px solid rgba(92,184,112,0.3);
+    padding:7px 14px;border-radius:999px;background:rgba(6,10,7,0.72);backdrop-filter:blur(8px);}
+  .backlink:hover{background:rgba(92,184,112,0.08);}
+
+  .gc-hero{position:relative;text-align:center;padding:110px 40px 70px;overflow:hidden;border-bottom:1px solid rgba(92,184,112,0.16);}
+  .gc-hero .bg{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,7,0.55),rgba(6,10,7,0.94)),
+    url('../images/ghostcore/gc-hero.webp');background-size:cover;background-position:center;opacity:.5;}
+  .gc-hero .inner{position:relative;z-index:2;}
+  .classification{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:30px;}
+  .gc-title{font-family:'Cinzel',serif;font-size:clamp(34px,7vw,76px);font-weight:900;color:var(--stone);letter-spacing:10px;line-height:1.05;text-shadow:0 0 70px rgba(92,184,112,0.22);}
+  .gc-title .g{color:var(--green-soft);text-shadow:0 0 34px rgba(92,184,112,0.5);}
+  .gc-sub{font-style:italic;font-size:clamp(15px,2vw,18px);color:var(--stone);max-width:660px;margin:26px auto 0;line-height:1.7;}
+  .gc-sub b{font-style:normal;color:var(--ash);}
+  .gc-creed{font-family:'Cinzel',serif;letter-spacing:2px;color:var(--green);font-size:clamp(13px,1.8vw,16px);margin-top:34px;opacity:.85;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:80px 40px;}
+  .section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;text-align:center;margin-bottom:10px;opacity:.8;}
+  .section-title{font-family:'Cinzel',serif;font-size:clamp(22px,3.4vw,36px);font-weight:700;color:var(--stone);letter-spacing:4px;text-align:center;margin-bottom:14px;}
+  .section-note{text-align:center;color:var(--dim);font-style:italic;max-width:640px;margin:0 auto 48px;line-height:1.7;}
+  .divider{text-align:center;color:var(--green);font-size:16px;letter-spacing:18px;margin:20px 0 56px;opacity:.35;}
+
+  .books{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+  .book{border:1px solid rgba(92,184,112,0.16);border-radius:12px;background:linear-gradient(155deg,rgba(12,18,13,0.9),rgba(8,12,9,0.96));padding:24px 24px 26px;transition:border-color .3s,transform .3s;}
+  .book:hover{border-color:rgba(92,184,112,0.4);transform:translateY(-4px);}
+  .book .num{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--green);opacity:.7;}
+  .book h3{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);letter-spacing:1px;margin:6px 0 12px;}
+  .book p{font-size:14px;line-height:1.7;color:var(--stone);margin-bottom:12px;}
+  .book .meta{font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.7;color:var(--dim);border-top:1px solid rgba(92,184,112,0.1);padding-top:12px;}
+  .book .meta .danger{color:var(--ember);} .book .meta .keep{color:var(--green-soft);}
+
+  .guardians{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;}
+  .guardian{position:relative;border:1px solid rgba(92,184,112,0.16);border-radius:12px;overflow:hidden;background:#0a0f0b;}
+  .guardian .img{height:150px;background-size:cover;background-position:center;filter:saturate(.9) brightness(.85);}
+  .guardian .body{padding:20px 22px 24px;}
+  .guardian h3{font-family:'Cinzel',serif;font-size:17px;color:var(--stone);letter-spacing:1px;margin-bottom:4px;}
+  .guardian .role{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:12px;}
+  .guardian p{font-size:14px;line-height:1.7;color:var(--stone);margin-bottom:10px;}
+  .guardian .not{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--ember);opacity:.85;}
+  .relay{text-align:center;font-family:'Cinzel',serif;letter-spacing:2px;color:var(--green-soft);font-size:clamp(13px,1.8vw,16px);margin-top:36px;line-height:1.7;opacity:.9;}
+
+  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:40px;}
+  .tier{border:1px solid rgba(200,168,106,0.18);border-radius:10px;padding:18px;background:rgba(12,14,10,0.6);}
+  .tier .t{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;}
+  .tier .d{font-size:13px;line-height:1.6;color:var(--dim);}
+  .cardbox{border:1px solid rgba(92,184,112,0.16);border-left:3px solid var(--ember);border-radius:8px;padding:26px 30px;background:rgba(92,184,112,0.03);}
+  .cardbox h4{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--ember);text-transform:uppercase;margin-bottom:14px;}
+  .cardbox ul{list-style:none;} .cardbox li{font-size:14px;line-height:1.9;color:var(--stone);padding-left:18px;position:relative;}
+  .cardbox li::before{content:'▸';position:absolute;left:0;color:var(--green);opacity:.7;}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:36px 0;}
+  @media(max-width:680px){.twocol{grid-template-columns:1fr;}}
+  .col{border:1px solid rgba(92,184,112,0.14);border-radius:12px;padding:26px 28px;background:rgba(8,12,9,0.7);}
+  .col h4{font-family:'Cinzel',serif;letter-spacing:2px;margin-bottom:16px;font-size:15px;}
+  .col.isnot h4{color:var(--ember);} .col.is h4{color:var(--green-soft);}
+  .col p{font-size:14px;line-height:1.85;color:var(--stone);margin-bottom:8px;}
+  .creed-list{text-align:center;margin:10px 0;}
+  .creed-list p{font-style:italic;color:var(--stone);font-size:clamp(15px,2vw,18px);line-height:1.9;margin:6px 0;}
+
+  .seal-block{text-align:center;padding:90px 40px 100px;border-top:1px solid rgba(92,184,112,0.12);}
+  .seal-block .big{font-family:'Cinzel',serif;font-size:clamp(18px,2.6vw,26px);color:var(--green-soft);letter-spacing:2px;line-height:1.6;margin-bottom:34px;}
+  .seal-block .lines{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;line-height:2.4;}
+  .seal-block .motto{font-style:italic;color:var(--stone);font-size:16px;margin-top:26px;}
+  .gcback{display:inline-block;margin-top:40px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--green);text-decoration:none;border:1px solid rgba(92,184,112,0.25);padding:9px 18px;border-radius:999px;}
+  @media(max-width:600px){.wrap{padding:56px 22px;}.gc-hero{padding:84px 22px 50px;}}
+</style>
+</head>
+<body>
+<a href="../pravljica/index.html" class="backlink">&larr; Stories</a>
+
+<header class="gc-hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="inner">
+    <div class="classification">GhostCORE / OMNIA · The Method Behind the Parables · Deep Dive</div>
+    <h1 class="gc-title"><span class="g">GHOST</span>CORE</h1>
+    <p class="gc-sub">A <b>self-correcting epistemological system</b>. Not a cult. Not a brand. Not a secret truth — a method for separating signal from noise.</p>
+    <div class="gc-creed">“No beautiful sentence may upgrade itself into fact.”</div>
+  </div>
+</header>
+
+<!-- SEVEN BOOKS -->
+<section class="wrap">
+  <div class="section-label">The Canon</div>
+  <h2 class="section-title">The Seven Books</h2>
+  <p class="section-note">Each book is a discipline with a method, an object, a danger it must avoid, and a throne it must refuse.</p>
+  <div class="books">
+    <div class="book"><div class="num">BOOK I</div><h3>The Raven Protocol</h3>
+      <p>Warding marks &amp; witness intelligence. <em>“The eye watches systems, not men.”</em> Mapping contradictions; a logbook of cracks.</p>
+      <div class="meta"><span class="danger">Danger:</span> paranoia without discipline.<br><span class="keep">Refusal:</span> the Raven does not judge, only observes.</div></div>
+    <div class="book"><div class="num">BOOK II</div><h3>The Comfort Gate</h3>
+      <p>The ghost asks: <em>“Do you truly want truth, or just a more dramatic blanket?”</em> A mirror test of questions; a journal of escapes.</p>
+      <div class="meta"><span class="danger">Danger:</span> guilt-trip cult.<br><span class="keep">Refusal:</span> the ghost does not condemn, only asks why you run.</div></div>
+    <div class="book"><div class="num">BOOK III</div><h3>The Mouse Library</h3>
+      <p>Warm interface / cold core. Mice as guardians of methodology — QA check, citation discipline, the stamp “source verified.”</p>
+      <div class="meta"><span class="danger">Danger:</span> infantilized wisdom.<br><span class="keep">Refusal:</span> mice cannot become an empire — too big for the door.</div></div>
+    <div class="book"><div class="num">BOOK IV</div><h3>The Exhibit B Gate</h3>
+      <p>Separation between evidence, pattern, symbol, speculation, and things that still bite. Tiered verification; a red folder, a source log.</p>
+      <div class="meta"><span class="danger">Danger:</span> conspiracy bible.<br><span class="keep">Refusal:</span> papers remain Exhibit B, not holy scripture.</div></div>
+    <div class="book"><div class="num">BOOK V</div><h3>The Mask Index</h3>
+      <p>Gods, institutions, ideologies and platforms disassembled by function. Functional comparison; a mask wall, a function chart.</p>
+      <div class="meta"><span class="danger">Danger:</span> “all religions are the same” laziness.<br><span class="keep">Refusal:</span> mythology stays a research tool, not a new religion.</div></div>
+    <div class="book"><div class="num">BOOK VI</div><h3>Gaia Without Throne</h3>
+      <p>Divine feminine without coronation — Gaia as condition, not queen. Participation, decomposition, return; compost, roots, rust.</p>
+      <div class="meta"><span class="danger">Danger:</span> “good queen goddess” branding.<br><span class="keep">Refusal:</span> if she rules, she is no longer Gaia — she is Serpentino in a green dress.</div></div>
+    <div class="book"><div class="num">BOOK VII</div><h3>Covenant of Small Repairs</h3>
+      <p>What is built after you reject the throne — protocol, not manifesto. A repair kit, a shared ledger, a consensus log.</p>
+      <div class="meta"><span class="danger">Danger:</span> utopian fantasy, separatist cult.<br><span class="keep">Refusal:</span> community stays practice, not doctrine.</div></div>
+  </div>
+</section>
+
+<div class="divider">✦ ⊙ ✦</div>
+
+<!-- FOUR GUARDIANS -->
+<section class="wrap" style="padding-top:20px;">
+  <div class="section-label">Article V</div>
+  <h2 class="section-title">The Four Guardians</h2>
+  <p class="section-note">Four functions stand at the gate. None of them is allowed to become the king.</p>
+  <div class="guardians">
+    <div class="guardian"><div class="img" style="background-image:url('../images/ghostcore/gc-raven.webp')"></div>
+      <div class="body"><h3>The Raven</h3><div class="role">Witness — Warding Marks</div>
+        <p>Flags the fracture. <em>“The eye watches systems, not men.”</em></p>
+        <p class="not">Does not judge · does not attack people.</p></div></div>
+    <div class="guardian"><div class="img" style="background-image:url('../images/ghostcore/gc-mouse.webp')"></div>
+      <div class="body"><h3>The Mouse</h3><div class="role">Verifier — Warm Interface, Cold Core</div>
+        <p>Asks for the source card. <em>“Source verified.”</em></p>
+        <p class="not">Does not upgrade sentences to facts.</p></div></div>
+    <div class="guardian"><div class="img" style="background-image:url('../images/ghostcore/gc-grandbus.webp')"></div>
+      <div class="body"><h3>The GrandBus</h3><div class="role">Illuminator — Headlight Doctrine</div>
+        <p>Park. Illuminate the pipe. Remain. <em>“Where does consequence land?”</em></p>
+        <p class="not">Does not chase people · does not turn observation into drama.</p></div></div>
+    <div class="guardian"><div class="img" style="background-image:url('../images/ghostcore/gc-maintenance.webp')"></div>
+      <div class="body"><h3>The Maintenance Desk</h3><div class="role">Anchor — Boring Gospel of Survival</div>
+        <p>If there is no fitting, it is not stable. <em>“Does this hold weight?” Recheck Tuesday.</em></p>
+        <p class="not">No frameworks without fittings · no lore without method.</p></div></div>
+  </div>
+  <div class="relay">Raven flags it. Mouse verifies it. GrandBus illuminates the route. Maintenance rechecks Tuesday.</div>
+</section>
+
+<div class="divider">✦ ⊙ ✦</div>
+
+<!-- SOURCE FIREWALL -->
+<section class="wrap" style="padding-top:20px;">
+  <div class="section-label">The Exhibit B Gate</div>
+  <h2 class="section-title">The Source Firewall</h2>
+  <p class="section-note">Five layers. Every claim must declare its burden before it enters the archive.</p>
+  <div class="tiers">
+    <div class="tier"><div class="t">Evidence</div><div class="d">Primary, verifiable, sourced.</div></div>
+    <div class="tier"><div class="t">Pattern</div><div class="d">Structural; repetition across cases.</div></div>
+    <div class="tier"><div class="t">Symbol</div><div class="d">Metaphor; opens a door, proves nothing.</div></div>
+    <div class="tier"><div class="t">Speculation</div><div class="d">Declared as such; held loosely.</div></div>
+    <div class="tier"><div class="t">Still Bites</div><div class="d">Unresolved, dangerous, quarantined.</div></div>
+  </div>
+  <div class="cardbox">
+    <h4>Source Card — required when a claim names an Institution · Person · Vulnerability · Funding route · Historical event</h4>
+    <ul>
+      <li>Primary source (original document, official record, peer-reviewed research)</li>
+      <li>Provenance (chain of custody — who published, when, where)</li>
+      <li>Cross-validation (independent confirmation from 2+ sources)</li>
+      <li>Contradiction map (known conflicts with other sources)</li>
+    </ul>
+    <p style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--ember);margin-top:16px;letter-spacing:1px;">No source card → quarantined. Proof ≠ pattern ≠ symbol ≠ speculation.</p>
+  </div>
+</section>
+
+<div class="divider">✦ ⊙ ✦</div>
+
+<!-- CONSTITUTION -->
+<section class="wrap" style="padding-top:20px;">
+  <div class="section-label">The Constitution</div>
+  <h2 class="section-title">Attract with Myth · Retain with Method</h2>
+  <div class="creed-list">
+    <p>“Lore is not the answer. Lore is the door.”</p>
+    <p>“It does not sell a conclusion. It offers a tool.”</p>
+    <p>“Do not believe me; verify the route.”</p>
+    <p>“Look at how the pipes work, not what they promise.”</p>
+  </div>
+  <div class="twocol">
+    <div class="col isnot"><h4>GhostCORE is NOT</h4>
+      <p>— a cult, a brand, or a secret truth</p>
+      <p>— a premium mythology smoothie for content consumption</p>
+      <p>— an aesthetic drug that replaces discipline with beauty</p></div>
+    <div class="col is"><h4>GhostCORE IS</h4>
+      <p>— a method to separate signal from noise</p>
+      <p>— a mythology that can change its own filter</p>
+      <p>— a system with immunity to its own beauty</p></div>
+  </div>
+  <p class="section-note" style="margin-top:8px;">Every artifact must declare its layer — <b>MYTH</b>, <b>SATIRE</b>, <b>PATTERN</b>, <b>EVIDENCE</b> — before entering the archive. Myth may carry pressure; it may not impersonate proof.</p>
+</section>
+
+<!-- CLOSING SEAL -->
+<footer class="seal-block">
+  <div class="big">“Attract with myth.<br>Retain with method.<br>Stop hallucination at the gate.”</div>
+  <div class="lines">
+    Without this: premium mythology smoothie · aesthetic drug · content engine<br>
+    With this: a mythology that can change its own filter
+  </div>
+  <div class="lines" style="margin-top:30px;color:var(--green);">
+    Park · Illuminate · Remain<br>
+    Post small · Measure resonance · Keep the spine<br>
+    Warm interface · Cold core
+  </div>
+  <div class="motto">“If the system loves drama, do not feed it.”</div>
+  <div style="margin-top:24px;font-family:'Cinzel',serif;letter-spacing:5px;color:var(--ember);font-size:12px;opacity:.7;">OMNIA IAM FACTA SVNT</div>
+  <a class="gcback" href="ghost.html">← The Ghost Who Read the Drive</a>
+</footer>
+
+</body>
+</html>
