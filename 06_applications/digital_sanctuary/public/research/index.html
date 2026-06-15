@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg"><link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png"><link rel="apple-touch-icon" sizes="512x512" href="../favicon.png">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Memoranda — ZALA</title><style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap');
+  :root{--void:#06090a;--ash:#dbe8e6;--stone:#b3c6c3;--dim:#5f7d79;--teal:#57cabd;--teal-soft:#6fe0d2;--gold:#c8a86a;--ember:#c94b12;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);background-image:radial-gradient(ellipse at 50% 0%,#0a1716 0%,#06090a 60%),repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(87,202,189,0.012) 2px,rgba(87,202,189,0.012) 4px);color:var(--ash);font-family:'IM Fell English',Georgia,serif;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+  .backlink{position:fixed;top:14px;left:14px;z-index:99;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--teal);border:1px solid rgba(87,202,189,0.3);padding:7px 14px;border-radius:999px;background:rgba(6,9,10,0.72);backdrop-filter:blur(8px);}
+  .backlink:hover{background:rgba(87,202,189,0.08);}
+  .doc-header{text-align:center;padding:92px 40px 40px;border-bottom:1px solid rgba(87,202,189,0.14);}
+  .classification{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:22px;}
+  .main-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--stone);letter-spacing:4px;line-height:1.1;}
+  .subtitle{font-style:italic;font-size:16px;color:var(--dim);margin:18px auto 0;max-width:640px;line-height:1.6;}
+  .firewall{max-width:720px;margin:30px auto 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--dim);border:1px solid rgba(201,75,18,0.22);border-radius:8px;padding:12px 18px;line-height:1.7;}
+  .firewall b{color:var(--ember);}
+  .container{max-width:760px;margin:0 auto;padding:50px 40px 120px;}
+  p{font-size:17px;line-height:1.9;color:var(--ash);margin-bottom:22px;}
+  h2.sec{font-family:'Cinzel',serif;font-size:clamp(18px,2.6vw,24px);color:var(--teal);letter-spacing:2px;margin:54px 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(87,202,189,0.14);}
+  h3.sub{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:1px;margin:34px 0 14px;}
+  .reg{font-family:'Share Tech Mono',monospace;font-size:14px;line-height:1.6;color:var(--stone);border-left:2px solid rgba(87,202,189,0.3);padding:6px 0 6px 14px;margin:6px 0;}
+  .reg b{color:var(--teal-soft);}
+  .colophon{text-align:center;padding:70px 40px;border-top:1px solid rgba(87,202,189,0.12);}
+  .colophon a{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--teal);border:1px solid rgba(87,202,189,0.25);padding:9px 18px;border-radius:999px;}
+  .seal{font-family:'Cinzel',serif;letter-spacing:5px;color:var(--ember);font-size:12px;opacity:.6;margin-top:30px;}
+  @media(max-width:600px){.container{padding:34px 22px 80px;}.doc-header{padding:78px 22px 34px;}}
+</style>
+<style>
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin:0 0 50px;}
+.rcard{display:block;border:1px solid rgba(87,202,189,0.16);border-radius:14px;padding:24px 26px;background:linear-gradient(155deg,rgba(10,16,16,0.85),rgba(7,11,11,0.95));transition:border-color .3s,transform .3s,box-shadow .3s;}
+.rcard:hover{border-color:rgba(87,202,189,0.4);transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,0.4);}
+.rcard .k{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--teal);opacity:.7;text-transform:uppercase;}
+.rcard h4{font-family:'Cinzel',serif;font-size:19px;color:var(--gold);letter-spacing:.5px;margin:6px 0 4px;}
+.rcard .rs{font-style:italic;font-size:13px;color:var(--dim);margin-bottom:12px;line-height:1.5;}
+.rcard p{font-size:14px;line-height:1.7;color:var(--stone);margin:0 0 14px;}
+.rcard .go{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--teal);}
+.section-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--teal);text-transform:uppercase;margin:10px 0 6px;}
+.section-note{color:var(--dim);font-style:italic;margin-bottom:24px;line-height:1.6;}
+</style></head><body>
+<a href="../zalasite/zala.html" class="backlink">&larr; ZALA</a>
+<header class="doc-header">
+<div class="classification">The Third Pillar · Verify Wing · Memoranda &amp; Frameworks</div>
+<h1 class="main-title">Research Memoranda</h1>
+<div class="subtitle">The doctrine made rigorous, and the forensic layer that keeps it honest. Frameworks — not verdicts.</div>
+<div class="firewall"><b>LAYER:</b> research / structural analysis — not an accusation and not proof. Evidence-tier discipline applies (E1…RV). <b>identity ≠ causation · settlement ≠ admission · a named pattern ≠ a conspiracy.</b> The system loves drama; we do not feed it drama.</div>
+</header>
+<div class="container" style="max-width:1000px;">
+<div class="section-label">Doctrine</div><p class="section-note">The Third Pillar, made rigorous — equilibrium, projection, and the politics of partial sight.</p><div class="rgrid"><a class="rcard" href="tripod-convergence.html"><div class="k">Doctrine</div><h4>The Tripod of Equilibrium</h4><div class="rs">A Dimensional Framework for Abrahamic Convergence</div><p>Three religions as different projections of one higher-dimensional reality — and the politics of who profits when a partial view is mistaken for the whole.</p><span class="go">Read →</span></a>
+<a class="rcard" href="tripod-memorandum.html"><div class="k">Doctrine</div><h4>Tripod of Equilibrium 2.2</h4><div class="rs">Raziskovalni memorandum · Sistemsko mapiranje konflikta in moči</div><p>The structural model (levels A–H) + register legend: how spiritual &amp; historical archives get re-tooled into geopolitical violence.</p><span class="go">Read →</span></a></div><div class="section-label">Forensic</div><p class="section-note">GhostCORE forensic research — the velocity gap, procedural parity, and anti-capture enforcement.</p><div class="rgrid"><a class="rcard" href="limbo-protocol.html"><div class="k">Forensic</div><h4>The Limbo Protocol</h4><div class="rs">A Structural Analysis of Procedural Parity · incl. the Altman–Amodei Mirror Trial</div><p>GhostCORE forensic research on the velocity gap — why systems fail to act in time — and a circuit breaker against structural contagion.</p><span class="go">Read →</span></a>
+<a class="rcard" href="limbo-addendum.html"><div class="k">Forensic</div><h4>The Limbo Protocol — Enforcement Addendum</h4><div class="rs">Companion to The Architecture of Accountability · Anti-Capture Layer</div><p>The enforcement layer: a 4-layer democratic gate, false-positive containment, and self-diagnosis without collapse.</p><span class="go">Read →</span></a></div>
+</div>
+<footer class="colophon"><a href="../zalasite/zala.html">← Back to ZALA</a><div class="seal">OMNIA IAM FACTA SVNT</div></footer>
+</body></html>
