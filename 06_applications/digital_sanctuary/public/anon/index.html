@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANON — The Evidence Corpus · The Pattern, sorted and labeled</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap');
+  :root{
+    --void:#06090a; --ash:#dbe8e6; --stone:#b3c6c3; --dim:#5f7d79;
+    --teal:#57cabd; --teal-soft:#6fe0d2; --gold:#c8a86a; --ember:#c94b12; --mirror:#6f9aa6;
+    --e:#6fcf85; --i:#7dd3fc; --a:#d19a66; --r:#e0a64d; --q:#c94b12;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);
+    background-image:radial-gradient(ellipse at 50% 0%,#0a1716 0%,#06090a 60%),
+      repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(87,202,189,0.012) 2px,rgba(87,202,189,0.012) 4px);
+    color:var(--ash);font-family:'IM Fell English',Georgia,serif;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+  .backlink{position:fixed;top:14px;left:14px;z-index:99;font-family:'Share Tech Mono',monospace;font-size:11px;
+    letter-spacing:1px;color:var(--teal);border:1px solid rgba(87,202,189,0.3);padding:7px 14px;border-radius:999px;
+    background:rgba(6,9,10,0.72);backdrop-filter:blur(8px);}
+  .backlink:hover{background:rgba(87,202,189,0.08);}
+
+  .hero{text-align:center;padding:96px 40px 64px;border-bottom:1px solid rgba(87,202,189,0.14);}
+  .classification{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:26px;}
+  .title{font-family:'Cinzel',serif;font-size:clamp(38px,9vw,92px);font-weight:900;color:var(--stone);letter-spacing:14px;line-height:1;text-shadow:0 0 70px rgba(87,202,189,0.2);}
+  .subtitle{font-style:italic;font-size:clamp(15px,2vw,19px);color:var(--stone);max-width:640px;margin:22px auto 0;line-height:1.7;}
+  .creed{font-family:'Cinzel',serif;letter-spacing:1px;color:var(--teal);font-size:clamp(13px,1.8vw,16px);margin-top:28px;opacity:.9;line-height:1.7;}
+
+  .wrap{max-width:1040px;margin:0 auto;padding:74px 40px;}
+  .section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--teal);text-transform:uppercase;text-align:center;margin-bottom:10px;opacity:.8;}
+  .section-title{font-family:'Cinzel',serif;font-size:clamp(22px,3.4vw,34px);font-weight:700;color:var(--stone);letter-spacing:3px;text-align:center;margin-bottom:14px;}
+  .section-note{text-align:center;color:var(--dim);font-style:italic;max-width:660px;margin:0 auto 44px;line-height:1.75;}
+  .divider{text-align:center;color:var(--teal);font-size:15px;letter-spacing:18px;margin:16px 0 52px;opacity:.34;}
+
+  /* tier legend */
+  .tiers{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .tier{border:1px solid rgba(120,140,140,0.16);border-radius:10px;padding:14px 16px;background:rgba(10,16,16,0.6);}
+  .tier .code{font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700;letter-spacing:1px;}
+  .tier .desc{font-size:13px;line-height:1.55;color:var(--stone);margin-top:4px;}
+  .tier.e .code{color:var(--e);} .tier.i .code{color:var(--i);} .tier.a .code{color:var(--a);}
+  .tier.r .code{color:var(--r);} .tier.q .code{color:var(--q);}
+  .ruleline{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:.5px;text-align:center;margin-top:26px;line-height:1.9;}
+  .ruleline b{color:var(--ember);}
+
+  /* corpus map */
+  .corpus{display:grid;gap:12px;}
+  .unit{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid rgba(87,202,189,0.14);
+    border-radius:12px;padding:16px 20px;background:linear-gradient(155deg,rgba(10,16,16,0.85),rgba(7,11,11,0.95));}
+  .unit .n{font-family:'Cinzel',serif;font-size:15px;color:var(--teal);letter-spacing:2px;min-width:42px;}
+  .unit h4{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:.5px;margin-bottom:3px;}
+  .unit p{font-size:13px;line-height:1.55;color:var(--stone);}
+  .badge{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap;}
+  .badge.ok{color:#06140f;background:var(--teal);}
+  .badge.sealed{color:#fff;background:rgba(201,75,18,0.85);}
+  .badge.todo{color:var(--dim);border:1px solid rgba(120,140,140,0.25);}
+  .unit.sealed{border-color:rgba(201,75,18,0.3);background:linear-gradient(155deg,rgba(20,10,8,0.7),rgba(10,7,6,0.92));}
+  .unit.sealed .n,.unit.sealed h4{color:var(--ember);}
+
+  /* guardrails */
+  .rails{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:8px;}
+  .rail{font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.5;color:var(--stone);border-left:2px solid rgba(87,202,189,0.3);padding:8px 0 8px 14px;}
+  .rail b{color:var(--teal-soft);}
+
+  .cta{text-align:center;margin-top:48px;}
+  .cta a{display:inline-flex;align-items:center;gap:10px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;
+    text-transform:uppercase;color:#06140f;background:var(--teal);padding:14px 26px;border-radius:999px;box-shadow:0 0 30px rgba(87,202,189,0.25);transition:transform .25s,box-shadow .25s;}
+  .cta a:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(87,202,189,0.45);}
+
+  .seal-block{text-align:center;padding:84px 40px 100px;border-top:1px solid rgba(87,202,189,0.12);}
+  .seal-block .big{font-family:'Cinzel',serif;font-size:clamp(17px,2.4vw,24px);color:var(--teal-soft);letter-spacing:2px;line-height:1.6;margin-bottom:26px;}
+  .seal-block .lines{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;line-height:2.4;}
+  @media(max-width:600px){.wrap{padding:52px 22px;}.hero{padding:80px 22px 50px;}.unit{grid-template-columns:auto 1fr;}.unit .badge{grid-column:2;justify-self:start;margin-top:6px;}}
+</style>
+</head>
+<body>
+<a href="../zalasite/zala.html" class="backlink">&larr; ZALA</a>
+
+<header class="hero">
+  <div class="classification">The Third Pillar · Verify Wing · Source-Locked · Do Not Feed The Drama</div>
+  <h1 class="title">ANON</h1>
+  <p class="subtitle">The evidence corpus — the iceberg read as a pattern: each claim mapped, verified, and labeled by what it can actually carry. Not a truth dump. A discipline.</p>
+  <div class="creed">“The system loves drama. We do not feed it drama.<br>Keep the complexity — sort it — label everything. Verify, not believe.”</div>
+</header>
+
+<!-- EVIDENCE-TIER STANDARD -->
+<section class="wrap">
+  <div class="section-label">The Standard</div>
+  <h2 class="section-title">The Evidence-Tier Ladder</h2>
+  <p class="section-note">Before any sentence enters the corpus it must declare what it is. Strength is never assumed — it is labeled.</p>
+  <div class="tiers">
+    <div class="tier e"><div class="code">E1</div><div class="desc">Primary, direct, strong empirical record.</div></div>
+    <div class="tier e"><div class="code">E2</div><div class="desc">Solid empirical, secondary or aggregated.</div></div>
+    <div class="tier e"><div class="code">E3</div><div class="desc">Empirical with a required caveat (correlation, model, wording).</div></div>
+    <div class="tier i"><div class="code">I1</div><div class="desc">Reasoned inference — the thesis, held as inference.</div></div>
+    <div class="tier i"><div class="code">I2</div><div class="desc">Weaker / more speculative inference.</div></div>
+    <div class="tier i"><div class="code">S</div><div class="desc">Structural / pattern reading across cases.</div></div>
+    <div class="tier a"><div class="code">A1</div><div class="desc">Absence — withheld, sealed, missing record. <b>Not</b> proof.</div></div>
+    <div class="tier r"><div class="code">R1</div><div class="desc">Rumor — recorded as a rumor, labeled, never load-bearing.</div></div>
+    <div class="tier r"><div class="code">D1</div><div class="desc">Disinfo — tracked as a false claim, as such.</div></div>
+    <div class="tier r"><div class="code">U1</div><div class="desc">Unverified context — labeled, never proof.</div></div>
+    <div class="tier q"><div class="code">Q</div><div class="desc">Quarantine — kept out of public prose entirely.</div></div>
+    <div class="tier q"><div class="code">RV</div><div class="desc">No source found / rejected — stays out.</div></div>
+  </div>
+  <div class="ruleline">
+    <b>Q and RV never enter public prose.</b> R1 / D1 / A1 / U1 appear only as explicitly-labeled context — never as proof.<br>
+    A rumor is shown <i>as</i> a rumor. A gap is shown <i>as</i> a gap.
+  </div>
+</section>
+
+<div class="divider">⚓ ✦ ⚓</div>
+
+<!-- CORPUS MAP -->
+<section class="wrap" style="padding-top:8px;">
+  <div class="section-label">The Iceberg</div>
+  <h2 class="section-title">The Corpus Map</h2>
+  <p class="section-note">The verified spine, parked under the standard. The sharp tunnel stays sealed until the word.</p>
+  <div class="corpus">
+    <div class="unit"><div class="n">I</div><div><h4>Surface Layer — Plastic Static</h4><p>Microplastics as the visible surface signal: the thing you can already see in the water.</p></div><span class="badge ok">Verified · parked</span></div>
+    <div class="unit"><div class="n">II</div><div><h4>Shallow Layer — Systemic Corruption</h4><p>Shadow finance and the shallow capture beneath the surface. (Firewall-tested.)</p></div><span class="badge ok">Verified · parked</span></div>
+    <div class="unit"><div class="n">III</div><div><h4>DARPA &amp; Digital Infrastructure</h4><p>The surveillance / infrastructure spine the rest of the machine runs on.</p></div><span class="badge ok">Verified · parked</span></div>
+    <div class="unit"><div class="n">IV</div><div><h4>Full Depth — The Extraction Machine</h4><p>Contracts, capital, and the deep mechanics of extraction.</p></div><span class="badge ok">Verified · parked</span></div>
+    <div class="unit"><div class="n">V</div><div><h4>Big Tech Sabotage of Human Productivity</h4><p>FTC 6(b) report (E1), CrowdStrike (E1+A1), the MIT GenAI divide / workslop (E2).</p></div><span class="badge ok">Verified · parked</span></div>
+    <div class="unit"><div class="n">5.5</div><div><h4>Interlude — The Forbidden Tool Becomes the Product</h4><p>The bridge: an I1 thesis carried honestly across the two banks of the river.</p></div><span class="badge ok">Inserted</span></div>
+    <div class="unit"><div class="n">↘</div><div><h4>KAIROS — Side Lane</h4><p>Mostly the vendor's own product docs (E1); dramatic codenames as-reported (RV); the thesis stays I1; "evil/theft" framings quarantined.</p></div><span class="badge ok">Complete · parked</span></div>
+    <div class="unit sealed"><div class="n">VI</div><div><h4>Epstein &amp; Money</h4><p>The densest network nodes, living named people, maximum defamation &amp; antisemitism-trap exposure. Handled only under the strict high-risk protocol.</p></div><span class="badge sealed">🔒 Sealed</span></div>
+    <div class="unit sealed"><div class="n">VII</div><div><h4>Epstein &amp; AI</h4><p>The sharpest tunnel. Sealed until the explicit word.</p></div><span class="badge sealed">🔒 Sealed</span></div>
+    <div class="unit"><div class="n">…</div><div><h4>CH0 · CH8 · CH9 · CH10 · Appendix</h4><p>Prologue, the consciousness chapters (symbolic/quarantine load), epilogue, appendix.</p></div><span class="badge todo">Not started</span></div>
+  </div>
+</section>
+
+<div class="divider">⚓ ✦ ⚓</div>
+
+<!-- GUARDRAILS -->
+<section class="wrap" style="padding-top:8px;">
+  <div class="section-label">The Firewall</div>
+  <h2 class="section-title">Mandatory Guardrails</h2>
+  <p class="section-note">In force corpus-wide. The discipline is the point — it is what keeps a pattern from becoming a conspiracy.</p>
+  <div class="rails">
+    <div class="rail"><b>identity</b> ≠ causation</div>
+    <div class="rail"><b>lobbying</b> ≠ bribery</div>
+    <div class="rail"><b>settlement</b> ≠ admission</div>
+    <div class="rail"><b>a named network</b> ≠ a conspiracy</div>
+    <div class="rail"><b>withheld / sealed / missing</b> = A1, not proof</div>
+    <div class="rail"><b>weak claims</b> are labeled, not erased</div>
+    <div class="rail"><b>rumor</b> = R1 · <b>disinfo</b> = D1 · <b>inference</b> = I1</div>
+    <div class="rail"><b>ethnic-finance framing</b> rejected &amp; quarantined</div>
+    <div class="rail"><b>CH6 / CH7</b> — stricter living-person / defamation handling</div>
+  </div>
+  <div class="cta">
+    <a href="../zalasite/index.html">Open the Operator Console — full corpus detail →</a>
+  </div>
+</section>
+
+<!-- SEAL -->
+<footer class="seal-block">
+  <div class="big">The bridge is crossed onto the page.<br>The map is made visible. The sharp tunnel stays sealed.</div>
+  <div class="lines">
+    Keep the complexity · Sort it · Label everything<br>
+    Verify coldly · Read warmly · Do not feed the drama
+  </div>
+  <div style="margin-top:24px;font-family:'Cinzel',serif;letter-spacing:5px;color:var(--ember);font-size:12px;opacity:.7;">OMNIA IAM FACTA SVNT</div>
+</footer>
+
+</body>
+</html>
