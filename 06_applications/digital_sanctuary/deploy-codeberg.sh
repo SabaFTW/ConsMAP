@@ -19,6 +19,11 @@ VITE_BASE=/ReBiS/ ./node_modules/.bin/vite build
 
 echo "▸ trimming dist for a lean deploy …"
 rm -rf dist/grandbus_codex
+# LOCAL-ONLY: the full iceberg reader carries named-individual + victim material
+# (Wexner/Maxwell/Epstein/trafficking) woven through nearly every chapter. Held under
+# the corpus firewall — it is integrated for local preview but MUST NOT be published.
+# Do not remove this line without an explicit decision to lift the seal.
+rm -rf dist/iceberg
 python3 "$APP/scripts/trim_dist.py" dist || true
 
 echo "▸ preparing Codeberg pages clone …"

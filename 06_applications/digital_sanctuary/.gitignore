@@ -25,3 +25,9 @@ dist-ssr
 
 # Codeberg pages deploy clone
 .codeberg-deploy/
+
+# SEALED / local-only: the full iceberg reader carries named-individual + victim
+# material woven through nearly every chapter. Held under the corpus firewall —
+# integrated for LOCAL preview only, never committed or deployed. The deploy script
+# also strips dist/iceberg. Do not un-ignore without an explicit decision to lift the seal.
+public/iceberg/

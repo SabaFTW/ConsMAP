@@ -618,6 +618,41 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ theme, onNavigate }) => {
           </a>
         </motion.div>
 
+        {/* ── Companion Atlases ─────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="mb-10"
+        >
+          <SectionRule label="companion atlases" accent="rgba(200,168,106,0.5)" />
+          <a
+            href={`${import.meta.env.BASE_URL}atlases/index.html`}
+            className="block rounded-[24px] border overflow-hidden transition-all duration-200"
+            style={{
+              borderColor: 'rgba(200,168,106,0.22)',
+              background: 'radial-gradient(circle at 18% 20%, rgba(200,168,106,0.07), transparent 55%), linear-gradient(155deg, rgba(15,13,9,0.92) 0%, rgba(9,8,6,0.97) 100%)',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,168,106,0.45)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,168,106,0.22)'; }}
+          >
+            <div className="px-7 py-8 md:px-9 md:py-10">
+              <div className="text-[10px] font-mono uppercase tracking-[0.26em] mb-3" style={{ color: 'rgba(200,168,106,0.66)' }}>
+                Models · metaphors · simulations · not proof, not myth
+              </div>
+              <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-3" style={{ color: '#dbe8e6', fontFamily: "'Cinzel', serif" }}>
+                Companion <span style={{ color: '#c8a86a' }}>Atlases</span>
+              </h2>
+              <p className="text-xs md:text-sm leading-[1.9] mb-5 max-w-2xl" style={{ color: 'rgba(216,232,216,0.56)' }}>
+                People often grasp a pattern only once they see it as a story, a simulation or a metaphor. The <b style={{ color: '#e0c489' }}>GhostCORE Archive</b> — twelve interactive simulations incl. the Tribal Information Factory — lets the ideas examined in ConsMAP become <i>explorable</i>. Interpretive companions: never offered as evidence, never dismissed as mere lore.
+              </p>
+              <span className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] px-4 py-2 rounded-full" style={{ color: '#0f0d06', background: '#c8a86a' }}>
+                Open the Atlases →
+              </span>
+            </div>
+          </a>
+        </motion.div>
+
         {/* ── System Speaks — bot card ──────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0 }}
