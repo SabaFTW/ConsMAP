@@ -669,7 +669,7 @@
     <div class="stories-grid">
 
       <!-- FACTORY -->
-      <a href="../" id="factory-card" class="story-card factory reveal" onclick="openFactory(event)">
+      <a href="../zalasite/factory.html" id="factory-card" class="story-card factory reveal" onclick="openFactory(event)">
         <div class="chapter-badge">17 chapters</div>
 
         <div class="seal-banner seal-factory">
@@ -856,12 +856,8 @@
   // ── NAVIGATE TO STORIES — via postMessage to parent App.tsx
   function openFactory(e) {
     e.preventDefault();
-    rememberRecent('The Factory', 'The Sugar Factory — liturgy, Boris, Filter 3-C, and the ascent of the machine.', '#fb923c', 'rgba(194,65,12,0.24)', '../');
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({ type: 'PRAVLJICA_NAVIGATE', story: 'factory' }, '*');
-    } else {
-      window.location.href = '../?story=factory';
-    }
+    rememberRecent('The Factory', 'The Sugar Factory — liturgy, Boris, Filter 3-C, and the ascent of the machine.', '#fb923c', 'rgba(194,65,12,0.24)', '../zalasite/factory.html');
+    window.location.href = '../zalasite/factory.html';
   }
 
   function openBus(e) {
