@@ -34,4 +34,7 @@ cp -r "$APP/dist/." .
 git add -A
 git commit -m "deploy: ConsMAP Stories ($(date +%F))" || { echo "nothing new to deploy"; exit 0; }
 git push origin pages
+# mirror pages -> main so the repo front page tracks the live site (does NOT affect
+# hosting; Codeberg Pages serves the 'pages' branch). Fast-forward normally; force if needed.
+git push origin pages:main 2>/dev/null || git push origin +pages:main
 echo "✓ deployed → https://lyraactive.codeberg.page/ReBiS/  (allow ~1 min for Codeberg to rebuild)"
