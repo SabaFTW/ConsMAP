@@ -154,6 +154,9 @@ p{margin:0 0 22px} em{color:#efe6d2} strong{color:#f3ead4;font-weight:700}
 .fn{font-family:'Share Tech Mono',monospace;font-size:13px;line-height:1.7;color:var(--ash-dim);border-left:2px solid var(--accent-dim);padding:4px 0 4px 16px;margin:8px 0 26px;background:rgba(@RGB@,.03)}
 .report{font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--ash-dim);margin:0 0 8px}
 .rule3{text-align:center;color:var(--accent-dim);letter-spacing:.6em;margin:5vh 0;font-size:14px}
+blockquote{margin:32px 0;padding:12px 0 12px 24px;border-left:2px solid var(--accent);font-style:italic;color:#efe6d2;background:linear-gradient(90deg,rgba(@RGB@,.05),transparent)}
+.verse{font-style:italic;color:var(--ash);text-align:center;margin:28px 0;line-height:1.95}
+.verse em{color:#f1e6cd}
 figure.plate{margin:7vh -4vw;text-align:center}
 @media(max-width:820px){figure.plate{margin-left:-26px;margin-right:-26px}}
 figure.plate img{width:100%;height:auto;display:block;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.6);filter:sepia(.12) contrast(1.02)}
