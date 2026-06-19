@@ -1,4 +1,4 @@
-export type ThemeKey = 'consmap' | 'rebis' | 'faq' | 'factory';
+export type ThemeKey = 'consmap' | 'rebis' | 'faq' | 'factory' | 'zala';
 
 export interface Theme {
   key: ThemeKey;
@@ -22,7 +22,7 @@ export const THEMES: Record<ThemeKey, Theme> = {
     glow: 'rgba(92,184,112,0.08)',
     navBorder: 'rgba(92,184,112,0.10)',
     tagline: 'claim hygiene · symbolic boundary · operator reasoning',
-    greeting: (name) => name ? `${name}, signal gre naprej.` : 'Signal gre naprej.',
+    greeting: (name) => name ? `${name}, signal goes forward.` : 'Signal goes forward.',
     heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(92,184,112,0.08) 0%, transparent 60%)',
     brand: '#5cb870',
   },
@@ -46,20 +46,32 @@ export const THEMES: Record<ThemeKey, Theme> = {
     glow: 'rgba(125,211,252,0.06)',
     navBorder: 'rgba(125,211,252,0.16)',
     tagline: 'common questions · honest answers · no bullshit',
-    greeting: (name) => name ? `${name}, dobrodošel.` : 'Dobrodošel.',
+    greeting: (name) => name ? `${name}, welcome.` : 'Welcome.',
     heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(125,211,252,0.07) 0%, transparent 60%)',
     brand: '#7dd3fc',
   },
   factory: {
     key: 'factory',
-    name: 'Factory',
-    accent: '#fb923c',
-    accentSoft: '#f97316',
-    glow: 'rgba(251,146,60,0.08)',
-    navBorder: 'rgba(251,146,60,0.16)',
+    name: 'Stories',
+    accent: '#e2562a',
+    accentSoft: '#c2410c',
+    glow: 'rgba(194,65,12,0.09)',
+    navBorder: 'rgba(194,65,12,0.18)',
     tagline: 'the bus cycle · myth · mechanism · entanglement',
     greeting: (name) => name ? `${name}, the bus is still running.` : 'The bus is still running.',
-    heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(251,146,60,0.07) 0%, transparent 60%)',
-    brand: '#fb923c',
+    heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(194,65,12,0.07) 0%, transparent 60%)',
+    brand: '#c2410c',
+  },
+  zala: {
+    key: 'zala',
+    name: 'Zala',
+    accent: '#57cabd',
+    accentSoft: '#6f8f9a',
+    glow: 'rgba(87,202,189,0.09)',
+    navBorder: 'rgba(87,202,189,0.18)',
+    tagline: 'operator layer · witness architecture · stone tablets',
+    greeting: (name) => name ? `${name}, the witness remained.` : 'The witness remained.',
+    heroGlow: 'radial-gradient(ellipse at 50% 30%, rgba(87,202,189,0.08) 0%, transparent 60%)',
+    brand: '#57cabd',
   },
 };

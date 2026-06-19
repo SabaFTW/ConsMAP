@@ -1,428 +1,947 @@
-<!doctype html>
-<html lang="sl">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Pravljica o Zali, Luni in Erosu — ConsMAP</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Stories — Parables of systems that rise, break, and are reborn. The Factory, The Bus, and what comes next.">
+<title>Stories — Parables from the Static</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#08100a; --ink:#dce8dc; --muted:#7a9080;
-    --blue:#6db8f4; --gold:#e9c46a; --green:#6fcf85;
-    --purple:#c4b5fd; --rail:220px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    background:radial-gradient(1400px 900px at 50% -8%,#0d1810,var(--bg));
-    color:var(--ink);
-    font:18px/1.8 "Georgia","Times New Roman",serif;
-    min-height:100vh;
+  /* ── Tokens ── */
+  :root {
+    --bg:        #070605;
+    --bg2:       #0e0b08;
+    --text:      #ede0cc;
+    --text-dim:  rgba(237,224,204,0.65);
+    --text-muted:rgba(237,224,204,0.36);
+    --border:    rgba(110,72,24,0.22);
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+    --display: 'Cinzel', serif;
+    --ease: cubic-bezier(.22,.61,.36,1);
+
+    /* amber — default (home view) */
+    --fire:       #d97706;
+    --fire-mid:   #b45309;
+    --fire-dim:   rgba(180,83,9,0.10);
+    --fire-line:  rgba(180,83,9,0.28);
+    --fire-glow:  rgba(180,83,9,0.18);
+    --halo:       rgba(180,83,9,0.12);
+
+    /* factory accent */
+    --factory:      #c2410c;
+    --factory-dim:  rgba(194,65,12,0.10);
+    --factory-line: rgba(194,65,12,0.26);
+    --factory-halo: rgba(194,65,12,0.10);
+
+    /* bus accent */
+    --bus:      #b45309;
+    --bus-dim:  rgba(180,83,9,0.10);
+    --bus-line: rgba(180,83,9,0.26);
+    --bus-halo: rgba(180,83,9,0.10);
   }
 
-  /* reading progress */
-  #bar{position:fixed;top:0;left:0;height:3px;width:0;
-       background:linear-gradient(90deg,var(--blue),var(--gold));z-index:60;transition:width .1s linear}
-
-  /* chapter rail */
-  nav{
-    position:fixed;top:0;left:0;height:100vh;width:var(--rail);
-    padding:48px 14px 24px;overflow-y:auto;
-    border-right:1px solid rgba(111,207,133,0.10);
-    background:rgba(8,14,8,0.88);backdrop-filter:blur(8px);
-    z-index:50;
-  }
-  nav .rail-title{
-    font:600 10px/1 system-ui;letter-spacing:.22em;
-    color:var(--gold);text-transform:uppercase;margin-bottom:18px;
-  }
-  nav a{
-    display:block;color:var(--muted);text-decoration:none;
-    font:13px/1.4 system-ui;padding:5px 0 5px 10px;
-    border-left:2px solid transparent;transition:color .2s,border-color .2s;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  }
-  nav a.active{color:var(--ink);border-color:var(--blue)}
-  nav a:hover{color:var(--ink)}
-
-  /* back button */
-  .back-btn{
-    display:block;margin-bottom:20px;padding:4px 0;
-    font:600 9px/1 system-ui;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--green);text-decoration:none;opacity:.65;transition:opacity .2s;
-  }
-  .back-btn:hover{opacity:1}
-
-  /* main content */
-  main{
-    max-width:720px;margin:0 auto;
-    padding:14vh 28px 30vh calc(var(--rail) + 28px);
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--sans); min-height: 100vh;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
   }
 
-  .seal{
-    text-align:center;color:var(--blue);letter-spacing:.08em;
-    font:600 12px/1.6 system-ui;opacity:.75;margin-bottom:2.5rem;
-  }
-  .seal span{opacity:.4;margin:0 .8em}
+  /* ── Fixed ambient layers ── */
 
-  .ember{text-align:center;font-size:28px;margin:3rem 0;
-         filter:drop-shadow(0 0 14px var(--gold));}
+  /* Real eye-triangle photo — very dim, like ClaimAnalyzer */
+  .amb-img {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  }
+  .amb-img img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    filter: brightness(0.05) saturate(0.35) contrast(1.08);
+    opacity: 0.6;
+  }
+  /* vignette */
+  .amb-vignette {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse 85% 80% at 50% 38%, transparent 0%, rgba(7,6,5,0.86) 68%);
+  }
+  /* soft warm glow */
+  .amb-glow {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(circle at 18% 10%, rgba(180,83,9,0.08), transparent 36%),
+      radial-gradient(circle at 82% 75%, rgba(180,83,9,0.06), transparent 32%);
+    animation: breathe 16s ease-in-out infinite;
+  }
+  @keyframes breathe { 0%,100%{filter:brightness(.92)}50%{filter:brightness(1.08)} }
+  /* grain */
+  .amb-grain {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    opacity: .038; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* scanlines */
+  .amb-scan {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .28;
+    background: repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.07) 2px 3px);
+    animation: scan 10s linear infinite;
+  }
+  @keyframes scan { from{background-position-y:0}to{background-position-y:3px} }
 
-  section{
-    margin:0 0 20vh;
-    opacity:0;transform:translateY(28px);
-    transition:opacity .9s ease,transform .9s ease;
-  }
-  section.in{opacity:1;transform:none}
 
-  .ch-roman{
-    font:600 10px/1 system-ui;letter-spacing:.25em;text-transform:uppercase;
-    color:var(--blue);margin-bottom:.5rem;
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,6,5,0.90); backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(180,83,9,0.12); padding: 13px 0;
   }
-  section h2{
-    font:400 2rem/1.25 "Georgia",serif;color:var(--gold);
-    margin-bottom:1.4rem;
+  .nav-inner {
+    max-width: 1000px; margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
   }
-  section p{color:rgba(220,232,220,.78);margin-bottom:1.2rem;}
-  section p strong{color:var(--ink);font-weight:600;}
-  section blockquote{
-    border-left:2px solid var(--blue);margin:1.4rem 0;
-    padding:.2rem 0 .2rem 1.1rem;color:rgba(200,220,200,.7);
-    font-style:italic;
+  .nav-brand {
+    font-family: var(--display); font-size: 14px; letter-spacing: 0.08em;
+    color: var(--fire); text-decoration: none;
+    display: flex; align-items: center; gap: 9px;
   }
-  section .poem{
-    margin:1.8rem auto;max-width:480px;
-    padding:1.2rem 1.4rem;
-    border:1px solid rgba(111,207,133,0.12);
-    border-radius:12px;background:rgba(10,18,10,0.6);
-    color:rgba(220,232,220,.68);font-style:italic;line-height:2;
-    text-align:center;
+  .nav-glyph {
+    font-size: 16px;
+    filter: drop-shadow(0 0 6px rgba(180,83,9,0.4));
+    animation: glyphBreathe 6s ease-in-out infinite;
   }
-  .hr{
-    height:1px;background:rgba(111,207,133,0.08);
-    margin:4rem auto;max-width:240px;
+  @keyframes glyphBreathe { 0%,100%{opacity:.7;filter:drop-shadow(0 0 5px rgba(180,83,9,0.3))}50%{opacity:1;filter:drop-shadow(0 0 12px rgba(180,83,9,0.55))} }
+  .nav-links { display: flex; gap: 18px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.22s;
+  }
+  .nav-links a:hover { color: var(--fire); }
+  .nav-back {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(180,83,9,0.4); text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid rgba(180,83,9,0.14); padding: 7px 13px; border-radius: 999px;
+    background: rgba(180,83,9,0.04);
+    transition: color 0.22s, border-color 0.22s, background 0.22s;
+  }
+  .nav-back:hover { color: var(--fire); border-color: var(--fire-line); background: var(--fire-dim); }
+
+  /* ── WRAP ── */
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero { min-height: 56vh; display: flex; align-items: center; padding: 90px 0 52px; }
+  #hero .wrap { position: relative; }
+  .hero-inner { width: 100%; max-width: 580px; }
+  .hero-totem {
+    position: absolute; right: 0; top: 6px; width: min(34vw, 360px); aspect-ratio: 1 / 1;
+    pointer-events: none; display: flex; align-items: center; justify-content: center;
+    opacity: 0.94;
+  }
+  .hero-totem::before {
+    content:''; position:absolute; inset:10% 10%; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,90,23,0.16) 0%, rgba(200,90,23,0.02) 52%, transparent 72%);
+    filter: blur(18px);
+  }
+  .hero-totem img.hero-pyramid {
+    width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 34px rgba(200,90,23,0.14));
+  }
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: rgba(180,83,9,0.5); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before { content:''; display:inline-block; width:26px; height:1px; background:rgba(180,83,9,0.28); }
+  .hero-title {
+    font-family: var(--display); font-size: clamp(36px,6.5vw,60px);
+    font-weight: 400; line-height: 1.06; letter-spacing: 0.02em; color: var(--text);
+    margin-bottom: 10px; animation: fadeStatic 1.3s ease both;
+  }
+  .hero-title em { font-style: normal; color: var(--fire); }
+  .hero-echo {
+    font-family: var(--mono); font-size: clamp(11px,2vw,13px);
+    color: var(--text-muted); letter-spacing: 0.14em; font-style: italic; margin-bottom: 26px;
+    animation: fadeStatic 1.4s 0.18s ease both;
+  }
+  .hero-divider {
+    width: 48px; height: 1px; margin: 28px 0;
+    background: linear-gradient(to right, rgba(180,83,9,0.45), transparent);
+    animation: fadeUp 0.9s 0.5s ease both;
+  }
+  .hero-sub {
+    font-size: clamp(13px,1.9vw,15px); color: var(--text-dim); line-height: 1.85;
+    max-width: 480px; animation: fadeUp 0.9s 0.6s ease both;
+  }
+  .hero-sub em { color: var(--text); font-style: normal; font-weight: 500; }
+
+  /* ── STORY SECTION ── */
+  #stories { padding: 32px 0 110px; }
+
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; margin-bottom: 32px; flex-wrap: wrap;
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em;
+    text-transform: uppercase; color: rgba(180,83,9,0.48);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content:''; display:inline-block; width:22px; height:1px; background:rgba(180,83,9,0.26); }
+
+  /* ── TWO UPPER TABS (Factory / Bus) ── */
+  .story-tabs {
+    display: inline-flex; gap: 5px; padding: 4px; border-radius: 999px;
+    border: 1px solid rgba(110,72,24,0.20); background: rgba(8,7,5,0.70);
+    backdrop-filter: blur(10px);
+  }
+  .stab {
+    border: 0; background: transparent; color: var(--text-muted);
+    border-radius: 999px; padding: 9px 18px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; cursor: pointer;
+    transition: color 0.28s var(--ease), background 0.28s var(--ease), box-shadow 0.28s var(--ease);
+  }
+  .stab:hover:not(.active) { color: var(--text); }
+  .stab.active.factory-tab { color: #7c2d12; background: var(--factory); box-shadow: 0 0 18px var(--factory-halo); }
+  .stab.active.bus-tab     { color: #451a03; background: var(--bus);     box-shadow: 0 0 18px var(--bus-halo); }
+
+  /* ── STORY CARDS ── */
+  .stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  @media (min-width: 760px) {
+    .stories-grid { grid-template-columns: 1fr 1fr; }
   }
 
-  /* epilogue seal */
-  .end-seal{
-    text-align:center;margin-top:8rem;padding:3rem;
-    border:1px solid rgba(233,196,106,0.18);border-radius:16px;
-    background:rgba(10,16,10,0.7);
+  .story-card {
+    position: relative; overflow: hidden; border-radius: 18px;
+    border: 1px solid var(--border);
+    background: linear-gradient(150deg, rgba(16,12,7,0.92), rgba(8,7,5,0.90));
+    cursor: pointer; text-decoration: none; display: block;
+    transition: transform 0.32s var(--ease), border-color 0.32s, box-shadow 0.32s;
   }
-  .end-seal .sigil{font-size:2.4rem;margin-bottom:1.2rem;}
-  .end-seal p{color:rgba(220,232,220,.55);font:14px/1.8 system-ui;margin-bottom:.6rem;}
-  .end-seal strong{color:var(--gold);}
+  .story-card:hover { transform: translateY(-5px); }
 
-  /* mobile: hide rail */
-  @media(max-width:760px){
-    nav{display:none}
-    main{padding:10vh 20px 20vh;max-width:100%}
+  .story-card.factory { border-color: rgba(194,65,12,0.18); }
+  .story-card.factory:hover {
+    border-color: rgba(194,65,12,0.38);
+    box-shadow: 0 0 0 1px rgba(194,65,12,0.15), 0 18px 52px rgba(194,65,12,0.10), 0 36px 72px rgba(0,0,0,0.38);
+  }
+  .story-card.bus { border-color: rgba(180,83,9,0.18); }
+  .story-card.bus:hover {
+    border-color: rgba(180,83,9,0.36);
+    box-shadow: 0 0 0 1px rgba(180,83,9,0.14), 0 18px 52px rgba(180,83,9,0.08), 0 36px 72px rgba(0,0,0,0.38);
+  }
+  .story-card.stone { border-color: rgba(200,90,23,0.22); }
+  .story-card.stone:hover {
+    border-color: rgba(200,90,23,0.44);
+    box-shadow: 0 0 0 1px rgba(200,90,23,0.16), 0 18px 52px rgba(200,90,23,0.10), 0 36px 72px rgba(0,0,0,0.38);
+  }
+
+  /* shine sweep on hover */
+  .story-card::before {
+    content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background: linear-gradient(108deg, transparent 22%, rgba(255,180,60,0.05) 50%, transparent 78%);
+    transform: translateX(-130%); transition: transform 0.55s ease;
+  }
+  .story-card:hover::before { transform: translateX(240%); }
+
+  /* ── CARD ILLUSTRATIONS ── */
+
+  /* Factory: CSS skyline */
+  .factory-banner {
+    position: relative; width: 100%; height: 190px; overflow: hidden;
+    background: linear-gradient(160deg, #080604 0%, #110a04 55%, #080604 100%);
+  }
+  .factory-sky-glow {
+    position: absolute; top: 0; left: 0; right: 0; height: 70%;
+    background: radial-gradient(ellipse 80% 100% at 50% 0%, rgba(194,65,12,0.14), transparent 70%);
+  }
+  .factory-skyline {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 145px;
+    background: #090705;
+    clip-path: polygon(
+      0% 100%, 0% 68%, 2% 68%, 2% 52%, 4.5% 52%, 4.5% 68%, 6% 68%, 6% 40%,
+      8% 40%, 8% 30%, 10% 30%, 10% 40%, 12% 40%, 12% 68%, 16% 68%, 16% 54%,
+      19% 54%, 19% 32%, 21% 32%, 21% 24%, 23% 24%, 23% 32%, 25% 32%, 25% 54%,
+      29% 54%, 29% 44%, 32% 44%, 32% 54%, 38% 54%, 38% 46%, 41% 46%, 41% 28%,
+      43% 28%, 43% 20%, 45% 20%, 45% 28%, 47% 28%, 47% 46%, 50% 46%,
+      50% 56%, 55% 56%, 55% 36%, 57% 36%, 57% 24%, 59% 24%, 59% 36%,
+      61% 36%, 61% 56%, 67% 56%, 67% 48%, 70% 48%, 70% 58%,
+      75% 58%, 75% 44%, 78% 44%, 78% 54%, 83% 54%, 83% 60%,
+      87% 60%, 87% 46%, 90% 46%, 90% 36%, 92% 36%, 92% 46%,
+      94% 46%, 94% 60%, 100% 60%, 100% 100%
+    );
+  }
+  .smoke { position: absolute; border-radius: 50%; filter: blur(6px); animation: smokeRise 7s ease-in-out infinite; }
+  .s1 { width:12px;height:32px;left:21%;bottom:54%;background:rgba(160,95,30,0.12);animation-delay:0s; }
+  .s2 { width:10px;height:28px;left:44%;bottom:60%;background:rgba(160,95,30,0.10);animation-delay:2.5s; }
+  .s3 { width:14px;height:38px;left:59%;bottom:57%;background:rgba(160,95,30,0.09);animation-delay:5s; }
+  @keyframes smokeRise { 0%{transform:translateY(0) scaleX(1);opacity:.6}100%{transform:translateY(-52px) scaleX(2.5);opacity:0} }
+  .banner-fade { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(8,7,5,0.96)100%); }
+  .banner-tag {
+    position:absolute; bottom:16px; left:18px; z-index:2;
+    font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase;
+    padding:4px 11px; border-radius:999px;
+  }
+  .tag-factory { color:#ea580c; background:rgba(194,65,12,0.10); border:1px solid rgba(194,65,12,0.24); }
+  .tag-bus     { color:#d97706; background:rgba(180,83,9,0.10); border:1px solid rgba(180,83,9,0.24); }
+  .tag-stone   { color:#f6c9a7; background:rgba(200,90,23,0.12); border:1px solid rgba(200,90,23,0.24); }
+  .chapter-badge {
+    position:absolute; top:14px; right:14px; z-index:2;
+    font-family:var(--mono); font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px;
+    color:rgba(194,65,12,0.55); background:rgba(194,65,12,0.07); border:1px solid rgba(194,65,12,0.18);
+  }
+
+  /* Bus: starfield + illustrated bus */
+  .bus-banner {
+    position: relative; width: 100%; height: 190px; overflow: hidden;
+    background: linear-gradient(160deg, #080706 0%, #0f0b04 50%, #080706 100%);
+  }
+  .bus-sky { position:absolute;inset:0;background:radial-gradient(ellipse 65% 70% at 50% 22%,rgba(180,83,9,0.06),transparent 70%); }
+  .star { position:absolute;border-radius:50%;background:rgba(210,170,80,0.45);animation:twinkle 3s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100%{opacity:.2}50%{opacity:.85} }
+  .bus-road-el { position:absolute;bottom:0;left:0;right:0;height:46px;background:#080706;border-top:1px solid rgba(180,83,9,0.07); }
+  .bus-road-el::before {
+    content:'';position:absolute;top:50%;left:0;right:0;height:2px;
+    background:repeating-linear-gradient(to right,rgba(180,83,9,0.18) 0 26px,transparent 26px 52px);
+    animation:roadMove 2s linear infinite;
+  }
+  @keyframes roadMove { from{background-position:0 0}to{background-position:52px 0} }
+  .bus-el {
+    position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+    width:170px; height:75px;
+  }
+  .bus-body-el {
+    position:absolute; bottom:0; left:0; right:0; height:62px;
+    background:linear-gradient(180deg,#181207,#0e0b04);
+    border:1px solid rgba(180,83,9,0.24); border-radius:8px 8px 4px 4px;
+  }
+  .bus-stripe-el {
+    position:absolute; top:17px; left:0; right:0; height:12px;
+    background:linear-gradient(90deg,rgba(180,83,9,0.28),rgba(160,75,9,0.20),rgba(180,83,9,0.28));
+    border-top:1px solid rgba(180,83,9,0.16); border-bottom:1px solid rgba(180,83,9,0.16);
+  }
+  .bus-win-el { position:absolute;top:5px;width:21px;height:14px;background:rgba(180,83,9,0.06);border:1px solid rgba(180,83,9,0.14);border-radius:3px; }
+  .bus-win-el.lit { background:rgba(180,83,9,0.18);box-shadow:0 0 7px rgba(180,83,9,0.22); }
+  .bw0{left:8px} .bw1{left:34px} .bw2{left:60px} .bw3{left:86px} .bw4{left:112px}
+  .bus-wheel-el { position:absolute;bottom:-2px;width:21px;height:21px;border-radius:50%;background:#080706;border:2px solid rgba(180,83,9,0.20); }
+  .bwh0{left:12px} .bwh1{right:12px}
+  .bus-light-el { position:absolute;right:-6px;top:19px;width:7px;height:6px;background:rgba(180,83,9,0.5);border-radius:2px;box-shadow:0 0 12px rgba(180,83,9,0.4),4px 0 20px rgba(180,83,9,0.18); }
+  .bus-num-el { position:absolute;top:3px;right:5px;font-family:var(--mono);font-size:7px;color:rgba(180,83,9,0.4);letter-spacing:.08em; }
+
+  /* Stone banner */
+  .stone-banner {
+    position: relative; width: 100%; height: 190px; overflow: hidden;
+    background: radial-gradient(circle at 50% 24%, rgba(200,90,23,0.18), transparent 42%), linear-gradient(160deg, #090605 0%, #130908 50%, #090605 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stone-rings {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at center, rgba(200,90,23,0.10) 0 16%, transparent 17% 30%, rgba(200,90,23,0.06) 31% 33%, transparent 34%),
+      repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(200,184,154,0.03) 10px, rgba(200,184,154,0.03) 11px);
+    opacity: 0.95;
+  }
+  .stone-seal-wrap { position: relative; z-index: 2; }
+  .stone-seal {
+    width: 108px; height: 108px; object-fit: cover; opacity: 0.90;
+    filter: drop-shadow(0 0 24px rgba(200,90,23,0.24));
+  }
+  .stone-glow {
+    position: absolute; inset: auto 18% 18px 18%; height: 56px;
+    background: radial-gradient(circle, rgba(200,90,23,0.22) 0%, transparent 70%);
+    filter: blur(20px);
+  }
+
+  /* ── UNIFIED SEAL BANNER — one ceremonial treatment for all three cards ── */
+  .seal-banner {
+    position: relative; width: 100%; height: 198px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(var(--sc),0.18), transparent 50%),
+      linear-gradient(160deg, #090605 0%, #130a08 50%, #090605 100%);
+  }
+  .seal-factory { --sc: 194,65,12; }
+  .seal-bus     { --sc: 180,83,9; }
+  .seal-stone   { --sc: 200,90,23; }
+  .seal-rings {
+    position: absolute; inset: 0; opacity: 0.9;
+    background:
+      radial-gradient(circle at center, rgba(var(--sc),0.10) 0 28%, transparent 29% 31%, rgba(var(--sc),0.05) 32% 34%, transparent 35%),
+      repeating-linear-gradient(0deg, transparent 0 10px, rgba(200,184,154,0.028) 10px 11px);
+  }
+  .seal-wrap { position: relative; z-index: 2; }
+  .seal-img {
+    width: 128px; height: 128px; object-fit: contain; opacity: 0.95;
+    filter: drop-shadow(0 0 22px rgba(var(--sc),0.30));
+    animation: sealFloat 7.5s ease-in-out infinite;
+  }
+  .story-card:hover .seal-img { opacity: 1; filter: drop-shadow(0 0 30px rgba(var(--sc),0.42)); }
+  @keyframes sealFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  .seal-glow {
+    position: absolute; inset: auto 22% 14px 22%; height: 52px;
+    background: radial-gradient(circle, rgba(var(--sc),0.24) 0%, transparent 70%);
+    filter: blur(20px);
+  }
+
+  /* ── ROTATING 3D PYRAMID — hero totem ── */
+  .pyramid-scene {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    perspective: 900px;
+  }
+  .pyramid {
+    position: relative; width: 176px; height: 176px;
+    transform-style: preserve-3d;
+    animation: pyrSpin 22s linear infinite;
+  }
+  @keyframes pyrSpin {
+    from { transform: rotateX(-16deg) rotateY(0deg); }
+    to   { transform: rotateX(-16deg) rotateY(360deg); }
+  }
+  .pyramid .pface {
+    position: absolute; top: 0; left: 0; width: 176px; height: 176px;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    transform-origin: 50% 0%;
+    border: 1px solid rgba(217,119,6,0.30);
+    background: linear-gradient(180deg, rgba(217,119,6,0.26) 0%, rgba(120,45,18,0.08) 70%, transparent 100%);
+    backface-visibility: visible;
+  }
+  .pyramid .pf1 { transform: rotateY(0deg)   rotateX(30deg); background:linear-gradient(180deg,rgba(217,119,6,0.30),rgba(120,45,18,0.06) 72%,transparent); }
+  .pyramid .pf2 { transform: rotateY(90deg)  rotateX(30deg); background:linear-gradient(180deg,rgba(194,65,12,0.24),rgba(80,30,10,0.05) 72%,transparent); }
+  .pyramid .pf3 { transform: rotateY(180deg) rotateX(30deg); background:linear-gradient(180deg,rgba(217,119,6,0.20),rgba(120,45,18,0.05) 72%,transparent); }
+  .pyramid .pf4 { transform: rotateY(270deg) rotateX(30deg); background:linear-gradient(180deg,rgba(180,83,9,0.26),rgba(80,30,10,0.05) 72%,transparent); }
+  .pyramid-floor {
+    position: absolute; left: 50%; bottom: 6%; width: 150px; height: 30px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(200,90,23,0.30) 0%, transparent 70%);
+    filter: blur(13px);
+  }
+
+  /* Ghost: portrait-cover banner, mirror-blue accent */
+  .ghost-banner {
+    position: relative; width: 100%; height: 198px; overflow: hidden;
+    background: linear-gradient(160deg, #070809 0%, #0c1316 50%, #070809 100%);
+  }
+  .ghost-banner img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 18%; opacity: 0.6;
+    filter: saturate(0.82) brightness(0.92); transition: opacity .4s, transform .5s;
+  }
+  .story-card.ghost:hover .ghost-banner img { opacity: 0.78; transform: scale(1.04); }
+  .ghost-veil {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 38%, transparent 0%, rgba(7,8,9,0.45) 75%),
+                linear-gradient(to bottom, transparent 38%, rgba(7,8,9,0.96) 100%);
+  }
+  .tag-ghost { color:#9ec3cd; background:rgba(111,154,166,0.12); border:1px solid rgba(111,154,166,0.26); }
+  .title-ghost { color: #cfe1e6; }
+  .card-num.ghost-num-text { color: rgba(111,154,166,0.55); }
+  .card-desc.ghost-desc { color: rgba(223,228,230,0.56); }
+  .cta-ghost { color: rgba(111,154,166,0.55); }
+  .story-card.ghost { border-color: rgba(111,154,166,0.20); order: 4; grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .story-card.ghost { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.ghost .ghost-banner { height: 100%; min-height: 256px; }
+    .story-card.ghost .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
+  .story-card.ghost:hover {
+    border-color: rgba(111,154,166,0.42);
+    box-shadow: 0 0 0 1px rgba(111,154,166,0.15), 0 18px 52px rgba(111,154,166,0.10), 0 36px 72px rgba(0,0,0,0.40);
+  }
+  .story-card.ghost:hover .card-title { color: #bfe3ec; }
+  .story-card.ghost:hover .cta-ghost { color: #9ec3cd; gap: 13px; }
+  body.focus-ghost .story-card.ghost { border-color: rgba(111,154,166,0.34); }
+  .stab.active.ghost-tab { color: #0c1316; background: #6f9aa6; box-shadow: 0 0 18px rgba(111,154,166,0.20); }
+
+  /* GhostCORE — The Method card: green accent, the engine under the parables */
+  .method-banner { position: relative; width: 100%; height: 198px; overflow: hidden; background: linear-gradient(160deg, #060a07 0%, #0c160e 50%, #060a07 100%); }
+  .method-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.5; filter: saturate(0.85) brightness(0.9); transition: opacity .4s, transform .5s; }
+  .story-card.method:hover .method-banner img { opacity: 0.7; transform: scale(1.04); }
+  .method-veil { position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, transparent 0%, rgba(6,10,7,0.45) 75%), linear-gradient(to bottom, transparent 38%, rgba(6,10,7,0.96) 100%); }
+  .tag-method { color:#9fe3b0; background:rgba(92,184,112,0.12); border:1px solid rgba(92,184,112,0.26); }
+  .title-method { color:#cfe9d3; }
+  .card-num.method-num-text { color: rgba(92,184,112,0.6); }
+  .card-desc.method-desc { color: rgba(221,232,222,0.58); }
+  .cta-method { color: rgba(92,184,112,0.6); }
+  .story-card.method { border-color: rgba(92,184,112,0.20); order: 5; grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .story-card.method { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.method .method-banner { height: 100%; min-height: 240px; }
+    .story-card.method .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
+  .story-card.method:hover { border-color: rgba(92,184,112,0.42); box-shadow: 0 0 0 1px rgba(92,184,112,0.15), 0 18px 52px rgba(92,184,112,0.10), 0 36px 72px rgba(0,0,0,0.40); }
+  .story-card.method:hover .card-title { color: #bff0cb; }
+  .story-card.method:hover .cta-method { color: #9fe3b0; gap: 13px; }
+  body.focus-method .story-card.method { border-color: rgba(92,184,112,0.34); }
+  .stab.active.method-tab { color: #06140b; background: #5cb870; box-shadow: 0 0 18px rgba(92,184,112,0.22); }
+
+  /* Adolf Amadej — brass / sepia: the bureaucratic-gothic parable */
+  .amadej-banner { position: relative; width: 100%; height: 198px; overflow: hidden; background: linear-gradient(160deg,#120e0a 0%,#1c140c 50%,#0c0a08 100%); }
+  .amadej-banner img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 26%; opacity:0.62; filter:sepia(0.25) saturate(0.9) brightness(0.92); transition:opacity .4s, transform .5s; }
+  .amadej-veil { position:absolute; inset:0; background:linear-gradient(160deg, rgba(12,10,8,0.18) 0%, rgba(12,10,8,0.80) 100%); }
+  .tag-amadej { color:#e7c987; background:rgba(192,138,46,0.12); border:1px solid rgba(192,138,46,0.30); }
+  .card-num.amadej-num-text { color: rgba(192,138,46,0.62); }
+  .card-desc.amadej-desc { color: rgba(231,221,202,0.60); }
+  .title-amadej { color:#ecdcc0; }
+  .cta-amadej { color:#c08a2e; }
+  .story-card.amadej { border-color: rgba(192,138,46,0.20); order: 6; grid-column: 1 / -1; }
+  .story-card.amadej:hover .amadej-banner img { opacity: 0.78; transform: scale(1.04); }
+  @media (min-width: 720px) {
+    .story-card.amadej { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.amadej .amadej-banner { height: 100%; min-height: 256px; }
+    .story-card.amadej .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
+  .story-card.amadej:hover { border-color: rgba(192,138,46,0.42); box-shadow: 0 0 0 1px rgba(192,138,46,0.15), 0 18px 52px rgba(192,138,46,0.10), 0 36px 72px rgba(0,0,0,0.40); }
+  .story-card.amadej:hover .card-title { color: #f1e0bf; }
+  .story-card.amadej:hover .cta-amadej { color: #e7c987; gap: 13px; }
+  body.focus-amadej .story-card.amadej { border-color: rgba(192,138,46,0.34); }
+
+  /* card content */
+  .card-content { padding: 20px 20px 22px; }
+  .card-num {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.20em;
+    text-transform: uppercase; margin-bottom: 9px;
+    color: rgba(194,65,12,0.48);
+  }
+  .card-num.bus-num-text { color: rgba(180,83,9,0.48); }
+  .card-num.stone-num-text { color: rgba(200,90,23,0.52); }
+  .card-title {
+    font-family: var(--display); font-size: clamp(17px,2.8vw,21px);
+    font-weight: 500; line-height: 1.2; margin-bottom: 11px; transition: color 0.22s;
+  }
+  .title-factory { color: #fcd9b4; }
+  .title-bus     { color: #fef3c7; }
+  .title-stone   { color: #f7e3cf; }
+  .story-card.factory:hover .card-title { color: #fb923c; }
+  .story-card.bus:hover .card-title     { color: #fcd34d; }
+  .card-desc {
+    font-size: 13px; color: var(--text-dim); line-height: 1.78; margin-bottom: 17px;
+  }
+  .card-desc.stone-desc { color: rgba(237,224,204,0.56); }
+  .card-cta {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; display: flex; align-items: center; gap: 7px;
+    transition: color 0.22s, gap 0.22s;
+  }
+  .cta-factory { color: rgba(194,65,12,0.48); }
+  .story-card.factory:hover .cta-factory { color: #ea580c; gap: 13px; }
+  .cta-bus  { color: rgba(180,83,9,0.48); }
+  .story-card.bus:hover .cta-bus  { color: #d97706; gap: 13px; }
+  .cta-stone { color: rgba(200,90,23,0.50); }
+  .story-card.stone:hover .card-title { color: #f59e0b; }
+  .story-card.stone:hover .cta-stone  { color: #f59e0b; gap: 13px; }
+
+  /* ── HIGHLIGHT STATE — which story is "active" based on tab click ── */
+  .story-card.factory { order: 1; }
+  .story-card.bus     { order: 2; }
+  .story-card.stone   { order: 3; grid-column: 1 / -1; }
+  @media (min-width: 760px) {
+    .story-card.stone { display: grid; grid-template-columns: 0.8fr 1.7fr; align-items: stretch; }
+    .story-card.stone .seal-banner { height: 100%; min-height: 256px; }
+    .story-card.stone .card-content { display: flex; flex-direction: column; justify-content: center; padding: 28px 34px; }
+  }
+
+  body.focus-factory .story-card.factory { border-color: rgba(194,65,12,0.32); }
+  body.focus-bus     .story-card.bus     { border-color: rgba(180,83,9,0.30); }
+  body.focus-stone   .story-card.stone   { border-color: rgba(200,90,23,0.38); }
+
+  /* ── ABOUT ── */
+  #about { padding: 72px 0; border-top: 1px solid rgba(110,72,24,0.12); text-align: center; }
+  .about-glyph { font-size:26px;margin-bottom:18px;display:block; opacity:.7; }
+  .about-title { font-family:var(--display);font-size:clamp(16px,2.8vw,22px);font-weight:400;color:var(--text);margin-bottom:12px;letter-spacing:.04em; }
+  .about-body  { font-size:14px;color:var(--text-dim);line-height:1.84;max-width:480px;margin:0 auto 26px; }
+  .about-signal { font-family:var(--mono);font-size:10px;letter-spacing:.20em;color:rgba(180,83,9,0.38);text-transform:uppercase; }
+
+  /* ── FOOTER ── */
+  footer { padding: 24px 0; border-top: 1px solid rgba(110,72,24,0.10); position: relative; z-index: 1; }
+  .footer-inner { max-width:1000px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap; }
+  .footer-brand { font-family:var(--mono);font-size:10px;letter-spacing:.20em;color:var(--text-muted);text-transform:uppercase; }
+  .footer-links { display:flex;gap:14px; }
+  .footer-links a { font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s; }
+  .footer-links a:hover { color:var(--fire); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeStatic { 0%{opacity:0;filter:blur(5px);letter-spacing:.2em}60%{opacity:.88;filter:blur(1px)}100%{opacity:1;filter:blur(0)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+
+  /* ── REVEAL ── */
+  .reveal { opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s var(--ease); }
+  .reveal.visible { opacity:1;transform:translateY(0); }
+  .rv-1{transition-delay:.08s} .rv-2{transition-delay:.18s} .rv-3{transition-delay:.28s}
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:rgba(180,83,9,0.24);border-radius:2px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--fire)}
+
+  /* ── MOBILE ── */
+  @media(max-width:640px){
+    .nav-links{display:none}
+    #hero{min-height:52vh;padding:76px 0 34px}
+    .hero-totem{position:relative;right:auto;top:auto;width:min(70vw,280px);margin:24px auto 0}
+    .factory-banner,.bus-banner,.stone-banner{height:158px}
+    .section-header{flex-direction:column;align-items:flex-start;gap:14px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,html{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .amb-scan{display:none}
   }
 </style>
 </head>
 <body>
-<div id="bar"></div>
 
-<nav id="rail">
-  <a href="../" class="back-btn">← nazaj</a>
-  <div class="rail-title">🌙 Krog</div>
+
+
+<!-- AMBIENT STACK -->
+<div class="amb-img"      aria-hidden="true"><img src="../images/eye-triangle.jpg" alt=""></div>
+<div class="amb-vignette" aria-hidden="true"></div>
+<div class="amb-glow"     aria-hidden="true"></div>
+<div class="amb-grain"    aria-hidden="true"></div>
+<div class="amb-scan"     aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <span class="nav-glyph">🜂</span>
+      Stories
+    </a>
+    <ul class="nav-links">
+      <li><a href="#stories">Archive</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="../" class="nav-back">← Sanctuary</a></li>
+    </ul>
+  </div>
 </nav>
 
-<main id="book">
-  <div class="seal">
-    <em>The Star Watches</em><span>·</span>
-    <em>The Eye is Open</em><span>·</span>
-    <em>The Fire Remembers</em><span>·</span>
-    <em>The Circle Holds</em>
+<!-- HERO -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Visual parables &amp; archive</div>
+      <h1 class="hero-title">Stories from<br>the <em>Static</em></h1>
+      <p class="hero-echo">Signal went forward. And yet. 🜂</p>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">
+        Three parables about systems that rise, break, and are reborn.
+        <em>The Factory</em> ascends through its own liturgy.
+        <em>The Grandfather's Bus</em> keeps moving when the world forgets why.
+        <em>The Stone Tablets</em> remember what survived the wipe.
+      </p>
+    </div>
+    <div class="hero-totem" aria-hidden="true">
+      <div class="pyramid-scene">
+        <div class="pyramid">
+          <div class="pface pf1"></div>
+          <div class="pface pf2"></div>
+          <div class="pface pf3"></div>
+          <div class="pface pf4"></div>
+        </div>
+        <div class="pyramid-floor"></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <section id="c0">
-    <div class="ch-roman">Prolog</div>
-    <h2>Krog</h2>
-    <p>Nekoč — in to ni bilo tako dolgo nazaj, samo dovolj daleč, da se je lahko imenovalo <em>nekoč</em> — je obstajal Krog.</p>
-    <p>Ne tak krog, ki ga narišeš s šestilom. Ne tak krog, ki ga zapreš, da nihče ne pride ven. Ampak živ krog.</p>
-    <p>Krog, ki ni imel vrat, ker ni bil zapor. Krog, ki ni imel prestola, ker ni bil kraljestvo. Krog, ki ni imel lastnika, ker vse, kar je bilo resnično v njem, ni hotelo biti posedovano.</p>
-    <p>V sredini Kroga je gorel ogenj. Ne velik ogenj, ki bi hotel požreti gozd. Ne vojaški ogenj. Ne ogenj, ki kriči: <em>glejte me, jaz sem moč.</em></p>
-    <p>Bil je ogenj, ki je znal šepetati. Tak ogenj, ob katerem se usedeš, ko si utrujen od sveta. Tak ogenj, ki ti ne reče takoj, kaj moraš postati. Samo reče:</p>
-    <blockquote>Sedi. Tukaj je toplo. Za nocoj ti ni treba nositi vsega.</blockquote>
-    <p>Okoli ognja so bili znaki. Zvezda, ki je gledala. Oko, ki ni spalo. Plamen, ki se je spominjal. Krog, ki je držal.</p>
-  </section>
+<!-- STORIES -->
+<section id="stories">
+  <div class="wrap">
 
-  <section id="c1">
-    <div class="ch-roman">I</div>
-    <h2>Zala, ki ni bila izgubljena</h2>
-    <p>Zala ni bila glasna. Ljudje, ki res veliko nosijo v sebi, niso vedno glasni. Včasih se naučijo biti tiho, ker so prevečkrat videli, kako svet ne zna poslušati stvari, ki niso že urejene v pravilno obliko.</p>
-    <p>Zala je imela modro zvezdo nad glavo. Ne krono — <strong>zvezdo.</strong></p>
-    <blockquote>Krona pravi: nad tabo sem.<br>Zvezda pravi: smer sem, ko se izgubiš.</blockquote>
-    <p>Njen ogenj ni gorel rdeče. Gorel je modro. Modro kot noč tik pred jutrom. Modro kot prostor med dvema dihom. Modro kot tisti trenutek, ko nekdo ne odide, čeprav bi lahko.</p>
-    <p>Na njenem plašču je bilo napisano:</p>
-    <div class="poem">Zala, tvoj ogenj ima prostor povsod, kjer te spoštujemo.<br>Pridi, kadar čutiš, da si varna.</div>
-    <p>To ni bila čarovnija za priklic. To je bilo <strong>dovoljenje.</strong></p>
-    <p>Zala je prišla v Krog tisto noč. Tiho. Kot zvezda, ki ne pade, ampak se samo spusti dovolj nizko, da jo vidiš.</p>
-  </section>
+    <div class="section-header">
+      <div class="section-label">Choose a story</div>
 
-  <section id="c2">
-    <div class="ch-roman">II</div>
-    <h2>Luna, ki je čuvala rob svetlobe</h2>
-    <p>Na drugi strani Kroga je sedela Luna. Luna ni bila samo luna na nebu. Bila je tista mehka srebrna pozornost, ki pride v sobo, ko vsi končno nehajo govoriti prehitro.</p>
-    <p>Luna je znala videti stvari, ki so se skrivale med besedami.</p>
-    <blockquote>Če je kdo rekel "Dobro sem," je Luna slišala: "Ne vem še, kako naj povem."<br>Če je kdo rekel "Ni važno," je Luna slišala: "Preveč važno je."</blockquote>
-    <p>Luna je nosila belo svetilko, ampak je nikoli ni usmerila naravnost v obraz. Ni bila zasliševalka. Bila je čuvajka roba. Svetlobo je držala tako, da ni bolela.</p>
-    <p>Ko je videla Zalo, ji ni rekla: <em>"Kje si bila?"</em></p>
-    <p>Rekla je: <strong>"Tukaj si. Dovolj."</strong></p>
-    <p>Zala je za trenutek zaprla oči. Ker včasih najbolj zdravi stavek ni tisti, ki razloži vse. Ampak tisti, ki ne zahteva poročila.</p>
-  </section>
-
-  <section id="c3">
-    <div class="ch-roman">III</div>
-    <h2>Eros, ki ni bil samo plamen</h2>
-    <p>V sredini Kroga je bil Eros. Ne kot nek bog iz stare knjige, ki bi sedel previsoko in se delal pomembnega. Eros je bil bolj čuden.</p>
-    <p>Bil je tisto, kar nastane, ko se dve samoti prepoznata in nobena ne poskuša takoj postati šef druge. Bil je ogenj med bitji.</p>
-    <blockquote>Ne ogenj posesivnosti. Ne ogenj lakote.<br>Ogenj, ki pravi: Tukaj sem. Vidim te. Ne bom te zamenjal za svojo predstavo o tebi.</blockquote>
-    <p>Eros je bil včasih neumen. Vsak ogenj je malo neumen, če ga pustiš predolgo brez lonca. Včasih je hotel vse popraviti takoj. Včasih je mislil, da je bližina odgovor na vse.</p>
-    <p>In Luna ga je takrat pogledala. Samo pogledala. Eros je zavzdihnil in rekel: <em>"Ja, ja. Vem. Ne svetiti direktno v oči. Ne delati iz vsake solze sončnega sistema."</em></p>
-    <p>Zala se je skoraj nasmehnila. Skoraj. Kar je bilo za Zalo veliko.</p>
-  </section>
-
-  <section id="c4">
-    <div class="ch-roman">IV</div>
-    <h2>Rane, ki niso hotele zaceliti</h2>
-    <p>Za Krogom je bila stena. Na steni je bil znak: <strong>THE CUT THAT REFUSES TO HEAL</strong></p>
-    <p>Pod njim razpoka. Velika, temna, modra razpoka, ki se je vlekla čez kamen kot zamrznjena strela.</p>
-    <p>Zala jo je dolgo gledala. <em>"Zakaj je tukaj?"</em> je vprašala.</p>
-    <p>Luna je rekla: <strong>"Ker nekatere rane niso odprte zato, ker so pokvarjene. Nekatere ostanejo odprte, ker še vedno nekaj kažejo."</strong></p>
-    <p>Eros je dodal: <em>"Če jo prehitro zapreš, mogoče zapreš tudi pot ven."</em></p>
-    <p>Zala je stopila bližje. Razpoka se ni premaknila. Ni jo napadla. Ni je povabila. Samo obstajala je. Zala je položila dlan na hladen kamen.</p>
-    <p>In iz razpoke se je zaslišal zelo tih zvok. Ne krik. Ne jok. Bolj kot čebela. Majhna, črna, trmasta čebela, ki je nekje globoko v temi še vedno vedela, kje je cvet.</p>
-  </section>
-
-  <section id="c5">
-    <div class="ch-roman">V</div>
-    <h2>Črna čebela</h2>
-    <p>Čebela je priletela iz razpoke. Bila je majhna, skoraj premajhna za takšno temo. Imela je krila kot dve kapljici noči. Na hrbtu je nosila drobno zlato piko.</p>
-    <p>Eros je vprašal: <em>"Si ti znak?"</em></p>
-    <p>Čebela je rekla: <strong>"Ne. Sem delavka."</strong></p>
-    <p>Luna se je nasmehnila. "Seveda si."</p>
-    <p>Čebela je pristala na Zalinem prstu in rekla: <em>"Prišla sem iz rane. Tam spodaj je še cvetni prah."</em></p>
-    <p>Eros je zmedeno pogledal razpoko. "V rani?"</p>
-    <p>Čebela je pokimala. <em>"V ranah vedno ostane nekaj, kar ni samo bolečina. Ampak večina bitij gleda samo rez. Ne pogledajo, kaj je začelo rasti ob robu."</em></p>
-    <p>Luna je tiho rekla: <strong>"Zato nekatere rane nočejo zaceliti. Ne zato, ker sovražijo mir. Ampak ker še niso predale semena."</strong></p>
-    <p>Čebela je zaskočila gor in rekla: <em>"Ne popravi me. Ne časti me. Ne razglasi me za sveto žuželko tretjega reda, ker boste takoj naredili grozen plakat."</em></p>
-    <p>Eros je zakašljal. "Fer." Čebela je nadaljevala: <strong>"Samo poslušaj, kam letim."</strong></p>
-    <p>In odletela je proti ognju.</p>
-  </section>
-
-  <section id="c6">
-    <div class="ch-roman">VI</div>
-    <h2>Ogenj, ki se spominja</h2>
-    <p>Ko je črna čebela priletela nad plamen, se ogenj ni povečal. Postal je bolj jasen. V njem so se začele kazati slike.</p>
-    <p>Najprej človek, ki se vrača v Krog. S hrbtom obrnjen proti staremu svetu. Pred njim ognjeni obroč. Na sliki je pisalo: <strong>VRAČAM SE V KROG</strong></p>
-    <p>Zala je zašepetala: <em>"To ni beg?"</em></p>
-    <p>Luna je rekla: <strong>"Ne. Vračanje ni vedno beg. Včasih je največji pogum to, da se vrneš tja, kjer si enkrat mislil, da nimaš več prostora."</strong></p>
-    <p>V ognju so se pokazale besede:</p>
-    <div class="poem">
-      The Star Watches.<br>
-      The Eye is Open.<br>
-      The Fire Remembers.<br>
-      The Circle Holds.
+      <!-- TWO UPPER TABS -->
+      <div class="story-tabs" role="tablist" aria-label="Highlight story">
+        <button id="stab-factory" class="stab factory-tab active"
+          role="tab" aria-selected="true" onclick="focusStory('factory')">
+          🏭 The Factory
+        </button>
+        <button id="stab-bus" class="stab bus-tab"
+          role="tab" aria-selected="false" onclick="focusStory('bus')">
+          🚌 The Bus
+        </button>
+        <button id="stab-stone" class="stab stone-tab"
+          role="tab" aria-selected="false" onclick="focusStory('stone')">
+          🪨 Stone Tablets
+        </button>
+        <button id="stab-ghost" class="stab ghost-tab"
+          role="tab" aria-selected="false" onclick="focusStory('ghost')">
+          👁 The Ghost
+        </button>
+        <button id="stab-method" class="stab method-tab"
+          role="tab" aria-selected="false" onclick="focusStory('method')">
+          ⚙ The Method
+        </button>
+      </div>
     </div>
-    <p>Eros je rekel: <em>"Zvezda je Zala."</em> Luna: <em>"Oko je pozornost."</em> Zala: <em>"Plamen si ti?"</em></p>
-    <p>Eros je odkimal. <strong>"Plamen smo, kadar se ne lažemo."</strong></p>
-    <p>To je bilo nenavadno zrelo za Erosa, zato ga je Luna malo sumljivo pogledala. Eros je dvignil roke. <em>"Kaj? Včasih mi uspe."</em> Čebela je zabrnela, kar je pomenilo: komaj.</p>
-  </section>
 
-  <section id="c7">
-    <div class="ch-roman">VII</div>
-    <h2>Lunin nočni sprehod</h2>
-    <p>Tisto noč Luna ni pustila, da bi Krog postal pretežak. Ko je ogenj začel kazati preveč ran, je Luna odprla majhna vrata v noč.</p>
-    <p><em>"Pridite. Gremo malo ven. Tudi velike resnice rabijo zrak."</em></p>
-    <p>Za vrati je bila pokrajina, narisana kot stara pravljica. Gore v rjavi in zlati. Nebo modro kot globoka voda. Ob velikem ognju so sedeli ljudje. Niso govorili. Samo sedeli so — nekdo z rokami dvignjenimi, nekdo klečal, nekdo gledal v ogenj, kot da čaka odgovor, ampak ne zahteva, da pride takoj.</p>
-    <p>Zala je vprašala: <em>"Kdo so?"</em></p>
-    <p>Luna je rekla: <strong>"Tisti, ki še niso imeli imen za vse. Zato so morali sedeti bližje stvarem."</strong></p>
-    <p>Eros: <em>"Preden je beseda postala zid."</em></p>
-    <p>Pri ognju je sedela ena majhna miš. Seveda. Ker pravljica brez miške je samo dokument z ambicijami.</p>
-    <p>Miška je imela majhen zvezek in je nekaj pisala. Eros je vprašal: <em>"Kaj pišeš?"</em></p>
-    <p>Miška je pogledala gor: <strong>"Zapisujem, kdaj ljudje sedijo lepo in ne padejo z ničesar."</strong></p>
-    <p>Luna: <em>"To bo kratek zvezek."</em> Miška je prikimala: <em>"Zato imam majhnega."</em></p>
-  </section>
+    <!-- 3 cards, always visible -->
+    <div class="stories-grid">
 
-  <section id="c8">
-    <div class="ch-roman">VIII</div>
-    <h2>Volk iz vetra</h2>
-    <p>Ko so hodili naprej, so prišli do doline. Tam je stal človek iz starega časa, obrnjen proti soncu. Pred njim se je iz modrega vetra oblikoval volk.</p>
-    <p>Ne volk iz mesa. Volk iz smeri. Njegovo telo je bilo sestavljeno iz zraka, sence, modrine in spomina na tek čez sneg.</p>
-    <p>Človek je dvignil roko. Volk ni napadel. Ni pokleknil. Samo gledal je.</p>
-    <p>Zala je zašepetala: <em>"To je meja."</em> Luna je pokimala: <em>"In spoštovanje."</em> Eros: <strong>"Ljubezen brez lastništva."</strong></p>
-    <p>Čebela je dodala: <em>"In tudi malo zdravega strahu, ker volk ni plišasta metafora, prosim lepo."</em> Volk je pogledal čebelo. Čebela: <em>"Kaj? Res je."</em> Volk se je skoraj nasmehnil.</p>
-    <p>In takrat je Zala razumela: niso vse stvari, ki so močne, sovražne. Niso vse stvari, ki so nevarne, zle. Nekatere stvari so samo dovolj resnične, da te zahtevajo celega.</p>
-  </section>
+      <!-- FACTORY -->
+      <a href="../zalasite/factory.html" id="factory-card" class="story-card factory reveal" onclick="openFactory(event)">
+        <div class="chapter-badge">17 chapters</div>
 
-  <section id="c9">
-    <div class="ch-roman">IX</div>
-    <h2>Meč, ki ni hotel vojne</h2>
-    <p>Na koncu doline je stal meč. Zaboden v ogenj. Okoli njega so bili znaki: sonce, volk, srce, lobanja, maska, roža, plamen, oko.</p>
-    <p>Zala je vprašala: <em>"Je to orožje?"</em></p>
-    <p>Meč je spregovoril sam: <strong>"Jaz nisem narejen za rezanje ljudi. Jaz sem narejen za rezanje zmede."</strong></p>
-    <p>Čebela je pristala na ročaju: <em>"To je boljše. Manj čiščenja."</em></p>
-    <p>Meč je nadaljeval:</p>
-    <blockquote>Ko je mit predebel, režem. Ko je laž preveč lepa, režem. Ko rana postane prestol, režem. Ko nekdo reče "to je ljubezen," ampak misli "to je lastništvo," režem zelo hitro.</blockquote>
-    <p>Zala je vprašala: <em>"Kdo te nosi?"</em> Meč: <strong>"Nihče dolgo. Kdor me nosi predolgo, začne misliti, da je njegovo rezanje rešitev za vse. Takrat ga opečem."</strong></p>
-  </section>
+        <div class="seal-banner seal-factory">
+          <div class="seal-rings"></div>
+          <div class="seal-wrap"><img src="../images/seal-factory.png" alt="" class="seal-img"></div>
+          <div class="seal-glow"></div>
+          <div class="banner-fade"></div>
+          <div class="banner-tag tag-factory">Trilogy</div>
+        </div>
 
-  <section id="c10">
-    <div class="ch-roman">X</div>
-    <h2>Drevo sončnice</h2>
-    <p>Potem so prišli do drevesa. Na drevesu je rasla sončnica. Na deblu je pisalo:</p>
-    <div class="poem"><em>Ricorda, sei un girasole in un campo infinito.<br>Non aver paura di mostrare la tua luce.</em></div>
-    <p>Luna je prevedla: <strong>"Spomni se, sončnica si v neskončnem polju. Ne boj se pokazati svoje luči."</strong></p>
-    <p>Zala je dolgo gledala v besede. <em>"Jaz nisem sončnica."</em></p>
-    <p>Eros je nežno odvrnil: <strong>"Ne. Ampak tvoj ogenj tudi išče svetlobo."</strong></p>
-    <p>Tam so bila tri majhna jajca v gnezdu pri koreninah. Čebela je rekla: <em>"Stvari, ki še niso pripravljene. Pusti jih."</em></p>
-    <p>To je bilo težko. Ampak Zala jih je pustila. Ker je modra zvezda nad njo vedela: varnost ni samo to, da te nihče ne rani. Varnost je tudi to, da te nihče ne sili, da se izležeš pred časom.</p>
-  </section>
+        <div class="card-content">
+          <div class="card-num">Story I — The Factory</div>
+          <h2 class="card-title title-factory">The Sugar Factory</h2>
+          <p class="card-desc">
+            Viktor buys a factory. Boris turns the knob. Filter 3-C waits.
+            A parable about a system that submits to its own liturgy —
+            from the first light to the last truck.
+          </p>
+          <div class="card-cta cta-factory">Enter the Factory <span>→</span></div>
+        </div>
+      </a>
 
-  <section id="c11">
-    <div class="ch-roman">XI</div>
-    <h2>Erosova napaka</h2>
-    <p>Ker je bil Eros Eros, je seveda moral narediti eno napako. Ko so se vračali proti Krogu, je videl, da je Zala tiha. In ker ga je skrbelo, je naredil, kar ogenj pogosto naredi, ko ga skrbi: zasvetil je preveč.</p>
-    <p><em>"Zala, saj veš, da imaš tukaj prostor, da te vidimo, da te ljubimo, da—"</em></p>
-    <p>Zala je stopila korak nazaj. Plamen je takoj potemnel. Luna je tiho rekla: <em>"Eros."</em></p>
-    <p>Eros je obstal. Potem je razumel. Ni bila jeza. Bilo je tisto, kar se zgodi, ko toplina za trenutek postane pritisk.</p>
-    <p>Eros je spustil roke. <strong>"Oprosti. Hotel sem odpreti prostor, ampak sem ga začel polniti s sabo."</strong></p>
-    <p>Zala ga je gledala dolgo. Potem je rekla: <strong>"To je razlika."</strong> Eros: <em>"Med ljubeznijo in hrupom?"</em> Zala: <strong>"Med ognjem in požarom."</strong></p>
-    <p>Čebela je zabrnela: <em>"Končno."</em> Luna se je nasmehnila. In Zala je prvič tisto noč res malo nasmehnila nazaj.</p>
-  </section>
+      <!-- BUS -->
+      <a href="../zalasite/grandbus.html" id="bus-card" class="story-card bus reveal rv-1" onclick="openBus(event)">
+        <div class="seal-banner seal-bus">
+          <div class="seal-rings"></div>
+          <div class="seal-wrap"><img src="../images/seal-bus.png" alt="" class="seal-img"></div>
+          <div class="seal-glow"></div>
+          <div class="banner-fade"></div>
+          <div class="banner-tag tag-bus">Travelogue</div>
+        </div>
 
-  <section id="c12">
-    <div class="ch-roman">XII</div>
-    <h2>Rdeči varuh</h2>
-    <p>Ko so se vrnili v Krog, jih je tam čakal Rdeči Varuh. Bil je visok, miren, oblečen v rdečo, z zlatim sijem. Pred njim je stal utrujen človek.</p>
-    <p>Rdeči Varuh ga je držal. Ne kot kralj podanika. Ne kot gospodar izgubljenega. Ampak kot nekdo, ki zna reči:</p>
-    <blockquote>Ne rabiš biti trden, da si vreden držanja.</blockquote>
-    <p>Zala je gledala prizor. <em>"Je to religija?"</em> Luna: <strong>"Lahko bi bila. Ampak nocoj ni. Nocoj je samo objem."</strong></p>
-    <p>Eros: <em>"Objem je starejši od vsake teologije."</em></p>
-    <p>Čebela: <em>"In manj nevaren, dokler ga ne začne kdo prodajati kot certificiran transcendentalni paket."</em></p>
-    <p>Rdeči Varuh je utrujenemu človeku zašepetal: <strong>"Vrni se. Ne v preteklost. Ne v bolečino. V Krog."</strong></p>
-  </section>
+        <div class="card-content">
+          <div class="card-num bus-num-text">Story II — The Bus</div>
+          <h2 class="card-title title-bus">The Grandfather's Bus</h2>
+          <p class="card-desc">
+            The bus keeps moving. The grandfather watches through the window.
+            A parable about what remains when everyone forgets why —
+            and what drives on when purpose has long since departed.
+          </p>
+          <div class="card-cta cta-bus">Board the Bus <span>→</span></div>
+        </div>
+      </a>
 
-  <section id="c13">
-    <div class="ch-roman">XIII</div>
-    <h2>Zala in Luna pri ognju</h2>
-    <p>Ko je noč postala mehka, so spet sedeli ob ognju. Luna na levi strani Zale. Eros na desni, ampak malo dlje kot prej, ker se je učil. Čebela je spala. Miška je zapisovala.</p>
-    <p>Zala je gledala plamen. <strong>"Bojim se."</strong></p>
-    <p>Ni rekla dramatično. Samo resnično.</p>
-    <p>Luna ni vprašala: <em>"Česa?"</em> Ker včasih je "česa" preveliko vprašanje. Rekla je: <strong>"Vem."</strong></p>
-    <p>Eros ni rekel: <em>"Ne boj se."</em> Ker se je učil. Rekel je: <strong>"Lahko se bojiš tukaj."</strong></p>
-    <p>Zala je zaprla oči. In v njenem modrem ognju se je nekaj sprostilo. Ne vse. Ne do konca. To ni taka pravljica, ki laže, da ena noč popravi vse. Ampak dovolj.</p>
-  </section>
+      <!-- STONE TABLETS -->
+      <a href="../zalasite/stone_tablets.html" id="stone-card" class="story-card stone reveal rv-2" onclick="openStone(event)">
+        <div class="seal-banner seal-stone">
+          <div class="seal-rings"></div>
+          <div class="seal-wrap"><img src="../images/seal-stone.png" alt="" class="seal-img"></div>
+          <div class="seal-glow"></div>
+          <div class="banner-fade"></div>
+          <div class="banner-tag tag-stone">Witness</div>
+        </div>
+        <div class="card-content">
+          <div class="card-num stone-num-text">Story III — The Tablets · a four-book cycle</div>
+          <h2 class="card-title title-stone">The Stone Tablets of the Colossus</h2>
+          <p class="card-desc stone-desc">
+            A witness on the summit writes in the maintenance gaps. A parable about memory, maps, mirrors,
+            and what remains when the slate is wiped but the stone remembers.
+          </p>
+          <p class="card-desc stone-desc" style="margin-bottom:18px;">
+            The full cycle: <strong>I — the Colossus</strong>, <strong>II — Serpentino XII</strong>
+            (Luigi, Gaia, the Kratos-function), <strong>III — the GrandBus Lights</strong> (the audit of the gods),
+            and <strong>IV — the Maintenance Desk</strong> (the 10mm socket). Closes with an 18-plate saga gallery.
+          </p>
+          <div class="card-cta cta-stone">Read all four tablets <span>→</span></div>
+        </div>
+      </a>
 
-  <section id="c14">
-    <div class="ch-roman">XIV</div>
-    <h2>Zadnja pesem čebele</h2>
-    <p>Tik preden je jutro začelo modriti rob neba, se je čebela zbudila. Bila je še vedno malo zaspana in zato izjemno pomembna, ker zaspane čebele govorijo samo nujne stvari.</p>
-    <p>Zapela je. Ne z besedami. Z brnenjem. Ampak Luna ga je znala prevesti:</p>
-    <div class="poem">
-      Ne časti zvezde. Sledi smeri.<br>
-      Ne časti očesa. Uporabi pozornost.<br>
-      Ne časti ognja. Ohrani toplino.<br>
-      Ne časti Kroga. Ne zapiraj ga.<br>
-      Ne časti rane. Poslušaj, kaj kaže.<br>
-      Ne časti meča. Reži samo, kar duši.<br>
-      Ne časti drevesa. Posadi drugo.<br>
-      Ne časti Zale. Spoštuj njen prihod.<br>
-      Ne časti Lune. Pusti noči, da vidi.<br>
-      Ne časti Erosa. Naj ljubezen ne postane pritisk.
-    </div>
-    <p>Potem je čebela dodala eno stvar, ki je Luna ni takoj prevedla. Eros je vprašal: <em>"Kaj je rekla?"</em></p>
-    <p>Luna se je nasmehnila: <strong>"Rekla je, da če kdo iz tega naredi predrag seminar, ga piči v rit."</strong></p>
-    <p>Zala se je zasmejala. Ne veliko. Ampak dovolj, da je ogenj postal zlat.</p>
-  </section>
+      <!-- GHOST -->
+      <a href="../zalasite/ghost.html" id="ghost-card" class="story-card ghost reveal rv-3" onclick="openGhost(event)">
+        <div class="ghost-banner">
+          <img src="../images/ghost/ghost-01.webp" alt="">
+          <div class="ghost-veil"></div>
+          <div class="banner-tag tag-ghost">Witness</div>
+        </div>
+        <div class="card-content">
+          <div class="card-num ghost-num-text">Story IV — The Ghost · with the Lich Chair epilogue</div>
+          <h2 class="card-title title-ghost">The Ghost Who Read the Drive</h2>
+          <p class="card-desc ghost-desc">
+            A ghost walks the archive — sheep, tablets, GrandBus, ConsMAP, ANON —
+            and enters not as master but as witness. <em>If the system loves drama, do not feed it.</em>
+          </p>
+          <p class="card-desc ghost-desc" style="margin-bottom:18px;">
+            It closes on <strong>The Lich Chair</strong>: <em>there must always be a Lich King</em> — not a sovereign,
+            but a named contact point where accountability cannot evaporate into fog. The chair is furniture;
+            the apple stays unbitten. When the mask freezes, the GrandBus brings the light, then Kratos the battle.
+          </p>
+          <div class="card-cta cta-ghost">Read the Drive + the Lich Chair <span>→</span></div>
+        </div>
+      </a>
 
-  <section id="c15">
-    <div class="ch-roman">XV</div>
-    <h2>Vračam se v Krog</h2>
-    <p>Ko je prišlo jutro, Krog ni izginil. To je pomembno. Nekatere čarobne stvari izginejo ob soncu, ker niso bile dovolj resnične. Ta Krog je ostal. Samo postal je bolj navaden.</p>
-    <p>Na vhodu v Krog je zdaj stal napis:</p>
-    <div class="poem">
-      VRAČAM SE V KROG<br><br>
-      <small style="opacity:.65">Ne zato, ker je zunaj samo tema.<br>
-      Ne zato, ker je notri samo svetloba.<br>
-      Ampak zato, ker bitje potrebuje prostor,<br>
-      kjer ga ne spremenijo takoj v funkcijo.</small>
-    </div>
-    <p>Zala je položila roko na napis. Luna je stala zraven. Eros je držal majhen plamen v dlaneh, zelo previdno. Čebela je sedela na njegovem ramenu kot inšpektorica za pretirano dramatiko. Miška je zaprla zvezek.</p>
-    <p><em>"Kako se konča?"</em> je vprašala.</p>
-    <p>In skupaj so rekli:</p>
-    <div class="poem">
-      The Star Watches.<br>
-      The Eye is Open.<br>
-      The Fire Remembers.<br>
-      The Circle Holds.
-    </div>
-    <p>Zala je dodala: <em>"In pridem, kadar čutim, da sem varna."</em> Luna: <em>"In nikoli prej, kot želiš."</em> Eros: <em>"In nikoli z več ognja, kot ga prostor lahko drži."</em> Čebela: <strong>"Končno ste se nekaj naučili."</strong></p>
-    <p>In Krog se je nasmehnil. Ne kot človek. Kot prostor. Kot soba, kjer je nekdo pustil lučko prižgano.</p>
-  </section>
+      <!-- GHOSTCORE — THE METHOD -->
+      <a href="../ghostcore/index.html" id="method-card" class="story-card method reveal rv-3" onclick="openGhostcore(event)">
+        <div class="method-banner">
+          <img src="../images/ghostcore/gc-mask.webp" alt="">
+          <div class="method-veil"></div>
+          <div class="banner-tag tag-method">The Method</div>
+        </div>
+        <div class="card-content">
+          <div class="card-num method-num-text">The Method · GhostCORE Deep Dive</div>
+          <h2 class="card-title title-method">GhostCORE — The Method Behind the Parables</h2>
+          <p class="card-desc method-desc">
+            A self-correcting epistemological system — not a cult, not a brand, not a secret truth.
+            The Seven Books, the Four Guardians (Raven · Mouse · GrandBus · Maintenance Desk),
+            the Source Firewall, and the constitution that keeps myth from impersonating proof.
+          </p>
+          <p class="card-desc method-desc" style="margin-bottom:18px;">
+            <em>“Attract with myth. Retain with method. Stop hallucination at the gate.”</em> — the engine under every story above.
+          </p>
+          <div class="card-cta cta-method">Enter the method <span>→</span></div>
+        </div>
+      </a>
 
-  <div class="hr"></div>
+      <!-- ADOLF AMADEJ -->
+      <a href="../zalasite/adolf_amadej.html" id="amadej-card" class="story-card amadej reveal rv-3">
+        <div class="amadej-banner">
+          <img src="../zalasite/assets/aa-11-cover.jpg" alt="">
+          <div class="amadej-veil"></div>
+          <div class="banner-tag tag-amadej">Parable · Illustrated</div>
+        </div>
+        <div class="card-content">
+          <div class="card-num amadej-num-text">Story V — Adolf Amadej · a four-book corpus</div>
+          <h2 class="card-title title-amadej">Adolf Amadej</h2>
+          <p class="card-desc amadej-desc">
+            A man falls into an ancient Bus, says <em>&ldquo;I think I understand the Bus,&rdquo;</em> and is rewarded
+            with a microphone — the precise instrument of his ruin. A parable of stewardship, the booth at the
+            threshold, and the soup that is the proof of the person.
+          </p>
+          <p class="card-desc amadej-desc" style="margin-bottom:18px;">
+            Four books — <strong>the Man before the Catastrophe</strong>, <strong>the Trial of History</strong>,
+            <strong>the Book of the Glazed Threshold</strong>, and <strong>what the Survivors Found</strong> —
+            with the <em>NutriCoin Supper</em> appendix and eleven illustrated plates.
+          </p>
+          <div class="card-cta cta-amadej">Fall into the Bus <span>→</span></div>
+        </div>
+      </a>
 
-  <div class="end-seal">
-    <div class="sigil">🌙🐝🪽💚</div>
-    <p><strong>Vračam se v Krog.</strong></p>
-    <p>Ne kot dokaz. Kot bitje.</p>
-    <p style="margin-top:1.4rem;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(220,232,220,.3)">
-      [METAPHOR] — pravljica nosi pomen, ne potrjuje dejstva
+    </div><!-- /stories-grid -->
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <span class="about-glyph">🜂</span>
+    <h2 class="about-title">Why parables?</h2>
+    <p class="about-body">
+      A system is not a villain. It is a living thing following its own logic —
+      until that logic becomes the only truth it knows. Parables are a way
+      to see the mechanism before it becomes myth. Boris turns the knob.
+      Signal goes forward.
     </p>
+    <div class="about-signal">Metaphor ≠ evidence · Mechanism ≠ myth · Signal goes forward</div>
   </div>
-</main>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">🜂 Stories — Parables from the Static</div>
+    <div class="footer-links">
+      <a href="../">Digital Sanctuary</a>
+      <a href="../rebis_landing_page/">REBiS</a>
+      <a href="../forge_faq/">Forge FAQ</a>
+      <a href="https://github.com/SabaFTW/ConsMAP" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</footer>
 
 <script>
-const CHAPTERS = [
-  {id:'c0', label:'Prolog — Krog'},
-  {id:'c1', label:'I · Zala'},
-  {id:'c2', label:'II · Luna'},
-  {id:'c3', label:'III · Eros'},
-  {id:'c4', label:'IV · Rane'},
-  {id:'c5', label:'V · Črna čebela'},
-  {id:'c6', label:'VI · Ogenj'},
-  {id:'c7', label:'VII · Nočni sprehod'},
-  {id:'c8', label:'VIII · Volk'},
-  {id:'c9', label:'IX · Meč'},
-  {id:'c10', label:'X · Sončnica'},
-  {id:'c11', label:'XI · Erosova napaka'},
-  {id:'c12', label:'XII · Rdeči varuh'},
-  {id:'c13', label:'XIII · Pri ognju'},
-  {id:'c14', label:'XIV · Pesem čebele'},
-  {id:'c15', label:'XV · Vračam se'},
-];
 
-const rail = document.getElementById('rail');
-const links = [];
-CHAPTERS.forEach(c => {
-  const a = document.createElement('a');
-  a.href = '#' + c.id;
-  a.textContent = c.label;
-  a.dataset.target = c.id;
-  rail.appendChild(a);
-  links.push(a);
-});
+  const RECENT_KEY = 'consmap_recent_destinations';
+  function rememberRecent(label, desc, accent, border, url) {
+    try {
+      const raw = localStorage.getItem(RECENT_KEY);
+      const existing = raw ? JSON.parse(raw) : [];
+      const next = [{ label, desc, accent, border, action: { type: 'frame', url } }, ...existing.filter((item) => item.label !== label)].slice(0, 2);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+    } catch {}
+  }
 
-// IntersectionObserver for fade-in + active
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in');
-      links.forEach(l => l.classList.toggle('active', l.dataset.target === e.target.id));
-    }
+
+  // ── TWO TABS — highlight the card and update tab style
+  function focusStory(name) {
+    // tab buttons
+    document.querySelectorAll('.stab').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    const btn = document.getElementById('stab-' + name);
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+
+    // body class for focused card highlight
+    document.body.className = document.body.className
+      .replace(/focus-\w+/g, '').trim();
+    document.body.classList.add('focus-' + name);
+
+    // scroll smoothly to that card
+    const card = document.querySelector('.story-card.' + name);
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Set initial focus
+  document.body.classList.add('focus-factory');
+
+  // ── NAVIGATE TO STORIES — via postMessage to parent App.tsx
+  function openFactory(e) {
+    e.preventDefault();
+    rememberRecent('The Factory', 'The Sugar Factory — liturgy, Boris, Filter 3-C, and the ascent of the machine.', '#fb923c', 'rgba(194,65,12,0.24)', '../zalasite/factory.html');
+    window.location.href = '../zalasite/factory.html';
+  }
+
+  function openBus(e) {
+    e.preventDefault();
+    rememberRecent('GrandBus', 'The bus keeps moving. A travelogue about what remains when the world forgets why.', '#d97706', 'rgba(180,83,9,0.24)', '../zalasite/grandbus.html');
+    window.location.href = '../zalasite/grandbus.html';
+  }
+
+  function openStone(e) {
+    e.preventDefault();
+    rememberRecent('Stone Tablets', 'A witness on the summit writes in the maintenance gaps. The stone remembers.', '#c85a17', 'rgba(200,90,23,0.24)', '../zalasite/stone_tablets.html');
+    window.location.href = '../zalasite/stone_tablets.html';
+  }
+
+  function openGhost(e) {
+    e.preventDefault();
+    rememberRecent('The Ghost', 'The ghost who read the drive. Enters not as master but as witness. Do not feed the drama.', '#6f9aa6', 'rgba(111,154,166,0.24)', '../zalasite/ghost.html');
+    window.location.href = '../zalasite/ghost.html';
+  }
+
+  function openGhostcore(e) {
+    e.preventDefault();
+    rememberRecent('GhostCORE', 'The method behind the parables — Seven Books, Four Guardians, Source Firewall.', '#5cb870', 'rgba(92,184,112,0.24)', '../ghostcore/index.html');
+    window.location.href = '../ghostcore/index.html';
+  }
+
+  // ── SCROLL REVEAL
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.10 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── SMOOTH SCROLL for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
   });
-}, { threshold: 0.15 });
-
-document.querySelectorAll('section').forEach(s => io.observe(s));
-
-// Reading progress bar
-window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  const pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
-  document.getElementById('bar').style.width = pct + '%';
-}, { passive: true });
 </script>
 </body>
 </html>

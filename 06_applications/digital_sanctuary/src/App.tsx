@@ -6,6 +6,7 @@ import WelcomeRitual from './components/WelcomeRitual';
 import HeroLanding from './components/HeroLanding';
 import RegisterDial from './components/RegisterDial';
 import BedtimeStory from './components/BedtimeStory';
+import BusStory from './components/BusStory';
 import SoulGlitch from './components/SoulGlitch';
 import ClaimAnalyzer from './components/ClaimAnalyzer';
 import DocsViewer from './components/DocsViewer';
@@ -13,7 +14,7 @@ import BicameralHudPreview from './components/BicameralHudPreview';
 import GlobalNav, { type FrameNavItem } from './components/GlobalNav';
 import { THEMES, type Theme } from './lib/themes';
 
-type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode' | 'frame';
+type AppState = 'ritual' | 'home' | 'mirror' | 'story' | 'busStory' | 'analyzer' | 'docs' | 'aimode' | 'frame';
 
 // Frame-specific nav items per context key
 const FRAME_NAV: Record<string, FrameNavItem[]> = {
@@ -29,6 +30,10 @@ const FRAME_NAV: Record<string, FrameNavItem[]> = {
     { label: 'ROLES',   hash: '#roles' },
     { label: 'ARCHIVE', hash: '#archive' },
   ],
+  pravljica: [
+    { label: 'ARCHIVE', hash: '#stories' },
+    { label: 'ABOUT',   hash: '#about' },
+  ],
 };
 
 // CSS to inject into REBiS iframe to hide its own nav (same-origin)
@@ -40,6 +45,8 @@ function themeForUrl(url: string): { theme: Theme; label: string; frameKey: stri
   if (url.includes('rebis'))    return { theme: THEMES.rebis,   label: 'REBiS',   frameKey: 'rebis' };
   if (url.includes('forge_faq') || url.includes('faq'))
                                  return { theme: THEMES.faq,     label: 'FAQ',     frameKey: 'faq' };
+  if (url.includes('zalasite'))  return { theme: THEMES.zala,    label: 'ZALA',    frameKey: 'zalasite' };
+  if (url.includes('pravljica')) return { theme: THEMES.factory, label: 'STORIES', frameKey: 'pravljica' };
   if (url.includes('grandbus')) return { theme: THEMES.factory, label: 'FACTORY', frameKey: 'factory' };
   return { theme: THEMES.consmap, label: '', frameKey: '' };
 }
@@ -78,6 +85,21 @@ function App() {
     localStorage.setItem('consmap_last_visit', new Date().toISOString());
   }, []);
 
+  // Listen for iframe navigation messages
+  useEffect(() => {
+    const handleMessage = (e: MessageEvent) => {
+      if (e.data?.type === 'PRAVLJICA_NAVIGATE') {
+        if (e.data.story === 'factory') {
+          navigate('story');
+        } else if (e.data.story === 'bus') {
+          navigate('busStory');
+        }
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   const navigate = (view: AppState, meta?: string) => {
     if (view === 'docs' && meta) setDocPath(meta);
     if (view === 'frame' && meta) {
@@ -105,7 +127,7 @@ function App() {
       if (existing) return;
       const style = doc.createElement('style');
       style.id = '__consmap_nav_hide__';
-      if (frameUrl.includes('rebis')) {
+      if (frameUrl.includes('rebis') || frameUrl.includes('pravljica') || frameUrl.includes('grandbus')) {
         style.textContent = REBIS_HIDE_NAV_CSS;
       } else if (frameUrl.includes('forge_faq') || frameUrl.includes('faq')) {
         style.textContent = FAQ_HIDE_NAV_CSS;
@@ -186,6 +208,12 @@ function App() {
           {state === 'story' && (
             <motion.div key="story" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.2 }} className="relative z-10 min-h-screen">
               <BedtimeStory onBack={() => setState('home')} />
+            </motion.div>
+          )}
+
+          {state === 'busStory' && (
+            <motion.div key="busStory" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.2 }} className="relative z-10 min-h-screen">
+              <BusStory onBack={() => setState('home')} />
             </motion.div>
           )}
 

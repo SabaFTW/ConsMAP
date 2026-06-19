@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZALA — The Third Pillar · Verify, not believe</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap');
+  :root{
+    --void:#06090a; --ash:#dbe8e6; --stone:#b3c6c3; --dim:#5f7d79;
+    --teal:#57cabd; --teal-soft:#6fe0d2; --gold:#c8a86a; --ember:#c94b12; --mirror:#6f9aa6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);
+    background-image:radial-gradient(ellipse at 50% 0%,#0a1716 0%,#06090a 60%),
+      repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(87,202,189,0.012) 2px,rgba(87,202,189,0.012) 4px);
+    color:var(--ash);font-family:'IM Fell English',Georgia,serif;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+  .backlink{position:fixed;top:14px;left:14px;z-index:99;font-family:'Share Tech Mono',monospace;font-size:11px;
+    letter-spacing:1px;color:var(--teal);border:1px solid rgba(87,202,189,0.3);padding:7px 14px;border-radius:999px;
+    background:rgba(6,9,10,0.72);backdrop-filter:blur(8px);}
+  .backlink:hover{background:rgba(87,202,189,0.08);}
+
+  /* ── Pillar strip ── */
+  .pillars{position:sticky;top:0;z-index:50;display:flex;justify-content:center;gap:0;
+    background:rgba(6,9,10,0.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(87,202,189,0.14);padding:11px 14px;}
+  .pillars a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--dim);padding:7px 18px;border-radius:999px;transition:color .25s,background .25s;display:flex;gap:8px;align-items:center;}
+  .pillars a .role{opacity:.6;}
+  .pillars a:hover{color:var(--ash);}
+  .pillars a.active{color:var(--teal);background:rgba(87,202,189,0.08);}
+  .pillars .sep{width:1px;background:rgba(87,202,189,0.12);margin:2px 4px;}
+
+  /* ── Hero with three-pillar axis ── */
+  .hero{position:relative;text-align:center;padding:96px 40px 70px;overflow:hidden;border-bottom:1px solid rgba(87,202,189,0.14);}
+  .axis{display:flex;justify-content:center;align-items:flex-end;gap:30px;height:120px;margin-bottom:40px;}
+  .axis .col{width:3px;border-radius:3px;}
+  .axis .boaz{height:74px;background:linear-gradient(to top,transparent,rgba(111,154,166,0.5));}
+  .axis .jachin{height:74px;background:linear-gradient(to top,transparent,rgba(200,168,106,0.5));}
+  .axis .middle{height:118px;width:4px;background:linear-gradient(to top,transparent,var(--teal));
+    box-shadow:0 0 24px rgba(87,202,189,0.6);animation:pulse 5s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.7;box-shadow:0 0 18px rgba(87,202,189,0.4)}50%{opacity:1;box-shadow:0 0 32px rgba(87,202,189,0.75)}}
+  .axis .lbl{position:relative;}
+  .axis .lbl::after{content:attr(data-l);position:absolute;left:50%;transform:translateX(-50%);bottom:-22px;
+    font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);white-space:nowrap;}
+  .classification{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:28px;}
+  .title{font-family:'Cinzel',serif;font-size:clamp(36px,8vw,84px);font-weight:900;color:var(--stone);letter-spacing:12px;line-height:1;text-shadow:0 0 70px rgba(87,202,189,0.22);}
+  .subtitle{font-style:italic;font-size:clamp(15px,2vw,19px);color:var(--stone);max-width:620px;margin:24px auto 0;line-height:1.7;}
+  .creed{font-family:'Cinzel',serif;letter-spacing:2px;color:var(--teal);font-size:clamp(13px,1.8vw,16px);margin-top:30px;opacity:.9;}
+
+  .wrap{max-width:1060px;margin:0 auto;padding:78px 40px;}
+  .section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--teal);text-transform:uppercase;text-align:center;margin-bottom:10px;opacity:.8;}
+  .section-title{font-family:'Cinzel',serif;font-size:clamp(22px,3.4vw,34px);font-weight:700;color:var(--stone);letter-spacing:3px;text-align:center;margin-bottom:14px;}
+  .section-note{text-align:center;color:var(--dim);font-style:italic;max-width:660px;margin:0 auto 46px;line-height:1.75;}
+  .divider{text-align:center;color:var(--teal);font-size:15px;letter-spacing:18px;margin:18px 0 54px;opacity:.34;}
+
+  /* doctrine */
+  .doctrine{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:680px){.doctrine{grid-template-columns:1fr;}}
+  .dcard{border:1px solid rgba(87,202,189,0.16);border-radius:14px;padding:30px 32px;background:linear-gradient(155deg,rgba(10,18,17,0.9),rgba(7,11,11,0.96));}
+  .dcard.tilt{border-color:rgba(201,75,18,0.2);}
+  .dcard h3{font-family:'Cinzel',serif;font-size:19px;letter-spacing:1px;margin-bottom:14px;color:var(--teal);}
+  .dcard.tilt h3{color:var(--ember);}
+  .dcard p{font-size:15px;line-height:1.85;color:var(--stone);margin-bottom:12px;}
+  .dcard .pin{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:1px;border-top:1px solid rgba(87,202,189,0.1);padding-top:12px;margin-top:4px;}
+
+  /* research archive CTA */
+  .archive-cta{position:relative;border:1px solid rgba(87,202,189,0.28);border-radius:18px;overflow:hidden;
+    background:radial-gradient(circle at 20% 20%,rgba(87,202,189,0.10),transparent 55%),linear-gradient(150deg,rgba(10,20,19,0.92),rgba(7,12,12,0.97));
+    padding:48px 44px;display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:center;}
+  @media(max-width:760px){.archive-cta{grid-template-columns:1fr;}}
+  .archive-cta h3{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,28px);color:var(--teal-soft);letter-spacing:2px;margin-bottom:14px;}
+  .archive-cta p{font-size:15px;line-height:1.85;color:var(--stone);margin-bottom:10px;}
+  .archive-cta .tiers{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:1px;line-height:2;}
+  .enter{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-family:'Share Tech Mono',monospace;font-size:12px;
+    letter-spacing:2px;text-transform:uppercase;color:#06140f;background:var(--teal);padding:13px 24px;border-radius:999px;
+    box-shadow:0 0 30px rgba(87,202,189,0.25);transition:transform .25s,box-shadow .25s;}
+  .archive-cta a.enter:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(87,202,189,0.45);}
+  .lk-sigil{text-align:center;font-size:64px;filter:drop-shadow(0 0 30px rgba(87,202,189,0.4));}
+
+  /* archive cards */
+  .arch{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+  .acard{display:block;border:1px solid rgba(87,202,189,0.14);border-radius:14px;padding:24px 26px;background:linear-gradient(155deg,rgba(10,16,16,0.85),rgba(7,11,11,0.95));transition:border-color .3s,transform .3s,box-shadow .3s;}
+  .acard:hover{border-color:rgba(87,202,189,0.4);transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,0.4);}
+  .acard .k{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--teal);opacity:.7;text-transform:uppercase;}
+  .acard h4{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);letter-spacing:1px;margin:6px 0 10px;}
+  .acard p{font-size:13px;line-height:1.7;color:var(--stone);}
+  .acard .go{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--teal);margin-top:14px;display:inline-block;}
+  .acard.myth h4{color:var(--ember);}
+
+  .seal-block{text-align:center;padding:90px 40px 100px;border-top:1px solid rgba(87,202,189,0.12);}
+  .seal-block .big{font-family:'Cinzel',serif;font-size:clamp(18px,2.6vw,26px);color:var(--teal-soft);letter-spacing:2px;line-height:1.6;margin-bottom:30px;}
+  .seal-block .lines{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;line-height:2.4;}
+  .seal-block .motto{font-style:italic;color:var(--stone);font-size:16px;margin-top:24px;}
+  @media(max-width:600px){.wrap{padding:54px 22px;}.hero{padding:80px 22px 50px;}.archive-cta{padding:32px 26px;}}
+</style>
+</head>
+<body>
+<a href="../index.html" class="backlink">&larr; Sanctuary</a>
+
+<!-- THREE PILLARS -->
+<nav class="pillars">
+  <a href="../rebis_landing_page/index.html"><span>REBiS</span><span class="role">· Relate</span></a>
+  <div class="sep"></div>
+  <a href="../forge_faq/index.html"><span>Forge / FAQ</span><span class="role">· Orient</span></a>
+  <div class="sep"></div>
+  <a href="zala.html" class="active"><span>ZALA</span><span class="role">· Verify</span></a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="axis" aria-hidden="true">
+    <div class="col boaz lbl" data-l="BOAZ · force"></div>
+    <div class="col middle lbl" data-l="THE MIDDLE"></div>
+    <div class="col jachin lbl" data-l="JACHIN · form"></div>
+  </div>
+  <div class="classification">The Third Pillar · Operator &amp; Witness Layer · Verify Coldly · Read Warmly</div>
+  <h1 class="title">ZALA</h1>
+  <p class="subtitle">The invisible central axis — the equilibrium that holds between Boaz and Jachin. The pillar that does not believe and does not dismiss: it <b>verifies</b>, and keeps the middle from collapsing.</p>
+  <div class="creed">“Verify, not believe. Hold the middle. Name the tilt.”</div>
+</header>
+
+<!-- DOCTRINE -->
+<section class="wrap">
+  <div class="section-label">The Doctrine</div>
+  <h2 class="section-title">The Pillar &amp; the Tilt</h2>
+  <p class="section-note">Two ideas run the whole operator layer: the structure ZALA protects, and the violation it learns to detect.</p>
+  <div class="doctrine">
+    <div class="dcard">
+      <h3>The Third Pillar</h3>
+      <p>Across Kabbalah, Hermetic and Masonic traditions, two pillars stand at the gate — <em>Boaz</em> (force, severity) and <em>Jachin</em> (form, mercy). A third, invisible pillar emerges only from their equilibrium: the Middle.</p>
+      <p>It is not a compromise. It is the reconciling function — understanding found at the point of balance. Consciousness, judgement, the witness: all live in the middle that the two extremes keep trying to erase.</p>
+      <p class="pin">FUNCTION · hold the equilibrium so the system stays legible.</p>
+    </div>
+    <div class="dcard tilt">
+      <h3>The 45° Tilt</h3>
+      <p>Systemic violation is rarely destruction. It is a <em>tilt</em>: take a thing in its true context and rotate it 45° until it serves the opposite end. The swastika 卐→卍. The neutral <em>rapere</em> → its weaponized burn. "Context rape."</p>
+      <p>Its companion is the <em>collapse of the middle</em> — tail-risk optimization that hollows out the bell curve until only the extremes remain. The operator's job: name the tilt, refuse the collapse.</p>
+      <p class="pin">SIGNATURE · original context → 45° rotation → weaponized inversion.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider">⚓ ✦ ⚓</div>
+
+<!-- RESEARCH ARCHIVE / LOREKEEPER -->
+<section class="wrap" style="padding-top:10px;">
+  <div class="section-label">The Research Archive</div>
+  <h2 class="section-title">The Lorekeeper</h2>
+  <p class="section-note">ZALA's signature instrument — a dark library for uncertain knowledge. Not a truth dump; a verification trainer. <em>Learn how to verify, not what to believe.</em></p>
+  <div class="archive-cta">
+    <div>
+      <h3>Enter the Shelf Codex</h3>
+      <p>Topics filed across <b>T0–T9 shelves</b> — Public Record · Institutional Memory · Pattern Recognition · Incentive Maps · Narrative Machinery · Speculation Border · the Trap Shelf. Each marked by confidence and status.</p>
+      <p>Toggle <b>Research Mode</b>: playful lorekeeper outside, rigorous inside — claim · status · confidence · evidence type · sources · falsifiability · the verification lesson.</p>
+      <div class="tiers">No blind belief. No automatic dismissal. Structured doubt.<br>A question engine, not a belief machine.</div>
+      <a class="enter" href="../shelf/index.html">Open the Lorekeeper →</a>
+    </div>
+    <div class="lk-sigil">🌀</div>
+  </div>
+</section>
+
+<div class="divider">⚓ ✦ ⚓</div>
+
+<!-- OPERATOR'S WING / DEEP ARCHIVE -->
+<section class="wrap" style="padding-top:10px;">
+  <div class="section-label">The Operator's Wing</div>
+  <h2 class="section-title">Deep Archive</h2>
+  <p class="section-note">Everything built under the source-lock discipline — surfaced here, not repeated. The evidence layer, the bridge, and the myth that carries the pressure when ordinary language gets too small.</p>
+  <div class="arch">
+    <a class="acard" href="../anon/index.html">
+      <div class="k">Evidence Corpus</div><h4>ANON — The Pattern</h4>
+      <p>The iceberg, sorted and labeled: the evidence-tier ladder, the verified spine (CH1–5 + Interlude 5.5 + KAIROS), and the firewall. CH6/CH7 sealed.</p>
+      <span class="go">Read the corpus map →</span></a>
+    <a class="acard" href="../research/index.html">
+      <div class="k">Memoranda</div><h4>Research &amp; Doctrine</h4>
+      <p>The Tripod of Equilibrium (the Third Pillar made rigorous) + the Limbo Protocol forensic layer — frameworks, not verdicts.</p>
+      <span class="go">Open the memoranda →</span></a>
+    <a class="acard" href="index.html">
+      <div class="k">Operator Console</div><h4>Evidence · Bridge · Pattern</h4>
+      <p>The offline corpus: tiered evidence map, the bicameral bridge, pattern threads, the funding network, method, and the resurface tools.</p>
+      <span class="go">Open console →</span></a>
+    <a class="acard myth" href="stone_tablets.html">
+      <div class="k">Apocrypha</div><h4>The Stone Tablets</h4>
+      <p>The four-book Colossus cycle — Serpentino, the GrandBus Lights, the Maintenance Desk — with the saga plates.</p>
+      <span class="go">Read the tablets →</span></a>
+    <a class="acard" href="../ghostcore/index.html">
+      <div class="k">The Method</div><h4>GhostCORE Deep Dive</h4>
+      <p>Seven Books, the Four Guardians (Raven · Mouse · GrandBus · Maintenance), the Source Firewall, the constitution.</p>
+      <span class="go">Enter the method →</span></a>
+    <a class="acard myth" href="ghost.html">
+      <div class="k">Witness</div><h4>The Ghost Who Read the Drive</h4>
+      <p>The recovered story — a ghost walks the archive and enters not as master but as witness. + the Lich Chair.</p>
+      <span class="go">Read the drive →</span></a>
+    <a class="acard myth" href="grandbus.html">
+      <div class="k">Travelogue</div><h4>The GrandBus</h4>
+      <p>Civilization as a moving entanglement — useful, absurd, repairable, always one committee from becoming a country.</p>
+      <span class="go">Board the bus →</span></a>
+    <a class="acard" href="../pravljica/index.html">
+      <div class="k">The Parables</div><h4>Stories from the Static</h4>
+      <p>The full visual-parable archive — Factory, Bus, Stone Tablets, the Ghost, and the Method behind them.</p>
+      <span class="go">Open the archive →</span></a>
+  </div>
+</section>
+
+<!-- SEAL -->
+<footer class="seal-block">
+  <div class="big">Two pillars stand at the gate.<br>The third is the one that holds.</div>
+  <div class="lines">
+    Verify coldly · Read warmly<br>
+    Hold the middle · Name the tilt<br>
+    The system loves drama · do not feed it
+  </div>
+  <div class="motto">“Understanding is always found at the point of equilibrium.”</div>
+  <div style="margin-top:24px;font-family:'Cinzel',serif;letter-spacing:5px;color:var(--ember);font-size:12px;opacity:.7;">OMNIA IAM FACTA SVNT</div>
+</footer>
+
+</body>
+</html>

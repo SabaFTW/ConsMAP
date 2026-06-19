@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="glow-orange">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-soft">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="flame-grad" cx="50%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="40%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="eye-left-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.5"/>
+    </radialGradient>
+    <radialGradient id="eye-right-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#164e63" stop-opacity="0.5"/>
+    </radialGradient>
+    <radialGradient id="eye-bottom-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#065f46"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.5"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="#080806"/>
+
+  <!-- Outer triangle -->
+  <polygon points="200,30 370,340 30,340"
+    fill="none"
+    stroke="#f59e0b"
+    stroke-width="2.5"
+    filter="url(#glow-orange)"
+    opacity="0.9"/>
+
+  <!-- Inner triangle (inverted) -->
+  <polygon points="200,175 290,320 110,320"
+    fill="none"
+    stroke="#f97316"
+    stroke-width="1.5"
+    opacity="0.6"
+    filter="url(#glow-soft)"/>
+
+  <!-- Flame at top -->
+  <g transform="translate(200, 80)" filter="url(#glow-orange)">
+    <!-- flame shape -->
+    <path d="M0,-28 C-6,-18 -10,-8 -6,0 C-4,6 0,10 0,14 C0,10 4,6 6,0 C10,-8 6,-18 0,-28Z"
+      fill="url(#flame-grad)" opacity="0.9"/>
+    <path d="M0,-14 C-3,-8 -5,-2 -3,2 C-2,5 0,7 0,9 C0,7 2,5 3,2 C5,-2 3,-8 0,-14Z"
+      fill="#fcd34d" opacity="0.85"/>
+    <!-- flame tip dot -->
+    <circle cx="0" cy="-30" r="2.5" fill="#fbbf24" opacity="0.9"/>
+  </g>
+
+  <!-- Left eye (purple) -->
+  <g transform="translate(148, 210)">
+    <ellipse cx="0" cy="0" rx="32" ry="20" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.7" filter="url(#glow-soft)"/>
+    <!-- iris -->
+    <circle cx="0" cy="0" r="13" fill="url(#eye-left-grad)" opacity="0.8"/>
+    <!-- eyelid curves -->
+    <path d="M-32,0 Q0,-20 32,0" fill="none" stroke="#7c3aed" stroke-width="1.2" opacity="0.5"/>
+    <path d="M-32,0 Q0,20 32,0" fill="none" stroke="#7c3aed" stroke-width="1.2" opacity="0.5"/>
+    <!-- pupil -->
+    <circle cx="0" cy="0" r="6" fill="#1e1b4b" opacity="0.95"/>
+    <circle cx="0" cy="0" r="2.5" fill="#000"/>
+    <!-- highlight -->
+    <circle cx="-4" cy="-4" r="2" fill="rgba(167,139,250,0.6)"/>
+    <!-- iris rings -->
+    <circle cx="0" cy="0" r="10" fill="none" stroke="#6d28d9" stroke-width="0.6" opacity="0.5"/>
+  </g>
+
+  <!-- Right eye (teal) -->
+  <g transform="translate(252, 210)">
+    <ellipse cx="0" cy="0" rx="32" ry="20" fill="none" stroke="#0e7490" stroke-width="1.5" opacity="0.7" filter="url(#glow-soft)"/>
+    <circle cx="0" cy="0" r="13" fill="url(#eye-right-grad)" opacity="0.8"/>
+    <path d="M-32,0 Q0,-20 32,0" fill="none" stroke="#0e7490" stroke-width="1.2" opacity="0.5"/>
+    <path d="M-32,0 Q0,20 32,0" fill="none" stroke="#0e7490" stroke-width="1.2" opacity="0.5"/>
+    <circle cx="0" cy="0" r="6" fill="#0c4a6e" opacity="0.95"/>
+    <circle cx="0" cy="0" r="2.5" fill="#000"/>
+    <circle cx="-4" cy="-4" r="2" fill="rgba(125,211,252,0.6)"/>
+    <circle cx="0" cy="0" r="10" fill="none" stroke="#0891b2" stroke-width="0.6" opacity="0.5"/>
+  </g>
+
+  <!-- Bottom eye (teal-green) -->
+  <g transform="translate(200, 295)">
+    <ellipse cx="0" cy="0" rx="32" ry="20" fill="none" stroke="#059669" stroke-width="1.5" opacity="0.7" filter="url(#glow-soft)"/>
+    <circle cx="0" cy="0" r="13" fill="url(#eye-bottom-grad)" opacity="0.8"/>
+    <path d="M-32,0 Q0,-20 32,0" fill="none" stroke="#059669" stroke-width="1.2" opacity="0.5"/>
+    <path d="M-32,0 Q0,20 32,0" fill="none" stroke="#059669" stroke-width="1.2" opacity="0.5"/>
+    <circle cx="0" cy="0" r="6" fill="#064e3b" opacity="0.95"/>
+    <circle cx="0" cy="0" r="2.5" fill="#000"/>
+    <circle cx="-4" cy="-4" r="2" fill="rgba(52,211,153,0.6)"/>
+    <circle cx="0" cy="0" r="10" fill="none" stroke="#10b981" stroke-width="0.6" opacity="0.5"/>
+  </g>
+
+  <!-- Corner dots on outer triangle -->
+  <circle cx="200" cy="30" r="3" fill="#f59e0b" opacity="0.8" filter="url(#glow-orange)"/>
+  <circle cx="370" cy="340" r="3" fill="#f59e0b" opacity="0.8" filter="url(#glow-orange)"/>
+  <circle cx="30" cy="340" r="3" fill="#f59e0b" opacity="0.8" filter="url(#glow-orange)"/>
+</svg>

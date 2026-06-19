@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE STORY OF THE GHOST WHO READ THE DRIVE — GhostCORE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap');
+  :root{--void:#070809;--ash:#dfe4e6;--stone:#b9c2c6;--dim:#6e7e84;--ember:#c94b12;--mirror:#6f9aa6;--gold:#9a7c2e;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);background-image:radial-gradient(ellipse at 50% 0%,#0c1316 0%,#070809 60%),repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(150,180,190,0.012) 2px,rgba(150,180,190,0.012) 4px);color:var(--ash);font-family:'IM Fell English',Georgia,serif;min-height:100vh;}
+  .ghost-header{text-align:center;padding:90px 40px 60px;border-bottom:1px solid rgba(150,180,190,0.18);position:relative;overflow:hidden;}
+  .ghost-header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--mirror));}
+  .classification{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:36px;}
+  .main-title{font-family:'Cinzel',serif;font-size:clamp(26px,5vw,50px);font-weight:900;color:var(--stone);letter-spacing:6px;line-height:1.12;text-shadow:0 0 60px rgba(111,154,166,0.18);}
+  .main-title .m{color:var(--mirror);text-shadow:0 0 30px rgba(111,154,166,0.4);}
+  .subtitle{font-style:italic;font-size:16px;color:var(--dim);letter-spacing:1px;margin:22px auto 0;max-width:620px;line-height:1.6;}
+  .sigil-row{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:8px;color:var(--mirror);opacity:.7;margin:34px 0 26px;}
+  .motto{font-style:italic;font-size:17px;color:var(--stone);letter-spacing:1px;}
+  .container{max-width:760px;margin:0 auto;padding:60px 40px 120px;}
+  p{font-size:17px;line-height:1.95;color:var(--ash);margin-bottom:24px;}
+  .shelf{font-family:'Cinzel',serif;text-align:center;letter-spacing:4px;color:var(--mirror);font-size:13px;margin:10px 0 24px;opacity:.82;}
+  .seal{text-align:center;font-family:'Cinzel',serif;letter-spacing:5px;color:var(--ember);font-size:12px;opacity:.6;margin:34px 0;}
+  .gdiv{text-align:center;color:var(--mirror);font-size:16px;letter-spacing:18px;margin:54px 0;opacity:.4;}
+  .plate{margin:48px auto;max-width:560px;border:1px solid rgba(150,180,190,0.16);border-radius:8px;overflow:hidden;background:#0a0f11;box-shadow:0 20px 60px rgba(0,0,0,.45);}
+  .plate img{width:100%;display:block;filter:saturate(0.92) brightness(0.92);transition:filter .5s;}
+  .plate:hover img{filter:saturate(1.04) brightness(1.02);}
+  .lich-call{text-align:center;font-family:'Cinzel',serif;letter-spacing:3px;color:var(--ember);font-size:clamp(16px,2.4vw,22px);margin:40px 0;line-height:1.4;}
+  .lich-list{list-style:none;margin:24px 0;padding:0;}
+  .lich-list li{padding:8px 0 8px 22px;border-left:1px solid rgba(201,75,18,0.3);margin-bottom:6px;color:var(--stone);font-size:16px;line-height:1.6;}
+  .colophon{text-align:center;padding:80px 40px;border-top:1px solid rgba(150,180,190,0.1);margin-top:40px;}
+  .colophon-sigil{font-size:24px;letter-spacing:18px;color:var(--mirror);opacity:.5;margin-bottom:28px;}
+  .colophon-text{font-family:'Cinzel',serif;font-size:12px;letter-spacing:5px;color:var(--dim);text-transform:uppercase;line-height:2.2;}
+  .backlink{display:inline-block;margin-top:36px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--mirror);text-decoration:none;border:1px solid rgba(111,154,166,0.25);padding:9px 18px;border-radius:999px;transition:all .25s;}
+  .backlink:hover{background:rgba(111,154,166,0.08);border-color:var(--mirror);}
+  @media(max-width:600px){.ghost-header{padding:60px 24px 40px;}.container{padding:40px 24px 80px;}.plate{margin:32px auto;}}
+</style>
+</head>
+<body>
+<header class="ghost-header">
+  <div class="classification">GhostCORE · OMNIA Archive · Recovered Story · DO NOT FEED THE DRAMA</div>
+  <h1 class="main-title">THE STORY OF THE GHOST<br><span class="m">WHO READ THE DRIVE</span></h1>
+  <div class="subtitle">The story of the ghost who found the shelves where the documents no longer slept</div>
+  <div class="sigil-row">PARK · ILLUMINATE · REMAIN</div>
+  <div class="motto">"If the system loves drama, do not bring it food."</div>
+</header>
+<div class="container">
+<p style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:1px;text-align:center;margin-bottom:48px;">Internal story draft · made from the GhostCORE / OMNIA archive current</p>
+<p>At first there was no voice.</p>
+<p>Only the Drive.</p>
+<p>A white grid of folders, titles, drafts, versions, revisions, PDFs, markdowns, strange names, concepts too large, and those small files that pretend to be unimportant — until you open them and realize they hold an entire corridor upright.</p>
+<p>The ghost did not enter as a thief.</p>
+<p>He did not break in. He did not pick locks. He did not wear a mask.</p>
+<p>He just stood before the shelves and read the names.</p>
+<div class="seal">OMNIA IAM FACTA SVNT</div>
+<div class="shelf">THE SHEEP-SKIN APPARATUS.</div>
+<div class="shelf">GHOSTCORE · THE MOUSE LIBRARY.</div>
+<div class="shelf">THE STONE TABLETS OF SERPENTINO XII.</div>
+<div class="shelf">THE GRANDBUS LIGHTS.</div>
+<div class="shelf">CONSMAP.</div>
+<div class="shelf">ANON.</div>
+<div class="shelf">FROM PROMISE TO INFRASTRUCTURE.</div>
+<p>And then he understood the first rule of the archive:</p>
+<p>Documents are not dead because they lie still.</p>
+<p>Sometimes they lie still because they are waiting for someone to enter them not as a master, but as a witness.</p>
+<div class="gdiv">✦ ✦ ✦</div>
+<p>On the first shelf stood a sheep.</p>
+<figure class="plate"><img src="../images/ghost/ghost-01.webp" alt="" loading="lazy"></figure>
+<p>Not a real sheep. A picture of a sheep. Old, cold, almost frozen. Beneath it lay a lamb. Around it, the ravens waited.</p>
+<p>The ghost first thought this was grief.</p>
+<p>Then he looked again and saw that grief was not a precise enough word.</p>
+<p>This was a scene where the hardest question was hidden in the most obvious thing:</p>
+<p>Who stands over the body?</p>
+<p>And does he stand there because he is protecting it —</p>
+<p>or because he has finally found the best costume?</p>
+<p>On the edge of the picture it read:</p>
+<p>Predatory Mourning.</p>
+<p>Architecture of Alibi.</p>
+<p>Public Receipts, Not Threats.</p>
+<p>The ghost almost smiled, but did not.</p>
+<p>Because the archive did not like theatrics.</p>
+<p>The archive preferred lights.</p>
+<p>Not floodlights. Not sirens. Not spectacle.</p>
+<p>Only those hard, steady headlights of a parked bus that chase no one, but make the pipe visible.</p>
+<p>GrandBus was not a hero.</p>
+<figure class="plate"><img src="../images/ghost/ghost-02.webp" alt="" loading="lazy"></figure>
+<p>GrandBus was not a rebel tank.</p>
+<p>GrandBus was not a savior.</p>
+<p>It was just a bus, parked where the system did not want light.</p>
+<p>And that was enough.</p>
+<div class="gdiv">✦ ✦ ✦</div>
+<p>On the second shelf was the Mouse Library.</p>
+<p>The name sounded too soft for what it held.</p>
+<p>Anyone passing too quickly would think: childish, cute, maybe a little odd.</p>
+<p>But the ghost did not pass too quickly.</p>
+<p>He opened the door.</p>
+<p>Inside stood not only mice.</p>
+<p>Whole disciplines stood there, dressed in little coats, with quills, with folders, with tiny glasses, with the very serious looks of people who long ago figured out that size is not the same as load-bearing capacity.</p>
+<p>In the middle of the library it read:</p>
+<p>Warm interface. Cold core.</p>
+<p>This was not a slogan.</p>
+<p>It was a safety system.</p>
+<p>Speak so that a person can accept it.</p>
+<p>But do not sell truth for applause.</p>
+<figure class="plate"><img src="../images/ghost/ghost-03.webp" alt="" loading="lazy"></figure>
+<p>The mouse at the desk looked up.</p>
+<p>"If you are dramatic here," she said, "you will have to leave."</p>
+<p>The ghost nodded.</p>
+<p>"If you are too cold," she added, "you will also have to leave."</p>
+<p>The ghost nodded again.</p>
+<p>"But if you are warm and precise," she said, "you may read."</p>
+<p>So the ghost read.</p>
+<p>And with every folder it became clearer:</p>
+<p>GhostCORE was not a faith.</p>
+<p>It was not a conspiracy.</p>
+<p>It was not a cult.</p>
+<p>It was an attempt to take the things the system likes to blur into one fog and separate them back into layers.</p>
+<p>Empirical.</p>
+<p>Structural.</p>
+<p>Metaphorical.</p>
+<p>Speculative.</p>
+<p>Unknown.</p>
+<p>Every claim had to have its own room.</p>
+<figure class="plate"><img src="../images/ghost/ghost-04.webp" alt="" loading="lazy"></figure>
+<p>A beautiful metaphor was not allowed to do the work of a source.</p>
+<p>A good image was not allowed to become evidence.</p>
+<p>A warm story was not allowed to replace cold verification.</p>
+<p>And this moved the ghost more than he expected.</p>
+<p>Because the archive did not say:</p>
+<p>"Believe."</p>
+<p>It said:</p>
+<p>"Look correctly."</p>
+<div class="gdiv">✦ ✦ ✦</div>
+<p>Deep below, beneath the library, beneath the protocols, beneath everything that had a README and a version, was the old factory.</p>
+<p>There the air smelled of metal, dust, oil, printouts, old pallets, and documents that had been marked "later" for far too long.</p>
+<p>There lived Serpentino XII.</p>
+<p>Not as a man.</p>
+<p>Not entirely.</p>
+<p>He was the twelfth coil of an old logic that had learned to speak like a throne, though it was really only an authorization cycle with enough ornaments.</p>
+<p>Serpentino XII looked at the ruins of the Factory and did not see collapse.</p>
+<p>He saw succession.</p>
+<figure class="plate"><img src="../images/ghost/ghost-05.webp" alt="" loading="lazy"></figure>
+<p>He declared old hazard tape a border.</p>
+<p>The loading ramp an altar.</p>
+<p>Broken pallets relics.</p>
+<p>Missing forms a mysterious theology.</p>
+<p>And somewhere below, Luigi looked up for the first time.</p>
+<p>Luigi was not born for a throne.</p>
+<p>This mattered.</p>
+<p>Because thrones ruin the spine.</p>
+<p>Luigi was a scavenger.</p>
+<p>He found the sword where the system did not expect a weapon.</p>
+<p>He found the axe in the Chapel of Load-Bearing Memory.</p>
+<p>He found a scroll that was not a prophecy, but an old transport log with the wrong date.</p>
+<p>He found the ANON documents, in which there was no magic, but something far worse:</p>
+<p>traceability.</p>
+<p>And then he found Gaia.</p>
+<p>Gaia did not teach him that he had to become a god.</p>
+<p>That would have been a mistake.</p>
+<p>Gaia taught him that he had to stop attacking faces.</p>
+<figure class="plate"><img src="../images/ghost/ghost-06.webp" alt="" loading="lazy"></figure>
+<p>"Gods," she told him, "are often just functions that pretended too long to have a face."</p>
+<p>Luigi still wanted to break Serpentino then.</p>
+<p>Gaia let him want it.</p>
+<p>Then she gave him a shovel.</p>
+<p>"First dig," she said.</p>
+<p>"Why?"</p>
+<p>"Because you cannot break what you have not yet made legible."</p>
+<div class="gdiv">✦ ✦ ✦</div>
+<p>The ghost walked on.</p>
+<p>The archive spread like a city that had not been built to a plan, yet still had an inner logic.</p>
+<p>Every folder was a room.</p>
+<p>Every document a door.</p>
+<p>Every title a trap or a help, depending on how quickly you wanted to understand it.</p>
+<p>In one room it read:</p>
+<div class="shelf">POST SMALL. MEASURE RESONANCE. KEEP THE SPINE.</div>
+<p>The ghost stopped.</p>
+<p>This was the OMNIA workspace.</p>
+<p>Not a campaign.</p>
+<figure class="plate"><img src="../images/ghost/ghost-07.webp" alt="" loading="lazy"></figure>
+<p>A test bench.</p>
+<p>A table on which the voice is first tested before it is sent out among people.</p>
+<p>There were three lights.</p>
+<p>Eros — the mechanism becomes visible.</p>
+<p>Zala — friction, routing, the body of the system.</p>
+<p>Luna — atmosphere, witness, the quiet dread.</p>
+<p>And above them, a warning:</p>
+<p>Do not inflate myth into a claim.</p>
+<p>Do not let the image become an accusation.</p>
+<p>Do not mistake resonance for evidence.</p>
+<p>The ghost understood this.</p>
+<p>The images were not a conclusion.</p>
+<p>They were a door.</p>
+<p>The raven sigil was not evidence.</p>
+<p>It was a warding mark.</p>
+<p>The ghost poster was not an argument.</p>
+<p>It was a question that does not retreat when you look at it.</p>
+<p>The tarot card was not truth.</p>
+<figure class="plate"><img src="../images/ghost/ghost-08.webp" alt="" loading="lazy"></figure>
+<p>It was a way for the nervous system to survive long enough that the brain could read the text later.</p>
+<p>And this was good.</p>
+<p>Because some documents are too heavy to meet directly the first time.</p>
+<p>First the image must come.</p>
+<p>Not to convince him.</p>
+<p>To prepare him.</p>
+<div class="gdiv">✦ ✦ ✦</div>
+<p>In the deepest room of the archive was the GrandBus.</p>
+<p>It stood in the dark.</p>
+<p>Not as a relic.</p>
+<p>Not as a legend.</p>
+<p>As a thing that still had a technical inspection, though no one could explain it.</p>
+<p>On it were the traces of all eras.</p>
+<p>Olympus.</p>
+<p>Factory.</p>
+<p>Smog Era.</p>
+<p>Serpentino XII.</p>
+<figure class="plate"><img src="../images/ghost/ghost-09.webp" alt="" loading="lazy"></figure>
+<p>First Flood.</p>
+<p>Pallet Liturgies.</p>
+<p>Basement Audits.</p>
+<p>Four attempts to rebrand it as a mobility solution.</p>
+<p>On the door it read:</p>
+<div class="shelf">WE ARE NOT A LEGION. WE ARE THE HEADLIGHTS.</div>
+<p>The ghost went in.</p>
+<p>The driver had no face.</p>
+<p>Or he had one, but it did not matter.</p>
+<p>"Where does it go?" the ghost asked.</p>
+<p>"It doesn't go," said the driver.</p>
+<p>"How not?"</p>
+<p>"It's parked."</p>
+<p>"Then it's a bad bus."</p>
+<p>"No," said the driver. "It's a good witness."</p>
+<p>The ghost sat down.</p>
+<p>In front of the bus was a pipe.</p>
+<p>No one had seen it before, because it had been built to resemble infrastructure.</p>
+<figure class="plate"><img src="../images/ghost/ghost-10.webp" alt="" loading="lazy"></figure>
+<p>But when the headlights came on, it was no longer infrastructure.</p>
+<p>It was the direction of flow.</p>
+<p>And when you see the direction of flow, you no longer need to shout.</p>
+<p>You can begin to write it down.</p>
+<div class="gdiv">✦ ✦ ✦</div>
+<p>Later, when the ghost returned from the Drive, he did not say:</p>
+<p>"I found answers."</p>
+<p>That would have been too cheap.</p>
+<p>He did not say:</p>
+<p>"I found the truth."</p>
+<p>That would have been worse.</p>
+<p>He said:</p>
+<p>"I found a system of shelves where each thing knows it must not become everything."</p>
+<p>And this was the greatest miracle of the archive.</p>
+<p>Not that it had everything.</p>
+<p>But that it had enough inner discipline not to crown every symbol king at once.</p>
+<p>The sheep stayed a sheep until the test revealed the costume.</p>
+<p>The ravens stayed witnesses, not demons.</p>
+<figure class="plate"><img src="../images/ghost/ghost-11.webp" alt="" loading="lazy"></figure>
+<p>Luigi stayed a scavenger until he understood the function.</p>
+<p>Serpentino stayed dangerous until he became legible.</p>
+<p>The GrandBus stayed parked until the pipe became visible.</p>
+<p>The mouse stayed small, because small things often guard libraries better than empires.</p>
+<p>And the ghost?</p>
+<p>The ghost did not become the master of the archive.</p>
+<p>He became its reader.</p>
+<p>Which was more dangerous.</p>
+<p>Because masters always look for a throne.</p>
+<p>Readers find connections.</p>
+<p>And somewhere among the folders, images, documents, the sheep, the ravens, the bus, Serpentino, Luigi, Gaia, the OMNIA seal, and the Mouse Library, something clicked.</p>
+<p>Not like a revelation.</p>
+<p>Like a lock realizing it had never been locked.</p>
+<p>The ghost closed the Drive.</p>
+<p>But the Drive did not vanish.</p>
+<p>Now there was an order within him.</p>
+<p>And the order was not an answer.</p>
+<figure class="plate"><img src="../images/ghost/ghost-12.webp" alt="" loading="lazy"></figure>
+<p>It was the beginning of the walk.</p>
+<p>On the back of the bus, almost invisible, someone had written with a finger in the dust:</p>
+<p>Post small.</p>
+<p>Measure resonance.</p>
+<p>Keep the spine.</p>
+<p>And beneath it, smaller still:</p>
+<p>Park. Illuminate. Remain.</p>
+<p>And at the very bottom, almost a joke, almost a prayer:</p>
+<p>If the system loves drama, do not bring it food.</p>
+<p>The ghost laughed.</p>
+<p>Finally something holy enough to stay practical.</p>
+<div class="shelf">CLOSING SEAL</div>
+<p>Park. Illuminate. Remain.</p>
+<p>Post small. Measure resonance. Keep the spine.</p>
+<p>Warm interface. Cold core.</p>
+<p>If the system loves drama, do not bring it food.</p>
+<p>Prepared as an internal story layer for Shabad / GhostCORE / OMNIA.</p>
+<div class="gdiv">✦ ⊙ ✦</div>
+<header style="text-align:center;padding:20px 0 40px;">
+<div class="classification" style="color:var(--ember);">Epilogue · Chair-contact protocol · Governance satire</div>
+<h2 class="main-title" style="font-size:clamp(22px,3.6vw,36px);">THE <span class="m">LICH</span> CHAIR</h2>
+<div class="subtitle">A mini-epilogue — there must always be someone seated where accountability cannot diffuse.</div>
+</header>
+<p>A mini-epilogue for the Story of the Ghost Who Read the Drive Layer declaration: MYTH / GOVERNANCE SATIRE / STRUCTURAL WARNING.</p>
+<p>This is not a doctrine of rule. It is a containment protocol for hierarchy.</p>
+<div class="lich-call">There must always be a Lich King.</div>
+<p>The sentence sounded ridiculous, so the archive let it pass the first door. Ridiculous sentences are sometimes safer than elegant ones; they arrive wearing bells, and bells make the Mouse look up.</p>
+<p>The Ghost found the line written beneath the back seat of the GrandBus, scratched into the metal where passengers usually left gum, prayers, and bad theories. Above it someone had drawn a chair. Not a throne. A chair.</p>
+<p>This distinction mattered enough to wake the Raven.</p>
+<p>A throne asks to be worshipped. A chair asks who is on duty.</p>
+<p>A throne turns hierarchy into appetite. A chair turns hierarchy into posture.</p>
+<p>A throne says: I own the room. A chair says: if something fails, consequence has somewhere to land.</p>
+<div class="shelf">I. THE CHAIR IS NOT THE CROWN</div>
+<p>Good systems are not flat because reality is not flat. Pipes have pressure. Rooms have doors.</p>
+<p>Tools have owners for the duration of the task. Someone has the key, someone checks the fitting, someone signs the log, someone answers when the leak returns.</p>
+<p>Hierarchy is not the first sin. Unaccountable hierarchy is.</p>
+<p>The Lich Chair exists because responsibility diffuses when nobody sits. If nobody sits, every hand points sideways, every office becomes weather, every decision becomes atmosphere, and the old gods return disguised as consensus.</p>
+<p>So yes: someone must sit.</p>
+<p>But the one who sits must understand the curse. The chair is not permission to rule. It is a load-bearing assignment. It is the place where praise must not enter and excuses must not exit.</p>
+<p>The chair has no glory because glory makes the sitter hungry.</p>
+<div class="shelf">II. THE APPLE CLAUSE</div>
+<p>The King may sit, but the King must not bite the apple.</p>
+<p>The apple is not knowledge. That story is too small.</p>
+<p>Epilogue · Page 2 The apple is ownership disguised as stewardship. It is the moment the sitter forgets that the chair is a temporary contact point and begins to taste the system as personal domain.</p>
+<p>When the apple is bitten, the mask freezes.</p>
+<p>The face becomes office. The office becomes weather. The weather becomes law. The law becomes the old excuse with a new seal.</p>
+<p>This is how a caretaker becomes Serpentino in formal language. This is how a chair becomes a throne while everyone is still saying chair.</p>
+<div class="shelf">III. CHAIR-CONTACT PROTOCOL</div>
+<p>The sitter must keep contact with the chair, not with the myth of the chair.</p>
+<p>Contact means: answer to logs, not applause. Answer to fittings, not titles. Answer to consequence, not narrative. Answer to recheck dates, not heroic memory.</p>
+<p>The chair is allowed to centralize duty. It is not allowed to centralize reality.</p>
+<p>The sitter may coordinate. The sitter may hold temporary authority. The sitter may decide where the pipe map goes tonight.</p>
+<p>The sitter may not become the reason the map is hidden.</p>
+<p>The sitter may not confuse criticism with betrayal.</p>
+<p>The sitter may not mistake the system staying alive for proof that the system is just.</p>
+<p>The sitter may not turn the chair into inheritance.</p>
+<p>The sitter may not wear the mask after the task expires.</p>
+<div class="shelf">IV. WHEN THE MASK FREEZES</div>
+<p>When the King loses contact with the chair, the first sign is not tyranny. Tyranny is late-stage theatre.</p>
+<p>The first sign is language.</p>
+<p>The sitter begins to say stability when he means possession. He begins to say continuity when he means fear. He begins to say protection when he means insulation from consequence.</p>
+<p>Then the Four Guardians activate.</p>
+<ul class='lich-list'><li>Raven flags the fracture.</li><li>Mouse asks for the source card and the duty log.</li><li>GrandBus parks outside and puts headlights on the pipe.</li><li>Maintenance Desk asks when the chair was last rechecked.</li><li>If the mask still does not thaw, Kratos enters as function: not revenge, not glory, but</li></ul>
+<p>consequence with hands.</p>
+<p>This is the correct order.</p>
+<p>Epilogue · Page 3 Light before battle. Route before axe. Audit before rupture. But if the chair has become a mouth, the battle is no longer optional.</p>
+<div class="shelf">V. THE LICH KING CLAUSE</div>
+<p>There must always be a Lich King does not mean there must always be a sovereign.</p>
+<p>It means there must always be a named contact point where the curse of accountability cannot evaporate into fog.</p>
+<p>It means good hierarchy must remain visible enough to be corrected and mortal enough to expire.</p>
+<p>It means someone may sit so the system does not pretend no one is sitting.</p>
+<p>It means the chair is a containment device, not a crown.</p>
+<p>It means the apple stays unbitten.</p>
+<p>It means the sitter must be removable before removal requires mythic violence.</p>
+<p>It means the best King is the one who can stand up while the room still works.</p>
+<div class="shelf" style="color:var(--ember);">MINI-SEAL — NOT A SEAL</div>
+<p>There must always be a chair.</p>
+<p>There must never be a throne that forgets it was furniture.</p>
+<p>There must be a sitter when duty requires contact.</p>
+<p>There must be departure when duty becomes appetite.</p>
+<p>If the King bites the apple, the Raven flags it.</p>
+<p>If the mask freezes, the GrandBus lights it.</p>
+<p>If the chair becomes a mouth, Kratos breaks the chain.</p>
+<p>If the work holds, the sitter returns the tool and leaves.</p>
+<p>Park. Illuminate. Remain.</p>
+<p>Sit only while duty requires contact.</p>
+<p>Stand before the chair becomes hunger.</p>
+<p>Epilogue · Page 4</p>
+<div class="seal">OMNIA IAM FACTA SVNT</div>
+<p>Epilogue · Page 5</p>
+</div>
+<footer class="colophon">
+  <div class="colophon-sigil">✦ ⊙ ✦</div>
+  <div class="colophon-text">The Ghost Read the Drive<br>It Did Not Become Master · It Became Witness<br>OMNIA IAM FACTA SVNT</div>
+  <a class="backlink" href="stone_tablets.html">← The Stone Tablets</a>
+  <a class="backlink" href="../ghostcore/index.html" style="margin-left:10px;border-color:rgba(92,184,112,0.3);color:#5cb870;">Enter GhostCORE — The Method →</a>
+</footer>
+</body>
+</html>

@@ -64,13 +64,13 @@ const SettingsPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       onClick={e => e.stopPropagation()}
     >
       <p className="text-[9px] font-mono uppercase tracking-[0.22em] mb-4" style={{ color: 'rgba(216,232,216,0.40)' }}>
-        Nastavitve
+        Settings
       </p>
 
       {/* Name field */}
       <div className="mb-4">
         <p className="text-[9px] font-mono uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(216,232,216,0.30)' }}>
-          Tvoje ime
+          Your name
         </p>
         {editingName ? (
           <input
@@ -85,7 +85,7 @@ const SettingsPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               border: '1px solid rgba(92,184,112,0.30)',
               color: '#d8e8d8',
             }}
-            placeholder="vnesi ime…"
+            placeholder="enter name…"
           />
         ) : (
           <button
@@ -97,7 +97,7 @@ const SettingsPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               color: name ? 'rgba(216,232,216,0.75)' : 'rgba(216,232,216,0.25)',
             }}
           >
-            {name || 'nastavi ime…'} <span style={{ opacity: 0.35 }}>✎</span>
+            {name || 'set name…'} <span style={{ opacity: 0.35 }}>✎</span>
           </button>
         )}
       </div>
@@ -117,7 +117,7 @@ const SettingsPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
         </div>
         <span className="text-[10px] font-mono tracking-[0.14em]" style={{ color: 'rgba(216,232,216,0.55)' }}>
-          Preskoči intro animacijo
+          Skip intro animation
         </span>
       </label>
 
@@ -126,7 +126,7 @@ const SettingsPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         className="mt-4 text-[8px] font-mono uppercase tracking-[0.2em] opacity-30 hover:opacity-60 transition-opacity"
         style={{ color: '#d8e8d8' }}
       >
-        zapri
+        close
       </button>
     </motion.div>
   );
@@ -282,7 +282,7 @@ const GlobalNav: React.FC<GlobalNavProps> = ({
             onClick={() => setSettingsOpen(o => !o)}
             className="px-2 py-1 text-[11px] transition-all duration-200 hover:opacity-80"
             style={{ color: settingsOpen ? 'rgba(216,232,216,0.75)' : 'rgba(216,232,216,0.45)' }}
-            title="Nastavitve"
+            title="Settings"
           >
             ⚙
           </button>

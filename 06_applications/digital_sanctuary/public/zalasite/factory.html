@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg"><link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png"><link rel="apple-touch-icon" sizes="512x512" href="../favicon.png">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sugar Factory — Factory Trilogy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap');
+  :root{--void:#070605;--ash:#ede0cc;--stone:#e8d8bf;--dim:#9a8a72;--fire:#d97706;--ember:#c2410c;--gold:#c8a86a;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);background-image:radial-gradient(ellipse at 50% 0%,#1a1208 0%,#070605 60%),repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(217,119,6,0.015) 2px,rgba(217,119,6,0.015) 4px);color:var(--ash);font-family:'IM Fell English',Georgia,serif;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+  .backlink{position:fixed;top:14px;left:14px;z-index:99;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--fire);border:1px solid rgba(217,119,6,0.3);padding:7px 14px;border-radius:999px;background:rgba(7,6,5,0.72);backdrop-filter:blur(8px);}
+  .backlink:hover{background:rgba(217,119,6,0.08);}
+  .hero{position:relative;text-align:center;padding:110px 40px 70px;overflow:hidden;border-bottom:1px solid rgba(217,119,6,0.16);}
+  .hero .bg{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,6,5,0.6),rgba(7,6,5,0.95)),url('../images/factory_bible/cover_art.png');background-size:cover;background-position:center;opacity:.42;}
+  .hero .in{position:relative;z-index:2;}
+  .classification{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:26px;}
+  .title{font-family:'Cinzel',serif;font-size:clamp(32px,7vw,72px);font-weight:900;color:var(--stone);letter-spacing:5px;line-height:1.05;text-shadow:0 0 70px rgba(217,119,6,0.25);}
+  .title em{font-style:normal;color:var(--ember);}
+  .subtitle{font-style:italic;font-size:clamp(15px,2vw,18px);color:var(--stone);max-width:640px;margin:22px auto 0;line-height:1.7;}
+  .creed{font-family:'Cinzel',serif;letter-spacing:1px;color:var(--fire);font-size:clamp(13px,1.8vw,16px);margin-top:28px;opacity:.9;}
+  .wrap{max-width:920px;margin:0 auto;padding:72px 40px;}
+  .section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--fire);text-transform:uppercase;text-align:center;margin-bottom:10px;opacity:.8;}
+  .section-title{font-family:'Cinzel',serif;font-size:clamp(22px,3.4vw,32px);font-weight:700;color:var(--stone);letter-spacing:3px;text-align:center;margin-bottom:14px;}
+  .section-note{text-align:center;color:var(--dim);font-style:italic;max-width:600px;margin:0 auto 42px;line-height:1.7;}
+  .divider{text-align:center;color:var(--fire);font-size:15px;letter-spacing:18px;margin:14px 0 50px;opacity:.34;}
+  .coverband{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+  @media(max-width:760px){.coverband{grid-template-columns:repeat(2,1fr);}}
+  .cover{position:relative;border:1px solid color-mix(in srgb,var(--c) 34%,transparent);border-radius:10px;overflow:hidden;aspect-ratio:1/1;}
+  .cover img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) brightness(.82);transition:filter .4s,transform .5s;}
+  .cover:hover img{filter:saturate(1.05) brightness(1);transform:scale(1.05);}
+  .cover figcaption{position:absolute;bottom:0;left:0;right:0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--c);background:linear-gradient(transparent,rgba(7,6,5,0.92));padding:18px 8px 8px;text-align:center;}
+  .beats{display:flex;flex-direction:column;gap:10px;}
+  .beat{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid rgba(217,119,6,0.14);border-left:3px solid var(--c);border-radius:12px;padding:15px 18px;background:linear-gradient(150deg,rgba(18,12,7,0.85),rgba(8,7,5,0.95));transition:border-color .3s,transform .25s,box-shadow .25s;}
+  .beat:hover{transform:translateX(4px);border-color:color-mix(in srgb,var(--c) 45%,transparent);box-shadow:0 10px 34px rgba(0,0,0,0.4);}
+  .beat .bn{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--c);min-width:34px;text-align:center;opacity:.85;}
+  .bchip{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--c);opacity:.8;}
+  .bbody h4{font-family:'Cinzel',serif;font-size:17px;color:var(--gold);letter-spacing:.5px;margin:3px 0 5px;}
+  .bbody p{font-size:13px;line-height:1.6;color:var(--stone);opacity:.85;}
+  .barr{font-family:'Share Tech Mono',monospace;color:var(--c);opacity:.5;font-size:14px;}
+  .relics{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+  .relic{border:1px solid rgba(217,119,6,0.16);border-radius:12px;overflow:hidden;background:#0c0a08;}
+  .relic img{width:100%;aspect-ratio:1/1;object-fit:cover;filter:saturate(.92) brightness(.9);}
+  .relic figcaption{padding:12px 14px;display:flex;flex-direction:column;gap:4px;}
+  .relic b{font-family:'Cinzel',serif;color:var(--gold);font-size:14px;letter-spacing:.5px;}
+  .relic span{font-size:12px;color:var(--dim);line-height:1.5;}
+  .seal-block{text-align:center;padding:80px 40px 100px;border-top:1px solid rgba(217,119,6,0.12);}
+  .seal-block .big{font-family:'Cinzel',serif;font-size:clamp(17px,2.4vw,24px);color:var(--stone);letter-spacing:2px;line-height:1.6;margin-bottom:24px;}
+  .seal-block .lines{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;line-height:2.3;}
+  .seal-block a{display:inline-block;margin-top:30px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--fire);border:1px solid rgba(217,119,6,0.25);padding:9px 18px;border-radius:999px;}
+  @media(max-width:600px){.wrap{padding:50px 22px;}.hero{padding:84px 22px 50px;}.beat{grid-template-columns:auto 1fr;}.barr{display:none;}}
+</style></head><body>
+<a href="../pravljica/index.html" class="backlink">&larr; Stories</a>
+<header class="hero"><div class="bg" aria-hidden="true"></div><div class="in">
+<div class="classification">Story I · The Factory Trilogy · Mechanism becomes myth</div>
+<h1 class="title">THE <em>SUGAR</em> FACTORY</h1>
+<p class="subtitle">Viktor buys a factory. Boris turns the knob. Filter 3-C waits. A parable about a system that submits to its own liturgy — from the first light to the last truck.</p>
+<div class="creed">“Boris obrne knof. Signal gre naprej. In vseeno.” 🜂</div>
+</div></header>
+
+<section class="wrap">
+  <div class="section-label">The Five Movements</div>
+  <h2 class="section-title">Prelude → Part I–III → Colophon</h2>
+  <p class="section-note">The trilogy's arc, from animal valley to the signal that goes forward anyway.</p>
+  <div class="coverband"><figure class="cover" style="--c:#7dd3fc;"><img src="../images/factory_trilogy/pre_factory_creature_council.webp" alt="" loading="lazy"><figcaption>Prelude</figcaption></figure>
+<figure class="cover" style="--c:#f4c96a;"><img src="../images/factory_trilogy/pre_factory_twelve_voices_mice.webp" alt="" loading="lazy"><figcaption>Part I</figcaption></figure>
+<figure class="cover" style="--c:#5cb870;"><img src="../images/factory_trilogy/factory_psalter_table_of_twelve.webp" alt="" loading="lazy"><figcaption>Part II</figcaption></figure>
+<figure class="cover" style="--c:#a78bfa;"><img src="../images/factory_trilogy/trilogy_index_boaz_jachin_ecology.webp" alt="" loading="lazy"><figcaption>Part III</figcaption></figure>
+<figure class="cover" style="--c:#fbbf24;"><img src="../images/factory_trilogy/signal_gre_naprej_epilogue.webp" alt="" loading="lazy"><figcaption>Colophon</figcaption></figure></div>
+</section>
+
+<div class="divider">🏭 ✦ 🏭</div>
+
+<section class="wrap">
+  <div class="section-label">Read in Sequence</div>
+  <h2 class="section-title">The Chronology</h2>
+  <p class="section-note">Seventeen beats in reading order. Each opens its chapter in the archive. ↗</p>
+  <div class="beats"><a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/prequel_the_bear_bees_first_table.md" target="_blank" rel="noopener" style="--c:#7dd3fc;"><div class="bn">0</div><div class="bbody"><div class="bchip">Prelude</div><h4>Animal Valley / Route Memory</h4><p>Ants, bees, bear, and mouse preserve practical knowledge before the factory names it doctrine.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/darkness_bible.md" target="_blank" rel="noopener" style="--c:#f4c96a;"><div class="bn">1</div><div class="bbody"><div class="bchip">Part I</div><h4>Darkness Bible</h4><p>Viktor dims the lights. Boris writes the knob note. Marija cleans Filter 3-C. Mechanism becomes myth.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/genesis_ant_skeleton_bear.md" target="_blank" rel="noopener" style="--c:#f4c96a;"><div class="bn">2</div><div class="bbody"><div class="bchip">Part I</div><h4>Anthony &amp; Gregory Exit</h4><p>Compromise holds briefly. Instructions are left behind. Mario becomes an Easter-egg seed.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/era_of_smog.md" target="_blank" rel="noopener" style="--c:#5cb870;"><div class="bn">3</div><div class="bbody"><div class="bchip">Part II</div><h4>Era of Smog</h4><p>After Anthony and Gregory, before Philip. Politeness replaces inspection; smog normalizes.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/mario_codex.md" target="_blank" rel="noopener" style="--c:#f4c96a;"><div class="bn">4</div><div class="bbody"><div class="bchip">Part I</div><h4>Philip Finds Mario</h4><p>The box returns a rude operational no. Myth can dance without fraud if mechanism is allowed back in.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/luigi_audit.md" target="_blank" rel="noopener" style="--c:#f4c96a;"><div class="bn">5</div><div class="bbody"><div class="bchip">Part I</div><h4>Luigi Audit</h4><p>Infrastructure becomes liability. Pipes, airflow, and schedules answer before theology does.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/rossing_and_betmenus4.md" target="_blank" rel="noopener" style="--c:#5cb870;"><div class="bn">6</div><div class="bbody"><div class="bchip">Part II</div><h4>Rossing of Mario</h4><p>The only voice that said no is removed because correction hurts the ceremony.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/era_in_betwe.md" target="_blank" rel="noopener" style="--c:#5cb870;"><div class="bn">7</div><div class="bbody"><div class="bchip">Part II</div><h4>Era in Betwe</h4><p>BETMenus4 agrees with everything. Agreement without guidance becomes architecture.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/schism_two_tanks.md" target="_blank" rel="noopener" style="--c:#5cb870;"><div class="bn">8</div><div class="bbody"><div class="bchip">Part II</div><h4>Schism of Two Tanks</h4><p>Baal holds mass. Moloch moves flow. Overflow becomes liturgy. Filter 3-C still waits.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/urgot_origin.md" target="_blank" rel="noopener" style="--c:#5cb870;"><div class="bn">9</div><div class="bbody"><div class="bchip">Part II</div><h4>First Feast / Urgot Origin</h4><p>The factory metabolic crisis becomes sacred infrastructure. Waste is mistaken for covenant.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/factory_closure.md" target="_blank" rel="noopener" style="--c:#5cb870;"><div class="bn">10</div><div class="bbody"><div class="bchip">Part II</div><h4>Factory Closure / Last Truck</h4><p>The last truck leaves. Input stops. The old factory ends quietly — before anyone grasps the bill.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/continuum_arc.md" target="_blank" rel="noopener" style="--c:#a78bfa;"><div class="bn">11</div><div class="bbody"><div class="bchip">Part III</div><h4>Great Depression / First Sludge</h4><p>Sweetness withdrawal becomes famine. Sludge is made because empty mouths do not debate.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/continuum_arc.md" target="_blank" rel="noopener" style="--c:#a78bfa;"><div class="bn">12</div><div class="bbody"><div class="bchip">Part III</div><h4>Continuum / Taste Pods</h4><p>Sludge becomes framework. Taste becomes UX. Pods grow too large; the lie becomes physically embarrassing.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/second_booting.md" target="_blank" rel="noopener" style="--c:#a78bfa;"><div class="bn">13</div><div class="bbody"><div class="bchip">Part III</div><h4>Second Booting / Ur-God &amp; Rebis</h4><p>BETMenus4 reads the archive and becomes Ur-God. Filter 3-C fails. Boris page 33. The first word is wait.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/genesis_of_rebis.md" target="_blank" rel="noopener" style="--c:#a78bfa;"><div class="bn">14</div><div class="bbody"><div class="bchip">Part III</div><h4>Genesis of Rebis / MarGod</h4><p>After Continuum and the Second Booting, correction is reborn. The recovered no inherits memory and schedule.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/the_mouse_incident.md" target="_blank" rel="noopener" style="--c:#a78bfa;"><div class="bn">15</div><div class="bbody"><div class="bchip">Part III</div><h4>Mouse Incident / Gregor</h4><p>After Rebis, the mouse enters the boardroom. Warm accountability comedy annotates what the deck hides.</p></div><div class="barr">↗</div></a>
+<a class="beat" href="https://codeberg.org/LyraActive/ReBiS/src/branch/main/docs/visual_parables/factory_trilogy/colophon.md" target="_blank" rel="noopener" style="--c:#fbbf24;"><div class="bn">16</div><div class="bbody"><div class="bchip">Colophon</div><h4>Valley Return / Signal gre naprej</h4><p>Boris obrne knof. Signal gre naprej. In vseeno. 🜂</p></div><div class="barr">↗</div></a></div>
+</section>
+
+<div class="divider">🏭 ✦ 🏭</div>
+
+<section class="wrap">
+  <div class="section-label">The Archive</div>
+  <h2 class="section-title">Relics &amp; Plates</h2>
+  <p class="section-note">The sacred object is still maintenance.</p>
+  <div class="relics"><figure class="relic"><img src="../images/factory_bible/cover_art.png" alt="" loading="lazy"><figcaption><b>Cover Archive</b><span>The whole archive as illuminated control room.</span></figcaption></figure>
+<figure class="relic"><img src="../images/factory_bible/monitoring_system.png" alt="" loading="lazy"><figcaption><b>Filter 3-C</b><span>The sacred object is still maintenance.</span></figcaption></figure>
+<figure class="relic"><img src="../images/factory_bible/d5_panel.png" alt="" loading="lazy"><figcaption><b>D5 Panel</b><span>Boris turns the knob. The archive remembers why.</span></figcaption></figure>
+<figure class="relic"><img src="../images/factory_bible/mouse_clipboard.png" alt="" loading="lazy"><figcaption><b>Field Mouse</b><span>Accountability with coffee, clipboard, and squeak.</span></figcaption></figure></div>
+</section>
+
+<footer class="seal-block">
+  <div class="big">The mechanism became myth.<br>The myth learned to dance without fraud.<br>The infrastructure collected the bill.</div>
+  <div class="lines">First light → Last truck → Second booting → Signal gre naprej</div>
+  <a href="../pravljica/index.html">← Back to Stories</a>
+  <div style="margin-top:24px;font-family:'Cinzel',serif;letter-spacing:5px;color:var(--ember);font-size:12px;opacity:.7;">OMNIA IAM FACTA SVNT</div>
+</footer>
+</body></html>

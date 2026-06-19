@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-06-14_175706",
+  "files": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "adbc59238c11943f064b4bbd0aa0d8690ca69466bcc2bcd1e589641cf6c3927a",
+      "bytes": 10167
+    },
+    {
+      "path": "src/components/HeroLanding.tsx",
+      "sha256": "76e3a3cf9de5d9b670ac3c8f0ff522a67f05bbd6db7be80c83a6c0f0644fc3b5",
+      "bytes": 21922
+    },
+    {
+      "path": "src/lib/themes.ts",
+      "sha256": "98bafb46f89b731f83c24b222be28c4969c91dceb48e1b0c78dc9e2663e19f44",
+      "bytes": 2180
+    }
+  ]
+}
