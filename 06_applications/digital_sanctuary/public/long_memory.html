@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17120d">
+  <meta name="description" content="The Puzzle of the Long Memory — interaktivni zgodovinski instrument.">
+  <title>The Puzzle of the Long Memory</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #e9dfc8;
+      --foreground: #15110d;
+      --card: #f8efdc;
+      --card-foreground: #15110d;
+      --popover: #f8efdc;
+      --popover-foreground: #15110d;
+      --primary: #211a12;
+      --primary-foreground: #fff5df;
+      --secondary: #dccbaa;
+      --secondary-foreground: #211a12;
+      --muted: #d8ceb9;
+      --muted-foreground: #655b4f;
+      --accent: #ebd49b;
+      --accent-foreground: #211a12;
+      --destructive: #962f2f;
+      --border: #b8a98d;
+      --input: #b8a98d;
+      --ring: #c89837;
+      --viz-series-1: #e0ad43;
+      --viz-series-2: #a9652c;
+      --viz-series-3: #9f4433;
+      --viz-series-4: #3a2c52;
+      --viz-series-5: #2f655c;
+      --viz-series-6: #76516a;
+      --font-size-base: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--background); }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--viz-series-1) 13%, transparent), transparent 32rem),
+        var(--background);
+      color: var(--foreground);
+      font: 400 var(--font-size-base)/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: max(1rem, env(safe-area-inset-top)) max(0.8rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(0.8rem, env(safe-area-inset-left));
+    }
+    button, select, input { font: inherit; }
+    a { color: inherit; text-underline-offset: 0.18em; }
+    .viz-controls, .viz-row, .viz-legend {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .viz-controls { align-items: end; }
+    .form-label {
+      display: grid;
+      min-width: min(100%, 11rem);
+      gap: 0.28rem;
+      color: var(--muted-foreground);
+      font-size: 0.82rem;
+    }
+    .form-select, .btn {
+      min-height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 0.65rem;
+      background: var(--card);
+      color: var(--card-foreground);
+    }
+    .form-select { width: 100%; padding: 0.55rem 2rem 0.55rem 0.7rem; }
+    .form-range { width: min(12rem, 100%); accent-color: var(--ring); }
+    .btn {
+      padding: 0.55rem 0.8rem;
+      cursor: pointer;
+      transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+    .btn:hover { border-color: var(--ring); transform: translateY(-1px); }
+    .btn:focus-visible, .form-select:focus-visible, .form-range:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--ring) 45%, transparent);
+      outline-offset: 2px;
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+    .btn-ghost { background: transparent; }
+    .card {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.9rem;
+      background: color-mix(in srgb, var(--card) 94%, transparent);
+      color: var(--card-foreground);
+      box-shadow: 0 0.7rem 2rem color-mix(in srgb, var(--foreground) 8%, transparent);
+    }
+    .viz-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.24rem 0.58rem;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--secondary-foreground);
+    }
+    .text-small { font-size: 0.82rem; }
+    .text-muted { color: var(--muted-foreground); }
+    .text-destructive { color: var(--destructive); }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    @media (max-width: 560px) {
+      main { padding-left: 0.55rem; padding-right: 0.55rem; }
+      .form-label { flex: 1 1 9rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+<div id="long-memory-puzzle">
+  <style>
+    #long-memory-puzzle {
+      --plm-void: color-mix(in srgb, var(--foreground) 92%, var(--viz-series-4) 8%);
+      --plm-void-soft: color-mix(in srgb, var(--foreground) 82%, var(--background));
+      --plm-ink: var(--background);
+      --plm-gold: var(--viz-series-1);
+      --plm-bronze: var(--viz-series-2);
+      --plm-ember: var(--viz-series-3);
+      --plm-ghost: color-mix(in srgb, var(--background) 58%, transparent);
+      color: var(--foreground);
+      width: 100%;
+    }
+
+    #long-memory-puzzle .plm-controls {
+      margin-bottom: 0.6rem;
+    }
+
+    #long-memory-puzzle .plm-engine {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.25rem 0 0.8rem;
+      color: var(--muted-foreground);
+    }
+
+    #long-memory-puzzle .plm-engine-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    #long-memory-puzzle .plm-portal {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--plm-gold) 32%, var(--border));
+      border-radius: 1.1rem;
+      color: var(--plm-ink);
+      background:
+        radial-gradient(circle at 50% 43%, color-mix(in srgb, var(--plm-gold) 12%, transparent), transparent 31%),
+        radial-gradient(circle at 16% 16%, color-mix(in srgb, var(--plm-bronze) 9%, transparent), transparent 28%),
+        linear-gradient(145deg, var(--plm-void-soft), var(--plm-void));
+      box-shadow:
+        0 1.4rem 3rem color-mix(in srgb, var(--foreground) 22%, transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--background) 9%, transparent);
+    }
+
+    #long-memory-puzzle .plm-portal::before,
+    #long-memory-puzzle .plm-portal::after {
+      position: absolute;
+      content: "";
+      pointer-events: none;
+      inset: 0;
+    }
+
+    #long-memory-puzzle .plm-portal::before {
+      opacity: 0.3;
+      background-image:
+        linear-gradient(color-mix(in srgb, var(--plm-ink) 6%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--plm-ink) 6%, transparent) 1px, transparent 1px);
+      background-size: 2.6rem 2.6rem;
+      -webkit-mask-image: radial-gradient(circle, transparent 8%, currentColor 78%);
+      mask-image: radial-gradient(circle, transparent 8%, currentColor 78%);
+    }
+
+    #long-memory-puzzle .plm-portal::after {
+      box-shadow: inset 0 0 6rem color-mix(in srgb, var(--plm-void) 78%, transparent);
+    }
+
+    #long-memory-puzzle .plm-hud,
+    #long-memory-puzzle .plm-inscription {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      padding: 0.75rem 1rem;
+      color: var(--plm-ghost);
+    }
+
+    #long-memory-puzzle .plm-hud {
+      border-bottom: 1px solid color-mix(in srgb, var(--plm-gold) 18%, transparent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #long-memory-puzzle .plm-hud-left,
+    #long-memory-puzzle .plm-hud-stats,
+    #long-memory-puzzle .plm-inscription-side {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem 0.8rem;
+    }
+
+    #long-memory-puzzle .plm-live-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: var(--plm-gold);
+      box-shadow: 0 0 1rem var(--plm-gold);
+      animation: plm-breathe 2.8s ease-in-out infinite;
+    }
+
+    #long-memory-puzzle .plm-hud-value {
+      color: var(--plm-ink);
+    }
+
+    #long-memory-puzzle .plm-stage {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    #long-memory-puzzle .plm-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      color: var(--plm-ink);
+      touch-action: none;
+    }
+
+    #long-memory-puzzle .plm-ornament {
+      fill: none;
+      stroke: color-mix(in srgb, var(--plm-gold) 25%, transparent);
+      stroke-width: 0.7;
+      pointer-events: none;
+    }
+
+    #long-memory-puzzle .plm-axis {
+      fill: none;
+      stroke: color-mix(in srgb, var(--plm-ink) 10%, transparent);
+      stroke-width: 0.55;
+      stroke-dasharray: 2 8;
+      pointer-events: none;
+    }
+
+    #long-memory-puzzle .plm-star {
+      fill: var(--plm-ink);
+      opacity: 0.26;
+      pointer-events: none;
+    }
+
+    #long-memory-puzzle .plm-sphere {
+      fill: color-mix(in srgb, var(--plm-bronze) 6%, transparent);
+      stroke: color-mix(in srgb, var(--plm-gold) 58%, transparent);
+      stroke-width: 1.4;
+      filter: url(#plm-soft-glow);
+    }
+
+    #long-memory-puzzle .plm-land {
+      fill: color-mix(in srgb, var(--plm-ink) 19%, transparent);
+      stroke: color-mix(in srgb, var(--plm-gold) 34%, transparent);
+      stroke-width: 0.5;
+    }
+
+    #long-memory-puzzle .plm-graticule {
+      fill: none;
+      stroke: color-mix(in srgb, var(--plm-ink) 13%, transparent);
+      stroke-width: 0.55;
+    }
+
+    #long-memory-puzzle .plm-geo-arc,
+    #long-memory-puzzle .plm-match-thread {
+      fill: none;
+      stroke: var(--viz-series-1);
+      stroke-linecap: round;
+      pointer-events: none;
+      filter: url(#plm-thread-glow);
+    }
+
+    #long-memory-puzzle .plm-geo-arc {
+      stroke-width: 1.35;
+      stroke-dasharray: 3 4;
+      opacity: 0.78;
+      animation: plm-drift 12s linear infinite;
+    }
+
+    #long-memory-puzzle .plm-match-thread {
+      stroke-width: 3;
+      opacity: 1;
+    }
+
+    #long-memory-puzzle .plm-ring-guide {
+      fill: none;
+      stroke: color-mix(in srgb, var(--plm-gold) 32%, transparent);
+      stroke-width: 0.8;
+      stroke-dasharray: 2 5;
+    }
+
+    #long-memory-puzzle .plm-segment {
+      stroke: color-mix(in srgb, var(--plm-gold) 26%, transparent);
+      stroke-width: 1.1;
+      cursor: pointer;
+      transition: opacity 180ms ease, transform 180ms ease, filter 180ms ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    #long-memory-puzzle .plm-segment:hover {
+      transform: scale(1.035);
+      filter: url(#plm-soft-glow);
+    }
+
+    #long-memory-puzzle .plm-segment.is-inactive {
+      fill: color-mix(in srgb, var(--plm-ink) 8%, transparent);
+      opacity: 0.38;
+    }
+
+    #long-memory-puzzle .plm-segment.is-active-layer {
+      fill: color-mix(in srgb, var(--plm-bronze) 25%, transparent);
+      opacity: 0.92;
+    }
+
+    #long-memory-puzzle .plm-segment.is-motif {
+      fill: color-mix(in srgb, var(--plm-gold) 38%, transparent);
+      opacity: 1;
+    }
+
+    #long-memory-puzzle .plm-segment.is-selected {
+      fill: color-mix(in srgb, var(--plm-gold) 72%, var(--plm-bronze));
+      stroke: var(--plm-gold);
+      stroke-width: 2;
+      opacity: 1;
+      filter: url(#plm-thread-glow);
+    }
+
+    #long-memory-puzzle .plm-label {
+      fill: var(--plm-ink);
+      font-size: calc(var(--font-size-base) * 0.72);
+      font-weight: 500;
+      pointer-events: none;
+      paint-order: stroke;
+      stroke: var(--plm-void);
+      stroke-width: 3px;
+      stroke-linejoin: round;
+    }
+
+    #long-memory-puzzle .plm-ring-label,
+    #long-memory-puzzle .plm-core-label {
+      fill: color-mix(in srgb, var(--plm-ink) 58%, transparent);
+      font-size: calc(var(--font-size-base) * 0.7);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      pointer-events: none;
+    }
+
+    #long-memory-puzzle .plm-point {
+      fill: var(--plm-void);
+      stroke: var(--plm-gold);
+      stroke-width: 1.5;
+      pointer-events: none;
+    }
+
+    #long-memory-puzzle .plm-point.is-selected {
+      fill: var(--plm-gold);
+      stroke: var(--plm-ink);
+      stroke-width: 2;
+      filter: url(#plm-thread-glow);
+    }
+
+    #long-memory-puzzle .plm-core-disc {
+      fill: color-mix(in srgb, var(--plm-void) 84%, transparent);
+      stroke: color-mix(in srgb, var(--plm-gold) 68%, transparent);
+      stroke-width: 1.3;
+      pointer-events: none;
+      filter: url(#plm-soft-glow);
+    }
+
+    #long-memory-puzzle .plm-core-glyph {
+      fill: var(--plm-gold);
+      font-size: calc(var(--font-size-base) * 1.35);
+      pointer-events: none;
+      filter: url(#plm-thread-glow);
+    }
+
+    #long-memory-puzzle .plm-detail {
+      margin-top: 0.75rem;
+    }
+
+    #long-memory-puzzle .plm-detail-head {
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    #long-memory-puzzle .plm-detail-copy {
+      margin: 0.55rem 0;
+    }
+
+    #long-memory-puzzle .plm-detail-kicker {
+      margin-bottom: 0.25rem;
+      color: var(--muted-foreground);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #long-memory-puzzle .plm-detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      align-items: center;
+    }
+
+    #long-memory-puzzle .plm-match-list {
+      margin-top: 0.65rem;
+      min-height: 1.5rem;
+    }
+
+    #long-memory-puzzle .plm-swatch {
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 999px;
+      background: var(--viz-series-1);
+      flex: 0 0 auto;
+      box-shadow: 0 0 0.75rem color-mix(in srgb, var(--viz-series-1) 62%, transparent);
+    }
+
+    #long-memory-puzzle .plm-evidence-axis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.65rem;
+    }
+
+    #long-memory-puzzle .plm-evidence-node {
+      padding: 0.24rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted-foreground);
+    }
+
+    #long-memory-puzzle .plm-evidence-node.is-live {
+      border-color: var(--viz-series-1);
+      color: var(--foreground);
+      background: color-mix(in srgb, var(--viz-series-1) 12%, transparent);
+    }
+
+    #long-memory-puzzle .plm-inscription {
+      border-top: 1px solid color-mix(in srgb, var(--plm-gold) 18%, transparent);
+      font-style: italic;
+    }
+
+    #long-memory-puzzle .plm-inscription strong {
+      color: var(--plm-ink);
+      font-style: normal;
+      letter-spacing: 0.05em;
+    }
+
+    #long-memory-puzzle .plm-status {
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 520px) {
+      #long-memory-puzzle .plm-label {
+        font-size: calc(var(--font-size-base) * 0.62);
+      }
+
+      #long-memory-puzzle .plm-engine {
+        justify-content: flex-start;
+      }
+
+      #long-memory-puzzle .plm-hud,
+      #long-memory-puzzle .plm-inscription {
+        padding: 0.65rem 0.75rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #long-memory-puzzle .plm-segment,
+      #long-memory-puzzle .plm-live-dot,
+      #long-memory-puzzle .plm-geo-arc {
+        transition: none;
+        animation: none;
+      }
+    }
+
+    @keyframes plm-breathe {
+      0%, 100% { opacity: 0.48; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.16); }
+    }
+
+    @keyframes plm-drift {
+      to { stroke-dashoffset: -56; }
+    }
+  </style>
+
+  <h2 class="sr-only">Vrtljiva sestavljanka civilizacijskih vzorcev</h2>
+
+  <div class="viz-controls plm-controls" aria-label="Kontrole sestavljanke">
+    <label class="form-label" for="plm-civilization">
+      Civilizacija
+      <select class="form-select" id="plm-civilization"></select>
+    </label>
+
+    <label class="form-label" for="plm-motif">
+      Motivni filter
+      <select class="form-select" id="plm-motif"></select>
+    </label>
+
+    <label class="form-label" for="plm-layer">
+      Aktivni krog: <span id="plm-layer-value">I</span>
+      <input class="form-range" id="plm-layer" type="range" min="1" max="2" step="1" value="1">
+    </label>
+
+    <div class="viz-row" aria-label="Obraz izbranega kosa">
+      <button class="btn" type="button" data-face="myth" aria-pressed="false">Mit</button>
+      <button class="btn btn-primary" type="button" data-face="mechanism" aria-pressed="true">Mehanizem</button>
+      <button class="btn" type="button" data-face="consequence" aria-pressed="false">Posledica</button>
+    </div>
+
+    <div class="viz-row" aria-label="Vrtenje aktivnega kroga">
+      <button class="btn" id="plm-rotate-back" type="button">Zavrti nazaj</button>
+      <button class="btn" id="plm-rotate-forward" type="button">Zavrti naprej</button>
+    </div>
+  </div>
+
+  <div class="plm-engine text-small" aria-label="Privzeta hipoteza osrednjega motorja">
+    <span class="viz-badge">Hipoteza, ne zakon</span>
+    <span class="plm-engine-step">Energija <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">presežek <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">koordinacija <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">hierarhija <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">legitimnost <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">zapis/procedura <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">togost <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">motnja <span aria-hidden="true">→</span></span>
+    <span class="plm-engine-step">prilagoditev ali fragmentacija</span>
+  </div>
+
+  <div class="plm-portal">
+    <div class="plm-hud text-small" aria-hidden="true">
+      <div class="plm-hud-left">
+        <span class="plm-live-dot"></span>
+        <span>Long-memory instrument</span>
+        <span>·</span>
+        <span class="plm-hud-value" id="plm-hud-mode">Mehanizem</span>
+      </div>
+      <div class="plm-hud-stats">
+        <span><span class="plm-hud-value" id="plm-hud-nodes">12</span> vozlišč</span>
+        <span><span class="plm-hud-value">9</span> motivov</span>
+        <span><span class="plm-hud-value" id="plm-hud-threads">0</span> zlatih niti</span>
+      </div>
+    </div>
+
+    <div class="plm-stage">
+      <svg class="plm-svg" id="plm-svg" viewBox="0 0 900 720" role="img" aria-labelledby="plm-svg-title plm-svg-desc">
+        <title id="plm-svg-title">Puzzle of the Long Memory</title>
+        <desc id="plm-svg-desc">Vrtljiv globus obdaja dvoje koncentričnih časovnih obročev. Segmenti prikazujejo zgodnje urbane sisteme in bronastodobne mreže; zlate niti označujejo poravnane strukturne motive.</desc>
+        <defs>
+          <filter id="plm-soft-glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
+            <feMerge>
+              <feMergeNode in="blur"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+          </filter>
+          <filter id="plm-thread-glow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="4" result="wide"></feGaussianBlur>
+            <feGaussianBlur stdDeviation="1.4" result="tight"></feGaussianBlur>
+            <feMerge>
+              <feMergeNode in="wide"></feMergeNode>
+              <feMergeNode in="tight"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+          </filter>
+        </defs>
+        <g id="plm-atmosphere"></g>
+        <g id="plm-ornaments">
+          <circle class="plm-ornament" cx="450" cy="360" r="324"></circle>
+          <circle class="plm-ornament" cx="450" cy="360" r="336"></circle>
+          <path class="plm-axis" d="M 94 360 H 806 M 450 4 V 716"></path>
+          <path class="plm-axis" d="M 198 108 L 702 612 M 702 108 L 198 612"></path>
+        </g>
+        <g id="plm-map-base">
+          <path class="plm-sphere" id="plm-sphere"></path>
+          <path class="plm-graticule" id="plm-graticule"></path>
+          <g id="plm-countries"></g>
+        </g>
+        <g id="plm-geo-arcs"></g>
+        <g id="plm-points"></g>
+        <g id="plm-guides"></g>
+        <g id="plm-match-threads"></g>
+        <g id="plm-rings"></g>
+        <g id="plm-labels"></g>
+        <g id="plm-core"></g>
+      </svg>
+    </div>
+
+    <div class="plm-inscription text-small">
+      <strong>EVERY SEWER TELLS ANOTHER STORY.</strong>
+      <div class="plm-inscription-side">
+        <span id="plm-persistence">Zapis preživi avtorja.</span>
+        <span>↺ povleci globus · zavrti obroče</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card plm-detail" id="plm-detail" aria-live="polite">
+    <div class="viz-row plm-detail-head">
+      <div>
+        <div class="text-small plm-detail-kicker">Izbrani zgodovinski kos</div>
+        <strong id="plm-detail-name"></strong>
+        <div class="text-small text-muted" id="plm-detail-period"></div>
+      </div>
+      <span class="viz-badge" id="plm-detail-face"></span>
+    </div>
+    <p class="plm-detail-copy" id="plm-detail-copy"></p>
+    <div class="plm-detail-meta text-small">
+      <span id="plm-detail-evidence"></span>
+      <span id="plm-detail-motifs"></span>
+      <span id="plm-detail-sources"></span>
+    </div>
+    <div class="plm-evidence-axis text-small" aria-label="Dokazni položaj izbranega kosa">
+      <span class="plm-evidence-node" data-evidence-node="fact">FACT</span>
+      <span class="plm-evidence-node" data-evidence-node="inference">INFERENCE</span>
+      <span class="plm-evidence-node" data-evidence-node="unresolved">UNRESOLVED</span>
+      <span class="plm-evidence-node" data-evidence-node="comparison">COMPARISON</span>
+    </div>
+  </div>
+
+  <div class="viz-legend plm-match-list text-small" id="plm-matches" aria-live="polite"></div>
+  <div class="text-small text-destructive plm-status" id="plm-status" role="status"></div>
+
+  <script type="module">
+    const root = document.getElementById("long-memory-puzzle");
+    const svg = root.querySelector("#plm-svg");
+    const NS = "http://www.w3.org/2000/svg";
+
+    const MOTIFS = {
+      record: { label: "Zapis in dolg", short: "zapis", glyph: "▤" },
+      water: { label: "Voda in hidravlika", short: "voda", glyph: "≋" },
+      standard: { label: "Standardizacija", short: "standard", glyph: "▦" },
+      ritual: { label: "Ritual in predniki", short: "ritual", glyph: "◉" },
+      monument: { label: "Monumentalnost", short: "monument", glyph: "△" },
+      exchange: { label: "Izmenjava in diplomacija", short: "izmenjava", glyph: "⇄" },
+      technology: { label: "Nadzorovana tehnologija", short: "tehnologija", glyph: "⚙" },
+      distributed: { label: "Razpršena koordinacija", short: "razpršeno", glyph: "⌘" },
+      procedure: { label: "Institucionalna vztrajnost", short: "procedura", glyph: "∞" }
+    };
+
+    const CIVILIZATIONS = [
+      {
+        id: "uruk",
+        name: "Uruk",
+        shortName: "Uruk",
+        layer: 1,
+        slot: 0,
+        period: "ok. 3500–3000 pr. n. št. · Mezopotamija",
+        coords: [45.64, 31.32],
+        claimStatus: ["fact", "inference"],
+        motifs: ["record", "ritual", "procedure"],
+        myth: "Inana in mestni ritual sta dajala skupnosti kozmični in politični jezik; poznejši kraljevski spomin je Uruk vezal tudi na Gilgameša.",
+        mechanism: "Monumentalne ustanove, skladiščenje in upravljanje presežkov so zahtevali pečate, števne sisteme in proto-klinopis. Najzgodnejše pisanje je močno administrativno, ne zgolj literarno.",
+        consequence: "Pisava ni samo zabeležila mesta: upravne kategorije je naredila prenosljive. Poznejša literatura je zrasla na mediju, ki je že znal šteti blago, delo in obveznosti.",
+        evidence: "Dobro podprto; razmerje med templjem, oblastjo in gospodarstvom ostaja predmet razprave.",
+        sources: [
+          { label: "Met Museum", url: "https://www.metmuseum.org/essays/uruk-the-first-city" }
+        ]
+      },
+      {
+        id: "indus",
+        name: "Indska mesta",
+        shortName: "Indus",
+        layer: 1,
+        slot: 2,
+        period: "ok. 2600–1900 pr. n. št. · Harappa/Mohenjo-daro",
+        coords: [68.14, 27.33],
+        claimStatus: ["fact", "unresolved"],
+        motifs: ["water", "standard", "distributed"],
+        myth: "Neznan. Indska pisava ni dešifrirana, zato je pošten obraz mita prazno polje, ne dovoljenje za izmišljanje kraljev ali vere.",
+        mechanism: "Načrtovana urbana območja, opečna gradnja, uteži in izjemna vodna infrastruktura kažejo široko koordinacijo. Odsotnost očitne kraljeve palače pa ne dokazuje odsotnosti oblasti.",
+        consequence: "Po približno 1900 pr. n. št. se velika mesta preoblikujejo in prebivalstvo prerazporeja. Hidroklima in rečne spremembe so pomembne, vendar en sam vzrok ni dokazan.",
+        evidence: "Infrastruktura je dobro potrjena; politična ureditev in vzroki preobrazbe ostajajo odprti.",
+        sources: [
+          { label: "UNESCO", url: "https://whc.unesco.org/en/list/138/" },
+          { label: "Communications Earth & Environment", url: "https://www.nature.com/articles/s43247-025-02901-1" }
+        ]
+      },
+      {
+        id: "old-egypt",
+        name: "Egipt — Staro kraljestvo",
+        shortName: "Egipt I",
+        layer: 1,
+        slot: 4,
+        period: "ok. 2686–2181 pr. n. št. · Nil/Giza",
+        coords: [31.13, 29.98],
+        claimStatus: ["fact", "inference"],
+        motifs: ["water", "ritual", "monument", "procedure"],
+        myth: "Faraonska kraljevskost je red države povezovala z maat in kozmično stabilnostjo. Mit ni bil samo reklama; strukturiral je dolžnosti, pravo in ritual.",
+        mechanism: "Nil, transport, skladiščenje, delovne ekipe, obroki in upravna evidenca so monumentalne projekte naredili izvedljive. Piramide niso razložljive z enim samim klišejem o sužnjih ali sezonskih prostovoljcih.",
+        consequence: "Zmanjšan pretok Nila okoli dogodka 4,2 ka je verjetno povečal pritisk, toda politične in regionalne spremembe niso enačba z enim vzrokom. Egipt se je fragmentiral in znova centraliziral.",
+        evidence: "Močna materialna podlaga; neposredna enačba suša = propad je preveč čista.",
+        sources: [
+          { label: "PNAS", url: "https://www.pnas.org/doi/10.1073/pnas.2212483119" }
+        ]
+      },
+      {
+        id: "caral",
+        name: "Caral–Supe",
+        shortName: "Caral",
+        layer: 1,
+        slot: 5,
+        period: "ok. 3000–1800 pr. n. št. · Peru",
+        coords: [-77.52, -10.89],
+        claimStatus: ["fact", "inference"],
+        motifs: ["monument", "exchange", "distributed"],
+        myth: "Brez dešifriranega pisnega samoprikaza. Monumenti so ostali, glas njihovih graditeljev pa večinoma ne.",
+        mechanism: "Platformne gomile, krožna dvorišča, namakanje ter izmenjava med obalo in dolino kažejo kompleksno organizacijo, povezano tudi z bombažem in morskimi viri.",
+        consequence: "Malo dokazov za vojno ni isto kot dokaz družbe brez prisile. Caral je močan kontraprimer preprosti tezi, da mora urbanost vedno nastati iz vojaške države.",
+        evidence: "Monumentalna organizacija je potrjena; stopnja hierarhije in prisile zahteva previdnost.",
+        sources: [
+          { label: "UNESCO", url: "https://whc.unesco.org/en/list/1269/" }
+        ]
+      },
+      {
+        id: "erlitou",
+        name: "Erlitou",
+        shortName: "Erlitou",
+        layer: 1,
+        slot: 6,
+        period: "ok. 1900–1500 pr. n. št. · dolina Yiluo",
+        coords: [112.7, 34.7],
+        claimStatus: ["fact", "unresolved"],
+        motifs: ["ritual", "monument", "technology"],
+        myth: "Povezava z dinastijo Xia je vplivna, vendar brez sodobnega pisnega dokaza ostaja identifikacija sporna.",
+        mechanism: "Palacijalno jedro, ceste, specializirana proizvodnja in zgodnje bronaste ritualne posode kažejo koncentracijo obrti ter političnega rituala.",
+        consequence: "Erlitou pokaže, kako bron in obred skupaj organizirata avtoriteto. Ne dokazuje pa avtomatsko poznejše doktrine Mandata neba ali ene neprekinjene države.",
+        evidence: "Arheološki kompleks je dobro podprt; dinastično ime in natančna politična oblika sta sporna.",
+        sources: [
+          { label: "Yale eHRAF", url: "https://ehrafarchaeology.yale.edu/document?id=af52-001" }
+        ]
+      },
+      {
+        id: "catalhoyuk",
+        name: "Çatalhöyük",
+        shortName: "Çatalhöyük",
+        layer: 1,
+        slot: 7,
+        period: "ok. 7400–6200 pr. n. št. · Anatolija",
+        coords: [32.83, 37.67],
+        claimStatus: ["fact", "inference"],
+        motifs: ["ritual", "distributed"],
+        myth: "Pokopi in simbolika so bili vgrajeni v hiše. Domače, ritualno in vsakdanje niso bili ločene stavbe z današnjimi nalepkami.",
+        mechanism: "Gosto naselje brez ulic, s strešnimi vhodi in proizvodnjo razpršeno po hišah. Ni jasnih velikih palač, javnih templjev ali specializiranega mestnega središča.",
+        consequence: "Primer razbije enačbo gosto naselje = država = kralj. Odsotnost monumentalnega centra pa še vedno ni dokaz popolne družbene enakosti.",
+        evidence: "Prostorska ureditev je dobro potrjena; družbena razmerja se sklepajo posredno.",
+        sources: [
+          { label: "UNESCO/ICOMOS", url: "https://whc.unesco.org/document/152590" }
+        ]
+      },
+      {
+        id: "mycenae",
+        name: "Mikenska palačna središča",
+        shortName: "Mikene",
+        layer: 2,
+        slot: 1,
+        period: "ok. 1600–1100 pr. n. št. · Egej",
+        coords: [22.75, 37.73],
+        claimStatus: ["fact", "unresolved"],
+        motifs: ["record", "technology", "procedure"],
+        myth: "Poznejši epi so palačne svetove pretvorili v junaško preteklost. Arheološki Mikenci niso preprosto Homerjeva zgodba v kamnu.",
+        mechanism: "Utrjena palačna središča, skladišča, delavnice in Linear B kot upravna pisava kažejo gosto redistribucijsko organizacijo.",
+        consequence: "Več palačnih sistemov je okoli 1200 pr. n. št. propadlo ali se preoblikovalo. Vzroki so večkratni; ljudje, kraji in obrti niso izginili skupaj z uradi.",
+        evidence: "Palačni mehanizem je dobro podprt; enoten scenarij kolapsa ni.",
+        sources: [
+          { label: "Met Museum", url: "https://www.metmuseum.org/essays/mycenaean-civilization" },
+          { label: "Environmental Research Letters", url: "https://pure.tudelft.nl/ws/portalfiles/portal/176155047/1-s2.0-S0959378023001589-main.pdf" }
+        ]
+      },
+      {
+        id: "hattusa",
+        name: "Hattuša / Hetitska država",
+        shortName: "Hattuša",
+        layer: 2,
+        slot: 2,
+        period: "ok. 1650–1200 pr. n. št. · Anatolija",
+        coords: [34.61, 40.02],
+        claimStatus: ["fact", "unresolved"],
+        motifs: ["record", "exchange", "technology", "procedure"],
+        myth: "Kraljevski ritual in pogodbe so oblast prikazovali kot urejen, božansko umeščen red.",
+        mechanism: "Arhivi, diplomatske pogodbe, obdavčenje, žito in dolge surovinske poti so državo povezovali z večjim vzhodnosredozemskim sistemom.",
+        consequence: "Kraljeva uprava je Hattušo verjetno zapustila pred poznejšim požigom. Hetitska država je razpadla, vendar so regionalne skupnosti in nasledstvene politične oblike nadaljevale.",
+        evidence: "Opustitev upravnega središča je dobro podprta; kombinacija vzrokov ostaja sporna.",
+        sources: [
+          { label: "Cambridge", url: "https://www.cambridge.org/core/journals/urban-history/article/tale-of-three-cities-urban-and-cultural-resilience-and-heritage-between-the-late-bronze-age-and-early-iron-age-in-the-eastern-mediterranean/6B915467D8A53BFD0A8C1D4580E5316E" }
+        ]
+      },
+      {
+        id: "ugarit",
+        name: "Ugarit",
+        shortName: "Ugarit",
+        layer: 2,
+        slot: 3,
+        period: "pozno 2. tisočletje–ok. 1190 pr. n. št. · Levant",
+        coords: [35.78, 35.6],
+        claimStatus: ["fact", "unresolved"],
+        motifs: ["record", "exchange", "procedure"],
+        myth: "Dvor, lokalni bogovi in mednarodni status so pristanišče umeščali v elitni svet bronastodobnih kraljestev.",
+        mechanism: "Pristanišče, pisemski arhivi, več pisav in odvisnost od diplomatskih ter trgovskih povezav so Ugarit naredili močan in izpostavljen mrežni vozel.",
+        consequence: "Mesto je bilo nasilno uničeno in ni bilo preprosto obnovljeno kot isto kraljestvo. Pisma kažejo krizo, ne pa enega zanesljivo identificiranega napadalca ali edinega vzroka.",
+        evidence: "Uničenje in arhivi so potrjeni; identiteta napadalcev ter natančna veriga dogodkov ostajata odprti.",
+        sources: [
+          { label: "Archaeology Magazine", url: "https://archaeology.org/issues/july-august-2021/features/ugarit-bronze-age-archive/" }
+        ]
+      },
+      {
+        id: "new-egypt",
+        name: "Egipt — Novo kraljestvo",
+        shortName: "Egipt II",
+        layer: 2,
+        slot: 4,
+        period: "ok. 1550–1070 pr. n. št. · Nil/Vzhodno Sredozemlje",
+        coords: [32.64, 25.72],
+        claimStatus: ["fact", "inference"],
+        motifs: ["water", "ritual", "exchange", "procedure"],
+        myth: "Faraonski red je še vedno govoril jezik kozmične stabilnosti, vendar je imperij deloval v gosto prepletenem svetu različnih jezikov, dvorov in vazalov.",
+        mechanism: "Nil, davki, templji, vojska in mednarodna diplomacija so povezovali notranjo državo z Levantom, Nubijo in pomorskimi trgovskimi potmi.",
+        consequence: "Egipt ni doživel enakega zloma kot Hattuša ali Ugarit. Preživel je krizo okoli 1200 pr. n. št., nato pa skozi daljše procese izgubljal imperialno kohezijo.",
+        evidence: "Kontinuiteta je jasna; izraz »bronastodobni kolaps« ne opisuje vseh regij enako.",
+        sources: [
+          { label: "Cambridge", url: "https://www.cambridge.org/core/journals/urban-history/article/tale-of-three-cities-urban-and-cultural-resilience-and-heritage-between-the-late-bronze-age-and-early-iron-age-in-the-eastern-mediterranean/6B915467D8A53BFD0A8C1D4580E5316E" }
+        ]
+      },
+      {
+        id: "alashiya",
+        name: "Alašija / Ciper",
+        shortName: "Alašija",
+        layer: 2,
+        slot: 5,
+        period: "2. tisočletje pr. n. št. · vzhodno Sredozemlje",
+        coords: [33.4, 35.1],
+        claimStatus: ["fact", "unresolved"],
+        motifs: ["exchange", "technology"],
+        myth: "V diplomatskih pismih Alašija nastopa kot kraljestvo med kraljestvi; njena natančna geografija se večinoma povezuje s Ciprom, vendar identifikacija ni matematična gotovost.",
+        mechanism: "Ciprski baker in pomorske poti so bili ključni za bronasto ekonomijo, ki je morala povezovati oddaljene vire bakra, kositra, hrane in prestiža.",
+        consequence: "Motnje niso pomenile izginotja otoka, ampak preoblikovanje naselij, trgovskih tokov in političnih središč. Mreža je spremenila obliko.",
+        evidence: "Vloga bakra je dobro podprta; enačenje vseh besedilnih omemb Alašije z eno točko zahteva zadržek.",
+        sources: [
+          { label: "Cambridge", url: "https://resolve.cambridge.org/core/services/aop-cambridge-core/content/view/34037124AA21A0F1AEDEC0DCF086B22F/9781108340946c4_p87-112_CBO.pdf/rise_of_bronze_age_peripheries_and_the_expansion_of_international_trade_19501100_bc.pdf" }
+        ]
+      },
+      {
+        id: "shang",
+        name: "Pozni Shang / Anyang",
+        shortName: "Shang",
+        layer: 2,
+        slot: 7,
+        period: "ok. 1250–1046 pr. n. št. · severna Kitajska",
+        coords: [114.3, 36.1],
+        claimStatus: ["fact", "comparison"],
+        motifs: ["record", "ritual", "technology", "procedure"],
+        myth: "Kraljevsko vedeževanje je odnos s predniki in božanskimi silami spreminjalo v zapisano politično prakso.",
+        mechanism: "Orakelske kosti, bronaste delavnice, žrtvovanje in kraljevsko središče kažejo tesno povezavo med zapisom, ritualom in oblastjo.",
+        consequence: "Shang je padel pod Zhou, toda tehnologije, pisanje in politični ritual niso izginili. To je vzporedna zgodovina, ne oddaljena veja istega sredozemskega kolapsa.",
+        evidence: "Pisni in arheološki dokazi so močni; povezava z zahodno bronasto mrežo je primerjava, ne neposredna kavzalna nit.",
+        sources: [
+          { label: "Smithsonian", url: "https://asia-archive.si.edu/learn/for-educators/teaching-china-with-the-smithsonian/explore-by-dynasty/shang-dynasty-2/" }
+        ]
+      }
+    ];
+
+    const LAYERS = {
+      1: { roman: "I", label: "Zgodnje urbane in pred-državne poravnave", inner: 214, outer: 250 },
+      2: { roman: "II", label: "Bronastodobne mreže", inner: 270, outer: 306 }
+    };
+
+    const state = {
+      selectedId: "uruk",
+      activeLayer: 1,
+      activeMotif: "all",
+      face: "mechanism",
+      rotations: { 1: 0, 2: 0 },
+      globeRotation: [-18, -18]
+    };
+
+    const center = { x: 450, y: 360 };
+    let geo = null;
+    let worldFeatures = [];
+    let projection = null;
+    let path = null;
+
+    const civilizationSelect = root.querySelector("#plm-civilization");
+    const motifSelect = root.querySelector("#plm-motif");
+    const layerInput = root.querySelector("#plm-layer");
+    const layerValue = root.querySelector("#plm-layer-value");
+    const detailName = root.querySelector("#plm-detail-name");
+    const detailPeriod = root.querySelector("#plm-detail-period");
+    const detailFace = root.querySelector("#plm-detail-face");
+    const detailCopy = root.querySelector("#plm-detail-copy");
+    const detailEvidence = root.querySelector("#plm-detail-evidence");
+    const detailMotifs = root.querySelector("#plm-detail-motifs");
+    const detailSources = root.querySelector("#plm-detail-sources");
+    const matchesBox = root.querySelector("#plm-matches");
+    const statusBox = root.querySelector("#plm-status");
+    const hudMode = root.querySelector("#plm-hud-mode");
+    const hudThreads = root.querySelector("#plm-hud-threads");
+    const persistenceBox = root.querySelector("#plm-persistence");
+    const evidenceNodes = [...root.querySelectorAll("[data-evidence-node]")];
+
+    function svgElement(tag, attrs = {}) {
+      const element = document.createElementNS(NS, tag);
+      Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, String(value)));
+      return element;
+    }
+
+    function clear(element) {
+      while (element.firstChild) element.removeChild(element.firstChild);
+    }
+
+    function renderAtmosphere() {
+      const atmosphere = root.querySelector("#plm-atmosphere");
+      clear(atmosphere);
+
+      Array.from({ length: 72 }, (_, index) => {
+        const angle = index * 5;
+        const inner = polar(index % 6 === 0 ? 328 : 332, angle);
+        const outer = polar(index % 6 === 0 ? 344 : 339, angle);
+        atmosphere.appendChild(svgElement("line", {
+          class: "plm-ornament",
+          x1: inner.x,
+          y1: inner.y,
+          x2: outer.x,
+          y2: outer.y
+        }));
+      });
+
+      Array.from({ length: 82 }, (_, index) => {
+        const x = 22 + ((index * 137.5) % 856);
+        const y = 18 + ((index * 83.7) % 684);
+        const distance = Math.hypot(x - center.x, y - center.y);
+        if (distance < 178 || distance > 345) return;
+        atmosphere.appendChild(svgElement("circle", {
+          class: "plm-star",
+          cx: x,
+          cy: y,
+          r: index % 11 === 0 ? 1.7 : index % 4 === 0 ? 1.05 : 0.65
+        }));
+      });
+    }
+
+    function polar(radius, degrees) {
+      const radians = degrees * Math.PI / 180;
+      return {
+        x: center.x + radius * Math.cos(radians),
+        y: center.y + radius * Math.sin(radians)
+      };
+    }
+
+    function ringSegmentPath(innerRadius, outerRadius, startAngle, endAngle) {
+      const a = polar(outerRadius, startAngle);
+      const b = polar(outerRadius, endAngle);
+      const c = polar(innerRadius, endAngle);
+      const d = polar(innerRadius, startAngle);
+      const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+      return [
+        `M ${a.x} ${a.y}`,
+        `A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${b.x} ${b.y}`,
+        `L ${c.x} ${c.y}`,
+        `A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${d.x} ${d.y}`,
+        "Z"
+      ].join(" ");
+    }
+
+    function effectiveSlot(civilization) {
+      return (civilization.slot + state.rotations[civilization.layer] + 8) % 8;
+    }
+
+    function slotAngle(slot) {
+      return -90 + slot * 45;
+    }
+
+    function selectedCivilization() {
+      return CIVILIZATIONS.find(item => item.id === state.selectedId) || CIVILIZATIONS[0];
+    }
+
+    function faceLabel(face) {
+      return face === "myth" ? "Mit" : face === "mechanism" ? "Mehanizem" : "Posledica";
+    }
+
+    function sharedMotifs(a, b) {
+      const shared = a.motifs.filter(motif => b.motifs.includes(motif));
+      return state.activeMotif === "all" ? shared : shared.filter(motif => motif === state.activeMotif);
+    }
+
+    function populateControls() {
+      CIVILIZATIONS.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = `${LAYERS[item.layer].roman} · ${item.name}`;
+        civilizationSelect.appendChild(option);
+      });
+      civilizationSelect.value = state.selectedId;
+
+      const allOption = document.createElement("option");
+      allOption.value = "all";
+      allOption.textContent = "Vsi motivi";
+      motifSelect.appendChild(allOption);
+      Object.entries(MOTIFS).forEach(([id, motif]) => {
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = motif.label;
+        motifSelect.appendChild(option);
+      });
+      motifSelect.value = state.activeMotif;
+    }
+
+    function renderGuides() {
+      const guides = root.querySelector("#plm-guides");
+      clear(guides);
+
+      Object.entries(LAYERS).forEach(([layerId, layer]) => {
+        const radius = (layer.inner + layer.outer) / 2;
+        const guide = svgElement("circle", {
+          class: "plm-ring-guide",
+          cx: center.x,
+          cy: center.y,
+          r: radius
+        });
+        guides.appendChild(guide);
+
+        const label = svgElement("text", {
+          class: "plm-ring-label",
+          x: center.x,
+          y: center.y - layer.outer - 9,
+          "text-anchor": "middle"
+        });
+        label.textContent = `KROG ${LAYERS[layerId].roman}`;
+        guides.appendChild(label);
+      });
+    }
+
+    function renderRings() {
+      const rings = root.querySelector("#plm-rings");
+      const labels = root.querySelector("#plm-labels");
+      clear(rings);
+      clear(labels);
+
+      CIVILIZATIONS.forEach(item => {
+        const layer = LAYERS[item.layer];
+        const slot = effectiveSlot(item);
+        const middleAngle = slotAngle(slot);
+        const gap = 2.2;
+        const startAngle = middleAngle - 22.5 + gap;
+        const endAngle = middleAngle + 22.5 - gap;
+        const segment = svgElement("path", {
+          class: segmentClass(item),
+          d: ringSegmentPath(layer.inner, layer.outer, startAngle, endAngle),
+          "data-id": item.id
+        });
+        const title = svgElement("title");
+        title.textContent = `${item.name}: ${item.period}`;
+        segment.appendChild(title);
+        segment.addEventListener("click", () => selectCivilization(item.id, true));
+        rings.appendChild(segment);
+
+        const labelRadius = item.layer === 1 ? layer.inner + 18 : layer.outer + 20;
+        const labelPoint = polar(labelRadius, middleAngle);
+        const label = svgElement("text", {
+          class: "plm-label",
+          x: labelPoint.x,
+          y: labelPoint.y + 4,
+          "text-anchor": "middle"
+        });
+        label.textContent = item.shortName;
+        labels.appendChild(label);
+      });
+    }
+
+    function segmentClass(item) {
+      const classes = ["plm-segment"];
+      if (item.layer === state.activeLayer) classes.push("is-active-layer");
+      else classes.push("is-inactive");
+      if (state.activeMotif !== "all" && item.motifs.includes(state.activeMotif)) classes.push("is-motif");
+      if (item.id === state.selectedId) classes.push("is-selected");
+      return classes.join(" ");
+    }
+
+    function alignmentMatches() {
+      const first = CIVILIZATIONS.filter(item => item.layer === 1);
+      const second = CIVILIZATIONS.filter(item => item.layer === 2);
+      const matches = [];
+      first.forEach(a => {
+        second.forEach(b => {
+          if (effectiveSlot(a) !== effectiveSlot(b)) return;
+          const shared = sharedMotifs(a, b);
+          if (shared.length) matches.push({ a, b, shared });
+        });
+      });
+      return matches;
+    }
+
+    function renderMatchThreads() {
+      const group = root.querySelector("#plm-match-threads");
+      clear(group);
+      const matches = alignmentMatches();
+      hudThreads.textContent = String(matches.length);
+      matches.forEach(match => {
+        const angle = slotAngle(effectiveSlot(match.a));
+        const start = polar(LAYERS[1].outer + 3, angle);
+        const end = polar(LAYERS[2].inner - 3, angle);
+        group.appendChild(svgElement("line", {
+          class: "plm-match-thread",
+          x1: start.x,
+          y1: start.y,
+          x2: end.x,
+          y2: end.y
+        }));
+      });
+
+      clear(matchesBox);
+      if (!matches.length) {
+        const item = document.createElement("span");
+        item.className = "text-muted";
+        item.textContent = "Zlate niti mirujejo — trenutna položaja nimata poravnanega motiva.";
+        matchesBox.appendChild(item);
+        return;
+      }
+      matches.forEach(match => {
+        const item = document.createElement("span");
+        item.style.display = "inline-flex";
+        item.style.alignItems = "center";
+        item.style.gap = "0.4rem";
+        const swatch = document.createElement("span");
+        swatch.className = "plm-swatch";
+        const text = document.createElement("span");
+        const motifNames = match.shared.map(id => MOTIFS[id].label).join(" + ");
+        text.textContent = `${match.a.shortName} ↔ ${match.b.shortName}: ${motifNames}`;
+        item.append(swatch, text);
+        matchesBox.appendChild(item);
+      });
+    }
+
+    function renderCore() {
+      const core = root.querySelector("#plm-core");
+      clear(core);
+      core.appendChild(svgElement("circle", {
+        class: "plm-core-disc",
+        cx: center.x,
+        cy: center.y,
+        r: 52
+      }));
+      const selected = selectedCivilization();
+      const activeMotif = state.activeMotif === "all" ? selected.motifs[0] : state.activeMotif;
+      const glyph = svgElement("text", {
+        class: "plm-core-glyph",
+        x: center.x,
+        y: center.y - 9,
+        "text-anchor": "middle"
+      });
+      glyph.textContent = MOTIFS[activeMotif].glyph;
+      const top = svgElement("text", {
+        class: "plm-core-label",
+        x: center.x,
+        y: center.y + 12,
+        "text-anchor": "middle"
+      });
+      top.textContent = faceLabel(state.face).toUpperCase();
+      const bottom = svgElement("text", {
+        class: "plm-core-label",
+        x: center.x,
+        y: center.y + 28,
+        "text-anchor": "middle"
+      });
+      bottom.textContent = state.activeMotif === "all" ? "DOLGI SPOMIN" : MOTIFS[state.activeMotif].short.toUpperCase();
+      core.append(glyph, top, bottom);
+    }
+
+    function renderDetail() {
+      const item = selectedCivilization();
+      detailName.textContent = item.name;
+      detailPeriod.textContent = item.period;
+      detailFace.textContent = faceLabel(state.face);
+      detailCopy.textContent = item[state.face];
+      detailEvidence.textContent = `Dokazni status: ${item.evidence}`;
+      detailMotifs.textContent = `Motivi: ${item.motifs.map(id => `${MOTIFS[id].glyph} ${MOTIFS[id].label}`).join(", ")}`;
+      hudMode.textContent = faceLabel(state.face);
+      persistenceBox.textContent = item.motifs.includes("procedure")
+        ? "AUTHORLESS EXECUTION · zapis lahko preživi avtorja"
+        : "Vzorec ni sodba · poravnava je vprašanje";
+      evidenceNodes.forEach(node => {
+        node.classList.toggle("is-live", item.claimStatus.includes(node.dataset.evidenceNode));
+      });
+      clear(detailSources);
+      item.sources.forEach((source, index) => {
+        if (index > 0) detailSources.appendChild(document.createTextNode(" · "));
+        const link = document.createElement("a");
+        link.href = source.url;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.textContent = source.label;
+        detailSources.appendChild(link);
+      });
+    }
+
+    function connectedCivilizations() {
+      const selected = selectedCivilization();
+      if (state.activeMotif !== "all") {
+        return CIVILIZATIONS.filter(item => item.motifs.includes(state.activeMotif));
+      }
+      return CIVILIZATIONS.filter(item => item.id !== selected.id && sharedMotifs(selected, item).length > 0);
+    }
+
+    function geographicLinks() {
+      const selected = selectedCivilization();
+      const connected = connectedCivilizations();
+      if (state.activeMotif === "all") {
+        return connected.map(item => ({ from: selected, to: item }));
+      }
+      return connected.slice(0, -1).map((item, index) => ({ from: item, to: connected[index + 1] }));
+    }
+
+    function renderMap() {
+      if (!geo || !projection || !path) return;
+      projection.rotate(state.globeRotation);
+      root.querySelector("#plm-sphere").setAttribute("d", path({ type: "Sphere" }));
+      root.querySelector("#plm-graticule").setAttribute("d", path(geo.geoGraticule10()));
+
+      const countryGroup = root.querySelector("#plm-countries");
+      clear(countryGroup);
+      worldFeatures.forEach(country => {
+        const d = path(country);
+        if (!d) return;
+        countryGroup.appendChild(svgElement("path", { class: "plm-land", d }));
+      });
+
+      const arcGroup = root.querySelector("#plm-geo-arcs");
+      clear(arcGroup);
+      geographicLinks().forEach(link => {
+        const interpolate = geo.geoInterpolate(link.from.coords, link.to.coords);
+        const coordinates = Array.from({ length: 49 }, (_, index) => interpolate(index / 48));
+        const d = path({ type: "LineString", coordinates });
+        if (d) arcGroup.appendChild(svgElement("path", { class: "plm-geo-arc", d }));
+      });
+
+      const pointGroup = root.querySelector("#plm-points");
+      clear(pointGroup);
+      CIVILIZATIONS.forEach(item => {
+        if (state.activeMotif !== "all" && !item.motifs.includes(state.activeMotif)) return;
+        const d = path({ type: "Point", coordinates: item.coords });
+        if (!d) return;
+        const point = projection(item.coords);
+        if (!point) return;
+        const circle = svgElement("circle", {
+          class: item.id === state.selectedId ? "plm-point is-selected" : "plm-point",
+          cx: point[0],
+          cy: point[1],
+          r: item.id === state.selectedId ? 5.5 : 3.4
+        });
+        pointGroup.appendChild(circle);
+      });
+    }
+
+    function renderAll() {
+      layerValue.textContent = LAYERS[state.activeLayer].roman;
+      layerInput.value = String(state.activeLayer);
+      civilizationSelect.value = state.selectedId;
+      motifSelect.value = state.activeMotif;
+      root.querySelectorAll("[data-face]").forEach(button => {
+        const active = button.dataset.face === state.face;
+        button.setAttribute("aria-pressed", String(active));
+        button.classList.toggle("btn-primary", active);
+      });
+      renderGuides();
+      renderRings();
+      renderMatchThreads();
+      renderCore();
+      renderDetail();
+      renderMap();
+    }
+
+    function selectCivilization(id, focusGlobe) {
+      const item = CIVILIZATIONS.find(candidate => candidate.id === id);
+      if (!item) return;
+      state.selectedId = id;
+      state.activeLayer = item.layer;
+      if (focusGlobe) state.globeRotation = [-item.coords[0], -item.coords[1]];
+      renderAll();
+    }
+
+    civilizationSelect.addEventListener("change", event => selectCivilization(event.target.value, true));
+
+    motifSelect.addEventListener("change", event => {
+      state.activeMotif = event.target.value;
+      renderAll();
+    });
+
+    layerInput.addEventListener("input", event => {
+      state.activeLayer = Number(event.target.value);
+      renderAll();
+    });
+
+    root.querySelectorAll("[data-face]").forEach(button => {
+      button.addEventListener("click", () => {
+        state.face = button.dataset.face;
+        renderAll();
+      });
+    });
+
+    root.querySelector("#plm-rotate-back").addEventListener("click", () => {
+      state.rotations[state.activeLayer] = (state.rotations[state.activeLayer] + 7) % 8;
+      renderAll();
+    });
+
+    root.querySelector("#plm-rotate-forward").addEventListener("click", () => {
+      state.rotations[state.activeLayer] = (state.rotations[state.activeLayer] + 1) % 8;
+      renderAll();
+    });
+
+    let dragState = null;
+    svg.addEventListener("pointerdown", event => {
+      dragState = {
+        x: event.clientX,
+        y: event.clientY,
+        rotation: [...state.globeRotation]
+      };
+      svg.setPointerCapture(event.pointerId);
+    });
+
+    svg.addEventListener("pointermove", event => {
+      if (!dragState || !projection) return;
+      const dx = event.clientX - dragState.x;
+      const dy = event.clientY - dragState.y;
+      state.globeRotation = [
+        dragState.rotation[0] + dx * 0.32,
+        Math.max(-75, Math.min(75, dragState.rotation[1] - dy * 0.32))
+      ];
+      renderMap();
+    });
+
+    function stopDrag(event) {
+      if (!dragState) return;
+      dragState = null;
+      if (svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+    }
+
+    svg.addEventListener("pointerup", stopDrag);
+    svg.addEventListener("pointercancel", stopDrag);
+
+    populateControls();
+    renderAtmosphere();
+    renderAll();
+
+    Promise.all([
+      import("https://esm.sh/d3-geo@3.1.1"),
+      import("https://esm.sh/topojson-client@3.1.0"),
+      import("https://esm.sh/@d3-maps/atlas@1.0.0/world/countries/countries-110m")
+    ]).then(([d3Geo, topojson, worldModule]) => {
+      geo = d3Geo;
+      const world = worldModule.default || worldModule;
+      worldFeatures = topojson.feature(world, world.objects.features).features;
+      projection = geo.geoOrthographic()
+        .translate([center.x, center.y])
+        .scale(153)
+        .clipAngle(90)
+        .precision(0.4);
+      path = geo.geoPath(projection).pointRadius(3.4);
+      statusBox.textContent = "";
+      renderMap();
+    }).catch(() => {
+      statusBox.textContent = "Geografska plast se ni naložila; zgodovinski obroči in filtri še vedno delujejo.";
+    });
+  </script>
+</div>
+
+  </main>
+</body>
+</html>
+
