@@ -1,0 +1,12 @@
+{
+  "name": "Digital Sanctuary — Command Center",
+  "short_name": "Sanctuary",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080c08",
+  "theme_color": "#080c08",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "favicon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
