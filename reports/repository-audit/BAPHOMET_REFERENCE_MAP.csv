@@ -1,0 +1,7 @@
+path,sha256,git_tracked,referenced_by,reference_form,role,safe_to_touch
+06_applications/digital_sanctuary/public/baphomet-loader.png,8cdb9b74e00d836e446a2799a1f4d260c659432a599de038067f05e1e802739f,yes,src/components/WelcomeRitual.tsx:82,"url(${import.meta.env.BASE_URL}baphomet-loader.png)",RUNTIME_REQUIRED_CANONICAL,NO
+06_applications/digital_sanctuary/public/rebis_landing_page/assets/baphomet-loader.png,8cdb9b74e00d836e446a2799a1f4d260c659432a599de038067f05e1e802739f,yes,06_applications/digital_sanctuary/public/rebis_landing_page/index.html:76,"url('assets/baphomet-loader.png')",RUNTIME_REQUIRED_STANDALONE,NO
+06_applications/rebis_landing_page/assets/baphomet-loader.png,8cdb9b74e00d836e446a2799a1f4d260c659432a599de038067f05e1e802739f,yes,06_applications/rebis_landing_page/index.html:73,"url('assets/baphomet-loader.png')",SOURCE_OF_STANDALONE_APP,NO
+"06_applications/rebis_landing_page/ChatGPT Image May 9, 2026, 10_59_53 PM.png",8cdb9b74e00d836e446a2799a1f4d260c659432a599de038067f05e1e802739f,yes,,none found,ORPHANED_UPLOAD_ARTIFACT,CANDIDATE_ONLY
+docs/baphomet-loader.png,8cdb9b74e00d836e446a2799a1f4d260c659432a599de038067f05e1e802739f,yes,docs/assets/index-CDDAHRjq.js:43,stale committed build bundle,STALE_BUILD_OUTPUT,ARCHIVE_WITH_DOCS_TREE
+docs/rebis_landing_page/assets/baphomet-loader.png,8cdb9b74e00d836e446a2799a1f4d260c659432a599de038067f05e1e802739f,yes,docs/rebis_landing_page/index.html:72,"url('assets/baphomet-loader.png')",STALE_BUILD_OUTPUT,ARCHIVE_WITH_DOCS_TREE
