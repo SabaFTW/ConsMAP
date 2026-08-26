@@ -1,0 +1,33 @@
+{
+  "blocked_summaries": 32,
+  "bridge_manifest_sha256": "a05dff4d2276c4aa9dd5865ff3fd476099ecd9a4ce91b9c3ecb0d1dab3a42c12",
+  "bridge_state_sha256": "d3a0d23a9dff846c403c1523895bf1aeb56da4e042f76965eef0b5aa5ec9080a",
+  "generated_files": [
+    "docs/06_omnia/atlas/BLOCKED_CLAIMS.md",
+    "docs/06_omnia/atlas/IMPORT_MANIFEST.json",
+    "docs/06_omnia/atlas/PUBLIC_CLAIMS.md",
+    "docs/06_omnia/atlas/README.md",
+    "docs/06_omnia/atlas/SYMBOLIC_REGISTER.md",
+    "docs/06_omnia/atlas/claim_cards/AGR-006.json",
+    "docs/06_omnia/atlas/claim_cards/AGR-007.json",
+    "docs/06_omnia/atlas/claim_cards/AGR-008.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-003.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-010.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-012.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-020.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-021.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-030.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-032.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-040.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-050.json",
+    "docs/06_omnia/atlas/claim_cards/EPS-080.json",
+    "docs/06_omnia/atlas/claim_cards/FED-002.json",
+    "docs/06_omnia/atlas/claim_cards/FED-010.json",
+    "docs/06_omnia/atlas/claim_cards/FED-011.json",
+    "docs/06_omnia/atlas/claim_cards/FED-013.json"
+  ],
+  "public_claim_cards": 17,
+  "release_cache": "data/omnia/releases/d3a0d23a9dff846c403c1523895bf1aeb56da4e042f76965eef0b5aa5ec9080a",
+  "source_sealed_release": "c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84",
+  "symbolic_records": 60
+}

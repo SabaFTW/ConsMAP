@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "agriculture",
+  "claim": "On 8 July 2026 the FTC and the five states announced a proposed settlement requiring Deere for ten years to provide farmers and independent repair providers the same repair resources, including applicable software capabilities, that it provides authorized dealers, under compliance reporting and monitoring.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "Court refusal to enter the proposed order",
+  "id": "AGR-007",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "A REMEDY IS NOT A CONFESSION. It is a map of levers. Deere made no admission recorded in the sources reviewed.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "Web, this session",
+    "source_sha256": "",
+    "verification_status": "VERIFIED THIS SESSION. Reporting obligations cover repair-resource progress, new tools, repair-access complaints, dealer retaliation or discrimination allegations, and pricing terms with justification. A separate class-action settlement reported at approx. $99M is a DIFFERENT instrument and requires its own claim row."
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "FTC press release; Freshfields client note",
+      "type": "official"
+    }
+  ],
+  "status": "supported"
+}

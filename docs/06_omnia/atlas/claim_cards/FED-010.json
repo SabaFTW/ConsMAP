@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "federal_reserve",
+  "claim": "31 U.S.C. s.714(b) excludes from GAO audit: transactions with foreign central banks, governments and nonprivate international financing organizations; deliberations, decisions or actions on monetary policy including discount-window operations, member-bank reserves, securities credit, interest on deposits and open-market operations; transactions directed by the FOMC; and related internal communications.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "Repeal or amendment of s.714(b)",
+  "id": "FED-010",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "THIS IS THE STRONGEST DOCUMENTED ACCOUNTABILITY GAP IN THE DOMAIN AND IT IS A DELIBERATE LEGISLATIVE CHOICE, NOT A CONCEALMENT. Named actor: Congress. Named instrument: s.714(b). Named date: 1978, unrepealed 2026.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "F01 s.14",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from F01 - not independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "uscode.house.gov s.714; gao.gov/assets/t-ggd-94-44.pdf",
+      "type": "unknown"
+    }
+  ],
+  "status": "supported"
+}

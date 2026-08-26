@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "epstein",
+  "claim": "Black paid Epstein-controlled entities very large sums during 2012-2017 for stated tax and estate services; aggregate contested in an approx. $158M-$170M band.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "Transaction-level reconciliation showing a materially different total",
+  "id": "EPS-010",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "Establishes payment existence and scale ONLY. Does not establish criminal purpose, knowledge or control.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "E02",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from E02 ledger \u2014 NOT independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "medium",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "E02 \u00a7Financial evidence ledger; depends on L-2,L-3,L-4,L-8,L-9",
+      "type": "unknown"
+    }
+  ],
+  "status": "supported"
+}

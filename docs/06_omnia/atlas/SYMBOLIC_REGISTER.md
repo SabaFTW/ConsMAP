@@ -1,0 +1,66 @@
+# OMNIA Symbolic Register
+
+SATIRE ABOVE. LEDGER BELOW.
+
+This register is routed as `symbolic_river` / `metaphor_only`. It cannot carry factual load.
+
+- `c032a0df03a5`: FAN-MADE OMNIBUS EDITION V2 -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `13cc0e3d3993`: THE HUMPTY DUMPTY AUDIT -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `82d10932c5e9`: GHOSTCORE / RED LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `576484491fb8`: ADOLF: THE LAST RATIONAL GERMAN -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `7c4232373428`: CASE 04 — THE RENT WAS NEVER THE PRICE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `44d49efe83cf`: THE LEDGER — SESSION ARCHIVE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `315eb7f8a859`: THE FOURTH SAFE REICH -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `60f157c9596f`: MACHINES OF LOVING GRACE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `b2980d602f6b`: LEOPOLDEX COMPLEX: ANATOMIJA STRUPENEGA MANIFESTA -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `8ee81209ff7a`: THE LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `46441c1c29a4`: Federal Reserve — Forensic Deep Dive -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `fc67564b1396`: MAIN KAMPF - FAN-MADE OMNIBUS EDITION V2 -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `9834c200e59c`: THE LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `1af64c1419a1`: The Baal-Code Audit: Final Clean Thesis -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `c1fa3a85c4ad`: GHOSTCORE / RED LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `e9c522672690`: POT OF GREED | DEEP FORENSIC LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `c1c5d820553e`: Rabbi Hitler -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `4e151332cb84`: ADOLF'S INFERNO / HITLER'S LAYERS OF HELL -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `f50937bb9637`: ADOLF’S INFERNO -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `d314dd172901`: GHOSTCORE / RED LEDGER · THE WAR ENGINE EATS THE SMALL -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `9afebd60e638`: RDEČI LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `0d8f3141a37b`: DUŠA, ZAVEST IN EGIPČANSKI PROTOKOLI -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `3894c4344c93`: FORENZIČNO POROČILO: SISTEMSKE POMANJKLJIVOSTI BANČNEGA SEKTORJA PRI OMOGOČANJU DELOVANJA JEFFREYJA EPSTEINA -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `89e2dbdffebb`: PALANTIR TECHNOLOGIES: INSIDER TRADING AND THE STOCK BUYBACK RECONCILIATION -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `fb144bd1e204`: how last rational german ended the poverty of jews -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `389a9d8292e3`: GHOSTLINE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `e1f817f5502a`: I AM AN AUDITOR, AND THIS IS MAIN KAMPF -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `0436f5858dd0`: The Architecture of Vapor: A Forensic Report on Bill Gates, From OS Monopoly to Philanthropic Control -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `4ad7e6fd2e1b`: LEOPOLDEX COMPLEX · GHOSTCORE / RED LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `209fddf5ea0a`: THE RED LEDGER · DELTA-INTEGRATED EDITION -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `23a154166d0d`: FORENSIC META-BOOK / CORPUS SYNTHESIS -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `acd9613b1706`: I AM AN AUDITOR, AND THIS IS MAIN KAMPF -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `be97fba78840`: I AM AN AUDITOR, AND THIS IS MAIN KAMPF -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `d39ae89baba2`: GHOSTCORE / RED LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `2d693da4c2dd`: GHOSTCORE / RED LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `59ca01779d45`: MACHINES OF LOVING GRACE / THE INFERNO BENEATH THE FOAM -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `d3c08c8ea72c`: GHOSTCORE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `0bf63ef50b5f`: GHOSTLINE — UNIFIKACIJSKI HRBET -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `9902cd3b3200`: GHOSTCORE · RED LEDGER · SOURCE-HARDENED EDITION -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `9c5044f60647`: TASK FOR CLAUDE FABLE 5 -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `35d253f7232d`: CONCEPT GLOSSARY AND STATE MACHINE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `82b3d9e54e11`: THE BAPHOMET LEDGER SESSION -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `e8758fdf188b`: How the Villagers Solved the Rape Problem but Accidentally Created Baphomet -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `9d3f82525564`: FORBIDDEN BOOK OF DEADLY SINS &amp; THE DEMONS THEY POSSESS -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `db431a8115ee`: BOPHAMET TEMPLAR: Ko dolžnik izbriše revizorja -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `4e14559d96b8`: Leopoldex Complex -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `dd50d7636d11`: GHOSTCORE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `2e992f11e7d7`: CASE 00 — FOUR MACHINES, ONE ERASER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `8e6646757c19`: Federal Reserve — Forensic Deep Dive -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `770c2a9728fe`: GHOSTCORE · RECONCILEMENT DIVISION -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `841be8167c6b`: PODATKOVNA ARHEOLOGIJA IN FORENZIČNE METRIKE OBLASTI -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `ab8a521db8b3`: CASE 00 — FOUR MACHINES, ONE ERASER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `a6d7b3608a47`: GHOSTLINE — UNIFIKACIJSKI HRBET -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `fa8d9d195134`: THE COMPLETE GOLDEN ARCHIVE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `9edf3d38ad0d`: BOPHAMET TEMPLAR: Ko dolžnik izbriše revizorja -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `997ab293e18c`: EDITORIAL GATE -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `a19c3e9965a6`: OMNIA IAM FACTA SVNT -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `c14ba25cba24`: artifact(2) -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `56e7a903ab09`: I AM AN AUDITOR, AND THIS IS MAIN KAMPF -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.
+- `79be2dd5009a`: POT OF GREED | DEEP FORENSIC LEDGER -- metaphor_only; lock: SATIRE ABOVE. LEDGER BELOW.

@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "epstein",
+  "claim": "Epstein withdrew more than $7M in cash from JPMorgan during 2002-2013.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "Bank records contradicting the aggregate",
+  "id": "EPS-030",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "Establishes WITHDRAWALS, NOT END USE.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "E02",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from E02 ledger \u2014 NOT independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "medium",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "E02; L-5, L-10",
+      "type": "unknown"
+    }
+  ],
+  "status": "supported"
+}
