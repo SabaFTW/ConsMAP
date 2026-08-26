@@ -101,6 +101,8 @@ jobs:
       - name: Malformed YAML or JSON
         run: |
           set -euo pipefail
+          # setup-python ships a bare interpreter; PyYAML is not in it.
+          pip install --quiet pyyaml
           python - <<'PY'
           import json, pathlib, sys
           import yaml
