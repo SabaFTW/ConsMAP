@@ -131,3 +131,65 @@ SATIRE ABOVE. LEDGER BELOW.
 Directory layout is not an argument. Do not merge documents because they share
 a theme, and do not let a cleanup pass upgrade an unverified claim by filing it
 next to a verified one.
+
+## 7. The OMNIA bridge boundary
+
+`docs/06_omnia/` is the public landing zone for OMNIA material. It is
+**downstream** of the OMNIA archive, never a copy of it.
+
+```
+   OMNIA archive (outside this repo)          ← the evidence vault
+            │
+            │  Codex seals a consmap_bridge_candidate bundle
+            ▼
+   data/omnia/releases/<bridge-state-hash>/    ← received, not tracked
+            │
+            │  importer: verify manifest, verify every artifact hash,
+            │            preserve register labels, drop quarantine
+            ▼
+   docs/06_omnia/atlas/                        ← generated, public-safe
+```
+
+**Nothing has crossed this bridge yet.** Both landing zones are reserved and
+empty; each holds only a README explaining what will land there.
+
+### The boundary in one line
+
+The archive holds evidence. ConsMAP receives only public-safe, schema-valid,
+provenance-preserving exports. If an artifact cannot carry its provenance
+across, it does not cross.
+
+### What is tracked on each side
+
+| | tracked in git? |
+|---|---|
+| the OMNIA archive | no — lives outside the repository |
+| received bundles, `data/omnia/releases/*` | no — gitignored, README excepted |
+| the generated atlas, `docs/06_omnia/atlas/` | yes, but **generated** — do not hand-edit |
+| the eleven hand-written manuscripts in `docs/06_omnia/` | yes, hand-maintained |
+
+The last two rows share a parent directory and must not be merged. The
+manuscripts are authored; the atlas is produced. See
+[docs/06_omnia/OMNIA_MANUSCRIPT_MAP.md](docs/06_omnia/OMNIA_MANUSCRIPT_MAP.md).
+
+### Register preservation is the point
+
+OMNIA's five registers — 🟢 confirmed, 🟡 checkable-unresolved, 🟠 structural
+inference, 🟣 mythic illustration, ⚫ quarantine — are defined in
+[docs/06_omnia/REGISTER_RULES.md](docs/06_omnia/REGISTER_RULES.md). An importer
+that flattens them has broken the section's reason for existing:
+
+```
+Myth remembers. Evidence proves. Never the same uniform.
+```
+
+Quarantine never crosses. 🟡 and 🟣 may appear but must never be rendered as
+carrying factual load. An importer that cannot verify a hash must fail, not warn.
+
+### Sequencing
+
+Structure and content move in separate pull requests, so that a bad import can
+be reverted without unpicking a reorganisation. This cleanup pass reserves the
+paths and writes the contract; it imports nothing. The import itself belongs on
+`feat/omnia-consmap-bridge`, as its own draft PR, and only after Codex produces
+a sealed bundle.
