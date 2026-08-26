@@ -31,3 +31,9 @@ dist-ssr
 # integrated for LOCAL preview only, never committed or deployed. The deploy script
 # also strips dist/iceberg. Do not un-ignore without an explicit decision to lift the seal.
 public/iceberg/
+
+# Netlify CLI machine-local state. state.json holds the siteId link and
+# .netlify/netlify.toml is a generated cache containing absolute paths from
+# whichever machine last ran the CLI. The authoritative Netlify configuration
+# is the netlify.toml at the repository root.
+.netlify/

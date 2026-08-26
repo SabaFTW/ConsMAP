@@ -1,0 +1,128 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  application:
+    name: Build the Digital Sanctuary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: './06_applications/digital_sanctuary/package-lock.json'
+
+      - name: Install
+        working-directory: ./06_applications/digital_sanctuary
+        run: npm ci
+
+      - name: Build
+        working-directory: ./06_applications/digital_sanctuary
+        run: npm run build
+
+      # Reported, not gated: 14 pre-existing errors as of 2026-08-26.
+      # See docs/project/DECISION_LOG.md before turning this into a gate.
+      - name: Lint (report only)
+        working-directory: ./06_applications/digital_sanctuary
+        continue-on-error: true
+        run: npm run lint
+
+      - name: BOPHAMET invariant
+        working-directory: ./06_applications/digital_sanctuary
+        run: |
+          set -euo pipefail
+          # The asset must sit exactly here: WelcomeRitual.tsx resolves it via
+          # import.meta.env.BASE_URL, so any other location breaks production
+          # while the dev server keeps working.
+          test -f public/baphomet-loader.png \
+            || { echo "::error::public/baphomet-loader.png is missing"; exit 1; }
+
+          test -f dist/baphomet-loader.png \
+            || { echo "::error::the asset did not reach the production build"; exit 1; }
+
+          a=$(sha256sum public/baphomet-loader.png | cut -d' ' -f1)
+          b=$(sha256sum dist/baphomet-loader.png   | cut -d' ' -f1)
+          test "$a" = "$b" \
+            || { echo "::error::dist copy differs from public copy"; exit 1; }
+
+          # A build can ship the image while the component that draws it has
+          # been tree-shaken away, so check the bundle itself.
+          grep -q 'baphomet-loader'    dist/assets/*.js \
+            || { echo "::error::the ritual is not wired into the bundle"; exit 1; }
+          grep -q 'consmap_skip_intro' dist/assets/*.js \
+            || { echo "::error::the skip-intro preference is gone from the bundle"; exit 1; }
+
+          echo "BOPHAMET invariant holds (sha256 ${a:0:16})"
+
+  repository:
+    name: Repository invariants
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Python syntax
+        run: python -m compileall -q tools automation
+
+      - name: No machine-local deployment state
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '(^|/)\.netlify/'; then
+            echo "::error::.netlify/ is machine-local state and must not be tracked"
+            exit 1
+          fi
+          echo "no .netlify/ tracked"
+
+      - name: No build output published into docs/
+        run: |
+          set -euo pipefail
+          # docs/ is the canonical corpus. A build published into it is not
+          # deployed by anything and only creates duplicates — this happened
+          # once and cost 127 duplicate groups. See ARCHITECTURE.md section 2.
+          bad=0
+          for p in docs/index.html docs/assets docs/site.webmanifest docs/docs; do
+            if git ls-files --error-unmatch "$p" >/dev/null 2>&1; then
+              echo "::error::$p looks like build output committed into docs/"
+              bad=1
+            fi
+          done
+          exit $bad
+
+      - name: Malformed YAML or JSON
+        run: |
+          set -euo pipefail
+          # setup-python ships a bare interpreter; PyYAML is not in it.
+          pip install --quiet pyyaml
+          python - <<'PY'
+          import json, pathlib, sys
+          import yaml
+          bad = []
+          for p in pathlib.Path('.github').rglob('*.y*ml'):
+              try: yaml.safe_load(p.read_text(encoding='utf-8'))
+              except Exception as e: bad.append(f"{p}: {e}")
+          for p in list(pathlib.Path('.').glob('*.json')):
+              try: json.loads(p.read_text(encoding='utf-8'))
+              except Exception as e: bad.append(f"{p}: {e}")
+          if bad:
+              print("\n".join(f"::error::{b}" for b in bad)); sys.exit(1)
+          print("workflow YAML and root JSON parse cleanly")
+          PY
+
+      - name: Accidental secrets
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -nE '(^|/)(\.env|id_rsa|.*\.pem)$'; then
+            echo "::error::a credential-shaped file is tracked"
+            exit 1
+          fi
+          echo "no credential-shaped files tracked"

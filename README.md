@@ -38,6 +38,55 @@ Read [START_HERE_FOR_AI.md](START_HERE_FOR_AI.md) and [machine_context/AI_SYSTEM
 ### → I want to analyze a claim
 Read [protocols/claim_hygiene.md](protocols/claim_hygiene.md) and see [examples/example_debate.md](examples/example_debate.md)
 
+### → I'm a contributor and want to change something
+Read [CONTRIBUTING.md](CONTRIBUTING.md), then [ARCHITECTURE.md](ARCHITECTURE.md)
+
+---
+
+## The application
+
+The primary application is the **Digital Sanctuary** — the reading environment
+for this corpus, live at <https://sabaftw.github.io/ConsMAP/>.
+
+```bash
+cd 06_applications/digital_sanctuary
+npm ci
+npm run dev      # local
+npm run build    # production build
+```
+
+It is the only deployed artifact. `.github/workflows/deploy.yml` builds it on
+every push to `main` and publishes it to GitHub Pages.
+
+---
+
+## Finding your way around
+
+| you want | go to |
+|---|---|
+| the annotated directory tree | [REPOSITORY_MAP.md](REPOSITORY_MAP.md) |
+| how the pieces fit, what is generated | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| how to work here | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| the protocols | [`protocols/`](protocols/) |
+| the written corpus | [`docs/`](docs/) |
+| research memoranda | [`research/`](research/), [`user_research/`](user_research/) |
+| why something is the way it is | [docs/project/DECISION_LOG.md](docs/project/DECISION_LOG.md) |
+
+**Which material is which.** This repository deliberately holds empirical
+evidence, theory, metaphor, visual parable, theology and satire side by side.
+The labels are what keep that safe, and directory layout is not an argument:
+
+```
+A shared method does not establish a shared cause.
+SATIRE ABOVE. LEDGER BELOW.
+```
+
+Empirical and theoretical material lives under `docs/00_foundations/`,
+`docs/01_corpus_refs/` and `research/`. Symbolic and narrative material lives
+under `docs/visual_parables/`, `docs/theology/`, `docs/sigils/` and
+`docs/06_omnia/`. Boundary material — the documents about where the line falls
+— is in `docs/02_boundaries/` and [PUBLIC_SAFETY.md](PUBLIC_SAFETY.md).
+
 ---
 
 ## Try it now

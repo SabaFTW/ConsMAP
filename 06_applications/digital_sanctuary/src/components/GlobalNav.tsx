@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Theme } from '../lib/themes';
 
-type NavState = 'home' | 'mirror' | 'story' | 'analyzer' | 'docs' | 'aimode' | 'frame';
+type NavState = 'home' | 'mirror' | 'story' | 'busStory' | 'analyzer' | 'docs' | 'aimode' | 'frame';
 
 export interface FrameNavItem { label: string; hash: string; }
 

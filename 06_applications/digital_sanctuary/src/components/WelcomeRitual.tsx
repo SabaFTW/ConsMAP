@@ -170,10 +170,14 @@ const WelcomeRitual: React.FC<WelcomeRitualProps> = ({ onComplete }) => {
         </AnimatePresence>
       </div>
 
+      {/* Enter affordance. Gated on canSkip so the hint appears only once the
+          click actually does something (2s in), rather than promising earlier.
+          The ritual itself is unchanged: the whole overlay stays clickable. */}
       <motion.p
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.18 }}
-        transition={{ delay: 1.5, duration: 1.5 }}
+        animate={{ opacity: canSkip ? 0.18 : 0 }}
+        transition={{ duration: 1.5 }}
+        aria-hidden={!canSkip}
         className="absolute bottom-10 text-[9px] tracking-[0.4em] uppercase font-mono select-none"
         style={{ color: '#3a6a35' }}
       >
