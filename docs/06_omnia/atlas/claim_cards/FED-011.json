@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "federal_reserve",
+  "claim": "The Federal Banking Agency Audit Act of 1978 (Pub. L. 95-320) created broad GAO authority to audit the Board and Reserve Banks for the first time, while deliberately excluding core monetary-policy areas. Before 1978 GAO had no general audit authority, though it held narrower authority over Treasury fiscal-agent work and currency-destruction review.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "GAO records showing broader pre-1978 authority",
+  "id": "FED-011",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "THE PRE-1978 POSITION MUST NOT BE OVERSTATED AS LITERALLY ZERO CONTACT. F01 explicitly corrects that overstatement and the correction travels with the claim.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "F01 s.14",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from F01 - not independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "gao.gov/assets/t-ggd-94-44.pdf",
+      "type": "official"
+    }
+  ],
+  "status": "supported"
+}

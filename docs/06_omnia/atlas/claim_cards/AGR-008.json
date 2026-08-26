@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "agriculture",
+  "claim": "Deere publicly responded on 15 January 2025 that the lawsuit ignores its long-standing commitment to customer self-repair and was filed 'on the eve of a change in Administration'.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "N/A",
+  "id": "AGR-008",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "A DENIAL DISPROVES NO MECHANISM. Recorded for symmetry, per the book's rule that a remedy proves nothing and a denial disproves nothing.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "Web, this session",
+    "source_sha256": "",
+    "verification_status": "VERIFIED THIS SESSION"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "deere.com/en/news/all-news/deere-responds-to-ftc-complaint/",
+      "type": "unknown"
+    }
+  ],
+  "status": "supported"
+}

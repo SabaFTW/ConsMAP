@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "agriculture",
+  "claim": "The FTC and five state attorneys general sued Deere & Company on 15 January 2025 alleging unlawful restriction of farmers' and independent repair providers' access to repair resources.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "Docket showing different parties, date or claims",
+  "id": "AGR-006",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "ALLEGATIONS IN A COMPLAINT ARE NOT ADJUDICATED FACTS. This claim establishes the filing, the parties, the date and the pleaded theory ONLY.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "Web, this session",
+    "source_sha256": "",
+    "verification_status": "VERIFIED THIS SESSION (official + secondary). Complaint centres on the Service ADVISOR diagnostic and calibration tool, alleged to be fully functional only for authorized dealers."
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "FTC press release; Troutman Pepper Locke summary",
+      "type": "official"
+    }
+  ],
+  "status": "supported"
+}

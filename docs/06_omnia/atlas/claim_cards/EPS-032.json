@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "epstein",
+  "claim": "More than $3M in direct payments to women through JPMorgan during 2003-2013, including transfers to Russia, Belarus and Lithuania.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "A court finding on the purpose of these specific transfers",
+  "id": "EPS-032",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "Establishes TRANSFERS, NOT recruitment or abuse purpose. The Amador report's 'lacking apparent lawful purpose' is an EXPERT CHARACTERIZATION / E, not a court finding.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "E02",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from E02 ledger \u2014 NOT independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "medium",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "E02; L-5",
+      "type": "unknown"
+    }
+  ],
+  "status": "supported"
+}

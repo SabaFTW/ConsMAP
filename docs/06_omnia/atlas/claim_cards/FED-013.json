@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "federal_reserve",
+  "claim": "GAO's Dodd-Frank-mandated review (GAO-11-696, 2011) found emergency loans outstanding peaked above $1 trillion in late 2008, found no missing funds or major financial-reporting control failures, and did find insufficiently robust conflict-of-interest rules, noncompetitive emergency vendor contracts and weak documentation of atypical lending decisions. Seven recommendations issued.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "Later GAO work reversing these findings",
+  "id": "FED-013",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "THIS IS THE DOMAIN'S STRONGEST LEGITIMATE CRITICISM AND IT IS NOT THE POPULAR ONE. Not vanished trillions - concentrated emergency discretion producing documented procurement, conflict-management and documentation weaknesses at enormous scale.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "F01 s.15",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from F01 - not independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "gao.gov/products/gao-11-696",
+      "type": "official"
+    }
+  ],
+  "status": "supported"
+}

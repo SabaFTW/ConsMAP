@@ -1,7 +1,15 @@
 # OMNIA Manuscript Map
 
-**Status:** structural map. Describes what is here now and where an imported
-atlas will land. No bridge data has been imported.
+**Status:** structural map. Describes the hand-written manuscripts, the bridge
+boundary, and the import contract.
+
+**Import state:** one verified bridge import has been performed.
+Bridge state `d3a0d23a9dff846c403c1523895bf1aeb56da4e042f76965eef0b5aa5ec9080a`,
+from sealed OMNIA release `c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84`.
+It produced 17 public claim cards, 60 summarized symbolic records and 32 blocked
+claim summaries in [`atlas/`](atlas/). Verification record:
+[`reports/repository-audit/OMNIA_BRIDGE_IMPORT_VALIDATION.md`](../../reports/repository-audit/OMNIA_BRIDGE_IMPORT_VALIDATION.md).
+The received bundle itself is not tracked.
 
 > Myth remembers. Evidence proves. Never the same uniform.
 
@@ -73,9 +81,10 @@ not cross.
 
 ## 3. Reserved landing zones
 
-These paths are reserved now so that a later import has one deterministic
-destination instead of being negotiated under time pressure. **Both are empty
-by design.**
+These paths are reserved so every OMNIA bridge import has one deterministic
+destination instead of being negotiated under time pressure. In git they may
+start as empty landing zones; after a verified local bridge import,
+`docs/06_omnia/atlas/` contains generated public-safe output.
 
 ```
 data/omnia/releases/<bridge-state-hash>/    the sealed bundle, as received
@@ -86,17 +95,21 @@ docs/06_omnia/atlas/                        the generated public atlas
 One directory per release, never overwritten, so any published claim card can be
 traced back to the exact bundle that produced it.
 
-`docs/06_omnia/atlas/` is **generated output**. Once the importer exists,
-hand-editing it is prohibited the same way hand-editing `dist/` is — see
-[ARCHITECTURE.md](../../ARCHITECTURE.md) §4.
+`docs/06_omnia/atlas/` is **generated output**. Hand-editing it is prohibited
+the same way hand-editing `dist/` is — see [ARCHITECTURE.md](../../ARCHITECTURE.md)
+§4. Regenerate it from a verified bridge bundle with:
+
+```bash
+python tools/import_omnia_bridge.py /path/to/consmap_bridge_candidate
+```
 
 ---
 
 ## 4. The import contract
 
 Nothing is imported until Codex produces a sealed `consmap_bridge_candidate`
-bundle. When it does, the importer must, before generating any public claim card
-or application page:
+bundle. The importer must, before generating any public claim card or
+application page:
 
 1. verify the bridge manifest;
 2. verify the hash of **every** artifact against the manifest;
@@ -119,8 +132,9 @@ An importer that cannot verify a hash must fail, not warn.
   separately, in separate pull requests, so that a bad import can be reverted
   without unpicking a reorganisation.
 
-The import itself belongs on a separate branch and a separate draft PR:
+Both rules held. The repository-cleanup pass (PR #54, merged 2026-08-26)
+reserved the paths and imported nothing; the import arrived separately on
+`feat/omnia-consmap-bridge-local` with its own pull request.
 
-```
-feat/omnia-consmap-bridge
-```
+Future imports follow the same shape: a branch of their own, a draft PR of their
+own, and a verification record in `reports/repository-audit/`.

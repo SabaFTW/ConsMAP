@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "epstein",
+  "claim": "The operational system was distributed across recruitment, scheduling, property access, travel, payments, legal response and reputation layers.",
+  "claim_type": "structural_analysis",
+  "confidence": "medium",
+  "falsification": "A person-level record showing a layer actor had no operational role",
+  "id": "EPS-003",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "MODEL, NOT ADJUDICATED FACT. Operational proximity must not be converted into culpability without person-specific evidence.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "E02",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from E02 ledger \u2014 NOT independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "medium",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "E02 \u00a7Operational infrastructure map, Layers 1-6",
+      "type": "unknown"
+    }
+  ],
+  "status": "supported"
+}

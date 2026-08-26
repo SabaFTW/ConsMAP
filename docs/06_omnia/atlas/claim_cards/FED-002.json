@@ -1,0 +1,40 @@
+{
+  "allowed_use": [
+    "debate",
+    "analysis",
+    "model_context"
+  ],
+  "category": "federal_reserve",
+  "claim": "In November 1910 six men met secretly at the Jekyll Island Club under cover of a duck-hunting trip: Nelson Aldrich, A. Piatt Andrew, Henry P. Davison, Frank Vanderlip, Paul Warburg, Arthur Shelton.",
+  "claim_type": "empirical",
+  "confidence": "medium",
+  "falsification": "A primary record showing the meeting was public or differently attended",
+  "id": "FED-002",
+  "not_allowed_use": [
+    "harassment",
+    "unsupported_accusation"
+  ],
+  "notes": {
+    "ceiling": "THE SECRECY IS DOCUMENTED AND IS NOT FOLKLORE. It establishes banker design influence. It does not establish ownership, conspiracy, or any perpetual benefit stream.",
+    "contradiction_group": "",
+    "provenance": "sealed_release::c52ec629b12660b5fb70c530e8810cc2349dc81d1d21d4d79c36f4bae55f2d84/claims_state.csv",
+    "publication_status": "public_factual_candidate",
+    "source_artifact_id": "F01",
+    "source_sha256": "",
+    "verification_status": "TRANSPOSED from F01 - not independently re-verified against the underlying record in this session"
+  },
+  "risk": {
+    "defamation": "medium",
+    "misuse": "medium",
+    "privacy": "none",
+    "radicalization": "low"
+  },
+  "river": "clean_river",
+  "sources": [
+    {
+      "reference": "F01 s.3; source register entry 6",
+      "type": "official"
+    }
+  ],
+  "status": "supported"
+}

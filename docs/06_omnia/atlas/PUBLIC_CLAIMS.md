@@ -1,0 +1,21 @@
+# OMNIA Public Claim Cards
+
+Generated from the verified OMNIA bridge bundle. These are public-safe claim candidates, not a full evidence vault.
+
+- [AGR-006](claim_cards/AGR-006.json): The FTC and five state attorneys general sued Deere &amp; Company on 15 January 2025 alleging unlawful restriction of farmers' and independent repair providers' access to repair resources.
+- [AGR-007](claim_cards/AGR-007.json): On 8 July 2026 the FTC and the five states announced a proposed settlement requiring Deere for ten years to provide farmers and independent repair providers the same repair resources, including applicable software capabilities, that it provides authorized dealers, under compliance reporting and monitoring.
+- [AGR-008](claim_cards/AGR-008.json): Deere publicly responded on 15 January 2025 that the lawsuit ignores its long-standing commitment to customer self-repair and was filed 'on the eve of a change in Administration'.
+- [EPS-003](claim_cards/EPS-003.json): The operational system was distributed across recruitment, scheduling, property access, travel, payments, legal response and reputation layers.
+- [EPS-010](claim_cards/EPS-010.json): Black paid Epstein-controlled entities very large sums during 2012-2017 for stated tax and estate services; aggregate contested in an approx. $158M-$170M band.
+- [EPS-012](claim_cards/EPS-012.json): The executed Black settlement states that the money partially funded 'his operations in the Virgin Islands'. It does NOT say 'sex-trafficking operations'.
+- [EPS-020](claim_cards/EPS-020.json): At least approximately $25M was transferred to Maxwell through JPMorgan.
+- [EPS-021](claim_cards/EPS-021.json): A $7.4M transfer to Maxwell on 15 June 2007 preceded purchase of a Sikorsky S76C through Air Ghislaine Inc. by about three days.
+- [EPS-030](claim_cards/EPS-030.json): Epstein withdrew more than $7M in cash from JPMorgan during 2002-2013.
+- [EPS-032](claim_cards/EPS-032.json): More than $3M in direct payments to women through JPMorgan during 2003-2013, including transfers to Russia, Belarus and Lithuania.
+- [EPS-040](claim_cards/EPS-040.json): NY DFS recites 97 withdrawals at Deutsche Bank's $7,500 third-party limit during 2013-2017, totalling more than $800,000, plus a $100,000 withdrawal in 2018.
+- [EPS-050](claim_cards/EPS-050.json): Senate Finance reports approx. 270 Epstein-linked wires totalling about $378M at BNY Mellon, including eighteen round-dollar $1M wires in 2007; flagged to Treasury only in 2019.
+- [EPS-080](claim_cards/EPS-080.json): MIT's commissioned report confirmed $850,000 in ten donations 2002-2017, including $750,000 after Epstein's 2008 conviction. Harvard confirmed approx. $9.1M in gifts 1998-2008 and no post-conviction gifts.
+- [FED-002](claim_cards/FED-002.json): In November 1910 six men met secretly at the Jekyll Island Club under cover of a duck-hunting trip: Nelson Aldrich, A. Piatt Andrew, Henry P. Davison, Frank Vanderlip, Paul Warburg, Arthur Shelton.
+- [FED-010](claim_cards/FED-010.json): 31 U.S.C. s.714(b) excludes from GAO audit: transactions with foreign central banks, governments and nonprivate international financing organizations; deliberations, decisions or actions on monetary policy including discount-window operations, member-bank reserves, securities credit, interest on deposits and open-market operations; transactions directed by the FOMC; and related internal communications.
+- [FED-011](claim_cards/FED-011.json): The Federal Banking Agency Audit Act of 1978 (Pub. L. 95-320) created broad GAO authority to audit the Board and Reserve Banks for the first time, while deliberately excluding core monetary-policy areas. Before 1978 GAO had no general audit authority, though it held narrower authority over Treasury fiscal-agent work and currency-destruction review.
+- [FED-013](claim_cards/FED-013.json): GAO's Dodd-Frank-mandated review (GAO-11-696, 2011) found emergency loans outstanding peaked above $1 trillion in late 2008, found no missing funds or major financial-reporting control failures, and did find insufficiently robust conflict-of-interest rules, noncompetitive emergency vendor contracts and weak documentation of atypical lending decisions. Seven recommendations issued.

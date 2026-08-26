@@ -1,6 +1,6 @@
 # OMNIA bridge releases
 
-**Reserved landing zone. Empty by design. Nothing has been imported.**
+**Reserved landing zone. Empty in git by design.**
 
 Each sealed `consmap_bridge_candidate` bundle lands here in its own directory,
 named for the bridge-state hash it was sealed at:
@@ -20,7 +20,9 @@ artifacts, often large, and the full OMNIA archive remains the evidence vault
 outside this repository. ConsMAP tracks the *manifest* of what was imported and
 the *generated* public output — not the raw bundle.
 
-If you find yourself wanting to commit a bundle, the question to answer first is
+Local imports may place verified bridge bundles here while you work. Those
+directories stay ignored by git. If you find yourself wanting to commit a
+bundle, the question to answer first is
 which of the two it actually is: evidence (belongs in the vault) or public-safe
 export (belongs in `docs/06_omnia/atlas/`, generated).
 
