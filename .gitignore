@@ -29,3 +29,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# OMNIA bridge — received bundles are not tracked.
+# The full OMNIA archive is the evidence vault and lives outside this
+# repository. ConsMAP tracks the generated public atlas and the import
+# manifest, never the raw bundle, its PDFs, or anything in quarantine.
+# See docs/06_omnia/OMNIA_MANUSCRIPT_MAP.md
+data/omnia/releases/*
+!data/omnia/releases/README.md

@@ -24,7 +24,8 @@ ConsMAP/
 │   ├── 03_explorations/      open work, not settled
 │   ├── 04_dialogic_defense/  argument and counter-argument
 │   ├── 05_meta/              method and self-description
-│   ├── 06_omnia/             the OMNIA material
+│   ├── 06_omnia/             the OMNIA material — 11 hand-written manuscripts
+│   │   └── atlas/            RESERVED, empty: the future generated atlas
 │   ├── concepts/             concept definitions
 │   ├── theology/             theological material — symbolic, not empirical
 │   ├── visual_parables/      the illustrated parables (Factory Trilogy etc.)
@@ -32,6 +33,9 @@ ConsMAP/
 │   ├── project/              repository-level decisions and invariants
 │   └── _archive/             superseded material, kept readable, never canon
 │
+├── data/
+│   └── omnia/releases/       RESERVED, empty: sealed bridge bundles land here
+│                             (contents gitignored — the archive is the vault)
 ├── automation/               automation harness + its run outputs (386 files)
 ├── research/                 research memoranda
 ├── user_research/            user-facing research material

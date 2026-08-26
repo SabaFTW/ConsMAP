@@ -4,6 +4,36 @@ Architectural decisions and the open questions behind them. Newest first.
 
 ---
 
+## 2026-08-26 — OMNIA bridge: paths reserved, nothing imported
+
+**Decision.** `docs/06_omnia/` is the canonical public landing zone for an OMNIA
+companion atlas. Two landing zones are reserved and left empty:
+`data/omnia/releases/<bridge-state-hash>/` for received bundles (gitignored) and
+`docs/06_omnia/atlas/` for generated output. The import contract is written in
+`docs/06_omnia/OMNIA_MANUSCRIPT_MAP.md`; the boundary is documented in
+ARCHITECTURE.md §7.
+
+**Why reserve now and import later.** Structure and content move in separate
+pull requests so a bad import can be reverted without unpicking a
+reorganisation. Reserving the destination now also means the path is not
+negotiated under time pressure when a bundle actually arrives.
+
+**Constraints carried in.** Nothing is imported until Codex produces a sealed
+`consmap_bridge_candidate` bundle. The importer must verify the manifest and
+every artifact hash before generating any claim card, reject the whole bundle on
+mismatch, preserve register labels, and drop quarantine entirely. The full local
+OMNIA archive remains the evidence vault outside this repository; ConsMAP
+receives only public-safe, schema-valid, provenance-preserving exports.
+
+**Deliberately not done.** No bridge data was invented and no placeholder
+artifact was created. An empty atlas is correct until a real bundle arrives; a
+plausible-looking placeholder is worse than nothing, because it eventually gets
+read as real.
+
+**Next.** `feat/omnia-consmap-bridge`, separate draft PR.
+
+---
+
 ## 2026-08-26 — `docs/` is corpus, not a publish directory
 
 **Decision.** `docs/` holds the canonical written corpus only. The production
