@@ -31,13 +31,6 @@ type SectionTone = {
   text: string;
 };
 
-const REPO_PATH = '/docs/visual_parables/factory_trilogy';
-const FINAL_PATH = '/docs/visual_parables/factory_trilogy/final';
-const isCodebergHost = typeof window !== 'undefined' && window.location.hostname.includes('codeberg.page');
-const SOURCE_WEB_ROOT = isCodebergHost
-  ? 'https://codeberg.org/LyraActive/ReBiS/src/branch/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy'
-  : 'https://github.com/SabaFTW/ConsMAP/blob/main/06_applications/digital_sanctuary/public/docs/visual_parables/factory_trilogy';
-const SOURCE_WEB_FINAL = `${SOURCE_WEB_ROOT}/final`;
 const BIBLE_ASSET_BASE = `${import.meta.env.BASE_URL}images/factory_bible/`;
 const TRILOGY_BASE = `${import.meta.env.BASE_URL}images/factory_trilogy/`;
 
@@ -250,6 +243,33 @@ const relics = [
     note: 'Accountability with coffee, clipboard, and squeak.',
   },
 ];
+
+// Visual Archive gallery. Composed from material already present in this file so
+// that no new asset is introduced: every chronology entry that has a trilogy
+// visual, followed by the factory-bible relics. Deduplicated by src because
+// several chronology entries deliberately share one plate.
+type GalleryImage = { src: string; title: string; section: string };
+
+const galleryImages: GalleryImage[] = (() => {
+  const collected: GalleryImage[] = [];
+  const seen = new Set<string>();
+
+  const push = (src: string, title: string, section: string) => {
+    if (seen.has(src)) return;
+    seen.add(src);
+    collected.push({ src, title, section });
+  };
+
+  for (const entry of chronology) {
+    const visual = storyImageMap[entry.imageKey ?? entry.path];
+    if (visual) push(visual.src, entry.title, entry.section);
+  }
+  for (const relic of relics) {
+    push(relic.src, relic.title, 'Archive');
+  }
+
+  return collected;
+})();
 
 const archiveExtras: StoryLink[] = [];
 
