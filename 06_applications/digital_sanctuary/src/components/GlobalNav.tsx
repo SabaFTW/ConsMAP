@@ -16,13 +16,22 @@ interface GlobalNavProps {
   onFrameNav?: (hash: string) => void;
 }
 
-const CONSMAP_NAV: Array<{ key: NavState; label: string }> = [
+type ConsmapNavItem =
+  | { key: NavState; label: string }
+  | { href: string; label: string; externalLabel: string };
+
+const CONSMAP_NAV: ConsmapNavItem[] = [
   { key: 'home',     label: 'HOME' },
   { key: 'story',    label: 'ARCHIVE' },
   { key: 'docs',     label: 'LIBRARY' },
   { key: 'mirror',   label: 'MIRROR' },
   { key: 'analyzer', label: 'ANALYZER' },
   { key: 'aimode',   label: 'AI MODE' },
+  {
+    href: 'https://adolfs-inferno.shabadex.chatgpt.site',
+    label: 'INFERNO',
+    externalLabel: 'Open Adolf’s Inferno stable release in a new tab',
+  },
 ];
 
 // Skip-intro settings panel
@@ -245,7 +254,26 @@ const GlobalNav: React.FC<GlobalNavProps> = ({
               transition={{ duration: 0.3 }}
               className="flex items-center gap-0.5 md:gap-1"
             >
-              {CONSMAP_NAV.map(({ key, label }) => {
+              {CONSMAP_NAV.map((item) => {
+                if ('href' in item) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.externalLabel}
+                      title={item.externalLabel}
+                      className="relative px-2 md:px-3 py-1 text-[9px] md:text-[10px] font-mono tracking-[0.18em] uppercase transition-all duration-200"
+                      style={{ color: 'rgba(239,192,108,0.72)' }}
+                    >
+                      <span className="hidden sm:inline">{item.label} ↗</span>
+                      <span className="sm:hidden" aria-hidden="true">INF ↗</span>
+                    </a>
+                  );
+                }
+
+                const { key, label } = item;
                 const isActive = state === key;
                 return (
                   <button

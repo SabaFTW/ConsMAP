@@ -224,6 +224,7 @@ ConsMAP now includes several companion layers beyond the core claim-hygiene prot
 - [`docs/theology/`](docs/theology/) — full-source archive shelf for theological, mythological, and symbolic-interface materials; archive only, not automatic evidence.
 - [`docs/theology/manifest.md`](docs/theology/manifest.md) — source index and claim-hygiene reading boundaries for theology archive files.
 - [`docs/visual_parables/factory_trilogy/README.md`](docs/visual_parables/factory_trilogy/README.md) — factory-scale symbolic/parabolic corpus boundary note.
+- [`docs/visual_parables/adolfs_inferno/README.md`](docs/visual_parables/adolfs_inferno/README.md) — public-safe bridge to the independent Adolf’s Inferno forensic topography; satire and ledger remain explicitly separated.
 - [`automation/`](automation/) — operator pipeline and automation cases.
 - [`workflows/`](workflows/) — multi-model and repo workflow patterns.
 - [`research/archive/classics/manifest.yaml`](research/archive/classics/manifest.yaml) — classic examples archive; pattern library only, not evidence.

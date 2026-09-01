@@ -4,6 +4,29 @@ Architectural decisions and the open questions behind them. Newest first.
 
 ---
 
+## 2026-09-01 — Adolf’s Inferno is linked, not imported
+
+**Decision.** The Digital Sanctuary exposes the independently deployed stable
+Adolf’s Inferno application through an `INFERNO ↗` navigation tab. The tab opens
+the application in a new browser tab. A public-safe register note lives at
+`docs/visual_parables/adolfs_inferno/README.md`.
+
+**Why a link rather than an import.** The application has its own renderer,
+release history, evidence taxonomy, and validation suite. Copying it into the
+ConsMAP corpus would create two sources of truth and could make directory
+proximity look like evidentiary promotion.
+
+**Boundary.** The bridge imports no OMNIA corpus, quarantine material, sealed
+release, machine-local path, or model-proposed source as evidence. MYTH remains
+[METAPHOR]; LEDGER remains a bounded [PRACTICAL] mechanism reading; unresolved
+locators remain unresolved.
+
+**Invariant check.** The ConsMAP welcome ritual, its App wiring, and the
+`baphomet-loader.png` asset were unchanged. The production build still contains
+the BOPHAMET ritual and skip-intro preference.
+
+---
+
 ## 2026-08-26 — OMNIA bridge: paths reserved, nothing imported
 
 **Decision.** `docs/06_omnia/` is the canonical public landing zone for an OMNIA
